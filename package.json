@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
       "build": "rm -Rf dist && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
-      "prepublish": "node-utils-npm-install-dist"
+      "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
     "@angular/common": "^2.1.0",
