@@ -1,0 +1,29 @@
+{
+  "name": "co.mmons.ionic-extensions",
+  "version": "1.0.0",
+  "author": "co.mmons",
+  "private": false,
+  "license": "MIT",
+  "scripts": {
+      "build": "rm -Rf dist && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
+      "prepublish": "node-utils-npm-install-dist"
+  },
+  "dependencies": {
+    "@angular/common": "^2.1.0",
+    "@angular/compiler": "^2.1.0",
+    "@angular/compiler-cli": "^2.1.0",
+    "@angular/core": "^2.1.0",
+    "@angular/platform-browser": "^2.1.0",
+    "@angular/platform-browser-dynamic": "^2.1.0",
+    "@angular/forms": "^2.1.0",
+    "@angular/http": "^2.1.0",
+    "co.mmons.typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
+    "ionic-angular": "^2.0.0-rc.1",
+    "rxjs": "^5.0.0-rc.1",
+    "zone.js": "^0.6.25"
+  },
+  "devDependencies": {
+    "co.mmons.node-utils": "git://github.com/co-mmons/node-utils",
+    "typescript": "^2.0.3"
+  }
+}
