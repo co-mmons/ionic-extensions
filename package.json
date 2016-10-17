@@ -21,7 +21,7 @@
     "co.mmons.node-utils": "git://github.com/co-mmons/node-utils",
     "ionic-angular": "^2.0.0-rc.1",
     "rxjs": "^5.0.0-rc.1",
-    "zone.js": "^0.6.25",
+    "zone.js": "^0.6.25"
   },
   "devDependencies": {
     "typescript": "^2.0.3"
