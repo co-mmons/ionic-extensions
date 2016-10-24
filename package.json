@@ -10,21 +10,23 @@
       "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
-    "@angular/common": "^2.1.0",
-    "@angular/compiler": "^2.1.0",
-    "@angular/compiler-cli": "^2.1.0",
-    "@angular/core": "^2.1.0",
-    "@angular/platform-browser": "^2.1.0",
-    "@angular/platform-browser-dynamic": "^2.1.0",
-    "@angular/forms": "^2.1.0",
-    "@angular/http": "^2.1.0",
     "co.mmons.typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
-    "co.mmons.node-utils": "git://github.com/co-mmons/node-utils",
-    "ionic-angular": "^2.0.0-rc.1",
-    "rxjs": "^5.0.0-rc.1",
-    "zone.js": "^0.6.25"
+    "co.mmons.node-utils": "git://github.com/co-mmons/node-utils"
   },
   "devDependencies": {
+    "@angular/compiler": "^2.0.0",
+    "@angular/compiler-cli": "^2.0.0",
     "typescript": "^2.0.3"
+  },
+  "peerDependencies": {
+    "@angular/common": "^2.0.0",
+    "@angular/core": "^2.0.0",
+    "@angular/platform-browser": "^2.0.0",
+    "@angular/platform-browser-dynamic": "^2.0.0",
+    "@angular/forms": "^2.0.0",
+    "@angular/http": "^2.0.0",
+    "rxjs": "^5.0.0-rc.1",
+    "zone.js": "^0.6.25",
+    "ionic-angular": "^2.0.0-rc.1"
   }
 }
