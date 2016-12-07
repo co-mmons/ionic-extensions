@@ -26,6 +26,8 @@ export class UrlSerializer extends IonicUrlSerializer {
                     for (let link2 of link) {
                         links.push(link2);
                     }
+                } else {
+                    links.push(link);
                 }
             }
 

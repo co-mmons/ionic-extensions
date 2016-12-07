@@ -30,6 +30,9 @@ export var UrlSerializer = (function (_super) {
                         links.push(link2);
                     }
                 }
+                else {
+                    links.push(link);
+                }
             }
             userDeepLinkConfig.links = links;
         }
