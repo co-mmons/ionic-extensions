@@ -1,11 +1,6 @@
 import { OpaqueToken } from "@angular/core";
 import { UrlSerializer as IonicUrlSerializer } from "ionic-angular";
 import { NavLink, NavSegment } from "ionic-angular/navigation/nav-util";
-export declare const URL_SERIALIZER_PROVIDER: {
-    provide: typeof IonicUrlSerializer;
-    useFactory: (userDeepLinkConfig: any) => IonicUrlSerializer;
-    deps: OpaqueToken[];
-};
 /**
  * Implementation of ionic's UrlSerializer, that add page params as query
  * params, instead of path, e.g. "/page/subpage?param1=value".
@@ -20,3 +15,8 @@ export declare class UrlSerializer extends IonicUrlSerializer {
     fillMatchedUrlParts(segments: NavSegment[], urlParts: string[], configLink: NavLink): void;
     parse(browserUrl: string): NavSegment[];
 }
+export declare const URL_SERIALIZER_PROVIDER: {
+    provide: typeof IonicUrlSerializer;
+    useFactory: (userDeepLinkConfig: any) => IonicUrlSerializer;
+    deps: OpaqueToken[];
+};

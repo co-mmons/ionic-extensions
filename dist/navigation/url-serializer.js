@@ -7,11 +7,6 @@ import { URLSearchParams } from "@angular/http";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken } from "ionic-angular";
 import { isPresent } from "ionic-angular/util/util";
 import { serialize } from "co.mmons.typescript-utils/json";
-export var URL_SERIALIZER_PROVIDER = {
-    provide: IonicUrlSerializer,
-    useFactory: UrlSerializer.setupUrlSerializer,
-    deps: [DeepLinkConfigToken]
-};
 /**
  * Implementation of ionic's UrlSerializer, that add page params as query
  * params, instead of path, e.g. "/page/subpage?param1=value".
@@ -19,10 +14,10 @@ export var URL_SERIALIZER_PROVIDER = {
  * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
  * helpful when AoT compilation is used.
  */
-var UrlSerializer = (function (_super) {
+export var UrlSerializer = (function (_super) {
     __extends(UrlSerializer, _super);
     function UrlSerializer() {
-        return _super.apply(this, arguments) || this;
+        _super.apply(this, arguments);
     }
     UrlSerializer.setupUrlSerializer = function (userDeepLinkConfig) {
         if (userDeepLinkConfig && userDeepLinkConfig.links) {
@@ -97,7 +92,7 @@ var UrlSerializer = (function (_super) {
         return segments;
     };
     UrlSerializer.prototype.fillMatchedUrlParts = function (segments, urlParts, configLink) {
-        var _loop_1 = function (i) {
+        var _loop_1 = function(i) {
             var urlI = i;
             var partParts = urlParts[i] ? urlParts[i].split("?") : [];
             var part = partParts.length > 0 ? partParts[0] : undefined;
@@ -152,5 +147,9 @@ var UrlSerializer = (function (_super) {
     };
     return UrlSerializer;
 }(IonicUrlSerializer));
-export { UrlSerializer };
+export var URL_SERIALIZER_PROVIDER = {
+    provide: IonicUrlSerializer,
+    useFactory: UrlSerializer.setupUrlSerializer,
+    deps: [DeepLinkConfigToken]
+};
 //# sourceMappingURL=url-serializer.js.map

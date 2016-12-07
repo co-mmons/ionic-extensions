@@ -6,12 +6,6 @@ import { NavLink, NavSegment } from "ionic-angular/navigation/nav-util";
 import { isPresent } from "ionic-angular/util/util";
 import { serialize } from "co.mmons.typescript-utils/json";
 
-export const URL_SERIALIZER_PROVIDER = {
-    provide: IonicUrlSerializer,
-    useFactory: UrlSerializer.setupUrlSerializer,
-    deps: [DeepLinkConfigToken]
-};
-
 /**
  * Implementation of ionic's UrlSerializer, that add page params as query 
  * params, instead of path, e.g. "/page/subpage?param1=value".
@@ -165,3 +159,9 @@ export class UrlSerializer extends IonicUrlSerializer {
 
 
 }
+
+export const URL_SERIALIZER_PROVIDER = {
+    provide: IonicUrlSerializer,
+    useFactory: UrlSerializer.setupUrlSerializer,
+    deps: [DeepLinkConfigToken]
+};
