@@ -1,11 +1,12 @@
 import {
     NgModule, ContentChildren, ContentChild,
     Renderer, QueryList, Directive, Component, Input,
-    ElementRef, HostListener, Optional, Inject, forwardRef} from "@angular/core";
+    ElementRef, HostListener, Optional, Inject, forwardRef
+} from "@angular/core";
 
-import {Item} from "ionic-angular";
+import { Item } from "ionic-angular";
 
-import {isSelfOrChildOf} from "co.mmons.typescript-utils/dom";
+import { isSelfOrChildOf } from "co.mmons.typescript-utils/dom";
 
 @Component({
     selector: "ion-item-collapsible",
@@ -16,7 +17,7 @@ import {isSelfOrChildOf} from "co.mmons.typescript-utils/dom";
 })
 export class CollapsibleItem {
 
-    constructor (private element: ElementRef, @Optional() @Inject(forwardRef(() => CollapsibleList)) private parentList?: CollapsibleList) {
+    constructor(private element: ElementRef, @Optional() @Inject(forwardRef(() => CollapsibleList)) private parentList?: CollapsibleList) {
     }
 
     @ContentChild(Item)
@@ -77,6 +78,7 @@ export class CollapsibleList {
 
 @NgModule({
     declarations: [CollapsibleList, CollapsibleItem],
+    bootstrap: [CollapsibleItem],
     exports: [CollapsibleList, CollapsibleItem]
 })
 export class CollapsibleListModule {
