@@ -5,9 +5,9 @@
   "private": false,
   "license": "MIT",
   "scripts": {
-      "build": "rm -Rf dist/**/* && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
-      "build-copy": "node-utils-file-system-glob-copy src dist '**/*.scss'",
-      "install": "node-utils-npm-install-dist"
+    "build": "rm -Rf dist/**/* && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
+    "build-copy": "node-utils-file-system-glob-copy src dist '**/*.scss'",
+    "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
     "co.mmons.typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
@@ -24,9 +24,11 @@
     "@angular/platform-browser-dynamic": "2.1.1",
     "@angular/platform-server": "2.1.1",
     "@ionic/storage": "^1.1.6",
-    "ionic-native": "^2.2.6",
     "ionic-angular": "^2.0.0-rc.3",
     "rxjs": "^5.0.0-beta.12",
     "zone.js": "^0.6.26"
+  },
+  "devDependencies": {
+    "typescript": "^2.0.10"
   }
 }

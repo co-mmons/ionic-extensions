@@ -23,6 +23,7 @@ export class CollapsibleItem {
     @ContentChild(Item)
     item: Item;
 
+    @Input("expanded")
     set expanded(expanded: boolean) {
         if (expanded) {
             this.element.nativeElement.classList.add("item-expanded");
