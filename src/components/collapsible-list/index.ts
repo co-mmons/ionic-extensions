@@ -25,9 +25,17 @@ export class CollapsibleItem {
 
     @Input("expanded")
     set expanded(expanded: boolean) {
-        if (expanded) {
+
+        let alreadyExpanded = this.element.nativeElement.classList.contains("item-expanded");
+
+        if (expanded && !alreadyExpanded) {
             this.element.nativeElement.classList.add("item-expanded");
-        } else {
+
+            if (this.parentList) {
+                this.parentList.expand(this);
+            }
+
+        } else if (!expanded && alreadyExpanded) {
             this.element.nativeElement.classList.remove("item-expanded");
         }
     }
@@ -67,11 +75,34 @@ export class CollapsibleList {
 
     expand(itemToExpand: CollapsibleItem) {
 
-        for (let item of this.items.toArray()) {
-            if (item === itemToExpand) {
-                item.expanded = true;
-            } else if (this.accordion) {
-                item.expanded = false;
+        if (this.items) {
+            for (let item of this.items.toArray()) {
+                if (item === itemToExpand) {
+                    item.expanded = true;
+                } else if (this.accordion) {
+                    item.expanded = false;
+                }
+            }
+        }
+    }
+
+    ngAfterViewInit() {
+
+        // if list is accordion, we need to make sure, that only one item is expanded        
+        if (this.accordion) {
+
+            // last expanded item
+            let lastItem: CollapsibleItem;
+
+            for (let item of this.items.toArray()) {
+
+                if (item.expanded) {
+                    lastItem = item;
+                }
+            }
+
+            if (lastItem) {
+                this.expand(lastItem);
             }
         }
     }

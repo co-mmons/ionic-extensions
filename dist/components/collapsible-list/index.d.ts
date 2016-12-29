@@ -12,6 +12,7 @@ export declare class CollapsibleList {
     items: QueryList<CollapsibleItem>;
     accordion: boolean;
     expand(itemToExpand: CollapsibleItem): void;
+    ngAfterViewInit(): void;
 }
 export declare class CollapsibleListModule {
 }
