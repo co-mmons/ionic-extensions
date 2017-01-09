@@ -42,10 +42,15 @@ export class UrlSerializer extends IonicUrlSerializer {
         let query: URLSearchParams;
 
         if (isPresent(data)) {
+
             let json = serialize(data);
+
             for (let i in json) {
                 let v = json[i];
+
                 if (v === undefined || v === null) {
+                    // we ommit null/undefined
+
                 } else if (typeof v !== "function") {
                     if (!query) query = new URLSearchParams();
                     query.append(i, v);
