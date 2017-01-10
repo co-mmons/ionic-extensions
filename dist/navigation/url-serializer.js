@@ -43,14 +43,23 @@ export var UrlSerializer = (function (_super) {
         var query;
         if (isPresent(data)) {
             var json = serialize(data);
-            for (var i in json) {
-                var v = json[i];
-                if (v === undefined || v === null) {
+            for (var key in json) {
+                var value = json[key];
+                if (value === undefined || value === null) {
                 }
-                else if (typeof v !== "function") {
-                    if (!query)
+                else if (typeof value !== "function") {
+                    if (!query) {
                         query = new URLSearchParams();
-                    query.append(i, v);
+                    }
+                    if (Array.isArray(value)) {
+                        for (var _i = 0, value_1 = value; _i < value_1.length; _i++) {
+                            var i = value_1[_i];
+                            query.append(key, i);
+                        }
+                    }
+                    else {
+                        query.append(key, value);
+                    }
                 }
             }
         }
