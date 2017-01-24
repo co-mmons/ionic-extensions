@@ -42,7 +42,7 @@ export var CollapsibleItem = (function () {
     };
     CollapsibleItem.decorators = [
         { type: Component, args: [{
-                    selector: "ion-item-collapsible",
+                    selector: "ion-item-collapsible, ionx-item-collapsible",
                     template: "<ng-content></ng-content>",
                     host: {
                         "class": "item-wrapper"
@@ -95,7 +95,7 @@ export var CollapsibleList = (function () {
     };
     CollapsibleList.decorators = [
         { type: Directive, args: [{
-                    selector: "ion-list[collapsible]"
+                    selector: "ion-list[collapsible], ion-list[ionx-collapsible]"
                 },] },
     ];
     /** @nocollapse */

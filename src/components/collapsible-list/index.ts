@@ -9,7 +9,7 @@ import { Item } from "ionic-angular";
 import { isSelfOrChildOf } from "co.mmons.typescript-utils/dom";
 
 @Component({
-    selector: "ion-item-collapsible",
+    selector: "ion-item-collapsible, ionx-item-collapsible",
     template: "<ng-content></ng-content>",
     host: {
         "class": "item-wrapper"
@@ -63,7 +63,7 @@ export class CollapsibleItem {
 }
 
 @Directive({
-    selector: "ion-list[collapsible]"
+    selector: "ion-list[collapsible], ion-list[ionx-collapsible]"
 })
 export class CollapsibleList {
 
