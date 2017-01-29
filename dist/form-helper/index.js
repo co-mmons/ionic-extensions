@@ -1,12 +1,11 @@
 import { NgModule, Directive, ContentChildren } from "@angular/core";
 import { FormControlName } from "@angular/forms";
-import { TextInput, TextArea } from "ionic-angular";
+import { TextInput } from "ionic-angular";
 export var FormHelper = (function () {
     function FormHelper() {
     }
     FormHelper.prototype.validateAll = function () {
         var firstNotValidAccessor;
-        ;
         for (var _i = 0, _a = this.controls.toArray(); _i < _a.length; _i++) {
             var control = _a[_i];
             control.control.markAsDirty();
@@ -18,7 +17,7 @@ export var FormHelper = (function () {
         }
         if (firstNotValidAccessor) {
             var elementToScroll = void 0;
-            if (firstNotValidAccessor instanceof TextInput || firstNotValidAccessor instanceof TextArea) {
+            if (firstNotValidAccessor instanceof TextInput) {
                 firstNotValidAccessor.setFocus();
                 elementToScroll = firstNotValidAccessor.getNativeElement().closest(".item");
             }
@@ -29,7 +28,7 @@ export var FormHelper = (function () {
     };
     FormHelper.decorators = [
         { type: Directive, args: [{
-                    selector: "[ionx-form-helper]"
+                    selector: "[ionx-form-helper],[ionxFormHelper]"
                 },] },
     ];
     /** @nocollapse */

@@ -1,9 +1,9 @@
 import { NgModule, Directive, ContentChildren, QueryList } from "@angular/core";
 import { FormControlName } from "@angular/forms";
-import { TextInput, TextArea } from "ionic-angular";
+import { TextInput } from "ionic-angular";
 
 @Directive({
-    selector: "[ionx-form-helper]"
+    selector: "[ionx-form-helper],[ionxFormHelper]"
 })
 export class FormHelper {
 
@@ -12,7 +12,7 @@ export class FormHelper {
 
     public validateAll() {
 
-        let firstNotValidAccessor;;
+        let firstNotValidAccessor;
         
         for (let control of this.controls.toArray()) {
             
@@ -29,7 +29,7 @@ export class FormHelper {
 
             let elementToScroll: HTMLElement;
 
-            if (firstNotValidAccessor instanceof TextInput || firstNotValidAccessor instanceof TextArea) {
+            if (firstNotValidAccessor instanceof TextInput) {
                 firstNotValidAccessor.setFocus();
                 elementToScroll = firstNotValidAccessor.getNativeElement().closest(".item");
             }
