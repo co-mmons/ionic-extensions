@@ -16,7 +16,12 @@ export const defaultFormat: Intl.DateTimeFormatOptions = {
 
 @Component({
     selector: "ionx-date-time-picker",
-    templateUrl: "picker.html",
+    template: `
+        <div class="datetime-text">{{_text}}</div>
+        <button aria-haspopup="true" type="button" [id]="id" 
+            ion-button="item-cover" [attr.aria-labelledby]="_labelId"
+            [attr.aria-disabled]="disabled" [disabled]="disabled" class="item-cover">
+        </button>`,
     encapsulation: ViewEncapsulation.None,
     host: {
         "[class.datetime-disabled]": "_disabled"

@@ -5,8 +5,8 @@
   "private": false,
   "license": "MIT",
   "scripts": {
-    "build": "rm -Rf dist/**/* && ngc && node-utils-file-system-glob-copy src dist '**/*.scss' && node-utils-file-system-glob-copy src dist '**/*.html'",
-    "build-copy": "node-utils-file-system-glob-copy src dist '**/*.scss' && node-utils-file-system-glob-copy src dist '**/*.html'",
+    "build": "rm -Rf dist/**/* && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
+    "build-copy": "node-utils-file-system-glob-copy src dist '**/*.scss'",
     "install": "node-utils-npm-install-dist"
   },
   "dependencies": {

@@ -486,7 +486,7 @@ export var DateTimePicker = (function (_super) {
     DateTimePicker.decorators = [
         { type: Component, args: [{
                     selector: "ionx-date-time-picker",
-                    templateUrl: "picker.html",
+                    template: "\n        <div class=\"datetime-text\">{{_text}}</div>\n        <button aria-haspopup=\"true\" type=\"button\" [id]=\"id\" \n            ion-button=\"item-cover\" [attr.aria-labelledby]=\"_labelId\"\n            [attr.aria-disabled]=\"disabled\" [disabled]=\"disabled\" class=\"item-cover\">\n        </button>",
                     encapsulation: ViewEncapsulation.None,
                     host: {
                         "[class.datetime-disabled]": "_disabled"
