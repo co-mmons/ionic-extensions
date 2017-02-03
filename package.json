@@ -13,7 +13,8 @@
     "@co.mmons/typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
     "@co.mmons/web-utils": "git://github.com/co-mmons/web-utils.git",
     "@co.mmons/node-utils": "git://github.com/co-mmons/node-utils",
-    "@co.mmons/angular-intl": "git://github.com/co-mmons/angular-intl"
+    "@co.mmons/angular-intl": "git://github.com/co-mmons/angular-intl",
+    "quill": "^1.2.0"
   },
   "peerDependencies": {
     "@angular/common": "2.2.1",
@@ -31,6 +32,7 @@
     "zone.js": "^0.6.26"
   },
   "devDependencies": {
+    "@types/quill": "0.0.29",
     "typescript": "2.0.10"
   }
 }
