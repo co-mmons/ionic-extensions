@@ -1,5 +1,5 @@
 {
-  "name": "co.mmons.ionic-extensions",
+  "name": "@co.mmons/ionic-extensions",
   "version": "1.0.0",
   "author": "co.mmons",
   "private": false,
@@ -10,9 +10,10 @@
     "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
-    "co.mmons.typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
-    "co.mmons.node-utils": "git://github.com/co-mmons/node-utils",
-    "co.mmons.angular-intl": "git://github.com/co-mmons/angular-intl"
+    "@co.mmons/typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
+    "@co.mmons/web-utils": "git://github.com/co-mmons/web-utils.git",
+    "@co.mmons/node-utils": "git://github.com/co-mmons/node-utils",
+    "@co.mmons/angular-intl": "git://github.com/co-mmons/angular-intl"
   },
   "peerDependencies": {
     "@angular/common": "2.2.1",

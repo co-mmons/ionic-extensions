@@ -6,7 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 import { URLSearchParams } from "@angular/http";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken } from "ionic-angular";
 import { isPresent } from "ionic-angular/util/util";
-import { serialize } from "co.mmons.typescript-utils/json";
+import { serialize } from "@co.mmons/typescript-utils/json";
 /**
  * Implementation of ionic's UrlSerializer, that add page params as query
  * params, instead of path, e.g. "/page/subpage?param1=value".

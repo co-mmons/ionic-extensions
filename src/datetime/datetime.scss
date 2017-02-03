@@ -1,5 +1,7 @@
-ionx-date-time-picker {
+ionx-datetime {
     display: block;
+    position: relative;
+    flex: 1;
 
     &[item-content] {
         width: 100%;

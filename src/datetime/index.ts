@@ -1,63 +1,135 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-import { NgModule, Component, ElementRef, EventEmitter, HostListener, Input, Optional, Output, Renderer, ViewEncapsulation } from "@angular/core";
-import { NgControl } from "@angular/forms";
-import { IntlService } from "co.mmons.angular-intl";
+import { NgModule, AfterContentInit, Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnDestroy, Optional, Output, Renderer, ViewEncapsulation, SimpleChanges } from "@angular/core";
+import { ControlValueAccessor, NgControl } from "@angular/forms";
+import { IntlService } from "@co.mmons/angular-intl";
+
 import { Ion, Config, Item, IonicModule } from "ionic-angular";
-import { PickerController } from "ionic-angular/components/picker/picker";
+import { Picker, PickerController } from "ionic-angular/components/picker/picker";
+import { PickerColumn, PickerColumnOption } from "ionic-angular/components/picker/picker-options";
 import { Form } from "ionic-angular/util/form";
-import { deepCopy, isTrueProperty } from "ionic-angular/util/util";
-export var defaultFormat = {
+import { deepCopy, isBlank, isPresent, isTrueProperty, isArray, isString } from "ionic-angular/util/util";
+
+export const defaultDateTimeFormat: Intl.DateTimeFormatOptions = {
     year: "numeric", month: "numeric", day: "numeric",
     hour: "2-digit", minute: "2-digit"
 };
-export var DateTimePicker = (function (_super) {
-    __extends(DateTimePicker, _super);
-    function DateTimePicker(form, config, element, renderer, intl, item, pickerController, formControl) {
-        _super.call(this, config, element, renderer, "datetime");
-        this.form = form;
-        this.intl = intl;
-        this.item = item;
-        this.pickerController = pickerController;
-        this.formControl = formControl;
-        this._disabled = false;
-        this._text = "";
-        this._isOpen = false;
-        /**
-         * @input {string} The text to display on the picker"s cancel button. Default: `Cancel`.
-         */
-        this.cancelText = "Cancel";
-        /**
-         * @input {string} The text to display on the picker"s "Done" button. Default: `Done`.
-         */
-        this.doneText = "Done";
-        /**
-         * @input {any} Any additional options that the picker interface can accept.
-         * See the [Picker API docs](../../picker/Picker) for the picker options.
-         */
-        this.pickerOptions = {};
-        /**
-         * @output Any expression to evaluate when the datetime selection has changed.
-         */
-        this.ionChange = new EventEmitter();
-        /**
-         * @output Any expression to evaluate when the datetime selection was cancelled.
-         */
-        this.ionCancel = new EventEmitter();
+
+export const defaultDateFormat: Intl.DateTimeFormatOptions = {
+    year: "numeric", month: "numeric", day: "numeric"
+};
+
+@Component({
+    selector: "ionx-datetime",
+    template: `
+        <div class="datetime-text">{{_text}}</div>
+        <button aria-haspopup="true" type="button" [id]="id" 
+            ion-button="item-cover" [attr.aria-labelledby]="_labelId"
+            [attr.aria-disabled]="disabled" [disabled]="disabled" class="item-cover">
+        </button>`,
+    encapsulation: ViewEncapsulation.None,
+    host: {
+        "[class.datetime-disabled]": "_disabled"
+    },
+})
+export class DateTime extends Ion implements AfterContentInit, ControlValueAccessor, OnDestroy {
+    _disabled: any = false;
+    _labelId: string;
+    _text: string = "";
+    _fn: Function;
+    _isOpen: boolean = false;
+    _value: Date;
+
+    /**
+     * @private
+     */
+    id: string;
+
+    @Input()
+    valueType: string;
+
+    /**
+     * @input {string} The minimum datetime allowed. Value must be a date string
+     * following the
+     * [ISO 8601 datetime format standard](https://www.w3.org/TR/NOTE-datetime),
+     * such as `1996-12-19`. The format does not have to be specific to an exact
+     * datetime. For example, the minimum could just be the year, such as `1994`.
+     * Defaults to the beginning of the year, 100 years ago from today.
+     */
+    @Input() min: string;
+
+    /**
+     * @input {string} The maximum datetime allowed. Value must be a date string
+     * following the
+     * [ISO 8601 datetime format standard](https://www.w3.org/TR/NOTE-datetime),
+     * `1996-12-19`. The format does not have to be specific to an exact
+     * datetime. For example, the maximum could just be the year, such as `1994`.
+     * Defaults to the end of this year.
+     */
+    @Input() max: string;
+
+    /**
+     * The display format of the date and time as text that shows
+     * within the item. When the `pickerFormat` input is not used, then the
+     * `displayFormat` is used for both display the formatted text, and determining
+     * the datetime picker"s columns.
+     */
+    @Input() displayFormat: Intl.DateTimeFormatOptions;
+
+    /**
+     * The format of the date and time picker columns the user selects.
+     * A datetime input can have one or many datetime parts, each getting their
+     * own column which allow individual selection of that particular datetime part. For
+     * example, year and month columns are two individually selectable columns which help
+     * choose an exact date from the datetime picker.
+     */
+    @Input() pickerFormat: Intl.DateTimeFormatOptions;
+
+    /**
+     * @input {string} The text to display on the picker"s cancel button. Default: `Cancel`.
+     */
+    @Input() cancelText: string = "Cancel";
+
+    /**
+     * @input {string} The text to display on the picker"s "Done" button. Default: `Done`.
+     */
+    @Input() doneText: string = "Done";
+
+    /**
+     * @input {any} Any additional options that the picker interface can accept.
+     * See the [Picker API docs](../../picker/Picker) for the picker options.
+     */
+    @Input() pickerOptions: any = {};
+
+    /**
+     * @output Any expression to evaluate when the datetime selection has changed.
+     */
+    @Output() ionChange: EventEmitter<any> = new EventEmitter();
+
+    /**
+     * @output Any expression to evaluate when the datetime selection was cancelled.
+     */
+    @Output() ionCancel: EventEmitter<any> = new EventEmitter();
+
+    constructor(private form: Form, config: Config, element: ElementRef, renderer: Renderer, private intl: IntlService,
+        @Optional() private item: Item, @Optional() private pickerController: PickerController,
+        @Optional() public formControl: NgControl) {
+
+        super(config, element, renderer, "datetime");
+
         form.register(this);
+
         if (item) {
             this.id = "dt-" + item.registerInput("datetime");
             this._labelId = "lbl-" + item.id;
             this.item.setElementClass("item-datetime", true);
         }
+
         if (this.formControl) {
             this.formControl.valueAccessor = this;
         }
     }
-    DateTimePicker.prototype._click = function (ev) {
+
+    @HostListener("click", ["$event"])
+    _click(ev: UIEvent) {
         if (ev.detail === 0) {
             // do not continue if the click event came from a form submit
             return;
@@ -65,236 +137,297 @@ export var DateTimePicker = (function (_super) {
         ev.preventDefault();
         ev.stopPropagation();
         this.open();
-    };
-    DateTimePicker.prototype._keyup = function () {
+    }
+
+    @HostListener("keyup.space")
+    _keyup() {
         if (!this._isOpen) {
             this.open();
         }
-    };
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.open = function () {
-        var _this = this;
+    open() {
         if (this._disabled) {
             return;
         }
+
         //console.debug("datetime, open picker");
+
         // the user may have assigned some options specifically for the alert
-        var pickerOptions = deepCopy(this.pickerOptions);
-        var picker = this.pickerController.create(pickerOptions);
+        const pickerOptions = deepCopy(this.pickerOptions);
+
+        const picker = this.pickerController.create(pickerOptions);
         pickerOptions.buttons = [
             {
                 text: this.cancelText,
                 role: "cancel",
-                handler: function () {
-                    _this.ionCancel.emit(null);
+                handler: () => {
+                    this.ionCancel.emit(null);
                 }
             },
             {
                 text: this.doneText,
-                handler: function (data) {
+                handler: (data: any) => {
                     //console.debug("datetime, done", data);
-                    var value = _this._value ? _this.getValue() : new Date();
+
+                    let value = this._value ? new Date(this._value) : new Date();
                     value.setSeconds(0);
+                    value.setMilliseconds(0);
+
                     if (data.year) {
                         value.setFullYear(data.year.value);
                     }
+
                     if (data.month) {
                         value.setMonth(data.month.value);
                     }
+
                     if (data.day) {
                         value.setDate(data.day.value);
                     }
+
                     if (data.hour) {
                         value.setHours(data.hour.value);
+                    } else {
+                        value.setHours(0);
                     }
+
                     if (data.minute) {
                         value.setMinutes(data.minute.value);
+                    } else {
+                        value.setMinutes(0);
                     }
-                    _this.onChange(value);
-                    _this.ionChange.emit(data);
+
+                    this.onChange(value);
+                    this.ionChange.emit(this.value);
                 }
             }
         ];
+
         this.generate(picker);
         this.validate(picker);
-        picker.ionChange.subscribe(function () {
-            _this.validate(picker);
+
+        picker.ionChange.subscribe(() => {
+            this.validate(picker);
         });
+
         picker.present(pickerOptions);
+
         this._isOpen = true;
-        picker.onDidDismiss(function () {
-            _this._isOpen = false;
+        picker.onDidDismiss(() => {
+            this._isOpen = false;
         });
-    };
-    DateTimePicker.prototype.buildColumns = function () {
-        var formatOptions = this.pickerFormat || this.displayFormat || {
+    }
+
+    private buildColumns() {
+
+        let formatOptions: Intl.DateTimeFormatOptions = this.pickerFormat || this.displayFormat || {
             year: "numeric",
             month: "numeric",
             day: "numeric",
             hour: "numeric",
             minute: "numeric"
         };
-        var partsFormated = {};
-        var partsPositions = [];
-        var year = 1999;
-        var month = 5;
-        var day = 24;
-        var hour = 11;
-        var minute = 50;
-        var testDate = new Date();
+
+        let partsFormated = {};
+        let partsPositions = [];
+
+        let year = 1999;
+        let month = 5;
+        let day = 24;
+        let hour = 11;
+        let minute = 50;
+
+        let testDate = new Date();
         testDate.setUTCFullYear(year);
         testDate.setUTCMonth(month - 1);
         testDate.setUTCDate(day - 1);
         testDate.setUTCHours(hour - 1);
         testDate.setUTCMinutes(minute - 1);
-        for (var part in formatOptions) {
+
+        for (let part in formatOptions) {
+
             if (part == "weekday" && formatOptions.day) {
                 continue;
             }
-            var partOptions = {};
+
+            let partOptions: Intl.DateTimeFormatOptions = {};
             partOptions[part] = formatOptions[part];
+
             if (part == "hour") {
                 partOptions.minute = "2-digit";
-            }
-            else if (part == "minute") {
+            } else if (part == "minute") {
                 partOptions.hour = "2-digit";
             }
-            var formatter = new Intl.DateTimeFormat("pl", partOptions);
+
+            let formatter = new Intl.DateTimeFormat("pl", partOptions);
             partsFormated[part] = formatter.format(testDate);
         }
-        var testFormated = new Intl.DateTimeFormat("pl", formatOptions).format(testDate);
-        for (var part in partsFormated) {
-            var idx = testFormated.indexOf(partsFormated[part]);
+
+        let testFormated = new Intl.DateTimeFormat("pl", formatOptions).format(testDate);
+
+        for (let part in partsFormated) {
+
+            let idx = testFormated.indexOf(partsFormated[part]);
             if (idx === -1) {
                 idx = 100;
             }
+
             partsPositions.push([part, idx]);
         }
-        var columns = [];
-        for (var _i = 0, _a = partsPositions.sort(function (a, b) { return a[1] - b[1]; }); _i < _a.length; _i++) {
-            var p = _a[_i];
+
+        let columns: string[] = [];
+        for (let p of partsPositions.sort((a, b) => a[1] - b[1])) {
             columns.push(p[0]);
         }
+
         return columns;
-    };
-    DateTimePicker.prototype.generate = function (picker) {
-        var columns = this.buildColumns();
-        var value = this._value || new Date();
-        for (var _i = 0, columns_1 = columns; _i < columns_1.length; _i++) {
-            var columnName = columns_1[_i];
-            var column = {
+    }
+
+    private generate(picker: Picker) {
+
+        let columns = this.buildColumns();
+        let value = this._value || new Date();
+
+        for (let columnName of columns) {
+
+            let column: PickerColumn = {
                 name: columnName,
                 options: []
             };
-            var date = new Date(2000, 0, 1);
-            var pickerFormat = this.pickerFormat || this.displayFormat;
-            var formatOptions = {};
-            var min = 0, max = 0;
+
+            let date = new Date(2000, 0, 1);
+
+            let pickerFormat = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
+            let formatOptions: Intl.DateTimeFormatOptions = {};
+
+            let min = 0, max = 0;
+
             if (columnName == "year") {
                 formatOptions.year = pickerFormat.year || "numeric";
                 min = 2000;
                 max = 2018;
-            }
-            else if (columnName == "month") {
+            } else if (columnName == "month") {
                 formatOptions.month = pickerFormat.month || "short";
                 min = 0;
                 max = 11;
-            }
-            else if (columnName == "day") {
+            } else if (columnName == "day") {
                 formatOptions.day = pickerFormat.day || "numeric";
                 min = 1;
                 max = 30;
-            }
-            else if (columnName == "hour") {
+            } else if (columnName == "hour") {
                 formatOptions = undefined;
                 min = 0;
                 max = 23;
-            }
-            else if (columnName == "minute") {
+            } else if (columnName == "minute") {
                 formatOptions = undefined;
                 min = 0;
                 max = 59;
             }
-            var optionIndex = 0;
-            var selectedIndex = -1;
-            for (var i = min; i <= max; i++) {
+
+            let optionIndex = 0;
+            let selectedIndex = -1;
+
+            for (let i = min; i <= max; i++) {
+
                 if (columnName == "year") {
                     date.setFullYear(i);
+
                     if (value.getFullYear() === i) {
                         selectedIndex = optionIndex;
                     }
-                }
-                else if (columnName == "month") {
+
+                } else if (columnName == "month") {
                     date.setMonth(i);
+
                     if (value.getMonth() === i) {
                         selectedIndex = optionIndex;
                     }
-                }
-                else if (columnName == "day") {
+
+                } else if (columnName == "day") {
                     date.setDate(i);
+
                     if (value.getDate() === i) {
                         selectedIndex = optionIndex;
                     }
-                }
-                else if (columnName == "hour") {
+
+                } else if (columnName == "hour") {
                     date.setHours(i);
+
                     if (value.getHours() === i) {
                         selectedIndex = optionIndex;
                     }
-                }
-                else if (columnName == "minute") {
+
+                } else if (columnName == "minute") {
                     date.setMinutes(i);
+
                     if (value.getMinutes() === i) {
                         selectedIndex = optionIndex;
                     }
                 }
-                var text = void 0;
+
+                let text: string;
                 if (formatOptions) {
                     text = this.intl.dateTime(date, formatOptions);
+                } else {
+                    text = i < 10 ? `0${i}` : `${i}`;
                 }
-                else {
-                    text = i < 10 ? "0" + i : "" + i;
-                }
+
                 column.options.push({ value: i, text: text });
+
                 optionIndex++;
             }
+
             if (selectedIndex > -1) {
                 column.selectedIndex = selectedIndex;
             }
+
             picker.addColumn(column);
         }
+
         this.divyColumns(picker);
-    };
-    DateTimePicker.prototype.validate = function (picker) {
-        var columns = picker.getColumns();
-        var yearCol = columns.find(function (col) { return col.name === "year"; });
-        var monthCol = columns.find(function (col) { return col.name === "month"; });
-        var dayCol = columns.find(function (col) { return col.name === "day"; });
+    }
+
+    private validate(picker: Picker) {
+
+        let columns = picker.getColumns();
+
+        let yearCol = columns.find(col => col.name === "year");
+        let monthCol = columns.find(col => col.name === "month");
+        let dayCol = columns.find(col => col.name === "day");
+
         // let i: number;
         // let today = new Date();
         // let columns = picker.getColumns();
+
         // // find the columns used
         // let yearCol = columns.find(col => col.name === "year");
         // let monthCol = columns.find(col => col.name === "month");
         // let dayCol = columns.find(col => col.name === "day");
+
         // let yearOpt: PickerColumnOption;
         // let monthOpt: PickerColumnOption;
         // let dayOpt: PickerColumnOption;
+
         // // default to the current year
         // let selectedYear: number = today.getFullYear();
+
         // if (yearCol) {
         //     // default to the first value if the current year doesn"t exist in the options
         //     if (!yearCol.options.find(col => col.value === today.getFullYear())) {
         //         selectedYear = yearCol.options[0].value;
         //     }
+
         //     yearOpt = yearCol.options[yearCol.selectedIndex];
         //     if (yearOpt) {
         //         // they have a selected year value
         //         selectedYear = yearOpt.value;
         //     }
         // }
+
         // // default to assuming this month has 31 days
         // let numDaysInMonth = 31;
         // let selectedMonth: number;
@@ -303,37 +436,45 @@ export var DateTimePicker = (function (_super) {
         //     if (monthOpt) {
         //         // they have a selected month value
         //         selectedMonth = monthOpt.value;
+
         //         // calculate how many days are in this month
         //         numDaysInMonth = daysInMonth(selectedMonth, selectedYear);
         //     }
         // }
+
         // // create sort values for the min/max datetimes
         // let minCompareVal = dateDataSortValue(this._min);
         // let maxCompareVal = dateDataSortValue(this._max);
+
         // if (monthCol) {
         //     // enable/disable which months are valid
         //     // to show within the min/max date range
         //     for (i = 0; i < monthCol.options.length; i++) {
         //         monthOpt = monthCol.options[i];
+
         //         // loop through each month and see if it
         //         // is within the min/max date range
         //         monthOpt.disabled = (dateSortValue(selectedYear, monthOpt.value, 31) < minCompareVal ||
         //             dateSortValue(selectedYear, monthOpt.value, 1) > maxCompareVal);
         //     }
         // }
+
         // if (dayCol) {
         //     if (isPresent(selectedMonth)) {
         //         // enable/disable which days are valid
         //         // to show within the min/max date range
         //         for (i = 0; i < dayCol.options.length; i++) {
         //             dayOpt = dayCol.options[i];
+
         //             // loop through each day and see if it
         //             // is within the min/max date range
         //             var compareVal = dateSortValue(selectedYear, selectedMonth, dayOpt.value);
+
         //             dayOpt.disabled = (compareVal < minCompareVal ||
         //                 compareVal > maxCompareVal ||
         //                 numDaysInMonth <= i);
         //         }
+
         //     } else {
         //         // enable/disable which numbers of days to show in this month
         //         for (i = 0; i < dayCol.options.length; i++) {
@@ -341,197 +482,190 @@ export var DateTimePicker = (function (_super) {
         //         }
         //     }
         // }
+
         // picker.refresh();
-    };
-    DateTimePicker.prototype.divyColumns = function (picker) {
-        var pickerColumns = picker.getColumns();
-        var columns = [];
-        pickerColumns.forEach(function (col, i) {
+    }
+
+    divyColumns(picker: Picker) {
+        let pickerColumns = picker.getColumns();
+        let columns: number[] = [];
+
+        pickerColumns.forEach((col, i) => {
             columns.push(0);
-            col.options.forEach(function (opt) {
+
+            col.options.forEach(opt => {
                 if (opt.text.length > columns[i]) {
                     columns[i] = opt.text.length;
                 }
             });
+
         });
+
         if (columns.length === 2) {
             var width = Math.max(columns[0], columns[1]);
             pickerColumns[0].align = "right";
             pickerColumns[1].align = "left";
-            pickerColumns[0].optionsWidth = pickerColumns[1].optionsWidth = width * 17 + "px";
-        }
-        else if (columns.length === 3) {
+            pickerColumns[0].optionsWidth = pickerColumns[1].optionsWidth = `${width * 17}px`;
+
+        } else if (columns.length === 3) {
             var width = Math.max(columns[0], columns[2]);
             pickerColumns[0].align = "right";
-            pickerColumns[1].columnWidth = columns[1] * 17 + "px";
-            pickerColumns[0].optionsWidth = pickerColumns[2].optionsWidth = width * 17 + "px";
+            pickerColumns[1].columnWidth = `${columns[1] * 17}px`;
+            pickerColumns[0].optionsWidth = pickerColumns[2].optionsWidth = `${width * 17}px`;
             pickerColumns[2].align = "left";
         }
-    };
-    /**
-     * @private
-     */
-    DateTimePicker.prototype.setValue = function (value) {
-        this._value = typeof value === "number" ? new Date(value) : new Date(value);
-    };
-    /**
-     * @private
-     */
-    DateTimePicker.prototype.getValue = function () {
-        return new Date(this._value);
-    };
-    /**
-     * @private
-     */
-    DateTimePicker.prototype.checkHasValue = function (inputValue) {
-        if (this.item) {
-            this.item.setElementClass("input-has-value", !!(inputValue && inputValue !== ""));
+    }
+
+    public set value(value: number | Date) {
+        if (value) {
+            this._value = typeof value === "number" ? new Date(value) : new Date(value);
+        } else {
+            this._value = undefined;
         }
-    };
+    }
+
+    public get value(): Date | number {
+
+        if (!this._value) {
+            return undefined;
+        }
+        
+        if (this.valueType && this.valueType == "number") {
+            return this._value.getTime();
+        }
+
+        return this._value ? new Date(this._value) : undefined;
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.updateText = function () {
-        var options = this.displayFormat || defaultFormat;
-        console.log(this._value);
-        this._text = this.intl.dateTime(this._value, options);
-    };
-    Object.defineProperty(DateTimePicker.prototype, "disabled", {
-        /**
-         * @input {boolean} Whether or not the datetime component is disabled. Default `false`.
-         */
-        get: function () {
-            return this._disabled;
-        },
-        set: function (val) {
-            this._disabled = isTrueProperty(val);
-        },
-        enumerable: true,
-        configurable: true
-    });
+    checkHasValue(inputValue: any) {
+        if (this.item) {
+            this.item.setElementClass("input-has-value", !inputValue);
+        }
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.writeValue = function (val) {
+    updateText() {
+        if (this._value) {
+            let options = this.displayFormat || defaultDateTimeFormat;
+            //console.log(this._value);
+            this._text = this.intl.dateTime(this._value, options);
+        } else {
+            this._text = null;
+        }
+    }
+
+    /**
+     * @input {boolean} Whether or not the datetime component is disabled. Default `false`.
+     */
+    @Input()
+    get disabled() {
+        return this._disabled;
+    }
+
+    set disabled(val) {
+        this._disabled = isTrueProperty(val);
+    }
+
+    /**
+     * @private
+     */
+    writeValue(val: any) {
         //console.debug("datetime, writeValue", val);
-        this.setValue(val);
+        this.value = val;
         this.updateText();
         this.checkHasValue(val);
-    };
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.ngAfterContentInit = function () {
+    ngAfterContentInit() {
         this.updateText();
-    };
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.registerOnChange = function (fn) {
+    registerOnChange(fn: Function): void {
         this._fn = fn;
-    };
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.registerOnTouched = function (fn) {
+    registerOnTouched(fn: any) {
         this.onTouched = fn;
-    };
-    DateTimePicker.prototype.onChange = function (val) {
-        this.setValue(val);
+    }
+
+    private onChange(val: any) {
+        this.value = val;
         this.updateText();
         this.onTouched();
+
         if (this._fn) {
-            this._fn(val);
+            this._fn(this.value);
         }
-    };
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.onTouched = function () {
-    };
+    onTouched() {
+
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.setDisabledState = function (isDisabled) {
+    setDisabledState(isDisabled: boolean) {
         this.disabled = isDisabled;
-    };
+    }
+
     /**
      * @private
      */
-    DateTimePicker.prototype.ngOnDestroy = function () {
+    ngOnDestroy() {
         this.form.deregister(this);
-    };
-    DateTimePicker.prototype.ngOnChanges = function (changes) {
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
         if (changes["displayFormat"]) {
             this.updateText();
         }
-    };
-    DateTimePicker.prototype.ngAfterContentChecked = function () {
+    }
+    ngAfterContentChecked() {
         this.setItemInputControlCss();
-    };
-    DateTimePicker.prototype.setItemInputControlCss = function () {
-        var item = this.item;
+    }
+
+    private setItemInputControlCss() {
+        let item = this.item;
         if (item && this.formControl) {
             this.setControlCss(item, this.formControl);
         }
-    };
-    DateTimePicker.prototype.setControlCss = function (element, control) {
+    }
+
+    private setControlCss(element: any, control: NgControl) {
         element.setElementClass('ng-untouched', control.untouched);
         element.setElementClass('ng-touched', control.touched);
         element.setElementClass('ng-pristine', control.pristine);
         element.setElementClass('ng-dirty', control.dirty);
         element.setElementClass('ng-valid', control.valid);
         element.setElementClass('ng-invalid', !control.valid && control.enabled);
-    };
-    DateTimePicker.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-date-time-picker",
-                    template: "\n        <div class=\"datetime-text\">{{_text}}</div>\n        <button aria-haspopup=\"true\" type=\"button\" [id]=\"id\" \n            ion-button=\"item-cover\" [attr.aria-labelledby]=\"_labelId\"\n            [attr.aria-disabled]=\"disabled\" [disabled]=\"disabled\" class=\"item-cover\">\n        </button>",
-                    encapsulation: ViewEncapsulation.None,
-                    host: {
-                        "[class.datetime-disabled]": "_disabled"
-                    },
-                },] },
-    ];
-    /** @nocollapse */
-    DateTimePicker.ctorParameters = [
-        { type: Form, },
-        { type: Config, },
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: IntlService, },
-        { type: Item, decorators: [{ type: Optional },] },
-        { type: PickerController, decorators: [{ type: Optional },] },
-        { type: NgControl, decorators: [{ type: Optional },] },
-    ];
-    DateTimePicker.propDecorators = {
-        'min': [{ type: Input },],
-        'max': [{ type: Input },],
-        'displayFormat': [{ type: Input },],
-        'pickerFormat': [{ type: Input },],
-        'cancelText': [{ type: Input },],
-        'doneText': [{ type: Input },],
-        'pickerOptions': [{ type: Input },],
-        'ionChange': [{ type: Output },],
-        'ionCancel': [{ type: Output },],
-        '_click': [{ type: HostListener, args: ["click", ["$event"],] },],
-        '_keyup': [{ type: HostListener, args: ["keyup.space",] },],
-        'disabled': [{ type: Input },],
-    };
-    return DateTimePicker;
-}(Ion));
-export var DateTimePickerModule = (function () {
-    function DateTimePickerModule() {
     }
-    DateTimePickerModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [DateTimePicker],
-                    exports: [DateTimePicker],
-                    imports: [IonicModule]
-                },] },
-    ];
-    /** @nocollapse */
-    DateTimePickerModule.ctorParameters = [];
-    return DateTimePickerModule;
-}());
-//# sourceMappingURL=index.js.map
+
+}
+
+
+@NgModule({
+    declarations: [DateTime],
+    exports: [DateTime],
+    imports: [IonicModule]
+})
+export class DateTimeModule {
+}

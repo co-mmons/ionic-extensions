@@ -4,7 +4,7 @@ import { URLSearchParams } from "@angular/http";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken } from "ionic-angular";
 import { NavLink, NavSegment } from "ionic-angular/navigation/nav-util";
 import { isPresent } from "ionic-angular/util/util";
-import { serialize } from "co.mmons.typescript-utils/json";
+import { serialize } from "@co.mmons/typescript-utils/json";
 
 /**
  * Implementation of ionic's UrlSerializer, that add page params as query 

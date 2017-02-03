@@ -6,7 +6,7 @@ import {
 
 import { Item } from "ionic-angular";
 
-import { isSelfOrChildOf } from "co.mmons.typescript-utils/dom";
+import { isSelfOrChildOf } from "@co.mmons/web-utils/dom";
 
 @Component({
     selector: "ion-item-collapsible, ionx-item-collapsible",

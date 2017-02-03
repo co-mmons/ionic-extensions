@@ -1,11 +1,12 @@
 import { AfterContentInit, ElementRef, EventEmitter, OnDestroy, Renderer, SimpleChanges } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
-import { IntlService } from "co.mmons.angular-intl";
+import { IntlService } from "@co.mmons/angular-intl";
 import { Ion, Config, Item } from "ionic-angular";
 import { Picker, PickerController } from "ionic-angular/components/picker/picker";
 import { Form } from "ionic-angular/util/form";
-export declare const defaultFormat: Intl.DateTimeFormatOptions;
-export declare class DateTimePicker extends Ion implements AfterContentInit, ControlValueAccessor, OnDestroy {
+export declare const defaultDateTimeFormat: Intl.DateTimeFormatOptions;
+export declare const defaultDateFormat: Intl.DateTimeFormatOptions;
+export declare class DateTime extends Ion implements AfterContentInit, ControlValueAccessor, OnDestroy {
     private form;
     private intl;
     private item;
@@ -21,6 +22,7 @@ export declare class DateTimePicker extends Ion implements AfterContentInit, Con
      * @private
      */
     id: string;
+    valueType: string;
     /**
      * @input {string} The minimum datetime allowed. Value must be a date string
      * following the
@@ -86,14 +88,7 @@ export declare class DateTimePicker extends Ion implements AfterContentInit, Con
     private generate(picker);
     private validate(picker);
     divyColumns(picker: Picker): void;
-    /**
-     * @private
-     */
-    setValue(value: number | Date): void;
-    /**
-     * @private
-     */
-    getValue(): Date;
+    value: number | Date;
     /**
      * @private
      */
@@ -140,5 +135,5 @@ export declare class DateTimePicker extends Ion implements AfterContentInit, Con
     private setItemInputControlCss();
     private setControlCss(element, control);
 }
-export declare class DateTimePickerModule {
+export declare class DateTimeModule {
 }
