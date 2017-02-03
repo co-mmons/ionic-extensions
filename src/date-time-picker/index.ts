@@ -9,13 +9,17 @@ import { Form } from "ionic-angular/util/form";
 import { deepCopy, isBlank, isPresent, isTrueProperty, isArray, isString } from "ionic-angular/util/util";
 import { dateValueRange, renderDateTime, renderTextFormat, convertFormatToKey, getValueFromFormat, parseTemplate, parseDate, updateDate, DateTimeData, convertDataToISO, daysInMonth, dateSortValue, dateDataSortValue, LocaleData } from "ionic-angular/util/datetime-util";
 
-export const defaultFormat: Intl.DateTimeFormatOptions = {
+export const defaultDateTimeFormat: Intl.DateTimeFormatOptions = {
     year: "numeric", month: "numeric", day: "numeric",
     hour: "2-digit", minute: "2-digit"
 };
 
+export const defaultDateFormat: Intl.DateTimeFormatOptions = {
+    year: "numeric", month: "numeric", day: "numeric"
+};
+
 @Component({
-    selector: "ionx-date-time-picker",
+    selector: "ionx-date-time-picker, ionx-datetime",
     template: `
         <div class="datetime-text">{{_text}}</div>
         <button aria-haspopup="true" type="button" [id]="id" 
@@ -39,6 +43,9 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
      * @private
      */
     id: string;
+
+    @Input()
+    valueType: string;
 
     /**
      * @input {string} The minimum datetime allowed. Value must be a date string
@@ -167,8 +174,9 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
                 handler: (data: any) => {
                     //console.debug("datetime, done", data);
 
-                    let value = this._value ? this.getValue() : new Date();
+                    let value = this._value ? new Date(this._value) : new Date();
                     value.setSeconds(0);
+                    value.setMilliseconds(0);
 
                     if (data.year) {
                         value.setFullYear(data.year.value);
@@ -184,14 +192,18 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
 
                     if (data.hour) {
                         value.setHours(data.hour.value);
+                    } else {
+                        value.setHours(0);
                     }
 
                     if (data.minute) {
                         value.setMinutes(data.minute.value);
+                    } else {
+                        value.setMinutes(0);
                     }
 
                     this.onChange(value);
-                    this.ionChange.emit(data);
+                    this.ionChange.emit(this.value);
                 }
             }
         ];
@@ -290,7 +302,7 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
 
             let date = new Date(2000, 0, 1);
 
-            let pickerFormat = this.pickerFormat || this.displayFormat;
+            let pickerFormat = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
             let formatOptions: Intl.DateTimeFormatOptions = {};
 
             let min = 0, max = 0;
@@ -505,18 +517,25 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
         }
     }
 
-    /**
-     * @private
-     */
-    setValue(value: number | Date) {
-        this._value = typeof value === "number" ? new Date(value) : new Date(value);
+    public set value(value: number | Date) {
+        if (value) {
+            this._value = typeof value === "number" ? new Date(value) : new Date(value);
+        } else {
+            this._value = undefined;
+        }
     }
 
-    /**
-     * @private
-     */
-    getValue(): Date {
-        return new Date(this._value);
+    public get value(): Date | number {
+
+        if (!this._value) {
+            return undefined;
+        }
+        
+        if (this.valueType && this.valueType == "number") {
+            return this._value.getTime();
+        }
+
+        return this._value ? new Date(this._value) : undefined;
     }
 
     /**
@@ -524,7 +543,7 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
      */
     checkHasValue(inputValue: any) {
         if (this.item) {
-            this.item.setElementClass("input-has-value", !!(inputValue && inputValue !== ""));
+            this.item.setElementClass("input-has-value", !inputValue);
         }
     }
 
@@ -532,9 +551,13 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
      * @private
      */
     updateText() {
-        let options = this.displayFormat || defaultFormat;
-        console.log(this._value);
-        this._text = this.intl.dateTime(this._value, options);
+        if (this._value) {
+            let options = this.displayFormat || defaultDateTimeFormat;
+            //console.log(this._value);
+            this._text = this.intl.dateTime(this._value, options);
+        } else {
+            this._text = null;
+        }
     }
 
     /**
@@ -554,7 +577,7 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
      */
     writeValue(val: any) {
         //console.debug("datetime, writeValue", val);
-        this.setValue(val);
+        this.value = val;
         this.updateText();
         this.checkHasValue(val);
     }
@@ -581,12 +604,12 @@ export class DateTimePicker extends Ion implements AfterContentInit, ControlValu
     }
 
     private onChange(val: any) {
-        this.setValue(val);
+        this.value = val;
         this.updateText();
         this.onTouched();
 
         if (this._fn) {
-            this._fn(val);
+            this._fn(this.value);
         }
     }
 
