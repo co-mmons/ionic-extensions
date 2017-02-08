@@ -302,7 +302,9 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
             let date = new Date(2000, 0, 1);
 
             let pickerFormat = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
-            let formatOptions: Intl.DateTimeFormatOptions = {};
+            let formatOptions: Intl.DateTimeFormatOptions = {
+                year: undefined, month: undefined, day: undefined, hour: undefined, minute: undefined, second: undefined, era: undefined, hour12: undefined, timeZoneName: undefined, weekday: undefined
+            };
 
             let min = 0, max = 0;
 

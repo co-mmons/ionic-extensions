@@ -200,7 +200,9 @@ export var DateTime = (function (_super) {
             };
             var date = new Date(2000, 0, 1);
             var pickerFormat = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
-            var formatOptions = {};
+            var formatOptions = {
+                year: undefined, month: undefined, day: undefined, hour: undefined, minute: undefined, second: undefined, era: undefined, hour12: undefined, timeZoneName: undefined, weekday: undefined
+            };
             var min = 0, max = 0;
             if (columnName == "year") {
                 formatOptions.year = pickerFormat.year || "numeric";
