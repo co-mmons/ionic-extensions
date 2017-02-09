@@ -4,3 +4,20 @@ ion-modal.modal-fullscreen .modal-wrapper, .modal-wrapper.modal-fullscreen {
     width: 100%;
     height: 100%;
 }
+
+.ionx-content-block, [ionx-content-block] {
+    .ios & {
+        margin-top: $item-ios-padding-top;
+        margin-right: $item-ios-padding-right;
+        margin-bottom: $item-ios-padding-bottom;
+        margin-left: $item-ios-padding-left;
+    }
+
+    .md & {
+        margin-top: $item-md-padding-top;
+        margin-right: $item-md-padding-right;
+        margin-bottom: $item-md-padding-bottom;
+        margin-left: $item-md-padding-left;
+    }
+}
+
