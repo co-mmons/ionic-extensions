@@ -264,7 +264,7 @@ export var DateTime = (function (_super) {
                 }
                 var text = void 0;
                 if (formatOptions) {
-                    text = this.intl.dateTime(date, formatOptions);
+                    text = this.intl.dateTimeFormat(date, formatOptions);
                 }
                 else {
                     text = i < 10 ? "0" + i : "" + i;
@@ -416,7 +416,7 @@ export var DateTime = (function (_super) {
         if (this._value) {
             var options = this.displayFormat || defaultDateTimeFormat;
             //console.log(this._value);
-            this._text = this.intl.dateTime(this._value, options);
+            this._text = this.intl.dateTimeFormat(this._value, options);
         }
         else {
             this._text = null;
