@@ -10,10 +10,10 @@
     "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
+    "@co.mmons/angular-intl": "git://github.com/co-mmons/angular-intl",
+    "@co.mmons/node-utils": "git://github.com/co-mmons/node-utils",
     "@co.mmons/typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
     "@co.mmons/web-utils": "git://github.com/co-mmons/web-utils.git",
-    "@co.mmons/node-utils": "git://github.com/co-mmons/node-utils",
-    "@co.mmons/angular-intl": "git://github.com/co-mmons/angular-intl",
     "quill": "^1.2.0"
   },
   "peerDependencies": {
