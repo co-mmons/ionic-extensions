@@ -1,3 +1,7 @@
+@import "ionic.theme.default.md";
+@import "ionic.theme.default.ios";
+@import "ionic.theme.default.wp";
+
 ion-item-collapsible, ionx-item-collapsible {
 
     &.item-expanded {
@@ -18,15 +22,15 @@ ion-item-collapsible, ionx-item-collapsible {
             }
 
             &.item-wp .item-inner {
-                @include svg-background-image("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path style='fill:#{$item-wp-detail-push-color}' d='M 0,2 2,0 10,8 18,0 20,2 10,12 0,2 Z'/></svg>");
+                @include svg-background-image("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path style='fill:#{$input-wp-border-color}' d='M 0,2 2,0 10,8 18,0 20,2 10,12 0,2 Z'/></svg>");
             }
 
             &.item-ios .item-inner {
-                @include svg-background-image("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path style='fill:#{$item-ios-detail-push-color}' d='M 0,2 2,0 10,8 18,0 20,2 10,12 0,2 Z'/></svg>");
+                @include svg-background-image("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path style='fill:#{$list-ios-border-color}' d='M 0,2 2,0 10,8 18,0 20,2 10,12 0,2 Z'/></svg>");
             }
 
             &.item-md .item-inner {
-                @include svg-background-image("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path style='fill:#{$item-md-detail-push-color}' d='M 0,2 2,0 10,8 18,0 20,2 10,12 0,2 Z'/></svg>");
+                @include svg-background-image("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path style='fill:#{$list-md-border-color}' d='M 0,2 2,0 10,8 18,0 20,2 10,12 0,2 Z'/></svg>");
             }
         }
 
