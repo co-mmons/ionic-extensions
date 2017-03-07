@@ -60,6 +60,7 @@ export var LazyImageContainer = (function () {
         var rect = this.element.nativeElement.getBoundingClientRect();
         if (rect.width == 0 || rect.height == 0) {
         }
+        //console.log(this.children);
         //window.dispatchEvent(new Event("resize"));   
     };
     LazyImageContainer.prototype.ngOnInit = function () {
@@ -87,7 +88,7 @@ export var LazyImageContainer = (function () {
     };
     LazyImageContainer.decorators = [
         { type: Directive, args: [{
-                    selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image]"
+                    selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
                 },] },
     ];
     /** @nocollapse */

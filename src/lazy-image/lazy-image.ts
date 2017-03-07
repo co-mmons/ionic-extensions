@@ -48,7 +48,7 @@ export class LazyImage {
 }
 
 @Directive({
-    selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image]"
+    selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
 })
 export class LazyImageContainer {
     
@@ -64,6 +64,7 @@ export class LazyImageContainer {
 		if (rect.width == 0 || rect.height == 0) {
 			//setTimeout(() => this.revalidate(), 200);
 		}
+			//console.log(this.children);
 
 		//window.dispatchEvent(new Event("resize"));   
 	}
