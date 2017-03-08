@@ -43,7 +43,7 @@ ion-item-collapsible, ionx-item-collapsible {
 
     &:not(.item-expanded) {
 
-        *:not(:first-child) {
+        & > *:not(:first-child) {
             display: none;
         }
     }
