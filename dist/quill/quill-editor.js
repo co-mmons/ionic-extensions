@@ -128,9 +128,9 @@ export var QuillEditor = (function () {
                 },] },
     ];
     /** @nocollapse */
-    QuillEditor.ctorParameters = [
+    QuillEditor.ctorParameters = function () { return [
         { type: ElementRef, },
-    ];
+    ]; };
     QuillEditor.propDecorators = {
         'theme': [{ type: Input },],
         'modules': [{ type: Input },],

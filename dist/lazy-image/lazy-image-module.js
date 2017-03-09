@@ -12,7 +12,7 @@ export var LazyImageModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    LazyImageModule.ctorParameters = [];
+    LazyImageModule.ctorParameters = function () { return []; };
     return LazyImageModule;
 }());
 //# sourceMappingURL=lazy-image-module.js.map

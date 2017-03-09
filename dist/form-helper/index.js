@@ -32,7 +32,7 @@ export var FormHelper = (function () {
                 },] },
     ];
     /** @nocollapse */
-    FormHelper.ctorParameters = [];
+    FormHelper.ctorParameters = function () { return []; };
     FormHelper.propDecorators = {
         'controls': [{ type: ContentChildren, args: [FormControlName, { descendants: true },] },],
     };
@@ -49,7 +49,7 @@ export var FormHelperModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    FormHelperModule.ctorParameters = [];
+    FormHelperModule.ctorParameters = function () { return []; };
     return FormHelperModule;
 }());
 //# sourceMappingURL=index.js.map

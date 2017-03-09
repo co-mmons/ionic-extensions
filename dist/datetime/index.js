@@ -520,7 +520,7 @@ export var DateTime = (function (_super) {
                 },] },
     ];
     /** @nocollapse */
-    DateTime.ctorParameters = [
+    DateTime.ctorParameters = function () { return [
         { type: Form, },
         { type: Config, },
         { type: ElementRef, },
@@ -529,7 +529,7 @@ export var DateTime = (function (_super) {
         { type: Item, decorators: [{ type: Optional },] },
         { type: PickerController, decorators: [{ type: Optional },] },
         { type: NgControl, decorators: [{ type: Optional },] },
-    ];
+    ]; };
     DateTime.propDecorators = {
         'valueType': [{ type: Input },],
         'min': [{ type: Input },],
@@ -558,7 +558,7 @@ export var DateTimeModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DateTimeModule.ctorParameters = [];
+    DateTimeModule.ctorParameters = function () { return []; };
     return DateTimeModule;
 }());
 //# sourceMappingURL=index.js.map

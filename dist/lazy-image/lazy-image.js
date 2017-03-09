@@ -38,11 +38,11 @@ export var LazyImage = (function () {
                 },] },
     ];
     /** @nocollapse */
-    LazyImage.ctorParameters = [
+    LazyImage.ctorParameters = function () { return [
         { type: ElementRef, },
         { type: Renderer, },
         { type: LazyImageContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(function () { return LazyImageContainer; }),] },] },
-    ];
+    ]; };
     LazyImage.propDecorators = {
         'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
         'src': [{ type: Input, args: ["ionx-lazy-image",] },],
@@ -92,11 +92,11 @@ export var LazyImageContainer = (function () {
                 },] },
     ];
     /** @nocollapse */
-    LazyImageContainer.ctorParameters = [
+    LazyImageContainer.ctorParameters = function () { return [
         { type: ElementRef, },
         { type: Content, decorators: [{ type: Optional },] },
         { type: Scroll, decorators: [{ type: Optional },] },
-    ];
+    ]; };
     LazyImageContainer.propDecorators = {
         'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
     };

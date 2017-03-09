@@ -14,7 +14,7 @@ export var QuillModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    QuillModule.ctorParameters = [];
+    QuillModule.ctorParameters = function () { return []; };
     return QuillModule;
 }());
 //# sourceMappingURL=quill-module.js.map

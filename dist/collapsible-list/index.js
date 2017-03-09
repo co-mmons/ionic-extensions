@@ -50,10 +50,10 @@ export var CollapsibleItem = (function () {
                 },] },
     ];
     /** @nocollapse */
-    CollapsibleItem.ctorParameters = [
+    CollapsibleItem.ctorParameters = function () { return [
         { type: ElementRef, },
         { type: CollapsibleList, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(function () { return CollapsibleList; }),] },] },
-    ];
+    ]; };
     CollapsibleItem.propDecorators = {
         'item': [{ type: ContentChild, args: [Item,] },],
         'expanded': [{ type: Input, args: ["expanded",] },],
@@ -99,7 +99,7 @@ export var CollapsibleList = (function () {
                 },] },
     ];
     /** @nocollapse */
-    CollapsibleList.ctorParameters = [];
+    CollapsibleList.ctorParameters = function () { return []; };
     CollapsibleList.propDecorators = {
         'items': [{ type: ContentChildren, args: [CollapsibleItem,] },],
         'accordion': [{ type: Input },],
@@ -117,7 +117,7 @@ export var CollapsibleListModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    CollapsibleListModule.ctorParameters = [];
+    CollapsibleListModule.ctorParameters = function () { return []; };
     return CollapsibleListModule;
 }());
 //# sourceMappingURL=index.js.map
