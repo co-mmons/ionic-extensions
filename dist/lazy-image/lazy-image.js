@@ -1,7 +1,7 @@
 import { Directive, Input, ContentChildren, ElementRef, Renderer, Optional, Inject, forwardRef } from "@angular/core";
 import { Content, Scroll } from "ionic-angular";
 import { LazyLoad } from "./lazy-load";
-export var LazyImage = (function () {
+var LazyImage = (function () {
     function LazyImage(element, renderer, container) {
         this.element = element;
         this.renderer = renderer;
@@ -32,24 +32,25 @@ export var LazyImage = (function () {
         this.children.changes.subscribe(function () { return _this.revalidate(); });
         this.revalidate();
     };
-    LazyImage.decorators = [
-        { type: Directive, args: [{
-                    selector: "[ionx-lazy-image]"
-                },] },
-    ];
-    /** @nocollapse */
-    LazyImage.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: LazyImageContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(function () { return LazyImageContainer; }),] },] },
-    ]; };
-    LazyImage.propDecorators = {
-        'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
-        'src': [{ type: Input, args: ["ionx-lazy-image",] },],
-    };
     return LazyImage;
 }());
-export var LazyImageContainer = (function () {
+export { LazyImage };
+LazyImage.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionx-lazy-image]"
+            },] },
+];
+/** @nocollapse */
+LazyImage.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Renderer, },
+    { type: LazyImageContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(function () { return LazyImageContainer; }),] },] },
+]; };
+LazyImage.propDecorators = {
+    'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
+    'src': [{ type: Input, args: ["ionx-lazy-image",] },],
+};
+var LazyImageContainer = (function () {
     function LazyImageContainer(element, ionContent, ionScroll) {
         this.element = element;
         this.ionContent = ionContent;
@@ -59,6 +60,7 @@ export var LazyImageContainer = (function () {
         this.lazyLoad.update();
         var rect = this.element.nativeElement.getBoundingClientRect();
         if (rect.width == 0 || rect.height == 0) {
+            //setTimeout(() => this.revalidate(), 200);
         }
         //console.log(this.children);
         //window.dispatchEvent(new Event("resize"));   
@@ -86,20 +88,21 @@ export var LazyImageContainer = (function () {
         }
         return new LazyLoad(options);
     };
-    LazyImageContainer.decorators = [
-        { type: Directive, args: [{
-                    selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
-                },] },
-    ];
-    /** @nocollapse */
-    LazyImageContainer.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Content, decorators: [{ type: Optional },] },
-        { type: Scroll, decorators: [{ type: Optional },] },
-    ]; };
-    LazyImageContainer.propDecorators = {
-        'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
-    };
     return LazyImageContainer;
 }());
+export { LazyImageContainer };
+LazyImageContainer.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
+            },] },
+];
+/** @nocollapse */
+LazyImageContainer.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Content, decorators: [{ type: Optional },] },
+    { type: Scroll, decorators: [{ type: Optional },] },
+]; };
+LazyImageContainer.propDecorators = {
+    'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
+};
 //# sourceMappingURL=lazy-image.js.map

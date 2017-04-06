@@ -1,13 +1,17 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 import { NgModule, Component, ElementRef, EventEmitter, HostListener, Input, Optional, Output, Renderer, ViewEncapsulation } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
-import { Ion, Config, Item, IonicModule } from "ionic-angular";
-import { PickerController } from "ionic-angular/components/picker/picker";
+import { Ion, Config, Item, IonicModule, PickerController } from "ionic-angular";
 import { Form } from "ionic-angular/util/form";
 import { deepCopy, isTrueProperty } from "ionic-angular/util/util";
 export var defaultDateTimeFormat = {
@@ -17,48 +21,49 @@ export var defaultDateTimeFormat = {
 export var defaultDateFormat = {
     year: "numeric", month: "numeric", day: "numeric"
 };
-export var DateTime = (function (_super) {
+var DateTime = (function (_super) {
     __extends(DateTime, _super);
     function DateTime(form, config, element, renderer, intl, item, pickerController, formControl) {
-        _super.call(this, config, element, renderer, "datetime");
-        this.form = form;
-        this.intl = intl;
-        this.item = item;
-        this.pickerController = pickerController;
-        this.formControl = formControl;
-        this._disabled = false;
-        this._text = "";
-        this._isOpen = false;
+        var _this = _super.call(this, config, element, renderer, "datetime") || this;
+        _this.form = form;
+        _this.intl = intl;
+        _this.item = item;
+        _this.pickerController = pickerController;
+        _this.formControl = formControl;
+        _this._disabled = false;
+        _this._text = "";
+        _this._isOpen = false;
         /**
          * @input {string} The text to display on the picker"s cancel button. Default: `Cancel`.
          */
-        this.cancelText = "Cancel";
+        _this.cancelText = "Cancel";
         /**
          * @input {string} The text to display on the picker"s "Done" button. Default: `Done`.
          */
-        this.doneText = "Done";
+        _this.doneText = "Done";
         /**
          * @input {any} Any additional options that the picker interface can accept.
          * See the [Picker API docs](../../picker/Picker) for the picker options.
          */
-        this.pickerOptions = {};
+        _this.pickerOptions = {};
         /**
          * @output Any expression to evaluate when the datetime selection has changed.
          */
-        this.ionChange = new EventEmitter();
+        _this.ionChange = new EventEmitter();
         /**
          * @output Any expression to evaluate when the datetime selection was cancelled.
          */
-        this.ionCancel = new EventEmitter();
-        form.register(this);
+        _this.ionCancel = new EventEmitter();
+        form.register(_this);
         if (item) {
-            this.id = "dt-" + item.registerInput("datetime");
-            this._labelId = "lbl-" + item.id;
-            this.item.setElementClass("item-datetime", true);
+            _this.id = "dt-" + item.registerInput("datetime");
+            _this._labelId = "lbl-" + item.id;
+            _this.item.setElementClass("item-datetime", true);
         }
-        if (this.formControl) {
-            this.formControl.valueAccessor = this;
+        if (_this.formControl) {
+            _this.formControl.valueAccessor = _this;
         }
+        return _this;
     }
     DateTime.prototype._click = function (ev) {
         if (ev.detail === 0) {
@@ -509,56 +514,58 @@ export var DateTime = (function (_super) {
         element.setElementClass('ng-valid', control.valid);
         element.setElementClass('ng-invalid', !control.valid && control.enabled);
     };
-    DateTime.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-datetime",
-                    template: "\n        <div class=\"datetime-text\">{{_text}}</div>\n        <button aria-haspopup=\"true\" type=\"button\" [id]=\"id\" \n            ion-button=\"item-cover\" [attr.aria-labelledby]=\"_labelId\"\n            [attr.aria-disabled]=\"disabled\" [disabled]=\"disabled\" class=\"item-cover\">\n        </button>",
-                    encapsulation: ViewEncapsulation.None,
-                    host: {
-                        "[class.datetime-disabled]": "_disabled"
-                    },
-                },] },
-    ];
-    /** @nocollapse */
-    DateTime.ctorParameters = function () { return [
-        { type: Form, },
-        { type: Config, },
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: IntlService, },
-        { type: Item, decorators: [{ type: Optional },] },
-        { type: PickerController, decorators: [{ type: Optional },] },
-        { type: NgControl, decorators: [{ type: Optional },] },
-    ]; };
-    DateTime.propDecorators = {
-        'valueType': [{ type: Input },],
-        'min': [{ type: Input },],
-        'max': [{ type: Input },],
-        'displayFormat': [{ type: Input },],
-        'pickerFormat': [{ type: Input },],
-        'cancelText': [{ type: Input },],
-        'doneText': [{ type: Input },],
-        'pickerOptions': [{ type: Input },],
-        'ionChange': [{ type: Output },],
-        'ionCancel': [{ type: Output },],
-        '_click': [{ type: HostListener, args: ["click", ["$event"],] },],
-        '_keyup': [{ type: HostListener, args: ["keyup.space",] },],
-        'disabled': [{ type: Input },],
-    };
     return DateTime;
 }(Ion));
-export var DateTimeModule = (function () {
+export { DateTime };
+DateTime.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-datetime",
+                template: "\n        <div class=\"datetime-text\">{{_text}}</div>\n        <button aria-haspopup=\"true\" type=\"button\" [id]=\"id\" \n            ion-button=\"item-cover\" [attr.aria-labelledby]=\"_labelId\"\n            [attr.aria-disabled]=\"disabled\" [disabled]=\"disabled\" class=\"item-cover\">\n        </button>",
+                encapsulation: ViewEncapsulation.None,
+                host: {
+                    "[class.datetime-disabled]": "_disabled"
+                },
+            },] },
+];
+/** @nocollapse */
+DateTime.ctorParameters = function () { return [
+    { type: Form, },
+    { type: Config, },
+    { type: ElementRef, },
+    { type: Renderer, },
+    { type: IntlService, },
+    { type: Item, decorators: [{ type: Optional },] },
+    { type: PickerController, decorators: [{ type: Optional },] },
+    { type: NgControl, decorators: [{ type: Optional },] },
+]; };
+DateTime.propDecorators = {
+    'valueType': [{ type: Input },],
+    'min': [{ type: Input },],
+    'max': [{ type: Input },],
+    'displayFormat': [{ type: Input },],
+    'pickerFormat': [{ type: Input },],
+    'cancelText': [{ type: Input },],
+    'doneText': [{ type: Input },],
+    'pickerOptions': [{ type: Input },],
+    'ionChange': [{ type: Output },],
+    'ionCancel': [{ type: Output },],
+    '_click': [{ type: HostListener, args: ["click", ["$event"],] },],
+    '_keyup': [{ type: HostListener, args: ["keyup.space",] },],
+    'disabled': [{ type: Input },],
+};
+var DateTimeModule = (function () {
     function DateTimeModule() {
     }
-    DateTimeModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [DateTime],
-                    exports: [DateTime],
-                    imports: [IonicModule]
-                },] },
-    ];
-    /** @nocollapse */
-    DateTimeModule.ctorParameters = function () { return []; };
     return DateTimeModule;
 }());
+export { DateTimeModule };
+DateTimeModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [DateTime],
+                exports: [DateTime],
+                imports: [IonicModule]
+            },] },
+];
+/** @nocollapse */
+DateTimeModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=index.js.map

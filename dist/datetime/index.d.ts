@@ -1,8 +1,7 @@
 import { AfterContentInit, ElementRef, EventEmitter, OnDestroy, Renderer, SimpleChanges } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
-import { Ion, Config, Item } from "ionic-angular";
-import { Picker, PickerController } from "ionic-angular/components/picker/picker";
+import { Ion, Config, Item, Picker, PickerController } from "ionic-angular";
 import { Form } from "ionic-angular/util/form";
 export declare const defaultDateTimeFormat: Intl.DateTimeFormatOptions;
 export declare const defaultDateFormat: Intl.DateTimeFormatOptions;

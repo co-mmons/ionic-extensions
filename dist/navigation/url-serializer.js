@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 import { URLSearchParams } from "@angular/http";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken } from "ionic-angular";
 import { isPresent } from "ionic-angular/util/util";
@@ -14,10 +19,10 @@ import { serialize } from "@co.mmons/typescript-utils/json";
  * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
  * helpful when AoT compilation is used.
  */
-export var UrlSerializer = (function (_super) {
+var UrlSerializer = (function (_super) {
     __extends(UrlSerializer, _super);
     function UrlSerializer() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     UrlSerializer.setupUrlSerializer = function (userDeepLinkConfig) {
         if (userDeepLinkConfig && userDeepLinkConfig.links) {
@@ -46,6 +51,7 @@ export var UrlSerializer = (function (_super) {
             for (var key in json) {
                 var value = json[key];
                 if (value === undefined || value === null) {
+                    // we ommit null/undefined
                 }
                 else if (typeof value !== "function") {
                     if (!query) {
@@ -104,7 +110,7 @@ export var UrlSerializer = (function (_super) {
         return segments;
     };
     UrlSerializer.prototype.fillMatchedUrlParts = function (segments, urlParts, configLink) {
-        var _loop_1 = function(i) {
+        var _loop_1 = function (i) {
             var urlI = i;
             var partParts = urlParts[i] ? urlParts[i].split("?") : [];
             var part = partParts.length > 0 ? partParts[0] : undefined;
@@ -159,6 +165,7 @@ export var UrlSerializer = (function (_super) {
     };
     return UrlSerializer;
 }(IonicUrlSerializer));
+export { UrlSerializer };
 export var URL_SERIALIZER_PROVIDER = {
     provide: IonicUrlSerializer,
     useFactory: UrlSerializer.setupUrlSerializer,

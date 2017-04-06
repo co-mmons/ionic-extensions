@@ -2,9 +2,7 @@ import { NgModule, AfterContentInit, Component, ElementRef, EventEmitter, forwar
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 
-import { Ion, Config, Item, IonicModule } from "ionic-angular";
-import { Picker, PickerController } from "ionic-angular/components/picker/picker";
-import { PickerColumn, PickerColumnOption } from "ionic-angular/components/picker/picker-options";
+import { Ion, Config, Item, IonicModule, Picker, PickerController, PickerColumn, PickerColumnOption } from "ionic-angular";
 import { Form } from "ionic-angular/util/form";
 import { deepCopy, isBlank, isPresent, isTrueProperty, isArray, isString } from "ionic-angular/util/util";
 

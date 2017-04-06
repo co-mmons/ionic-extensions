@@ -1,7 +1,7 @@
 import { NgModule, Directive, ContentChildren } from "@angular/core";
 import { FormControlName } from "@angular/forms";
 import { TextInput } from "ionic-angular";
-export var FormHelper = (function () {
+var FormHelper = (function () {
     function FormHelper() {
     }
     FormHelper.prototype.validateAll = function () {
@@ -26,30 +26,32 @@ export var FormHelper = (function () {
             }
         }
     };
-    FormHelper.decorators = [
-        { type: Directive, args: [{
-                    selector: "[ionx-form-helper],[ionxFormHelper]"
-                },] },
-    ];
-    /** @nocollapse */
-    FormHelper.ctorParameters = function () { return []; };
-    FormHelper.propDecorators = {
-        'controls': [{ type: ContentChildren, args: [FormControlName, { descendants: true },] },],
-    };
     return FormHelper;
 }());
-export var FormHelperModule = (function () {
+export { FormHelper };
+FormHelper.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionx-form-helper],[ionxFormHelper]"
+            },] },
+];
+/** @nocollapse */
+FormHelper.ctorParameters = function () { return []; };
+FormHelper.propDecorators = {
+    'controls': [{ type: ContentChildren, args: [FormControlName, { descendants: true },] },],
+};
+var FormHelperModule = (function () {
     function FormHelperModule() {
     }
-    FormHelperModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [FormHelper],
-                    bootstrap: [],
-                    exports: [FormHelper]
-                },] },
-    ];
-    /** @nocollapse */
-    FormHelperModule.ctorParameters = function () { return []; };
     return FormHelperModule;
 }());
+export { FormHelperModule };
+FormHelperModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [FormHelper],
+                bootstrap: [],
+                exports: [FormHelper]
+            },] },
+];
+/** @nocollapse */
+FormHelperModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=index.js.map

@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewEncapsulation } from "@angular/core";
 import { NG_VALUE_ACCESSOR, NG_VALIDATORS } from "@angular/forms";
 import Quill from "quill";
-export var QuillEditor = (function () {
+var QuillEditor = (function () {
     function QuillEditor(elementRef) {
         this.elementRef = elementRef;
         this.emptyArray = [];
@@ -116,32 +116,33 @@ export var QuillEditor = (function () {
         }
         return valid ? null : err;
     };
-    QuillEditor.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-quill-editor",
-                    template: "<div></div>",
-                    providers: [
-                        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(function () { return QuillEditor; }), multi: true },
-                        { provide: NG_VALIDATORS, useExisting: forwardRef(function () { return QuillEditor; }), multi: true }
-                    ],
-                    encapsulation: ViewEncapsulation.None
-                },] },
-    ];
-    /** @nocollapse */
-    QuillEditor.ctorParameters = function () { return [
-        { type: ElementRef, },
-    ]; };
-    QuillEditor.propDecorators = {
-        'theme': [{ type: Input },],
-        'modules': [{ type: Input },],
-        'readOnly': [{ type: Input },],
-        'placeholder': [{ type: Input },],
-        'maxLength': [{ type: Input },],
-        'minLength': [{ type: Input },],
-        'formats': [{ type: Input },],
-        'onEditorCreated': [{ type: Output },],
-        'onContentChanged': [{ type: Output },],
-    };
     return QuillEditor;
 }());
+export { QuillEditor };
+QuillEditor.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-quill-editor",
+                template: "<div></div>",
+                providers: [
+                    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(function () { return QuillEditor; }), multi: true },
+                    { provide: NG_VALIDATORS, useExisting: forwardRef(function () { return QuillEditor; }), multi: true }
+                ],
+                encapsulation: ViewEncapsulation.None
+            },] },
+];
+/** @nocollapse */
+QuillEditor.ctorParameters = function () { return [
+    { type: ElementRef, },
+]; };
+QuillEditor.propDecorators = {
+    'theme': [{ type: Input },],
+    'modules': [{ type: Input },],
+    'readOnly': [{ type: Input },],
+    'placeholder': [{ type: Input },],
+    'maxLength': [{ type: Input },],
+    'minLength': [{ type: Input },],
+    'formats': [{ type: Input },],
+    'onEditorCreated': [{ type: Output },],
+    'onContentChanged': [{ type: Output },],
+};
 //# sourceMappingURL=quill-editor.js.map

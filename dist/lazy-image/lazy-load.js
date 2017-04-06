@@ -124,7 +124,7 @@ function _bind(fn, obj) {
         return fn.apply(obj, arguments);
     };
 }
-export var LazyLoad = (function () {
+var LazyLoad = (function () {
     function LazyLoad(options) {
         this._options = Object.assign({}, defaultOptions, options);
         this._queryOriginNode = this._options.container === window ? document : this._options.container;
@@ -292,4 +292,5 @@ export var LazyLoad = (function () {
     };
     return LazyLoad;
 }());
+export { LazyLoad };
 //# sourceMappingURL=lazy-load.js.map
