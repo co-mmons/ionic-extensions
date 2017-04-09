@@ -189,6 +189,7 @@ export class QuillEditor implements AfterViewInit, ControlValueAccessor, OnChang
             valid = textLength <= this.maxLength && valid;
         }
 
+
         return valid ? null : err;
     }
 }

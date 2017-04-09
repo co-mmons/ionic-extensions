@@ -1,7 +1,7 @@
 import { OpaqueToken } from "@angular/core";
 import { URLSearchParams } from "@angular/http";
 
-import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken } from "ionic-angular";
+import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, DeepLinkConfig } from "ionic-angular";
 import { NavLink, NavSegment } from "ionic-angular/navigation/nav-util";
 import { isPresent } from "ionic-angular/util/util";
 import { serialize } from "@co.mmons/typescript-utils/json";
@@ -15,13 +15,13 @@ import { serialize } from "@co.mmons/typescript-utils/json";
  */
 export class UrlSerializer extends IonicUrlSerializer {
 
-    static setupUrlSerializer(userDeepLinkConfig: any): IonicUrlSerializer {
+    static setupUrlSerializer(config: DeepLinkConfig): IonicUrlSerializer {
 
-        if (userDeepLinkConfig && userDeepLinkConfig.links) {
+        if (config && config.links) {
 
             let links = [];
 
-            for (let link of userDeepLinkConfig.links) {
+            for (let link of config.links) {
                 if (Array.isArray(link)) {
                     for (let link2 of link) {
                         links.push(link2);
@@ -31,13 +31,13 @@ export class UrlSerializer extends IonicUrlSerializer {
                 }
             }
 
-            userDeepLinkConfig.links = links;
+            config.links = links;
         }
 
-        return new UrlSerializer(userDeepLinkConfig);
+        return new UrlSerializer(config);
     }
 
-    createSegment(configLink: NavLink, data: any): NavSegment {
+    _createSegment(configLink: NavLink, data: any): NavSegment {
         let urlParts = configLink.parts.slice();
         let query: URLSearchParams;
 
@@ -72,6 +72,7 @@ export class UrlSerializer extends IonicUrlSerializer {
             id: urlParts.join('/') + (query ? "?" + query.toString() : ""),
             name: configLink.name,
             component: configLink.component,
+            loadChildren: configLink.loadChildren,
             data: data,
             defaultHistory: configLink.defaultHistory
         };
@@ -178,6 +179,12 @@ export class UrlSerializer extends IonicUrlSerializer {
 }
 
 export const URL_SERIALIZER_PROVIDER = {
+    provide: IonicUrlSerializer,
+    useFactory: UrlSerializer.setupUrlSerializer,
+    deps: [DeepLinkConfigToken]
+};
+
+export const urlSerializerProvider = {
     provide: IonicUrlSerializer,
     useFactory: UrlSerializer.setupUrlSerializer,
     deps: [DeepLinkConfigToken]

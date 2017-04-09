@@ -1,4 +1,4 @@
-import { NgModule, AfterContentInit, Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnDestroy, Optional, Output, Renderer, ViewEncapsulation, SimpleChanges } from "@angular/core";
+import { AfterContentInit, Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnDestroy, Optional, Output, Renderer, ViewEncapsulation, SimpleChanges } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 
@@ -28,7 +28,7 @@ export const defaultDateFormat: Intl.DateTimeFormatOptions = {
         "[class.datetime-disabled]": "_disabled"
     },
 })
-export class DateTime extends Ion implements AfterContentInit, ControlValueAccessor, OnDestroy {
+export class DateTimeInput extends Ion implements AfterContentInit, ControlValueAccessor, OnDestroy {
     _disabled: any = false;
     _labelId: string;
     _text: string = "";
@@ -45,21 +45,21 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
     valueType: string;
 
     /**
-     * @input {string} The minimum datetime allowed. Value must be a date string
+     * @input {string} The minimum datetime-picker allowed. Value must be a date string
      * following the
-     * [ISO 8601 datetime format standard](https://www.w3.org/TR/NOTE-datetime),
+     * [ISO 8601 datetime-picker format standard](https://www.w3.org/TR/NOTE-datetime),
      * such as `1996-12-19`. The format does not have to be specific to an exact
-     * datetime. For example, the minimum could just be the year, such as `1994`.
+     * datetime-picker. For example, the minimum could just be the year, such as `1994`.
      * Defaults to the beginning of the year, 100 years ago from today.
      */
     @Input() min: string;
 
     /**
-     * @input {string} The maximum datetime allowed. Value must be a date string
+     * @input {string} The maximum datetime-picker allowed. Value must be a date string
      * following the
-     * [ISO 8601 datetime format standard](https://www.w3.org/TR/NOTE-datetime),
+     * [ISO 8601 datetime-picker format standard](https://www.w3.org/TR/NOTE-datetime),
      * `1996-12-19`. The format does not have to be specific to an exact
-     * datetime. For example, the maximum could just be the year, such as `1994`.
+     * datetime-picker. For example, the maximum could just be the year, such as `1994`.
      * Defaults to the end of this year.
      */
     @Input() max: string;
@@ -68,16 +68,16 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
      * The display format of the date and time as text that shows
      * within the item. When the `pickerFormat` input is not used, then the
      * `displayFormat` is used for both display the formatted text, and determining
-     * the datetime picker"s columns.
+     * the datetime-picker picker"s columns.
      */
     @Input() displayFormat: Intl.DateTimeFormatOptions;
 
     /**
      * The format of the date and time picker columns the user selects.
-     * A datetime input can have one or many datetime parts, each getting their
-     * own column which allow individual selection of that particular datetime part. For
+     * A datetime-picker input can have one or many datetime-picker parts, each getting their
+     * own column which allow individual selection of that particular datetime-picker part. For
      * example, year and month columns are two individually selectable columns which help
-     * choose an exact date from the datetime picker.
+     * choose an exact date from the datetime-picker picker.
      */
     @Input() pickerFormat: Intl.DateTimeFormatOptions;
 
@@ -98,27 +98,27 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
     @Input() pickerOptions: any = {};
 
     /**
-     * @output Any expression to evaluate when the datetime selection has changed.
+     * @output Any expression to evaluate when the datetime-picker selection has changed.
      */
     @Output() ionChange: EventEmitter<any> = new EventEmitter();
 
     /**
-     * @output Any expression to evaluate when the datetime selection was cancelled.
+     * @output Any expression to evaluate when the datetime-picker selection was cancelled.
      */
     @Output() ionCancel: EventEmitter<any> = new EventEmitter();
 
     constructor(private form: Form, config: Config, element: ElementRef, renderer: Renderer, private intl: IntlService,
-        @Optional() private item: Item, @Optional() private pickerController: PickerController,
-        @Optional() public formControl: NgControl) {
+                @Optional() private item: Item, @Optional() private pickerController: PickerController,
+                @Optional() public formControl: NgControl) {
 
-        super(config, element, renderer, "datetime");
+        super(config, element, renderer, "datetime-picker");
 
         form.register(this);
 
         if (item) {
-            this.id = "dt-" + item.registerInput("datetime");
+            this.id = "dt-" + item.registerInput("datetime-picker");
             this._labelId = "lbl-" + item.id;
-            this.item.setElementClass("item-datetime", true);
+            this.item.setElementClass("item-datetime-picker", true);
         }
 
         if (this.formControl) {
@@ -152,7 +152,7 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
             return;
         }
 
-        //console.debug("datetime, open picker");
+        //console.debug("datetime-picker, open picker");
 
         // the user may have assigned some options specifically for the alert
         const pickerOptions = deepCopy(this.pickerOptions);
@@ -169,7 +169,7 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
             {
                 text: this.doneText,
                 handler: (data: any) => {
-                    //console.debug("datetime, done", data);
+                    //console.debug("datetime-picker, done", data);
 
                     let value = this._value ? new Date(this._value) : new Date();
                     value.setSeconds(0);
@@ -223,12 +223,12 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
     private buildColumns() {
 
         let formatOptions: Intl.DateTimeFormatOptions = this.pickerFormat || this.displayFormat || {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric"
-        };
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric"
+            };
 
         let partsFormated = {};
         let partsPositions = [];
@@ -529,7 +529,7 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
         if (!this._value) {
             return undefined;
         }
-        
+
         if (this.valueType && this.valueType == "number") {
             return this._value.getTime();
         }
@@ -560,7 +560,7 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
     }
 
     /**
-     * @input {boolean} Whether or not the datetime component is disabled. Default `false`.
+     * @input {boolean} Whether or not the datetime-picker component is disabled. Default `false`.
      */
     @Input()
     get disabled() {
@@ -575,7 +575,7 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
      * @private
      */
     writeValue(val: any) {
-        //console.debug("datetime, writeValue", val);
+        //console.debug("datetime-picker, writeValue", val);
         this.value = val;
         this.updateText();
         this.checkHasValue(val);
@@ -659,13 +659,4 @@ export class DateTime extends Ion implements AfterContentInit, ControlValueAcces
         element.setElementClass('ng-invalid', !control.valid && control.enabled);
     }
 
-}
-
-
-@NgModule({
-    declarations: [DateTime],
-    exports: [DateTime],
-    imports: [IonicModule]
-})
-export class DateTimeModule {
 }
