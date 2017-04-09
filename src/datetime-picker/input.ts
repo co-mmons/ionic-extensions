@@ -8,14 +8,14 @@ import { DateTimeOverlay } from "./overlay";
 import { DateTimeOverlayViewController } from "./overlay-view-controller";
 
 @Component({
-    selector: 'ionx-datetime',
+    selector: "ionx-datetime",
     template: `
         <div *ngIf="!_text" class="datetime-text datetime-placeholder">{{placeholder}}</div>
         <div *ngIf="_text" class="datetime-text">{{_text}}</div>
         <button aria-haspopup="true" type="button" [id]="id" ion-button="item-cover" [attr.aria-labelledby]="_labelId" [attr.aria-disabled]="_disabled" class="item-cover"></button>
     `,
     host: {
-        '[class.datetime-disabled]': '_disabled'
+        "[class.datetime-disabled]": "_disabled"
     },
     encapsulation: ViewEncapsulation.None
 })
@@ -95,10 +95,6 @@ export class DateTime extends Ion implements ControlValueAccessor {
         if (changed) {
             this.updateText();
             this.checkHasValue();
-
-            if (this.controlOnChange) {
-                this.controlOnChange(this.value);
-            }
         }
     }
 
@@ -161,11 +157,21 @@ export class DateTime extends Ion implements ControlValueAccessor {
 
         let value: Date;
         if (formatOptions.timeZone == "UTC") {
-            value = new Date(this._value.getTime());
-        } else if (this._value) {
-            value = new Date(Date.UTC(this._value.getFullYear(), this._value.getMonth(), this._value.getDate(), this._value.getHours(), this._value.getMinutes(), this._value.getSeconds()));
+
+            if (this._value) {
+                value = new Date(this._value.getTime());
+            } else {
+                let v = new Date();
+                value = new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), v.getSeconds()));
+            }
+
         } else {
-            value = new Date();
+
+            if (this._value) {
+                value = new Date(Date.UTC(this._value.getFullYear(), this._value.getMonth(), this._value.getDate(), this._value.getHours(), this._value.getMinutes(), this._value.getSeconds()));
+            } else {
+                value = new Date();
+            }
         }
 
         let view = this.popoverController.create(DateTimeOverlay, {
@@ -190,6 +196,14 @@ export class DateTime extends Ion implements ControlValueAccessor {
             }
 
             this.value = value;
+
+            if (this.controlOnChange) {
+                this.controlOnChange(this.value);
+            }
+        }
+
+        if (this.controlOnTouched) {
+            this.controlOnTouched();
         }
     }
 
@@ -221,6 +235,26 @@ export class DateTime extends Ion implements ControlValueAccessor {
 
     ngOnInit() {
         this.updateText();
+    }
+    
+    ngAfterContentChecked() {
+        this.setItemInputControlCss();
+    }
+
+    private setItemInputControlCss() {
+        let item = this.item;
+        if (item && this.control) {
+            this.setControlCss(item, this.control);
+        }
+    }
+
+    private setControlCss(element: any, control: NgControl) {
+        element.setElementClass("ng-untouched", control.untouched);
+        element.setElementClass("ng-touched", control.touched);
+        element.setElementClass("ng-pristine", control.pristine);
+        element.setElementClass("ng-dirty", control.dirty);
+        element.setElementClass("ng-valid", control.valid);
+        element.setElementClass("ng-invalid", !control.valid && control.enabled);
     }
 
 
