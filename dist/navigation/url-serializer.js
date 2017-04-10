@@ -24,10 +24,10 @@ var UrlSerializer = (function (_super) {
     function UrlSerializer() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    UrlSerializer.setupUrlSerializer = function (userDeepLinkConfig) {
-        if (userDeepLinkConfig && userDeepLinkConfig.links) {
+    UrlSerializer.setupUrlSerializer = function (config) {
+        if (config && config.links) {
             var links = [];
-            for (var _i = 0, _a = userDeepLinkConfig.links; _i < _a.length; _i++) {
+            for (var _i = 0, _a = config.links; _i < _a.length; _i++) {
                 var link = _a[_i];
                 if (Array.isArray(link)) {
                     for (var _b = 0, link_1 = link; _b < link_1.length; _b++) {
@@ -39,11 +39,11 @@ var UrlSerializer = (function (_super) {
                     links.push(link);
                 }
             }
-            userDeepLinkConfig.links = links;
+            config.links = links;
         }
-        return new UrlSerializer(userDeepLinkConfig);
+        return new UrlSerializer(config);
     };
-    UrlSerializer.prototype.createSegment = function (configLink, data) {
+    UrlSerializer.prototype._createSegment = function (configLink, data) {
         var urlParts = configLink.parts.slice();
         var query;
         if (isPresent(data)) {
@@ -73,6 +73,7 @@ var UrlSerializer = (function (_super) {
             id: urlParts.join('/') + (query ? "?" + query.toString() : ""),
             name: configLink.name,
             component: configLink.component,
+            loadChildren: configLink.loadChildren,
             data: data,
             defaultHistory: configLink.defaultHistory
         };
@@ -167,6 +168,11 @@ var UrlSerializer = (function (_super) {
 }(IonicUrlSerializer));
 export { UrlSerializer };
 export var URL_SERIALIZER_PROVIDER = {
+    provide: IonicUrlSerializer,
+    useFactory: UrlSerializer.setupUrlSerializer,
+    deps: [DeepLinkConfigToken]
+};
+export var urlSerializerProvider = {
     provide: IonicUrlSerializer,
     useFactory: UrlSerializer.setupUrlSerializer,
     deps: [DeepLinkConfigToken]

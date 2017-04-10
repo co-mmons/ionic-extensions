@@ -14,7 +14,6 @@
     "@co.mmons/node-utils": "git://github.com/co-mmons/node-utils",
     "@co.mmons/typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
     "@co.mmons/web-utils": "git://github.com/co-mmons/web-utils.git",
-    "quill": "^1.2.0",
     "trix": "^0.10.1"
   },
   "peerDependencies": {
@@ -33,7 +32,6 @@
     "zone.js": "^0.8.5"
   },
   "devDependencies": {
-    "@types/quill": "0.0.29",
     "typescript": "^2.2.2"
   }
 }

@@ -1,11 +1,10 @@
-import { Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, forwardRef, HostListener } from "@angular/core";
+import { Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, forwardRef, HostListener, OnChanges, SimpleChanges } from "@angular/core";
 import { NgControl, NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { App, Ion, Form, Config, Item, PopoverController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 
 import { defaultDateFormat, defaultDateTimeFormat } from "./default-formats"
 import { DateTimeOverlay } from "./overlay";
-import { DateTimeOverlayViewController } from "./overlay-view-controller";
 
 @Component({
     selector: "ionx-datetime",
@@ -19,7 +18,7 @@ import { DateTimeOverlayViewController } from "./overlay-view-controller";
     },
     encapsulation: ViewEncapsulation.None
 })
-export class DateTime extends Ion implements ControlValueAccessor {
+export class DateTime extends Ion implements ControlValueAccessor, OnChanges {
 
     constructor(private app: App,
                 private config: Config,
@@ -54,8 +53,9 @@ export class DateTime extends Ion implements ControlValueAccessor {
      */
     @Input() pickerFormat: Intl.DateTimeFormatOptions;
 
-    placeholder: string;
-    _labelId: string;
+    @Input()
+    public placeholder: string;
+
     _text: string;
 
 
@@ -137,17 +137,17 @@ export class DateTime extends Ion implements ControlValueAccessor {
 
         ev.preventDefault();
         ev.stopPropagation();
-        this.open();
+        this.open(ev);
     }
 
     @HostListener("keyup.space")
     private keyuped() {
-        this.open();
+        this.open(undefined);
     }
 
     private opened: boolean;
 
-    private open() {
+    private open(event: Event) {
 
         if (this.disabled || this.opened) {
             return;
@@ -177,7 +177,7 @@ export class DateTime extends Ion implements ControlValueAccessor {
         let view = this.popoverController.create(DateTimeOverlay, {
             formatOptions: formatOptions,
             value: value
-        });
+        }, {enableBackdropDismiss: true, showBackdrop: true});
 
         view.onDidDismiss(newValue => this.overlayClosed(newValue));
         view.present({});
@@ -231,6 +231,13 @@ export class DateTime extends Ion implements ControlValueAccessor {
 
     setDisabledState(isDisabled: boolean) {
         this.disabled = isDisabled;
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
+        if (changes["displayFormat"]) {
+            this.updateText();
+        }
     }
 
     ngOnInit() {
