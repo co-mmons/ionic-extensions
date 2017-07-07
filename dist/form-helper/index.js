@@ -1,43 +1,99 @@
-import { NgModule, Directive, ContentChildren } from "@angular/core";
-import { FormControlName } from "@angular/forms";
+import { NgModule, Directive, ElementRef, Input, Optional } from "@angular/core";
+import { FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
 import { TextInput } from "ionic-angular";
 var FormHelper = (function () {
-    function FormHelper() {
+    function FormHelper(element, ngForm, formGroupDirective) {
+        this.element = element;
+        this.ngForm = ngForm;
+        this.formGroupDirective = formGroupDirective;
     }
+    Object.defineProperty(FormHelper.prototype, "readonly", {
+        get: function () {
+            return this.element.nativeElement.hasAttribute("readonly");
+        },
+        set: function (readonly) {
+            if (readonly) {
+                this.element.nativeElement.setAttribute("readonly", "");
+            }
+            else {
+                this.element.nativeElement.removeAttribute("readonly");
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FormHelper.prototype.markAsReadonly = function () {
+        this.readonly = true;
+    };
+    Object.defineProperty(FormHelper.prototype, "formGroup", {
+        get: function () {
+            return this.formGroupDirective ? this.formGroupDirective.form : undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
     FormHelper.prototype.validateAll = function () {
-        var firstNotValidAccessor;
-        for (var _i = 0, _a = this.controls.toArray(); _i < _a.length; _i++) {
+        if (!this.formGroupDirective) {
+            return;
+        }
+        var firstNotValidControl;
+        for (var _i = 0, _a = this.formGroupDirective.directives; _i < _a.length; _i++) {
             var control = _a[_i];
             control.control.markAsDirty();
             control.control.markAsTouched();
             control.control.updateValueAndValidity();
-            if (!control.valid && !firstNotValidAccessor) {
-                firstNotValidAccessor = control.valueAccessor;
+            if (!control.valid && !firstNotValidControl) {
+                firstNotValidControl = control;
             }
         }
-        if (firstNotValidAccessor) {
-            var elementToScroll = void 0;
-            if (firstNotValidAccessor instanceof TextInput) {
-                firstNotValidAccessor.setFocus();
-                elementToScroll = firstNotValidAccessor.getNativeElement().closest(".item");
-            }
-            if (elementToScroll) {
-                elementToScroll.scrollIntoView();
+        if (firstNotValidControl) {
+            this.focusImpl(firstNotValidControl);
+        }
+    };
+    FormHelper.prototype.focusImpl = function (control, scrollIntoView) {
+        if (scrollIntoView === void 0) { scrollIntoView = true; }
+        if (typeof control == "string" && this.formGroupDirective) {
+            for (var _i = 0, _a = this.formGroupDirective.directives; _i < _a.length; _i++) {
+                var c = _a[_i];
+                if (c.name == control) {
+                    control = c;
+                    break;
+                }
             }
         }
+        var elementToScroll;
+        if (control instanceof FormControlName) {
+            control = control.valueAccessor;
+        }
+        if (control instanceof TextInput) {
+            control.setFocus();
+            elementToScroll = control.getNativeElement().closest(".item");
+        }
+        if (scrollIntoView && elementToScroll) {
+            elementToScroll.scrollIntoView();
+        }
+    };
+    FormHelper.prototype.focus = function (formControlName, scrollIntoView) {
+        if (scrollIntoView === void 0) { scrollIntoView = true; }
+        this.focusImpl(formControlName, scrollIntoView);
     };
     return FormHelper;
 }());
 export { FormHelper };
 FormHelper.decorators = [
     { type: Directive, args: [{
-                selector: "[ionx-form-helper],[ionxFormHelper]"
+                selector: "[ionx-form-helper],[ionxFormHelper]",
+                exportAs: "ionxFormHelper"
             },] },
 ];
 /** @nocollapse */
-FormHelper.ctorParameters = function () { return []; };
+FormHelper.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: NgForm, decorators: [{ type: Optional },] },
+    { type: FormGroupDirective, decorators: [{ type: Optional },] },
+]; };
 FormHelper.propDecorators = {
-    'controls': [{ type: ContentChildren, args: [FormControlName, { descendants: true },] },],
+    'readonly': [{ type: Input },],
 };
 var FormHelperModule = (function () {
     function FormHelperModule() {

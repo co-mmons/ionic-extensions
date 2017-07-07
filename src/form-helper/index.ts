@@ -1,45 +1,91 @@
-import { NgModule, Directive, ContentChildren, QueryList } from "@angular/core";
-import { FormControlName } from "@angular/forms";
-import { TextInput } from "ionic-angular";
+import {NgModule, Directive, ContentChildren, QueryList, ElementRef, Input, Optional} from "@angular/core";
+import {FormGroup, FormControl, FormControlName, FormGroupDirective, NgForm, AbstractControl} from "@angular/forms";
+import {TextInput} from "ionic-angular";
 
 @Directive({
-    selector: "[ionx-form-helper],[ionxFormHelper]"
+    selector: "[ionx-form-helper],[ionxFormHelper]",
+    exportAs: "ionxFormHelper"
 })
 export class FormHelper {
 
-    @ContentChildren(FormControlName, {descendants: true})
-    public controls: QueryList<FormControlName>;
+    constructor(public readonly element: ElementRef, @Optional() public readonly ngForm: NgForm, @Optional() private readonly formGroupDirective: FormGroupDirective) {
+    }
+
+    @Input()
+    public get readonly(): boolean {
+        return this.element.nativeElement.hasAttribute("readonly");
+    }
+
+    public set readonly(readonly: boolean) {
+        if (readonly) {
+            this.element.nativeElement.setAttribute("readonly", "");
+        } else {
+            this.element.nativeElement.removeAttribute("readonly");
+        }
+    }
+
+    public markAsReadonly() {
+        this.readonly = true;
+    }
+
+    public get formGroup(): FormGroup {
+        return this.formGroupDirective ? this.formGroupDirective.form : undefined;
+    }
 
     public validateAll() {
 
-        let firstNotValidAccessor;
+        if (!this.formGroupDirective) {
+            return;
+        }
+
+        let firstNotValidControl;
         
-        for (let control of this.controls.toArray()) {
-            
+        for (let control of this.formGroupDirective.directives) {
+
             control.control.markAsDirty();
             control.control.markAsTouched();
             control.control.updateValueAndValidity();
 
-            if (!control.valid && !firstNotValidAccessor) {
-                firstNotValidAccessor = control.valueAccessor;
+            if (!control.valid && !firstNotValidControl) {
+                firstNotValidControl = control;
             }
         }
 
-        if (firstNotValidAccessor) {
-
-            let elementToScroll: HTMLElement;
-
-            if (firstNotValidAccessor instanceof TextInput) {
-                firstNotValidAccessor.setFocus();
-                elementToScroll = firstNotValidAccessor.getNativeElement().closest(".item");
-            }
-
-            if (elementToScroll) {
-                elementToScroll.scrollIntoView();
-            }
+        if (firstNotValidControl) {
+            this.focusImpl(firstNotValidControl);
         }
     }
 
+    private focusImpl(control: string | any, scrollIntoView: boolean = true) {
+
+        if (typeof control == "string" && this.formGroupDirective) {
+            for (let c of this.formGroupDirective.directives) {
+                if (c.name == control) {
+                    control = c;
+                    break;
+                }
+            }
+        }
+
+        let elementToScroll: HTMLElement;
+
+        if (control instanceof FormControlName) {
+            control = control.valueAccessor;
+        }
+
+        if (control instanceof TextInput) {
+            control.setFocus();
+            elementToScroll = control.getNativeElement().closest(".item");
+        }
+
+        if (scrollIntoView && elementToScroll) {
+            elementToScroll.scrollIntoView();
+        }
+    }
+
+    public focus(formControlName: string, scrollIntoView: boolean = true) {
+        this.focusImpl(formControlName, scrollIntoView);
+    }
 }
 
 @NgModule({

@@ -12,7 +12,7 @@
   "dependencies": {
     "@co.mmons/angular-intl": "git://github.com/co-mmons/angular-intl",
     "@co.mmons/node-utils": "git://github.com/co-mmons/node-utils",
-    "@co.mmons/typescript-utils": "git://github.com/co-mmons/typescript-utils.git",
+    "@co.mmons/js-utils": "git://github.com/co-mmons/js-utils.git",
     "@co.mmons/web-utils": "git://github.com/co-mmons/web-utils.git",
     "trix": "^0.10.1"
   },
@@ -27,11 +27,11 @@
     "@angular/platform-browser-dynamic": "^4.0.1",
     "@angular/platform-server": "^4.0.1",
     "@ionic/storage": "^2.0.1",
-    "ionic-angular": "^3.0.1",
+    "ionic-angular": "3.0.1",
     "rxjs": "^5.3.0",
     "zone.js": "^0.8.5"
   },
   "devDependencies": {
-    "typescript": "^2.2.2"
+    "typescript": "^2.3.4"
   }
 }
