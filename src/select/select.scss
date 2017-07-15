@@ -1,0 +1,75 @@
+ionx-select {
+    display: flex;
+    overflow: hidden;
+    max-width: 45%;
+}
+
+.ionx-select-overlay {
+    
+    .popover-viewport {
+        overflow: auto;
+    }
+
+    &.popover-ios {
+        ion-header, ion-footer {
+            background-color: $background-color;
+        }
+    }
+    
+    &.popover-md {
+        ion-header, ion-footer {
+            background-color: $background-color;
+        }
+    }
+
+    ion-searchbar.searchbar {
+        background-color: transparent;
+        border-bottom: none;
+
+        &.searchbar-md {
+            padding: 0px;
+
+            .searchbar-input {
+                box-shadow: none;
+            }
+        }
+    }
+
+    ion-list.list {
+        margin: 0px;
+        border: none;
+
+        .item-block:first-child {
+            border-top: none;
+        }
+
+        .item-block:last-child {
+            border-bottom: none;
+        }
+
+        &.list-md {
+            .checkbox-md {
+                margin-right: $content-margin;
+            }
+        }
+    }
+
+    .scroll-content {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .ionx-select-overlay-buttons {
+        display: flex;
+    }
+
+    &.popover-md .ionx-select-overlay-buttons {
+        justify-content: flex-end;
+    }
+
+    &.popover-ios .ionx-select-overlay-buttons {
+        justify-content: space-around;
+
+    }
+}
+

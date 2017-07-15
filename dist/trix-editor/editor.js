@@ -1,3 +1,15 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 import { Component, ElementRef, ViewEncapsulation, ViewChild, Renderer2, Input, Optional } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { Item } from "ionic-angular";
@@ -102,23 +114,23 @@ var TrixEditor = (function () {
     };
     return TrixEditor;
 }());
+__decorate([
+    ViewChild("editor"),
+    __metadata("design:type", ElementRef)
+], TrixEditor.prototype, "editor", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
+], TrixEditor.prototype, "value", null);
+TrixEditor = __decorate([
+    Component({
+        selector: "ionx-trix-editor",
+        template: "<trix-editor #editor></trix-editor>",
+        encapsulation: ViewEncapsulation.None
+    }),
+    __param(2, Optional()), __param(3, Optional()),
+    __metadata("design:paramtypes", [ElementRef, Renderer2, NgControl, Item])
+], TrixEditor);
 export { TrixEditor };
-TrixEditor.decorators = [
-    { type: Component, args: [{
-                selector: "ionx-trix-editor",
-                template: "<trix-editor #editor></trix-editor>",
-                encapsulation: ViewEncapsulation.None
-            },] },
-];
-/** @nocollapse */
-TrixEditor.ctorParameters = function () { return [
-    { type: ElementRef, },
-    { type: Renderer2, },
-    { type: NgControl, decorators: [{ type: Optional },] },
-    { type: Item, decorators: [{ type: Optional },] },
-]; };
-TrixEditor.propDecorators = {
-    'editor': [{ type: ViewChild, args: ["editor",] },],
-    'value': [{ type: Input },],
-};
 //# sourceMappingURL=editor.js.map
