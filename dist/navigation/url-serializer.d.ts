@@ -1,6 +1,6 @@
 import { OpaqueToken } from "@angular/core";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfig } from "ionic-angular";
-import { NavLink, NavSegment } from "ionic-angular/navigation/nav-util";
+import { NavLink, NavSegment, NavGroup } from "ionic-angular/navigation/nav-util";
 /**
  * Implementation of ionic's UrlSerializer, that add page params as query
  * params, instead of path, e.g. "/page/subpage?param1=value".
@@ -10,10 +10,7 @@ import { NavLink, NavSegment } from "ionic-angular/navigation/nav-util";
  */
 export declare class UrlSerializer extends IonicUrlSerializer {
     static setupUrlSerializer(config: DeepLinkConfig): IonicUrlSerializer;
-    _createSegment(configLink: NavLink, data: any): NavSegment;
-    parseUrlParts(urlParts: string[]): NavSegment[];
-    fillMatchedUrlParts(segments: NavSegment[], urlParts: string[], configLink: NavLink): void;
-    parse(browserUrl: string): NavSegment[];
+    _createSegment(navGroup: NavGroup, configLink: NavLink, data: any): NavSegment;
 }
 export declare const URL_SERIALIZER_PROVIDER: {
     provide: typeof IonicUrlSerializer;

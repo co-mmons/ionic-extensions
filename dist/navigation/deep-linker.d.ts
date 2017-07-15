@@ -8,5 +8,5 @@ export declare class DeepLinker extends IonicDeepLinker {
 export declare const deepLinkerProvider: {
     provide: typeof IonicDeepLinker;
     useFactory: (app: App, serializer: UrlSerializer, location: Location, moduleLoader: ModuleLoader, cfr: ComponentFactoryResolver) => DeepLinker;
-    deps: (typeof ComponentFactoryResolver | typeof Location | typeof App | typeof ModuleLoader | typeof UrlSerializer)[];
+    deps: (typeof ComponentFactoryResolver | typeof Location | typeof ModuleLoader | typeof UrlSerializer | typeof App)[];
 };

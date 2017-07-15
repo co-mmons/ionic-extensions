@@ -35,10 +35,9 @@ export class Select extends IonSelect {
         elementRef: ElementRef,
         renderer: Renderer,
         @Optional() item: Item,
-        private navController: NavController,
-        private deepLinker: DeepLinker
+        deepLinker: DeepLinker
     ) {
-        super(app, form, config, elementRef, renderer, item, navController);
+        super(app, form, config, elementRef, renderer, item, deepLinker);
         this.interface = "popover";
     }
 

@@ -62,4 +62,14 @@ ionx-select {
     .ionx-select-overlay-buttons {
         display: flex;
     }
+
+    &.popover-md .ionx-select-overlay-buttons {
+        justify-content: flex-end;
+    }
+
+    &.popover-ios .ionx-select-overlay-buttons {
+        justify-content: space-around;
+
+    }
 }
+
