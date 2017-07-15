@@ -1,10 +1,11 @@
-import { OpaqueToken } from "@angular/core";
-import { URLSearchParams } from "@angular/http";
+import {OpaqueToken} from "@angular/core";
+import {URLSearchParams} from "@angular/http";
 
-import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, DeepLinkConfig } from "ionic-angular";
-import { NavLink, NavSegment, NavGroup } from "ionic-angular/navigation/nav-util";
-import { isPresent } from "ionic-angular/util/util";
-import { serialize } from "@co.mmons/js-utils/json";
+import {UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, DeepLinkConfig} from "ionic-angular";
+import {urlToNavGroupStrings, navGroupStringtoObjects, isPartMatch} from "ionic-angular/navigation/url-serializer";
+import {NavLink, NavSegment, NavGroup} from "ionic-angular/navigation/nav-util";
+import {isPresent} from "ionic-angular/util/util";
+import {serialize} from "@co.mmons/js-utils/json";
 
 /**
  * Implementation of ionic's UrlSerializer, that add page params as query 
@@ -52,7 +53,7 @@ export class UrlSerializer extends IonicUrlSerializer {
                     // we ommit null/undefined
 
                 } else if (typeof value !== "function") {
-                    
+
                     if (!query) {
                         query = new URLSearchParams();
                     }
@@ -81,102 +82,75 @@ export class UrlSerializer extends IonicUrlSerializer {
         };
     }
 
-    // parseUrlParts(urlParts: string[]): NavSegment[] {
+    parseUrlParts(navGroups: NavGroup[], configLinks: NavLink[]): NavSegment[] {
 
-    //     const configLinks = this.links;
-    //     const configLinkLen = configLinks.length;
-    //     const urlPartsLen = urlParts.length;
-    //     const segments: NavSegment[] = new Array(urlPartsLen);
+        const segments: NavSegment[] = [];
+        for (const link of configLinks) {
+            for (const navGroup of navGroups) {
+                if (link.segmentPartsLen === navGroup.segmentPieces.length) {
 
-    //     for (var i = 0; i < configLinkLen; i++) {
-    //         // compare url parts to config link parts to create nav segments
-    //         var configLink = configLinks[i];
-    //         if (configLink.segmentPartsLen <= urlPartsLen) {
-    //             this.fillMatchedUrlParts(segments, urlParts, configLink);
-    //         }
-    //     }
+                    let linkQuery: string;
 
-    //     // remove all the undefined segments
-    //     for (var i = urlPartsLen - 1; i >= 0; i--) {
-    //         if (segments[i] === undefined) {
-    //             if (urlParts[i] === undefined) {
-    //                 // not a used part, so remove it
-    //                 segments.splice(i, 1);
+                    // check if the segment pieces are a match
+                    let allSegmentsMatch = true;
+                    for (let i = 0; i < navGroup.segmentPieces.length; i++) {
 
-    //             } else {
-    //                 // create an empty part
-    //                 segments[i] = {
-    //                     id: urlParts[i],
-    //                     name: urlParts[i],
-    //                     component: null,
-    //                     data: null
-    //                 };
-    //             }
-    //         }
-    //     }
+                        let partParts = navGroup.segmentPieces[i].split("?");
+                        let part = partParts.length > 0 ? partParts[0] : undefined;
+                        linkQuery = partParts.length > 1 ? partParts[1] : undefined;
 
-    //     return segments;
-    // }
+                        if (part != link.segmentParts[i]) {
+                            allSegmentsMatch = false;
+                            break;
+                        }
+                    }
+                    // sweet, we found a match!
+                    if (allSegmentsMatch) {
 
-    // fillMatchedUrlParts(segments: NavSegment[], urlParts: string[], configLink: NavLink) {
+                        let data = undefined;
+                        if (linkQuery) {
+                            let params = new URLSearchParams(linkQuery);
 
-    //     for (let i = 0; i < urlParts.length; i++) {
-    //         let urlI = i;
+                            params.paramsMap.forEach((value, index) => {
 
-    //         let partParts = urlParts[i] ? urlParts[i].split("?") : [];
-    //         let part = partParts.length > 0 ? partParts[0] : undefined;
-    //         let query = partParts.length > 1 ? partParts[1] : undefined;
+                                if (value) {
+                                    if (!data) data = {};
+                                    if (value.length == 1) {
+                                        data[index] = value[0];
+                                    } else {
+                                        data[index] = value;
+                                    }
+                                }
+                            });
+                        }
 
-    //         for (let j = 0; j < configLink.partsLen; j++) {
-    //             if (part === configLink.parts[j]) {
-    //                 urlI++;
-    //             } else {
-    //                 break;
-    //             }
-    //         }
+                        segments.push({
+                            id: link.segmentParts.join('/'),
+                            name: link.name,
+                            component: link.component,
+                            loadChildren: link.loadChildren,
+                            data: data,
+                            defaultHistory: link.defaultHistory,
+                            navId: navGroup.navId,
+                            type: navGroup.type,
+                            secondaryId: navGroup.secondaryId
+                        });
+                    }
+                }
+            }
+        }
 
-    //         if ((urlI - i) === configLink.partsLen) {
-    //             let matchedUrlParts = urlParts.slice(i, urlI);
-    //             for (let j = i; j < urlI; j++) {
-    //                 urlParts[j] = undefined;
-    //             }
+        return segments;
+    }
 
-    //             let data = undefined;
-    //             if (query) {
-    //                 let params = new URLSearchParams(query);
+    parse(browserUrl: string): NavSegment[] {
 
-    //                 params.paramsMap.forEach((value, index) => {
+        if (browserUrl.charAt(0) === "/") {
+            browserUrl = browserUrl.substr(1);
+        }
 
-    //                     if (value) {
-    //                         if (!data) data = {};
-    //                         if (value.length == 1) {
-    //                             data[index] = value[0];
-    //                         } else {
-    //                             data[index] = value;
-    //                         }
-    //                     }
-    //                 });
-    //             }
-
-    //             segments[i] = {
-    //                 id: matchedUrlParts.join('/'),
-    //                 name: configLink.name,
-    //                 component: configLink.component,
-    //                 data: data,
-    //                 defaultHistory: configLink.defaultHistory
-    //             };
-    //         }
-    //     }
-    // }
-
-    // parse(browserUrl: string): NavSegment[] {
-
-    //     if (browserUrl.charAt(0) === '/') {
-    //         browserUrl = browserUrl.substr(1);
-    //     }
-
-    //     return this.parseUrlParts(browserUrl.split('/'));
-    // }
+        return this.parseUrlParts(navGroupStringtoObjects(urlToNavGroupStrings(browserUrl)), this.links);
+    }
 
 
 }

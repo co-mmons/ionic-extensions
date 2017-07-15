@@ -10,6 +10,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { URLSearchParams } from "@angular/http";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken } from "ionic-angular";
+import { urlToNavGroupStrings, navGroupStringtoObjects } from "ionic-angular/navigation/url-serializer";
 import { isPresent } from "ionic-angular/util/util";
 import { serialize } from "@co.mmons/js-utils/json";
 /**
@@ -80,6 +81,69 @@ var UrlSerializer = (function (_super) {
             defaultHistory: configLink.defaultHistory,
             secondaryId: navGroup.secondaryId
         };
+    };
+    UrlSerializer.prototype.parseUrlParts = function (navGroups, configLinks) {
+        var segments = [];
+        for (var _i = 0, configLinks_1 = configLinks; _i < configLinks_1.length; _i++) {
+            var link = configLinks_1[_i];
+            var _loop_1 = function (navGroup) {
+                if (link.segmentPartsLen === navGroup.segmentPieces.length) {
+                    var linkQuery = void 0;
+                    // check if the segment pieces are a match
+                    var allSegmentsMatch = true;
+                    for (var i = 0; i < navGroup.segmentPieces.length; i++) {
+                        var partParts = navGroup.segmentPieces[i].split("?");
+                        var part = partParts.length > 0 ? partParts[0] : undefined;
+                        linkQuery = partParts.length > 1 ? partParts[1] : undefined;
+                        if (part != link.segmentParts[i]) {
+                            allSegmentsMatch = false;
+                            break;
+                        }
+                    }
+                    // sweet, we found a match!
+                    if (allSegmentsMatch) {
+                        var data_1 = undefined;
+                        if (linkQuery) {
+                            var params = new URLSearchParams(linkQuery);
+                            params.paramsMap.forEach(function (value, index) {
+                                if (value) {
+                                    if (!data_1)
+                                        data_1 = {};
+                                    if (value.length == 1) {
+                                        data_1[index] = value[0];
+                                    }
+                                    else {
+                                        data_1[index] = value;
+                                    }
+                                }
+                            });
+                        }
+                        segments.push({
+                            id: link.segmentParts.join('/'),
+                            name: link.name,
+                            component: link.component,
+                            loadChildren: link.loadChildren,
+                            data: data_1,
+                            defaultHistory: link.defaultHistory,
+                            navId: navGroup.navId,
+                            type: navGroup.type,
+                            secondaryId: navGroup.secondaryId
+                        });
+                    }
+                }
+            };
+            for (var _a = 0, navGroups_1 = navGroups; _a < navGroups_1.length; _a++) {
+                var navGroup = navGroups_1[_a];
+                _loop_1(navGroup);
+            }
+        }
+        return segments;
+    };
+    UrlSerializer.prototype.parse = function (browserUrl) {
+        if (browserUrl.charAt(0) === "/") {
+            browserUrl = browserUrl.substr(1);
+        }
+        return this.parseUrlParts(navGroupStringtoObjects(urlToNavGroupStrings(browserUrl)), this.links);
     };
     return UrlSerializer;
 }(IonicUrlSerializer));

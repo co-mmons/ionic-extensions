@@ -11,6 +11,8 @@ import { NavLink, NavSegment, NavGroup } from "ionic-angular/navigation/nav-util
 export declare class UrlSerializer extends IonicUrlSerializer {
     static setupUrlSerializer(config: DeepLinkConfig): IonicUrlSerializer;
     _createSegment(navGroup: NavGroup, configLink: NavLink, data: any): NavSegment;
+    parseUrlParts(navGroups: NavGroup[], configLinks: NavLink[]): NavSegment[];
+    parse(browserUrl: string): NavSegment[];
 }
 export declare const URL_SERIALIZER_PROVIDER: {
     provide: typeof IonicUrlSerializer;
