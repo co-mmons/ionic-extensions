@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Component, ViewEncapsulation, ElementRef, Renderer, Optional } from "@angular/core";
+import { Component, ViewEncapsulation, ElementRef, Renderer, Optional, Input } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Select as IonSelect, Popover, App, Config, Item, Form, DeepLinker } from "ionic-angular";
 import { SelectOverlay } from "./select-overlay";
@@ -66,7 +66,8 @@ var Select = (function (_super) {
                         'class="item-cover">' +
                         '</button>',
                     host: {
-                        '[class.select-disabled]': '_disabled'
+                        '[class.select-disabled]': '_disabled || readonly',
+                        '[class.select-readonly]': 'readonly'
                     },
                     providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: Select, multi: true }],
                     encapsulation: ViewEncapsulation.None,
@@ -82,6 +83,9 @@ var Select = (function (_super) {
         { type: Item, decorators: [{ type: Optional },] },
         { type: DeepLinker, },
     ]; };
+    Select.propDecorators = {
+        'readonly': [{ type: Input },],
+    };
     return Select;
 }(IonSelect));
 export { Select };

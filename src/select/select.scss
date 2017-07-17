@@ -2,6 +2,14 @@ ionx-select {
     display: flex;
     overflow: hidden;
     max-width: 45%;
+
+    &.select-readonly {
+        opacity: 1;
+
+        .select-icon {
+            display: none;
+        }
+    }
 }
 
 .item-label-stacked ionx-select, .item-label-floating ionx-select {

@@ -6,7 +6,7 @@ import {IntlService} from "@co.mmons/angular-intl";
     selector: "ionx-select-overlay",
     template: `
         <ion-header>
-            <ion-searchbar cancelButtonText="{{'commons.cancel' | intlMessage}}" placeholder="{{'commons.search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
+            <ion-searchbar cancelButtonText="{{'commons.cancel' | intlMessage}}" placeholder="{{'commons#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
         </ion-header>
         <ion-content>
             <ion-list>
@@ -20,8 +20,8 @@ import {IntlService} from "@co.mmons/angular-intl";
         </ion-content>
         <ion-footer>
             <div class="ionx-select-overlay-buttons">
-                <button ion-button clear (click)="cancelClicked()">{{"commons.cancel" | intlMessage}}</button>
-                <button ion-button clear (click)="okClicked()">{{"commons.ok" | intlMessage}}</button>
+                <button ion-button clear (click)="cancelClicked()">{{"commons#Cancel" | intlMessage}}</button>
+                <button ion-button clear (click)="okClicked()">{{"commons#Ok" | intlMessage}}</button>
             </div>
         </ion-footer>
     `

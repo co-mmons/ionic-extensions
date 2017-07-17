@@ -21,7 +21,8 @@ import {SelectOverlay} from "./select-overlay";
     'class="item-cover">' +
     '</button>',
     host: {
-        '[class.select-disabled]': '_disabled'
+        '[class.select-disabled]': '_disabled || readonly',
+        '[class.select-readonly]': 'readonly'
     },
     providers: [{provide: NG_VALUE_ACCESSOR, useExisting: Select, multi: true}],
     encapsulation: ViewEncapsulation.None,
@@ -77,4 +78,7 @@ export class Select extends IonSelect {
 
         overlay.present({ev: ev});
     }
+
+    @Input()
+    readonly: boolean;
 }

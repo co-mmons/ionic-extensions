@@ -4,4 +4,5 @@ export { CollapsibleListModule } from "./collapsible-list";
 export { TrixEditorModule, TrixEditor } from "./trix-editor";
 export { FormHelper, FormHelperModule } from "./form-helper";
 export { SelectModule } from "./select";
+export { SpinnerModule } from "./spinner";
 export * from "./navigation";
