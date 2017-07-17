@@ -4,7 +4,18 @@ ionx-select {
     max-width: 45%;
 }
 
+.item-label-stacked ionx-select, .item-label-floating ionx-select {
+    -webkit-align-self: stretch;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+    max-width: 100%;
+}
+
 .ionx-select-overlay {
+
+    &.popover-ios .popover-content, &.popover-md .popover-content {
+        width: 300px;
+    }
     
     .popover-viewport {
         overflow: auto;
@@ -70,6 +81,9 @@ ionx-select {
     &.popover-ios .ionx-select-overlay-buttons {
         justify-content: space-around;
 
+        button.button {
+            flex: 1;
+        }
     }
 }
 

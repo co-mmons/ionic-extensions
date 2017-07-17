@@ -1,5 +1,5 @@
-import {Component, ViewChild} from "@angular/core";
-import {Option, NavParams, ViewController, Searchbar} from "ionic-angular";
+import {Component, ViewChild, ViewChildren, QueryList} from "@angular/core";
+import {Option, NavParams, ViewController, Searchbar, Item, Content} from "ionic-angular";
 import {IntlService} from "@co.mmons/angular-intl";
 
 @Component({
@@ -11,9 +11,9 @@ import {IntlService} from "@co.mmons/angular-intl";
         <ion-content>
             <ion-list>
                 <ng-template ngFor [ngForOf]="options" let-option>
-                    <ion-item *ngIf="!option.hidden" (click)="optionClicked(option)">
+                    <ion-item *ngIf="!option.hidden">
                         <ion-label>{{option.label}}</ion-label>
-                        <ion-checkbox [(ngModel)]="option.checked"></ion-checkbox>
+                        <ion-checkbox [(ngModel)]="option.checked" (ionChange)="optionClicked(option)"></ion-checkbox>
                     </ion-item>
                 </ng-template>
             </ion-list>
@@ -33,11 +33,21 @@ export class SelectOverlay {
         this.multiple = navParams.get("multiple");
     }
 
+	@ViewChild(Content)
+	content: Content;
+
+	@ViewChildren(Item)
+	items: QueryList<Item>;
+
     multiple: boolean = false;
 
     options: any[];
 
-    optionClicked(option: Option) {
+    optionClicked(option: any) {
+
+        if (!option.checked) {
+            return;
+        }
 
         if (!this.multiple) {
 
@@ -80,4 +90,27 @@ export class SelectOverlay {
             o.hidden = query && o.label.toLowerCase().indexOf(query) < 0;
         }
     }
+
+	ionViewDidEnter() {
+		let items = this.items.toArray();
+		let itemToScroll: HTMLElement;
+
+		for (let i = 0; i < items.length; i++) {
+			
+			if ((<HTMLElement>items[i].getNativeElement()).classList.contains("item-checkbox-checked")) {
+
+				if (i > 5) {
+					itemToScroll = items[i - 2].getNativeElement();
+				}
+
+				break;
+			}
+		}
+
+		if (itemToScroll) {
+			this.content.scrollTo(0, itemToScroll.offsetTop);
+		}
+	}
+
+
 }

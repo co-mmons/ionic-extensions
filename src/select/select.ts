@@ -46,6 +46,7 @@ export class Select extends IonSelect {
         ev.stopPropagation();
         this.open(ev);
     }
+
     open(ev?: UIEvent) {
 
         let options: PopoverOptions = {cssClass: "ionx-select-overlay"};
@@ -58,14 +59,7 @@ export class Select extends IonSelect {
                 label: input.text,
                 value: input.value,
                 checked: input.selected,
-                disabled: input.disabled,
-                handler: (selectedOption: any) => {
-                    // Only emit the select event if it is being checked
-                    // For multi selects this won't emit when unchecking
-                    if (selectedOption.checked) {
-                        input.ionSelect.emit(input.value);
-                    }
-                }
+                disabled: input.disabled
             };
         });
 

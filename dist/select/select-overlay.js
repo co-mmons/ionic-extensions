@@ -1,5 +1,5 @@
-import { Component, ViewChild } from "@angular/core";
-import { NavParams, ViewController, Searchbar } from "ionic-angular";
+import { Component, ViewChild, ViewChildren } from "@angular/core";
+import { NavParams, ViewController, Searchbar, Item, Content } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 var SelectOverlay = (function () {
     function SelectOverlay(navParams, intl, viewController) {
@@ -10,6 +10,9 @@ var SelectOverlay = (function () {
         this.multiple = navParams.get("multiple");
     }
     SelectOverlay.prototype.optionClicked = function (option) {
+        if (!option.checked) {
+            return;
+        }
         if (!this.multiple) {
             for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
                 var o = _a[_i];
@@ -42,10 +45,25 @@ var SelectOverlay = (function () {
             o.hidden = query && o.label.toLowerCase().indexOf(query) < 0;
         }
     };
+    SelectOverlay.prototype.ionViewDidEnter = function () {
+        var items = this.items.toArray();
+        var itemToScroll;
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].getNativeElement().classList.contains("item-checkbox-checked")) {
+                if (i > 5) {
+                    itemToScroll = items[i - 2].getNativeElement();
+                }
+                break;
+            }
+        }
+        if (itemToScroll) {
+            this.content.scrollTo(0, itemToScroll.offsetTop);
+        }
+    };
     SelectOverlay.decorators = [
         { type: Component, args: [{
                     selector: "ionx-select-overlay",
-                    template: "\n        <ion-header>\n            <ion-searchbar cancelButtonText=\"{{'commons.cancel' | intlMessage}}\" placeholder=\"{{'commons.search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n        </ion-header>\n        <ion-content>\n            <ion-list>\n                <ng-template ngFor [ngForOf]=\"options\" let-option>\n                    <ion-item *ngIf=\"!option.hidden\" (click)=\"optionClicked(option)\">\n                        <ion-label>{{option.label}}</ion-label>\n                        <ion-checkbox [(ngModel)]=\"option.checked\"></ion-checkbox>\n                    </ion-item>\n                </ng-template>\n            </ion-list>\n        </ion-content>\n        <ion-footer>\n            <div class=\"ionx-select-overlay-buttons\">\n                <button ion-button clear (click)=\"cancelClicked()\">{{\"commons.cancel\" | intlMessage}}</button>\n                <button ion-button clear (click)=\"okClicked()\">{{\"commons.ok\" | intlMessage}}</button>\n            </div>\n        </ion-footer>\n    "
+                    template: "\n        <ion-header>\n            <ion-searchbar cancelButtonText=\"{{'commons.cancel' | intlMessage}}\" placeholder=\"{{'commons.search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n        </ion-header>\n        <ion-content>\n            <ion-list>\n                <ng-template ngFor [ngForOf]=\"options\" let-option>\n                    <ion-item *ngIf=\"!option.hidden\">\n                        <ion-label>{{option.label}}</ion-label>\n                        <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionClicked(option)\"></ion-checkbox>\n                    </ion-item>\n                </ng-template>\n            </ion-list>\n        </ion-content>\n        <ion-footer>\n            <div class=\"ionx-select-overlay-buttons\">\n                <button ion-button clear (click)=\"cancelClicked()\">{{\"commons.cancel\" | intlMessage}}</button>\n                <button ion-button clear (click)=\"okClicked()\">{{\"commons.ok\" | intlMessage}}</button>\n            </div>\n        </ion-footer>\n    "
                 },] },
     ];
     /** @nocollapse */
@@ -55,6 +73,8 @@ var SelectOverlay = (function () {
         { type: ViewController, },
     ]; };
     SelectOverlay.propDecorators = {
+        'content': [{ type: ViewChild, args: [Content,] },],
+        'items': [{ type: ViewChildren, args: [Item,] },],
         'searchbar': [{ type: ViewChild, args: [Searchbar,] },],
     };
     return SelectOverlay;

@@ -35,14 +35,7 @@ var Select = (function (_super) {
                 label: input.text,
                 value: input.value,
                 checked: input.selected,
-                disabled: input.disabled,
-                handler: function (selectedOption) {
-                    // Only emit the select event if it is being checked
-                    // For multi selects this won't emit when unchecking
-                    if (selectedOption.checked) {
-                        input.ionSelect.emit(input.value);
-                    }
-                }
+                disabled: input.disabled
             };
         });
         var overlay = new Popover(this.app, SelectOverlay, data, options, this.config, this.deepLinker);
