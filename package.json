@@ -10,10 +10,10 @@
     "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
-    "@co.mmons/angular-intl": "git://github.com/co-mmons/angular-intl",
-    "@co.mmons/node-utils": "git://github.com/co-mmons/node-utils",
-    "@co.mmons/js-utils": "git://github.com/co-mmons/js-utils.git",
-    "@co.mmons/web-utils": "git://github.com/co-mmons/web-utils.git",
+    "@co.mmons/angular-intl": "git+https://github.com/co-mmons/angular-intl.git",
+    "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
+    "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
+    "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
     "trix": "~0.10.2"
   },
   "peerDependencies": {
