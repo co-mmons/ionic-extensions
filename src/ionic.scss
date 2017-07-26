@@ -30,3 +30,31 @@ ion-modal.modal-fullscreen .modal-wrapper {
 [align-self-flex-start], .align-self-flex-start {
     align-self: flex-start;
 }
+
+ion-searchbar.searchbar-md[ionx-flat] {
+
+    input {
+        background-color: transparent;
+        box-shadow: none;
+        border-radius: 0px;
+        border: none;
+        border-bottom: 1px solid #999;
+    }   
+
+    .toolbar-content-md & {
+        opacity: 0.8;
+
+        .searchbar-search-icon {
+            opacity: 0.5;
+        }
+
+        &.searchbar-has-value, &.searchbar-has-focus {
+            opacity: 1;
+
+            .searchbar-search-icon {
+                opacity: 1;
+            }
+        }
+
+    }
+}

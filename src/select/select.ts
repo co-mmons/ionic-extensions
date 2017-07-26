@@ -1,8 +1,8 @@
 import {Component, ViewEncapsulation, ElementRef, Renderer, Optional, Input} from "@angular/core";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
-import {Select as IonSelect, Popover, PopoverOptions, App, Config, Item, NavController, Form, DeepLinker} from "ionic-angular";
+import {Select as IonSelect, Modal, ModalController, ModalOptions, App, Config, Item, NavController, Form, DeepLinker} from "ionic-angular";
 
-import {SelectOverlay} from "./select-overlay";
+import {SelectModal} from "./select-modal";
 
 @Component({
     selector: "ionx-select",
@@ -36,47 +36,48 @@ export class Select extends IonSelect {
         elementRef: ElementRef,
         renderer: Renderer,
         @Optional() item: Item,
-        deepLinker: DeepLinker
+        deepLinker: DeepLinker,
+        private modalController: ModalController
     ) {
         super(app, form, config, elementRef, renderer, item, deepLinker);
-        this.interface = "popover";
-    }
-
-    _click(ev: UIEvent) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        this.open(ev);
     }
 
     open(ev?: UIEvent) {
 
-        let options: PopoverOptions = {cssClass: "ionx-select-overlay"};
+        if (this.interface == "modal") {
 
-        let data: any = {};
-        data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
+            let options: ModalOptions = {cssClass: "ionx-select-modal"};
 
-        data.options = this._options.map(input => {
-            return {
-                label: input.text,
-                value: input.value,
-                checked: input.selected,
-                disabled: input.disabled
-            };
-        });
+            let data: any = {};
+            data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
+            data.title = this.selectOptions ? this.selectOptions.title : undefined;
 
-        let overlay = new Popover(this.app, SelectOverlay, data, options, this.config, this.deepLinker);
+            data.options = this._options.map(input => {
+                return {
+                    label: input.text,
+                    value: input.value,
+                    checked: input.selected,
+                    disabled: input.disabled
+                };
+            });
 
-        overlay.onDidDismiss(values => {
-            if (values) {
-                this.writeValue(values);
+            let overlay = this.modalController.create(SelectModal, data, options);
+
+            overlay.onDidDismiss(values => {
+                if (values) {
+                    this.writeValue(values);
+                }
+            });
+
+            if (ev) {
+                Object.defineProperty(ev, 'target', {value: ev.currentTarget});
             }
-        });
 
-        if (ev) {
-            Object.defineProperty(ev, 'target', {value: ev.currentTarget});
+            overlay.present({updateUrl: false});
+        } else {
+            super.open(ev);
         }
 
-        overlay.present({ev: ev});
     }
 
     @Input()

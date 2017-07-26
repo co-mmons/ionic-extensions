@@ -5,17 +5,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from "@angular/core";
-import { ToolbarSubtitle } from "./subtitle";
-var ToolbarSubtitleModule = (function () {
-    function ToolbarSubtitleModule() {
+import { IonicModule } from "ionic-angular";
+import { PopoverControllerComponent, PopoverControllerContentComponent } from "./popover-controller";
+var PopoverModule = (function () {
+    function PopoverModule() {
     }
-    ToolbarSubtitleModule = __decorate([
+    PopoverModule = __decorate([
         NgModule({
-            declarations: [ToolbarSubtitle],
-            exports: [ToolbarSubtitle]
+            declarations: [PopoverControllerComponent, PopoverControllerContentComponent],
+            exports: [PopoverControllerComponent],
+            imports: [IonicModule],
+            entryComponents: [PopoverControllerComponent, PopoverControllerContentComponent]
         })
-    ], ToolbarSubtitleModule);
-    return ToolbarSubtitleModule;
+    ], PopoverModule);
+    return PopoverModule;
 }());
-export { ToolbarSubtitleModule };
+export { PopoverModule };
 //# sourceMappingURL=index.js.map

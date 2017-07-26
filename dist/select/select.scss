@@ -19,40 +19,7 @@ ionx-select {
     max-width: 100%;
 }
 
-.ionx-select-overlay {
-
-    &.popover-ios .popover-content, &.popover-md .popover-content {
-        width: 300px;
-    }
-    
-    .popover-viewport {
-        overflow: auto;
-    }
-
-    &.popover-ios {
-        ion-header, ion-footer {
-            background-color: $background-color;
-        }
-    }
-    
-    &.popover-md {
-        ion-header, ion-footer {
-            background-color: $background-color;
-        }
-    }
-
-    ion-searchbar.searchbar {
-        background-color: transparent;
-        border-bottom: none;
-
-        &.searchbar-md {
-            padding: 0px;
-
-            .searchbar-input {
-                box-shadow: none;
-            }
-        }
-    }
+.ionx-select-modal {
 
     ion-list.list {
         margin: 0px;
@@ -66,32 +33,19 @@ ionx-select {
             border-bottom: none;
         }
 
-        &.list-md {
-            .checkbox-md {
-                margin-right: $content-margin;
-            }
+        .checkbox.checkbox-md {
+            margin-right: 20px;
+            margin-left: 10px;
         }
     }
 
-    .scroll-content {
-        padding-top: 50px;
-        padding-bottom: 50px;
+    ion-footer.footer-ios .toolbar {
+        border-top: none;
+        padding: 0px;
     }
 
-    .ionx-select-overlay-buttons {
-        display: flex;
-    }
-
-    &.popover-md .ionx-select-overlay-buttons {
-        justify-content: flex-end;
-    }
-
-    &.popover-ios .ionx-select-overlay-buttons {
-        justify-content: space-around;
-
-        button.button {
-            flex: 1;
-        }
+    ion-footer.footer-md .toolbar {
+        padding: 0px;
     }
 }
 

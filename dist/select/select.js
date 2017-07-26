@@ -8,85 +8,100 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 import { Component, ViewEncapsulation, ElementRef, Renderer, Optional, Input } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Select as IonSelect, Popover, App, Config, Item, Form, DeepLinker } from "ionic-angular";
-import { SelectOverlay } from "./select-overlay";
+import { Select as IonSelect, ModalController, App, Config, Item, Form, DeepLinker } from "ionic-angular";
+import { SelectModal } from "./select-modal";
 var Select = (function (_super) {
     __extends(Select, _super);
-    function Select(app, form, config, elementRef, renderer, item, deepLinker) {
+    function Select(app, form, config, elementRef, renderer, item, deepLinker, modalController) {
         var _this = _super.call(this, app, form, config, elementRef, renderer, item, deepLinker) || this;
         _this.app = app;
-        _this.interface = "popover";
+        _this.modalController = modalController;
         return _this;
     }
-    Select.prototype._click = function (ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        this.open(ev);
-    };
+    Select_1 = Select;
     Select.prototype.open = function (ev) {
         var _this = this;
-        var options = { cssClass: "ionx-select-overlay" };
-        var data = {};
-        data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
-        data.options = this._options.map(function (input) {
-            return {
-                label: input.text,
-                value: input.value,
-                checked: input.selected,
-                disabled: input.disabled
-            };
-        });
-        var overlay = new Popover(this.app, SelectOverlay, data, options, this.config, this.deepLinker);
-        overlay.onDidDismiss(function (values) {
-            if (values) {
-                _this.writeValue(values);
+        if (this.interface == "modal") {
+            var options = { cssClass: "ionx-select-modal" };
+            var data = {};
+            data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
+            data.title = this.selectOptions ? this.selectOptions.title : undefined;
+            data.options = this._options.map(function (input) {
+                return {
+                    label: input.text,
+                    value: input.value,
+                    checked: input.selected,
+                    disabled: input.disabled
+                };
+            });
+            var overlay = this.modalController.create(SelectModal, data, options);
+            overlay.onDidDismiss(function (values) {
+                if (values) {
+                    _this.writeValue(values);
+                }
+            });
+            if (ev) {
+                Object.defineProperty(ev, 'target', { value: ev.currentTarget });
             }
-        });
-        if (ev) {
-            Object.defineProperty(ev, 'target', { value: ev.currentTarget });
+            overlay.present({ updateUrl: false });
         }
-        overlay.present({ ev: ev });
+        else {
+            _super.prototype.open.call(this, ev);
+        }
     };
-    Select.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-select",
-                    template: '<div *ngIf="!_text" class="select-placeholder select-text">{{placeholder}}</div>' +
-                        '<div *ngIf="_text" class="select-text">{{selectedText || _text}}</div>' +
-                        '<div class="select-icon">' +
-                        '<div class="select-icon-inner"></div>' +
-                        '</div>' +
-                        '<button aria-haspopup="true" ' +
-                        'type="button" ' +
-                        '[id]="id" ' +
-                        'ion-button="item-cover" ' +
-                        '[attr.aria-labelledby]="_labelId" ' +
-                        '[attr.aria-disabled]="_disabled" ' +
-                        'class="item-cover">' +
-                        '</button>',
-                    host: {
-                        '[class.select-disabled]': '_disabled || readonly',
-                        '[class.select-readonly]': 'readonly'
-                    },
-                    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: Select, multi: true }],
-                    encapsulation: ViewEncapsulation.None,
-                },] },
-    ];
-    /** @nocollapse */
-    Select.ctorParameters = function () { return [
-        { type: App, },
-        { type: Form, },
-        { type: Config, },
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: Item, decorators: [{ type: Optional },] },
-        { type: DeepLinker, },
-    ]; };
-    Select.propDecorators = {
-        'readonly': [{ type: Input },],
-    };
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], Select.prototype, "readonly", void 0);
+    Select = Select_1 = __decorate([
+        Component({
+            selector: "ionx-select",
+            template: '<div *ngIf="!_text" class="select-placeholder select-text">{{placeholder}}</div>' +
+                '<div *ngIf="_text" class="select-text">{{selectedText || _text}}</div>' +
+                '<div class="select-icon">' +
+                '<div class="select-icon-inner"></div>' +
+                '</div>' +
+                '<button aria-haspopup="true" ' +
+                'type="button" ' +
+                '[id]="id" ' +
+                'ion-button="item-cover" ' +
+                '[attr.aria-labelledby]="_labelId" ' +
+                '[attr.aria-disabled]="_disabled" ' +
+                'class="item-cover">' +
+                '</button>',
+            host: {
+                '[class.select-disabled]': '_disabled || readonly',
+                '[class.select-readonly]': 'readonly'
+            },
+            providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: Select_1, multi: true }],
+            encapsulation: ViewEncapsulation.None,
+        }),
+        __param(5, Optional()),
+        __metadata("design:paramtypes", [App,
+            Form,
+            Config,
+            ElementRef,
+            Renderer,
+            Item,
+            DeepLinker,
+            ModalController])
+    ], Select);
     return Select;
+    var Select_1;
 }(IonSelect));
 export { Select };
 //# sourceMappingURL=select.js.map

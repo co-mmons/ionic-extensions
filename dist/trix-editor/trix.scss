@@ -24,6 +24,26 @@ ionx-trix-editor {
     }
 }
 
-.item-md.item-input ionx-trix-editor {
-    margin: $text-input-md-margin-top $text-input-md-margin-right $text-input-md-margin-bottom $text-input-md-margin-left;
+.item-md.item-input {
+    
+    ionx-trix-editor {
+        margin: $text-input-md-margin-top $text-input-md-margin-right $text-input-md-margin-bottom $text-input-md-margin-left;
+    }
+
+    &.item-label-stacked ionx-trix-editor, &.item-label-floating ionx-trix-editor {
+        @include margin(8px, null, 8px, 0);
+        width: calc(100% - #{$text-input-md-margin-end});
+    }
+}
+
+.item-ios.item-input {
+
+    ionx-trix-editor {
+        margin: $text-input-ios-margin-top $text-input-ios-margin-right $text-input-ios-margin-bottom $text-input-ios-margin-left;
+    }
+
+    &.item-label-stacked ionx-trix-editor, &.item-label-floating ionx-trix-editor {
+        @include margin(8px, null, 8px, 0);
+        width: calc(100% - #{$text-input-ios-margin-end});
+    }
 }
