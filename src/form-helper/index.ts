@@ -28,6 +28,23 @@ export class FormHelper {
         this.readonly = true;
     }
 
+    @Input()
+    public get busy(): boolean {
+        return this.element.nativeElement.hasAttribute("busy");
+    }
+
+    public set busy(busy: boolean) {
+        if (busy) {
+            this.element.nativeElement.setAttribute("busy", "");
+        } else {
+            this.element.nativeElement.removeAttribute("busy");
+        }
+    }
+
+    public markAsBusy() {
+        this.busy = true;
+    }
+
     public get formGroup(): FormGroup {
         return this.formGroupDirective ? this.formGroupDirective.form : undefined;
     }

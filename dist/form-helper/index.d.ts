@@ -7,6 +7,8 @@ export declare class FormHelper {
     constructor(element: ElementRef, ngForm: NgForm, formGroupDirective: FormGroupDirective);
     readonly: boolean;
     markAsReadonly(): void;
+    busy: boolean;
+    markAsBusy(): void;
     readonly formGroup: FormGroup;
     validateAll(): void;
     private focusImpl(control, scrollIntoView?);
