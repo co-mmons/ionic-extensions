@@ -6,4 +6,6 @@ export declare class Select extends IonSelect {
     constructor(app: App, form: Form, config: Config, elementRef: ElementRef, renderer: Renderer, item: Item, deepLinker: DeepLinker, modalController: ModalController);
     open(ev?: UIEvent): void;
     readonly: boolean;
+    ordered: boolean;
+    _updateText(): void;
 }

@@ -1,5 +1,5 @@
 import {Component, ViewChild, ViewChildren, QueryList} from "@angular/core";
-import {Option, NavParams, ViewController, Searchbar, Item, Content, Config} from "ionic-angular";
+import {Option, NavParams, ViewController, Searchbar, Item, Content, Config, reorderArray} from "ionic-angular";
 import {IntlService} from "@co.mmons/angular-intl";
 
 @Component({
@@ -17,18 +17,30 @@ import {IntlService} from "@co.mmons/angular-intl";
 
             </ion-toolbar>
             <ion-toolbar>
-                <ion-searchbar ionx-flat cancelButtonText="{{'commons.cancel' | intlMessage}}" placeholder="{{'commons#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
+                <ion-searchbar ionx-flat cancelButtonText="{{'commons#Cancel' | intlMessage}}" placeholder="{{'commons#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
             </ion-toolbar>
         </ion-header>
         <ion-content>
             <ionx-spinner fill ion-fixed *ngIf="!options"></ionx-spinner>
             <ion-list>
-                <ng-template ngFor [ngForOf]="options" let-option>
-                    <ion-item *ngIf="!option.hidden" [class.ionx-select-checked]="option.checked">
-                        <ion-label>{{option.label}}</ion-label>
-                        <ion-checkbox [(ngModel)]="option.checked" (ionChange)="optionClicked(option)"></ion-checkbox>
-                    </ion-item>
-                </ng-template>
+                
+                <ion-item-group [reorder]="optionsChecked.length > 1" (ionItemReorder)="reordered($event)" *ngIf="ordered && optionsChecked && optionsChecked.length && visibleCheckedOptionsCount">
+                    <ng-template ngFor [ngForOf]="optionsChecked" let-option>
+                        <ion-item *ngIf="!option.hidden" [class.ionx-select-checked]="true">
+                            <ion-label>{{option.label}}</ion-label>
+                            <ion-checkbox [(ngModel)]="option.checked" (ionChange)="optionClicked(option)"></ion-checkbox>
+                        </ion-item>
+                    </ng-template>
+                </ion-item-group>
+
+                <ion-item-group *ngIf="visibleOptionsCount">
+                    <ng-template ngFor [ngForOf]="options" let-option>
+                        <ion-item *ngIf="!option.hidden && (!ordered || !option.checked)" [class.ionx-select-checked]="option.checked">
+                            <ion-label>{{option.label}}</ion-label>
+                            <ion-checkbox [(ngModel)]="option.checked" (ionChange)="optionClicked(option)"></ion-checkbox>
+                        </ion-item>
+                    </ng-template>
+                </ion-item-group>
             </ion-list>
         </ion-content>
         <ion-footer>
@@ -55,6 +67,7 @@ export class SelectModal {
         this.ios = config.get("mode") == "ios";
         this.md = config.get("mode") == "md";
         this.wp = config.get("mode") == "wp";
+        this.ordered = this.navParams.get("ordered") && this.multiple;
     }
 
     private ios: boolean;
@@ -62,6 +75,12 @@ export class SelectModal {
     private md: boolean;
 
     private wp: boolean;
+
+    private ordered: boolean;
+
+    private reordered(indexes: {from: number, to: number}) {
+        this.optionsChecked = reorderArray(this.optionsChecked, indexes);
+    }
 
 	@ViewChild(Content)
 	content: Content;
@@ -75,18 +94,56 @@ export class SelectModal {
 
     options: any[];
 
+    visibleOptionsCount: number;
+
+    visibleCheckedOptionsCount: number;
+
+    optionsChecked: any[];
+
     optionClicked(option: any) {
 
         if (!option.checked) {
-            return;
+            
+            for (let i = 0; i < this.optionsChecked.length; i++) {
+                if (this.optionsChecked[i] === option) {
+                    this.optionsChecked.splice(i, 1);
+                    break;
+                }
+            }
+
+        } else {
+
+            if (!this.multiple) {
+
+                for (let o of this.options) {
+                    if (o.checked && o !== option) {
+                        o.checked = false;
+                    }
+                }
+
+                this.optionsChecked = [option];
+                
+            } else {
+                this.optionsChecked.push(option);
+            }
         }
 
-        if (!this.multiple) {
+        this.recalculateVisibleOptions();
+    }
 
-            for (let o of this.options) {
-                if (o.checked && o !== option) {
-                    o.checked = false;
-                }
+    recalculateVisibleOptions() {
+
+        this.visibleCheckedOptionsCount = 0;
+        this.visibleOptionsCount = 0;
+        
+        for (let option of this.options) {
+
+            if (!option.hidden && (!this.ordered || !option.checked)) {
+                this.visibleOptionsCount++;
+            }
+
+            if (!option.hidden && option.checked) {
+                this.visibleCheckedOptionsCount++;
             }
         }
 
@@ -95,9 +152,16 @@ export class SelectModal {
     okClicked() {
 
         let values = [];
-        for (let o of this.options) {
-            if (o.checked) {
+
+        if (this.ordered) {
+            for (let o of this.optionsChecked) {
                 values.push(o.value);
+            }
+        } else {
+            for (let o of this.options) {
+                if (o.checked) {
+                    values.push(o.value);
+                }
             }
         }
 
@@ -121,6 +185,8 @@ export class SelectModal {
         for (let o of this.options) {
             o.hidden = query && o.label.toLowerCase().indexOf(query) < 0;
         }
+
+        this.recalculateVisibleOptions();
     }
 
     ngOnInit() {
@@ -132,6 +198,16 @@ export class SelectModal {
 
 	ionViewDidEnter() {
         this.options = this.navParams.get("options");
+        
+        this.optionsChecked = [];
+        for (let option of this.options) {
+            if (option.checked) {
+                this.optionsChecked.push(option);
+            }
+        }
+        this.optionsChecked.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
+
+        this.recalculateVisibleOptions();
     }
 
     private scrollToSelected() {

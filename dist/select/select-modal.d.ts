@@ -9,12 +9,18 @@ export declare class SelectModal {
     private ios;
     private md;
     private wp;
+    private ordered;
+    private reordered(indexes);
     content: Content;
     items: QueryList<Item>;
     multiple: boolean;
     title: any;
     options: any[];
+    visibleOptionsCount: number;
+    visibleCheckedOptionsCount: number;
+    optionsChecked: any[];
     optionClicked(option: any): void;
+    recalculateVisibleOptions(): void;
     okClicked(): void;
     cancelClicked(): void;
     searchbar: Searchbar;

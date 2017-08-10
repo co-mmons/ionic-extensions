@@ -9,8 +9,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { URLSearchParams } from "@angular/http";
-import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken } from "ionic-angular";
-import { urlToNavGroupStrings, navGroupStringtoObjects } from "ionic-angular/navigation/url-serializer";
+import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, App } from "ionic-angular";
 import { isPresent } from "ionic-angular/util/util";
 import { serialize } from "@co.mmons/js-utils/json";
 /**
@@ -25,7 +24,7 @@ var UrlSerializer = (function (_super) {
     function UrlSerializer() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    UrlSerializer.setupUrlSerializer = function (config) {
+    UrlSerializer.setupUrlSerializer = function (app, config) {
         if (config && config.links) {
             var links = [];
             for (var _i = 0, _a = config.links; _i < _a.length; _i++) {
@@ -42,9 +41,9 @@ var UrlSerializer = (function (_super) {
             }
             config.links = links;
         }
-        return new UrlSerializer(config);
+        return new UrlSerializer(app, config);
     };
-    UrlSerializer.prototype._createSegment = function (navGroup, configLink, data) {
+    UrlSerializer.prototype._createSegment = function (app, navContainer, configLink, data) {
         var urlParts = configLink.segmentParts.slice();
         var query;
         if (isPresent(data)) {
@@ -70,80 +69,67 @@ var UrlSerializer = (function (_super) {
                 }
             }
         }
+        var requiresExplicitPrefix = true;
+        if (navContainer.parent) {
+            requiresExplicitPrefix = navContainer.parent && navContainer.parent.getAllChildNavs().length > 1;
+        }
+        else {
+            // if it's a root nav, and there are multiple root navs, we need an explicit prefix
+            requiresExplicitPrefix = app.getRootNavById(navContainer.id) && app.getRootNavs().length > 1;
+        }
         return {
             id: urlParts.join('/') + (query ? "?" + query.toString() : ""),
             name: configLink.name,
             component: configLink.component,
             loadChildren: configLink.loadChildren,
             data: data,
-            navId: navGroup.navId,
-            type: navGroup.type,
             defaultHistory: configLink.defaultHistory,
-            secondaryId: navGroup.secondaryId
+            navId: navContainer.name || navContainer.id,
+            type: navContainer.getType(),
+            secondaryId: navContainer.getSecondaryIdentifier(),
+            requiresExplicitNavPrefix: requiresExplicitPrefix
         };
     };
-    UrlSerializer.prototype.parseUrlParts = function (navGroups, configLinks) {
-        var segments = [];
-        for (var _i = 0, configLinks_1 = configLinks; _i < configLinks_1.length; _i++) {
-            var link = configLinks_1[_i];
-            var _loop_1 = function (navGroup) {
-                if (link.segmentPartsLen === navGroup.segmentPieces.length) {
-                    var linkQuery = void 0;
-                    // check if the segment pieces are a match
-                    var allSegmentsMatch = true;
-                    for (var i = 0; i < navGroup.segmentPieces.length; i++) {
-                        var partParts = navGroup.segmentPieces[i].split("?");
-                        var part = partParts.length > 0 ? partParts[0] : undefined;
-                        linkQuery = partParts.length > 1 ? partParts[1] : undefined;
-                        if (part != link.segmentParts[i]) {
-                            allSegmentsMatch = false;
-                            break;
-                        }
-                    }
-                    // sweet, we found a match!
-                    if (allSegmentsMatch) {
-                        var data_1 = undefined;
-                        if (linkQuery) {
-                            var params = new URLSearchParams(linkQuery);
-                            params.paramsMap.forEach(function (value, index) {
-                                if (value) {
-                                    if (!data_1)
-                                        data_1 = {};
-                                    if (value.length == 1) {
-                                        data_1[index] = value[0];
-                                    }
-                                    else {
-                                        data_1[index] = value;
-                                    }
-                                }
-                            });
-                        }
-                        segments.push({
-                            id: link.segmentParts.join('/'),
-                            name: link.name,
-                            component: link.component,
-                            loadChildren: link.loadChildren,
-                            data: data_1,
-                            defaultHistory: link.defaultHistory,
-                            navId: navGroup.navId,
-                            type: navGroup.type,
-                            secondaryId: navGroup.secondaryId
-                        });
-                    }
-                }
-            };
-            for (var _a = 0, navGroups_1 = navGroups; _a < navGroups_1.length; _a++) {
-                var navGroup = navGroups_1[_a];
-                _loop_1(navGroup);
-            }
+    UrlSerializer.prototype.parse = function (browserUrl) {
+        var segments = _super.prototype.parse.call(this, browserUrl);
+        var data = this.findDataInUrl(browserUrl);
+        for (var _i = 0, segments_1 = segments; _i < segments_1.length; _i++) {
+            var segment = segments_1[_i];
+            segment.data = data[segment.id];
         }
         return segments;
     };
-    UrlSerializer.prototype.parse = function (browserUrl) {
-        if (browserUrl.charAt(0) === "/") {
-            browserUrl = browserUrl.substr(1);
+    UrlSerializer.prototype.findDataInUrl = function (url) {
+        if (url.charAt(0) === "/") {
+            url = url.substr(1);
         }
-        return this.parseUrlParts(navGroupStringtoObjects(urlToNavGroupStrings(browserUrl)), this.links);
+        var urlData = {};
+        var segments = url.split("/");
+        var _loop_1 = function (segment) {
+            var parts = segment.split("?");
+            if (parts.length > 1) {
+                var params = new URLSearchParams(parts[1]);
+                var data_1 = {};
+                params.paramsMap.forEach(function (value, index) {
+                    if (value) {
+                        if (!data_1)
+                            data_1 = {};
+                        if (value.length == 1) {
+                            data_1[index] = value[0];
+                        }
+                        else {
+                            data_1[index] = value;
+                        }
+                    }
+                });
+                urlData[parts[0]] = data_1;
+            }
+        };
+        for (var _i = 0, segments_2 = segments; _i < segments_2.length; _i++) {
+            var segment = segments_2[_i];
+            _loop_1(segment);
+        }
+        return urlData;
     };
     return UrlSerializer;
 }(IonicUrlSerializer));
@@ -151,11 +137,11 @@ export { UrlSerializer };
 export var URL_SERIALIZER_PROVIDER = {
     provide: IonicUrlSerializer,
     useFactory: UrlSerializer.setupUrlSerializer,
-    deps: [DeepLinkConfigToken]
+    deps: [App, DeepLinkConfigToken]
 };
 export var urlSerializerProvider = {
     provide: IonicUrlSerializer,
     useFactory: UrlSerializer.setupUrlSerializer,
-    deps: [DeepLinkConfigToken]
+    deps: [App, DeepLinkConfigToken]
 };
 //# sourceMappingURL=url-serializer.js.map

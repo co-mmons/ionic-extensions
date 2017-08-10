@@ -10,11 +10,24 @@
     "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
+    "@angular/common": "^4.3.2",
+    "@angular/compiler": "^4.3.2",
+    "@angular/compiler-cli": "^4.3.2",
+    "@angular/core": "^4.3.2",
+    "@angular/forms": "^4.3.2",
+    "@angular/http": "^4.3.2",
+    "@angular/platform-browser": "^4.3.2",
+    "@angular/platform-browser-dynamic": "^4.3.2",
+    "@angular/platform-server": "^4.3.2",
     "@co.mmons/angular-intl": "git+https://github.com/co-mmons/angular-intl.git",
-    "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
     "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
+    "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
     "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
-    "trix": "~0.10.2"
+    "@ionic/storage": "^2.0.1",
+    "ionic-angular": "^3.6.0",
+    "rxjs": "^5.4.2",
+    "trix": "~0.10.2",
+    "zone.js": "^0.8.16"
   },
   "peerDependencies": {
     "@angular/common": "~4.3.0",
@@ -27,7 +40,7 @@
     "@angular/platform-browser-dynamic": "~4.3.0",
     "@angular/platform-server": "~4.3.0",
     "@ionic/storage": "~2.0.1",
-    "ionic-angular": "~3.5.3",
+    "ionic-angular": "^3.6.0",
     "rxjs": "~5.4.2",
     "zone.js": "~0.8.13"
   },
