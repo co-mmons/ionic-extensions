@@ -59,12 +59,25 @@ export class FormHelper {
         
         for (let control of this.formGroupDirective.directives) {
 
+            let wasPristine = control.control.pristine;
+            let wasUntouched = control.control.untouched;
+
             control.control.markAsDirty();
             control.control.markAsTouched();
             control.control.updateValueAndValidity();
 
             if (!control.valid && !firstNotValidControl) {
                 firstNotValidControl = control;
+
+            } else if (control.valid) {
+                
+                if (wasPristine) {
+                    control.control.markAsPristine();
+                }
+
+                if (wasUntouched) {
+                    control.control.markAsUntouched();
+                }
             }
         }
 

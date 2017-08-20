@@ -57,11 +57,21 @@ var FormHelper = (function () {
         var firstNotValidControl;
         for (var _i = 0, _a = this.formGroupDirective.directives; _i < _a.length; _i++) {
             var control = _a[_i];
+            var wasPristine = control.control.pristine;
+            var wasUntouched = control.control.untouched;
             control.control.markAsDirty();
             control.control.markAsTouched();
             control.control.updateValueAndValidity();
             if (!control.valid && !firstNotValidControl) {
                 firstNotValidControl = control;
+            }
+            else if (control.valid) {
+                if (wasPristine) {
+                    control.control.markAsPristine();
+                }
+                if (wasUntouched) {
+                    control.control.markAsUntouched();
+                }
             }
         }
         if (firstNotValidControl) {
