@@ -22,10 +22,10 @@ import {
     Validator
 } from "@angular/forms";
 
-import { IonicFormInput, Item } from "ionic-angular";
+import {IonicFormInput, Item} from "ionic-angular";
 
 import "trix";
-import { EventListenersHelper } from "../helpers/event-listeners-helper";
+import {EventListenersHelper} from "../helpers/event-listeners-helper";
 
 @Component({
     selector: "ionx-trix-editor",

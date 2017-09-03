@@ -1,5 +1,5 @@
-import { ElementRef } from "@angular/core";
-import { FormGroup, FormGroupDirective, NgForm } from "@angular/forms";
+import { QueryList, ElementRef } from "@angular/core";
+import { FormGroup, FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
 export declare class FormHelper {
     readonly element: ElementRef;
     readonly ngForm: NgForm;
@@ -9,6 +9,8 @@ export declare class FormHelper {
     markAsReadonly(): void;
     busy: boolean;
     markAsBusy(): void;
+    protected readonly contentControls: QueryList<FormControlName>;
+    formControlName(name: string): FormControlName;
     readonly formGroup: FormGroup;
     validateAll(): void;
     private focusImpl(control, scrollIntoView?);

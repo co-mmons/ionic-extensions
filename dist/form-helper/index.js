@@ -1,4 +1,4 @@
-import { NgModule, Directive, ElementRef, Input, Optional } from "@angular/core";
+import { NgModule, Directive, ContentChildren, ElementRef, Input, Optional } from "@angular/core";
 import { FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
 import { TextInput } from "ionic-angular";
 var FormHelper = (function () {
@@ -42,6 +42,14 @@ var FormHelper = (function () {
     });
     FormHelper.prototype.markAsBusy = function () {
         this.busy = true;
+    };
+    FormHelper.prototype.formControlName = function (name) {
+        for (var _i = 0, _a = this.contentControls.toArray(); _i < _a.length; _i++) {
+            var a = _a[_i];
+            if (a.name == name) {
+                return a;
+            }
+        }
     };
     Object.defineProperty(FormHelper.prototype, "formGroup", {
         get: function () {
@@ -120,6 +128,7 @@ var FormHelper = (function () {
     FormHelper.propDecorators = {
         'readonly': [{ type: Input },],
         'busy': [{ type: Input },],
+        'contentControls': [{ type: ContentChildren, args: [FormControlName, { descendants: true },] },],
     };
     return FormHelper;
 }());

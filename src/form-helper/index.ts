@@ -44,6 +44,18 @@ export class FormHelper {
     public markAsBusy() {
         this.busy = true;
     }
+    
+    @ContentChildren(FormControlName, {descendants: true})
+    protected readonly contentControls: QueryList<FormControlName>;
+
+    public formControlName(name: string): FormControlName {
+
+        for (let a of this.contentControls.toArray()) {
+            if (a.name == name) {
+                return a;
+            }
+        }
+    }
 
     public get formGroup(): FormGroup {
         return this.formGroupDirective ? this.formGroupDirective.form : undefined;
