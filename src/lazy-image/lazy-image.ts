@@ -1,40 +1,39 @@
-import { Directive, Input, ContentChildren, QueryList, ElementRef, Renderer, Optional, Inject, forwardRef } from "@angular/core";
-import { Content, Scroll } from "ionic-angular";
-import { LazyLoad } from "./lazy-load";
-import { LazyLoadOptions } from "./lazy-load-options";
+import {Directive, Input, ContentChildren, QueryList, ElementRef, Renderer, Optional, Inject, forwardRef} from "@angular/core";
+import {LazyLoad} from "./lazy-load";
+import {LazyLoadOptions} from "./lazy-load-options";
 
 
 @Directive({
-    selector: "[ionx-lazy-image]"
+	selector: "[ionx-lazy-image]"
 })
 export class LazyImage {
 
 	constructor(public element: ElementRef, private renderer: Renderer, @Optional() @Inject(forwardRef(() => LazyImageContainer)) private container?: LazyImageContainer) {
 	}
 
-	@ContentChildren(LazyImage, { descendants: true })
+	@ContentChildren(LazyImage, {descendants: true})
 	children: QueryList<LazyImage>;
 
-    private _src: string;
+	private _src: string;
 
-    @Input("ionx-lazy-image")
-    public set src(value: string) {
-        this._src = value;
-        this.reset();
-    }
+	@Input("ionx-lazy-image")
+	public set src(value: string) {
+		this._src = value;
+		this.reset();
+	}
 
-    private reset() {
+	private reset() {
 
-        if (this._src) {
-            this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
-            this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
-        }
+		if (this._src) {
+			this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
+			this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
+		}
 
-    }
+	}
 
 	private revalidate() {
 
-        // children.length > 1 because this is also included in children query
+		// children.length > 1 because this is also included in children query
 		if (this.container && this.children.length > 1) {
 			this.container.revalidate();
 		}
@@ -48,28 +47,28 @@ export class LazyImage {
 }
 
 @Directive({
-    selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
+	selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
 })
 export class LazyImageContainer {
-    
-	constructor(private element: ElementRef, @Optional() private ionContent: Content, @Optional() private ionScroll: Scroll) {
+
+	constructor(private element: ElementRef) {
 	}
 
-    private lazyLoad: LazyLoad;
+	private lazyLoad: LazyLoad;
 
 	revalidate() {
 		this.lazyLoad.update();
-		
+
 		let rect = this.element.nativeElement.getBoundingClientRect();
 		if (rect.width == 0 || rect.height == 0) {
 			//setTimeout(() => this.revalidate(), 200);
 		}
-			//console.log(this.children);
+		//console.log(this.children);
 
 		//window.dispatchEvent(new Event("resize"));   
 	}
 
-	@ContentChildren(LazyImage, { descendants: true })
+	@ContentChildren(LazyImage, {descendants: true})
 	children: QueryList<LazyImage>;
 
 	ngOnInit() {
@@ -79,8 +78,8 @@ export class LazyImageContainer {
 	ngAfterContentInit() {
 		this.children.changes.subscribe(() => this.revalidate());
 		if (this.children.length > 0) {
-            this.revalidate();
-        }
+			this.revalidate();
+		}
 	}
 
 	ngOnDestroy() {
@@ -89,16 +88,19 @@ export class LazyImageContainer {
 		}
 	}
 
-    private newLazyLoad(): LazyLoad {
+	private newLazyLoad(): LazyLoad {
 
-        let options: LazyLoadOptions = {};
-        options.selector = ".ionx-lazy-image";
+		let options: LazyLoadOptions = {};
+		options.selector = ".ionx-lazy-image";
 
-        if (this.ionContent) {
-            options.container = this.ionContent.getScrollElement();
-        }
+		let scrollContent = (<HTMLElement>this.element.nativeElement).getElementsByClassName("scroll-content");
+		if (scrollContent.length) {
+			options.container = <HTMLElement>scrollContent.item(0);
+		} else {
+			options.container = this.element.nativeElement;
+		}
 
-        return new LazyLoad(options);
-    }
+		return new LazyLoad(options);
+	}
 
 }

@@ -1,5 +1,4 @@
 import { Directive, Input, ContentChildren, ElementRef, Renderer, Optional, Inject, forwardRef } from "@angular/core";
-import { Content, Scroll } from "ionic-angular";
 import { LazyLoad } from "./lazy-load";
 var LazyImage = (function () {
     function LazyImage(element, renderer, container) {
@@ -51,10 +50,8 @@ var LazyImage = (function () {
 }());
 export { LazyImage };
 var LazyImageContainer = (function () {
-    function LazyImageContainer(element, ionContent, ionScroll) {
+    function LazyImageContainer(element) {
         this.element = element;
-        this.ionContent = ionContent;
-        this.ionScroll = ionScroll;
     }
     LazyImageContainer.prototype.revalidate = function () {
         this.lazyLoad.update();
@@ -83,8 +80,12 @@ var LazyImageContainer = (function () {
     LazyImageContainer.prototype.newLazyLoad = function () {
         var options = {};
         options.selector = ".ionx-lazy-image";
-        if (this.ionContent) {
-            options.container = this.ionContent.getScrollElement();
+        var scrollContent = this.element.nativeElement.getElementsByClassName("scroll-content");
+        if (scrollContent.length) {
+            options.container = scrollContent.item(0);
+        }
+        else {
+            options.container = this.element.nativeElement;
         }
         return new LazyLoad(options);
     };
@@ -96,8 +97,6 @@ var LazyImageContainer = (function () {
     /** @nocollapse */
     LazyImageContainer.ctorParameters = function () { return [
         { type: ElementRef, },
-        { type: Content, decorators: [{ type: Optional },] },
-        { type: Scroll, decorators: [{ type: Optional },] },
     ]; };
     LazyImageContainer.propDecorators = {
         'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],

@@ -1,5 +1,4 @@
 import { QueryList, ElementRef, Renderer } from "@angular/core";
-import { Content, Scroll } from "ionic-angular";
 export declare class LazyImage {
     element: ElementRef;
     private renderer;
@@ -14,9 +13,7 @@ export declare class LazyImage {
 }
 export declare class LazyImageContainer {
     private element;
-    private ionContent;
-    private ionScroll;
-    constructor(element: ElementRef, ionContent: Content, ionScroll: Scroll);
+    constructor(element: ElementRef);
     private lazyLoad;
     revalidate(): void;
     children: QueryList<LazyImage>;
