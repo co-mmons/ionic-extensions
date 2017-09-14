@@ -1,8 +1,8 @@
-export { DateTimePickerModule } from "./datetime-picker";
-export { LazyImageModule, LazyImage, LazyImageContainer } from "./lazy-image";
-export { CollapsibleListModule } from "./collapsible-list";
-export { TrixEditorModule, TrixEditor } from "./trix-editor";
-export { FormHelper, FormHelperModule } from "./form-helper";
-export { SpinnerModule } from "./spinner";
+export {DateTimePickerModule} from "./datetime-picker";
+export {LazyImageModule, LazyImage, LazyImageContainer} from "./lazy-image";
+export {CollapsibleListModule} from "./collapsible-list";
+export {TrixEditorModule, TrixEditor} from "./trix-editor";
+export {FormHelper, FormHelperModule} from "./form-helper";
+export {SpinnerModule} from "./spinner";
 export * from "./navigation";
 
