@@ -50,8 +50,11 @@ var ExpandingSearchbar = (function () {
         this.expanded = true;
     };
     ExpandingSearchbar.prototype.collapseIfPossible = function (cleared) {
+        var _this = this;
         if (cleared || !this.searchbar.hasValue()) {
-            this.expanded = false;
+            setTimeout(function () {
+                _this.expanded = false;
+            }, cleared ? 250 : 0);
         }
     };
     ExpandingSearchbar.prototype.ngOnDestroy = function () {

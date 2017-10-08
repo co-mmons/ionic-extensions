@@ -54,7 +54,9 @@ export class ExpandingSearchbar {
     private collapseIfPossible(cleared?: boolean) {
 
         if (cleared || !this.searchbar.hasValue()) {
-            this.expanded = false;
+            setTimeout(() => {
+                this.expanded = false;
+            }, cleared ? 250 : 0);
         }
     }
 
