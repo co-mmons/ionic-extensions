@@ -46,19 +46,27 @@ export class PopoverControllerComponent {
         if (this.popover) {
             return;
         }
-
+        
         this.popover = this.controller.create(PopoverControllerContentComponent, {template: this.content}, {enableBackdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass});
         this.popover.onWillDismiss((data) => this.willDismiss.next(data));
         this.popover.onDidDismiss((data) => {
             this.didDismiss.next(data);
             this.popover = undefined;
+            this._presented = false;
         });
 
         this.willEnter.next();
 
         await this.popover.present({ev: options});
 
-        this.didEnter.next();        
+        this.didEnter.next();
+        this._presented = true;
+    }
+
+    private _presented: boolean = false;
+
+    public get presented() {
+        return this._presented;
     }
 
     public dismiss(data?: any, role?: any, navOptions?: NavOptions): Promise<any> {

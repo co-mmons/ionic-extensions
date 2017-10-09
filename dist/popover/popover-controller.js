@@ -42,6 +42,7 @@ var PopoverControllerComponent = (function () {
         this.didEnter = new EventEmitter();
         this.didDismiss = new EventEmitter();
         this.willDismiss = new EventEmitter();
+        this._presented = false;
     }
     PopoverControllerComponent.prototype.present = function (options) {
         return __awaiter(this, void 0, void 0, function () {
@@ -58,17 +59,26 @@ var PopoverControllerComponent = (function () {
                         this.popover.onDidDismiss(function (data) {
                             _this.didDismiss.next(data);
                             _this.popover = undefined;
+                            _this._presented = false;
                         });
                         this.willEnter.next();
                         return [4 /*yield*/, this.popover.present({ ev: options })];
                     case 1:
                         _a.sent();
                         this.didEnter.next();
+                        this._presented = true;
                         return [2 /*return*/];
                 }
             });
         });
     };
+    Object.defineProperty(PopoverControllerComponent.prototype, "presented", {
+        get: function () {
+            return this._presented;
+        },
+        enumerable: true,
+        configurable: true
+    });
     PopoverControllerComponent.prototype.dismiss = function (data, role, navOptions) {
         if (this.popover) {
             return this.popover.dismiss(data, role, navOptions);
