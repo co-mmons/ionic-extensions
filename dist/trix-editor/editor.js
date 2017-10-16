@@ -49,6 +49,16 @@ var TrixEditor = (function () {
     };
     TrixEditor.prototype.initFocus = function () {
     };
+    TrixEditor.prototype.focus = function () {
+        this.element.nativeElement.focus();
+    };
+    Object.defineProperty(TrixEditor.prototype, "nativeElement", {
+        get: function () {
+            return this.element.nativeElement;
+        },
+        enumerable: true,
+        configurable: true
+    });
     TrixEditor.prototype.editorFocused = function (event) {
         if (this.controlOnTouched) {
             this.controlOnTouched(true);

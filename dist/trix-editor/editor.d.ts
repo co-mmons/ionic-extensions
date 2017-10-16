@@ -21,6 +21,8 @@ export declare class TrixEditor implements AfterViewInit, ControlValueAccessor, 
     validate(c: AbstractControl): ValidationErrors;
     private editorChanged(event);
     initFocus(): void;
+    focus(): void;
+    readonly nativeElement: HTMLElement;
     private editorFocused(event);
     private editorBlured(event);
     private resetControlCss();

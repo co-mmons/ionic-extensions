@@ -92,6 +92,16 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
     initFocus(): void {
     }
 
+    focus() {
+        this.element.nativeElement.focus();
+    }
+
+    get nativeElement(): HTMLElement {
+        return this.element.nativeElement;
+    }
+
+
+
     private editorFocused(event: Event) {
 
         if (this.controlOnTouched) {

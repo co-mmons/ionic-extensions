@@ -118,6 +118,12 @@ export class FormHelper {
         if (control instanceof TextInput) {
             control.setFocus();
             elementToScroll = control.getNativeElement().closest(".item");
+        } else if (control && typeof control.focus == "function") {
+            control.focus();
+        }
+
+        if (!elementToScroll && control && control.nativeElement) {
+            elementToScroll = control.nativeElement.closest(".item") || control.nativeElement;            
         }
 
         if (scrollIntoView && elementToScroll) {
