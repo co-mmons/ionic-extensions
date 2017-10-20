@@ -6,7 +6,7 @@ ion-item-collapsible, ionx-item-collapsible {
 
     &.item-expanded {
 
-        .item.item-block:first-child {
+        & > .item.item-block:first-child {
             border-color: transparent;
 
             .item-inner {
@@ -14,7 +14,7 @@ ion-item-collapsible, ionx-item-collapsible {
             }
         }
 
-        a.item:first-child {
+        & > a.item:first-child {
 
             .item-inner {
                 background-size: 22px 14px;
@@ -34,7 +34,7 @@ ion-item-collapsible, ionx-item-collapsible {
             }
         }
 
-        *:not(:first-child) {
+        & > *:not(:first-child) {
             &.item.item-block {
                 border-top-color: transparent;
             }
