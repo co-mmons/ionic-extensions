@@ -17,7 +17,7 @@ import {IntlService} from "@co.mmons/angular-intl";
 
             </ion-toolbar>
             <ion-toolbar>
-                <ion-searchbar ionx-flat cancelButtonText="{{'commons#Cancel' | intlMessage}}" placeholder="{{'commons#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
+                <ion-searchbar ionx-flat cancelButtonText="{{'@co.mmons/js-intl#Cancel' | intlMessage}}" placeholder="{{'@co.mmons/js-intl#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
             </ion-toolbar>
         </ion-header>
         <ion-content>
@@ -46,8 +46,8 @@ import {IntlService} from "@co.mmons/angular-intl";
         <ion-footer>
             <ion-toolbar>
                 <div class="ionx-select-overlay-buttons alert-button-group">
-                    <button ion-button="alert-button" clear (click)="cancelClicked()">{{"commons#Cancel" | intlMessage}}</button>
-                    <button ion-button="alert-button" clear (click)="okClicked()">{{"commons#OK" | intlMessage}}</button>
+                    <button ion-button="alert-button" clear (click)="cancelClicked()">{{"@co.mmons/js-intl#Cancel" | intlMessage}}</button>
+                    <button ion-button="alert-button" clear (click)="okClicked()">{{"@co.mmons/js-intl#OK" | intlMessage}}</button>
                 </div>
             </ion-toolbar>
         </ion-footer>
