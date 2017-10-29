@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewEncapsulation, ViewChild, Renderer2, Input, Optional } from "@angular/core";
+import { Component, ElementRef, ViewEncapsulation, Renderer2, Input, Optional } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { Item } from "ionic-angular";
 import "trix";
@@ -13,13 +13,20 @@ var TrixEditor = (function () {
         if (formControl) {
             this.formControl.valueAccessor = this;
         }
+        this.id = "ionx-trix-editor" + (TrixEditor.idGenerator++);
+        this.toolbar = this.nativeElement.appendChild(document.createElement("trix-toolbar"));
+        this.toolbar.id = this.id + "-toolbar";
+        this.toolbar.style.position = "sticky";
+        this.toolbar.style.top = "0px";
+        this.editor = this.nativeElement.appendChild(document.createElement("trix-editor"));
+        this.editor.setAttribute("toolbar", this.toolbar.id);
     }
     Object.defineProperty(TrixEditor.prototype, "value", {
         get: function () {
-            return this.editor.nativeElement.value;
+            return this.editor.value;
         },
         set: function (html) {
-            this.editor.nativeElement.value = html;
+            this.editor.value = html;
         },
         enumerable: true,
         configurable: true
@@ -100,9 +107,22 @@ var TrixEditor = (function () {
     };
     TrixEditor.prototype.ngAfterViewInit = function () {
         var _this = this;
-        this.eventListeners.add(this.editor.nativeElement, "trix-change", function (event) { return _this.editorChanged(event); });
-        this.eventListeners.add(this.editor.nativeElement, "trix-focus", function (event) { return _this.editorFocused(event); });
-        this.eventListeners.add(this.editor.nativeElement, "trix-blur", function (event) { return _this.editorBlured(event); });
+        this.eventListeners.add(this.editor, "trix-change", function (event) { return _this.editorChanged(event); });
+        this.eventListeners.add(this.editor, "trix-focus", function (event) { return _this.editorFocused(event); });
+        this.eventListeners.add(this.editor, "trix-blur", function (event) { return _this.editorBlured(event); });
+        if (this.item) {
+            var parent_1 = this.toolbar.parentElement;
+            while (true) {
+                if (!parent_1) {
+                    break;
+                }
+                parent_1.style.overflow = "visible";
+                if (parent_1 === this.item.getNativeElement()) {
+                    break;
+                }
+                parent_1 = parent_1.parentElement;
+            }
+        }
     };
     TrixEditor.prototype.ngAfterContentChecked = function () {
         this.resetControlCss();
@@ -110,10 +130,11 @@ var TrixEditor = (function () {
     TrixEditor.prototype.ngOnDestroy = function () {
         this.eventListeners.removeAll();
     };
+    TrixEditor.idGenerator = 0;
     TrixEditor.decorators = [
         { type: Component, args: [{
                     selector: "ionx-trix-editor",
-                    template: "<trix-editor #editor></trix-editor>",
+                    template: "",
                     encapsulation: ViewEncapsulation.None
                 },] },
     ];
@@ -125,7 +146,6 @@ var TrixEditor = (function () {
         { type: Item, decorators: [{ type: Optional },] },
     ]; };
     TrixEditor.propDecorators = {
-        'editor': [{ type: ViewChild, args: ["editor",] },],
         'value': [{ type: Input },],
     };
     return TrixEditor;

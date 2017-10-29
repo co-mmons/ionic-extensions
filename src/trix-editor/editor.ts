@@ -29,28 +29,43 @@ import {EventListenersHelper} from "../helpers/event-listeners-helper";
 
 @Component({
     selector: "ionx-trix-editor",
-    template: `<trix-editor #editor></trix-editor>`,
+    template: ``,
     encapsulation: ViewEncapsulation.None
 })
 export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChanges, Validator, IonicFormInput {
+
+    private static idGenerator: number = 0;
 
     constructor(private element: ElementRef, private renderer: Renderer2, @Optional() private formControl: NgControl, @Optional() private item: Item) {
 
         if (formControl) {
             this.formControl.valueAccessor = this;
         }
+
+        this.id = "ionx-trix-editor" + (TrixEditor.idGenerator++);
+
+        this.toolbar = this.nativeElement.appendChild(document.createElement("trix-toolbar"));
+        this.toolbar.id = this.id + "-toolbar";
+        this.toolbar.style.position = "sticky";
+        this.toolbar.style.top = "0px";
+
+        this.editor = this.nativeElement.appendChild(document.createElement("trix-editor"));
+        this.editor.setAttribute("toolbar", this.toolbar.id);
     }
 
-    @ViewChild("editor")
-    private editor: ElementRef;
+    private id: string;
+
+    private editor: HTMLElement & {value?: string};
+
+    private toolbar: HTMLElement;
 
     @Input()
     public set value(html: string) {
-        this.editor.nativeElement.value = html;
+        this.editor.value = html;
     }
 
     public get value(): string {
-        return this.editor.nativeElement.value;
+        return this.editor.value;
     }
 
     registerOnValidatorChange(fn: () => void): void {
@@ -99,7 +114,6 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
     get nativeElement(): HTMLElement {
         return this.element.nativeElement;
     }
-
 
 
     private editorFocused(event: Event) {
@@ -151,9 +165,28 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
     private eventListeners: EventListenersHelper = new EventListenersHelper();
 
     ngAfterViewInit(): void {
-        this.eventListeners.add(this.editor.nativeElement, "trix-change", event => this.editorChanged(event));
-        this.eventListeners.add(this.editor.nativeElement, "trix-focus", event => this.editorFocused(event));
-        this.eventListeners.add(this.editor.nativeElement, "trix-blur", event => this.editorBlured(event));
+        this.eventListeners.add(this.editor, "trix-change", event => this.editorChanged(event));
+        this.eventListeners.add(this.editor, "trix-focus", event => this.editorFocused(event));
+        this.eventListeners.add(this.editor, "trix-blur", event => this.editorBlured(event));
+
+        if (this.item) {
+
+            let parent = this.toolbar.parentElement;
+            while (true) {
+
+                if (!parent) {
+                    break;
+                }
+
+                parent.style.overflow = "visible";
+
+                if (parent === this.item.getNativeElement()) {
+                    break;
+                }
+
+                parent = parent.parentElement;
+            }
+        }
     }
 
     ngAfterContentChecked() {

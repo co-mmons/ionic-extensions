@@ -2,16 +2,19 @@
 @import "ionic.theme.default.ios";
 @import "ionic.components";
 
-@import "./trix-base";
+@import "../node_modules/trix/dist/trix";
 
 ionx-trix-editor {
-  display: block;
+    display: block;
 
-  trix-toolbar {
-    .button_row {
-      flex-wrap: wrap;
+    trix-toolbar {
+        .trix-button-row {
+            flex-wrap: wrap;
+        }
+        .trix-button {
+            background-color: #fff;
+        }
     }
-  }
 }
 
 .item-input ionx-trix-editor {
@@ -27,12 +30,20 @@ ionx-trix-editor {
 .item-md.item-input {
     
     ionx-trix-editor {
-        margin: $text-input-md-margin-top $text-input-md-margin-right $text-input-md-margin-bottom $text-input-md-margin-left;
+        margin: 0px $text-input-md-margin-right $text-input-md-margin-bottom $text-input-md-margin-left;
+
+        trix-toolbar {
+            padding-top: $text-input-md-margin-top;
+        }
     }
 
     &.item-label-stacked ionx-trix-editor, &.item-label-floating ionx-trix-editor {
-        @include margin(8px, null, 8px, 0);
+        @include margin(0px, null, 8px, 0);
         width: calc(100% - #{$text-input-md-margin-end});
+
+        trix-toolbar {
+            padding-top: 8px;
+        }
     }
 }
 
@@ -40,10 +51,18 @@ ionx-trix-editor {
 
     ionx-trix-editor {
         margin: $text-input-ios-margin-top $text-input-ios-margin-right $text-input-ios-margin-bottom $text-input-ios-margin-left;
+
+        trix-toolbar {
+            padding-top: $text-input-ios-margin-top;
+        }
     }
 
     &.item-label-stacked ionx-trix-editor, &.item-label-floating ionx-trix-editor {
         @include margin(8px, null, 8px, 0);
         width: calc(100% - #{$text-input-ios-margin-end});
+
+        trix-toolbar {
+            padding-top: 8px;
+        }
     }
 }

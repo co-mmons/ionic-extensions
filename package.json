@@ -14,7 +14,7 @@
     "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
     "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
     "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
-    "trix": "~0.10.2"
+    "trix": "^0.11.1"
   },
   "peerDependencies": {
     "@angular/common": "^4.3.2",
@@ -32,6 +32,6 @@
     "zone.js": "^0.8.16"
   },
   "devDependencies": {
-    "typescript": "~2.4.1"
+    "typescript": "^2.5.0"
   }
 }

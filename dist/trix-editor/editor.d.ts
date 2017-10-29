@@ -7,8 +7,11 @@ export declare class TrixEditor implements AfterViewInit, ControlValueAccessor, 
     private renderer;
     private formControl;
     private item;
+    private static idGenerator;
     constructor(element: ElementRef, renderer: Renderer2, formControl: NgControl, item: Item);
+    private id;
     private editor;
+    private toolbar;
     value: string;
     registerOnValidatorChange(fn: () => void): void;
     setDisabledState(isDisabled: boolean): void;
