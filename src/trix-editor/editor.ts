@@ -59,13 +59,27 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
 
     private toolbar: HTMLElement;
 
+    /**
+     * Value, that should be set when editor is fully initialized.
+     */
+    private uninitializedValue: any;
+
     @Input()
     public set value(html: string) {
-        this.editor.value = html;
+        if (this.editor["editor"]) {
+            this.uninitializedValue = null;
+            this.editor["editor"].loadHTML(html);
+        } else {
+            this.uninitializedValue = html;
+        }
     }
 
     public get value(): string {
-        return this.editor.value;
+        if (this.editor["editor"]) {
+            return this.editor.value;
+        } else {
+            return this.uninitializedValue;
+        }
     }
 
     registerOnValidatorChange(fn: () => void): void {
@@ -115,6 +129,12 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
         return this.element.nativeElement;
     }
 
+    private editorInitialized(event: Event) {
+
+        if (this.uninitializedValue) {
+            this.editor["editor"].loadHTML(this.uninitializedValue);
+        }
+    }
 
     private editorFocused(event: Event) {
 
@@ -168,6 +188,7 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
         this.eventListeners.add(this.editor, "trix-change", event => this.editorChanged(event));
         this.eventListeners.add(this.editor, "trix-focus", event => this.editorFocused(event));
         this.eventListeners.add(this.editor, "trix-blur", event => this.editorBlured(event));
+        this.eventListeners.add(this.editor, "trix-initialize", event => this.editorInitialized(event));
 
         if (this.item) {
 

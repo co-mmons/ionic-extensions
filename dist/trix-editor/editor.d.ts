@@ -12,6 +12,10 @@ export declare class TrixEditor implements AfterViewInit, ControlValueAccessor, 
     private id;
     private editor;
     private toolbar;
+    /**
+     * Value, that should be set when editor is fully initialized.
+     */
+    private uninitializedValue;
     value: string;
     registerOnValidatorChange(fn: () => void): void;
     setDisabledState(isDisabled: boolean): void;
@@ -26,6 +30,7 @@ export declare class TrixEditor implements AfterViewInit, ControlValueAccessor, 
     initFocus(): void;
     focus(): void;
     readonly nativeElement: HTMLElement;
+    private editorInitialized(event);
     private editorFocused(event);
     private editorBlured(event);
     private resetControlCss();

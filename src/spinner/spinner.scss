@@ -19,4 +19,8 @@ ionx-spinner {
         left: 0px;
         top: 0px;
     }
+
+    &[always-on-top] {
+        z-index: 100000;
+    }
 }

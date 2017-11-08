@@ -23,10 +23,21 @@ var TrixEditor = (function () {
     }
     Object.defineProperty(TrixEditor.prototype, "value", {
         get: function () {
-            return this.editor.value;
+            if (this.editor["editor"]) {
+                return this.editor.value;
+            }
+            else {
+                return this.uninitializedValue;
+            }
         },
         set: function (html) {
-            this.editor.value = html;
+            if (this.editor["editor"]) {
+                this.uninitializedValue = null;
+                this.editor["editor"].loadHTML(html);
+            }
+            else {
+                this.uninitializedValue = html;
+            }
         },
         enumerable: true,
         configurable: true
@@ -66,6 +77,11 @@ var TrixEditor = (function () {
         enumerable: true,
         configurable: true
     });
+    TrixEditor.prototype.editorInitialized = function (event) {
+        if (this.uninitializedValue) {
+            this.editor["editor"].loadHTML(this.uninitializedValue);
+        }
+    };
     TrixEditor.prototype.editorFocused = function (event) {
         if (this.controlOnTouched) {
             this.controlOnTouched(true);
@@ -110,6 +126,7 @@ var TrixEditor = (function () {
         this.eventListeners.add(this.editor, "trix-change", function (event) { return _this.editorChanged(event); });
         this.eventListeners.add(this.editor, "trix-focus", function (event) { return _this.editorFocused(event); });
         this.eventListeners.add(this.editor, "trix-blur", function (event) { return _this.editorBlured(event); });
+        this.eventListeners.add(this.editor, "trix-initialize", function (event) { return _this.editorInitialized(event); });
         if (this.item) {
             var parent_1 = this.toolbar.parentElement;
             while (true) {
