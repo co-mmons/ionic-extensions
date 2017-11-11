@@ -1,6 +1,5 @@
-var EventListenersHelper = (function () {
+var EventListenersHelper = /** @class */ (function () {
     function EventListenersHelper() {
-        this.listeners = [];
     }
     EventListenersHelper.prototype.add = function (element, type, listener, useCapture) {
         element.addEventListener(type, listener, useCapture);

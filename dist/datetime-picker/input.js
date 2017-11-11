@@ -8,13 +8,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, HostListener } from "@angular/core";
-import { NgControl } from "@angular/forms";
-import { App, Ion, Config, Item, PopoverController } from "ionic-angular";
+import { Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, forwardRef, HostListener, OnChanges, SimpleChanges } from "@angular/core";
+import { NgControl, NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import { App, Ion, Form, Config, Item, PopoverController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
-import { defaultDateTimeFormat } from "./default-formats";
+import { defaultDateFormat, defaultDateTimeFormat } from "./default-formats";
 import { DateTimeOverlay } from "./overlay";
-var DateTime = (function (_super) {
+var DateTime = /** @class */ (function (_super) {
     __extends(DateTime, _super);
     function DateTime(app, config, elementRef, renderer, intl, popoverController, item, control) {
         var _this = _super.call(this, config, elementRef, renderer, "datetime") || this;
@@ -32,10 +32,10 @@ var DateTime = (function (_super) {
         return _this;
     }
     Object.defineProperty(DateTime.prototype, "disabled", {
-        /**
-         * Whether or not the datetime-picker component is disabled. Default `false`.
-         */
-        get: function () {
+        get: /**
+             * Whether or not the datetime-picker component is disabled. Default `false`.
+             */
+        function () {
             return this._disabled;
         },
         set: function (disabled) {
@@ -194,36 +194,6 @@ var DateTime = (function (_super) {
         element.setElementClass("ng-dirty", control.dirty);
         element.setElementClass("ng-valid", control.valid);
         element.setElementClass("ng-invalid", !control.valid && control.enabled);
-    };
-    DateTime.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-datetime",
-                    template: "\n        <div *ngIf=\"!_text\" class=\"datetime-text datetime-placeholder\">{{placeholder}}</div>\n        <div *ngIf=\"_text\" class=\"datetime-text\">{{_text}}</div>\n        <button aria-haspopup=\"true\" type=\"button\" [id]=\"id\" ion-button=\"item-cover\" [attr.aria-labelledby]=\"_labelId\" [attr.aria-disabled]=\"_disabled\" class=\"item-cover\"></button>\n    ",
-                    host: {
-                        "[class.datetime-disabled]": "_disabled"
-                    },
-                    encapsulation: ViewEncapsulation.None
-                },] },
-    ];
-    /** @nocollapse */
-    DateTime.ctorParameters = function () { return [
-        { type: App, },
-        { type: Config, },
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: IntlService, },
-        { type: PopoverController, },
-        { type: Item, decorators: [{ type: Optional },] },
-        { type: NgControl, decorators: [{ type: Optional },] },
-    ]; };
-    DateTime.propDecorators = {
-        'displayFormat': [{ type: Input },],
-        'pickerFormat': [{ type: Input },],
-        'placeholder': [{ type: Input },],
-        'disabled': [{ type: Input },],
-        'valueType': [{ type: Input },],
-        'clicked': [{ type: HostListener, args: ["click", ["$event"],] },],
-        'keyuped': [{ type: HostListener, args: ["keyup.space",] },],
     };
     return DateTime;
 }(Ion));

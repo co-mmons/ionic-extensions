@@ -1,15 +1,14 @@
-import { Component, ElementRef, ViewEncapsulation, Renderer2, Input, Optional } from "@angular/core";
-import { NgControl } from "@angular/forms";
-import { Item } from "ionic-angular";
+import { AfterViewInit, Component, ElementRef, forwardRef, OnChanges, SimpleChanges, ViewEncapsulation, ViewChild, Renderer2, Input, Optional } from "@angular/core";
+import { NgControl, AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
+import { IonicFormInput, Item } from "ionic-angular";
 import "trix";
 import { EventListenersHelper } from "../helpers/event-listeners-helper";
-var TrixEditor = (function () {
+var TrixEditor = /** @class */ (function () {
     function TrixEditor(element, renderer, formControl, item) {
         this.element = element;
         this.renderer = renderer;
         this.formControl = formControl;
         this.item = item;
-        this.eventListeners = new EventListenersHelper();
         if (formControl) {
             this.formControl.valueAccessor = this;
         }
@@ -146,24 +145,6 @@ var TrixEditor = (function () {
     };
     TrixEditor.prototype.ngOnDestroy = function () {
         this.eventListeners.removeAll();
-    };
-    TrixEditor.idGenerator = 0;
-    TrixEditor.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-trix-editor",
-                    template: "",
-                    encapsulation: ViewEncapsulation.None
-                },] },
-    ];
-    /** @nocollapse */
-    TrixEditor.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: NgControl, decorators: [{ type: Optional },] },
-        { type: Item, decorators: [{ type: Optional },] },
-    ]; };
-    TrixEditor.propDecorators = {
-        'value': [{ type: Input },],
     };
     return TrixEditor;
 }());

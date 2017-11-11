@@ -1,15 +1,15 @@
 import { Directive, ElementRef, Input, Optional } from "@angular/core";
 import { Searchbar, Navbar, Toolbar } from "ionic-angular";
+import { Subscription } from "rxjs";
 var expandedCssClass = "ionx-expanding-searchbar-expanded";
 var parentCssClass = "ionx-expanding-searchbar-parent";
-var ExpandingSearchbar = (function () {
+var ExpandingSearchbar = /** @class */ (function () {
     function ExpandingSearchbar(element, searchbar, navbar, toolbar) {
         var _this = this;
         this.element = element;
         this.searchbar = searchbar;
         this.navbar = navbar;
         this.toolbar = toolbar;
-        this.subscriptions = [];
         this.subscriptions.push(this.searchbar.ionBlur.subscribe(function () { return _this.collapseIfPossible(); }));
         this.subscriptions.push(this.searchbar.ionClear.subscribe(function () { return _this.collapseIfPossible(true); }));
         this.nativeElement.classList.add("ionx-expanding-searchbar");
@@ -62,22 +62,6 @@ var ExpandingSearchbar = (function () {
             var s = _a[_i];
             s.unsubscribe();
         }
-    };
-    ExpandingSearchbar.decorators = [
-        { type: Directive, args: [{
-                    selector: "ion-searchbar[ionx-expanding-searchbar], ionx-searchbar[ionx-expanding-searchbar]",
-                    exportAs: "ionxExpandingSearchbar"
-                },] },
-    ];
-    /** @nocollapse */
-    ExpandingSearchbar.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Searchbar, },
-        { type: Navbar, decorators: [{ type: Optional },] },
-        { type: Toolbar, decorators: [{ type: Optional },] },
-    ]; };
-    ExpandingSearchbar.propDecorators = {
-        'expanded': [{ type: Input, args: ["ionx-expanded",] },],
     };
     return ExpandingSearchbar;
 }());

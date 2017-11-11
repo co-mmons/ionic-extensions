@@ -1,5 +1,5 @@
-import {OpaqueToken} from "@angular/core";
 import {URLSearchParams} from "@angular/http";
+import {InjectionToken} from "@angular/core";
 
 import {UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, DeepLinkConfig, App} from "ionic-angular";
 import {urlToNavGroupStrings, navGroupStringtoObjects, isPartMatch} from "ionic-angular/navigation/url-serializer";

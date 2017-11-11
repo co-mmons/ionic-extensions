@@ -1,4 +1,4 @@
-import { OpaqueToken } from "@angular/core";
+import { InjectionToken } from "@angular/core";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfig, App } from "ionic-angular";
 import { NavLink, NavSegment } from "ionic-angular/navigation/nav-util";
 import { NavigationContainer } from "ionic-angular/navigation/navigation-container";
@@ -18,10 +18,10 @@ export declare class UrlSerializer extends IonicUrlSerializer {
 export declare const URL_SERIALIZER_PROVIDER: {
     provide: typeof IonicUrlSerializer;
     useFactory: (app: App, config: DeepLinkConfig) => IonicUrlSerializer;
-    deps: (OpaqueToken | typeof App)[];
+    deps: (InjectionToken<any> | typeof App)[];
 };
 export declare const urlSerializerProvider: {
     provide: typeof IonicUrlSerializer;
     useFactory: (app: App, config: DeepLinkConfig) => IonicUrlSerializer;
-    deps: (OpaqueToken | typeof App)[];
+    deps: (InjectionToken<any> | typeof App)[];
 };

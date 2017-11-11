@@ -9,7 +9,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { URLSearchParams } from "@angular/http";
-import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, App } from "ionic-angular";
+import { InjectionToken } from "@angular/core";
+import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, DeepLinkConfig, App } from "ionic-angular";
+import { urlToNavGroupStrings, navGroupStringtoObjects, isPartMatch } from "ionic-angular/navigation/url-serializer";
+import { NavLink, NavSegment, NavGroup } from "ionic-angular/navigation/nav-util";
+import { NavigationContainer } from "ionic-angular/navigation/navigation-container";
 import { isPresent } from "ionic-angular/util/util";
 import { serialize } from "@co.mmons/js-utils/json";
 /**
@@ -19,7 +23,14 @@ import { serialize } from "@co.mmons/js-utils/json";
  * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
  * helpful when AoT compilation is used.
  */
-var UrlSerializer = (function (_super) {
+var /**
+ * Implementation of ionic's UrlSerializer, that add page params as query
+ * params, instead of path, e.g. "/page/subpage?param1=value".
+ *
+ * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
+ * helpful when AoT compilation is used.
+ */
+UrlSerializer = /** @class */ (function (_super) {
     __extends(UrlSerializer, _super);
     function UrlSerializer() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -133,6 +144,13 @@ var UrlSerializer = (function (_super) {
     };
     return UrlSerializer;
 }(IonicUrlSerializer));
+/**
+ * Implementation of ionic's UrlSerializer, that add page params as query
+ * params, instead of path, e.g. "/page/subpage?param1=value".
+ *
+ * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
+ * helpful when AoT compilation is used.
+ */
 export { UrlSerializer };
 export var URL_SERIALIZER_PROVIDER = {
     provide: IonicUrlSerializer,

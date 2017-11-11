@@ -1,6 +1,7 @@
-import { Directive, Input, ContentChildren, ElementRef, Renderer, Optional, Inject, forwardRef } from "@angular/core";
+import { Directive, Input, ContentChildren, QueryList, ElementRef, Renderer, Optional, Inject, forwardRef } from "@angular/core";
 import { LazyLoad } from "./lazy-load";
-var LazyImage = (function () {
+import { LazyLoadOptions } from "./lazy-load-options";
+var LazyImage = /** @class */ (function () {
     function LazyImage(element, renderer, container) {
         this.element = element;
         this.renderer = renderer;
@@ -31,25 +32,10 @@ var LazyImage = (function () {
         this.children.changes.subscribe(function () { return _this.revalidate(); });
         this.revalidate();
     };
-    LazyImage.decorators = [
-        { type: Directive, args: [{
-                    selector: "[ionx-lazy-image]"
-                },] },
-    ];
-    /** @nocollapse */
-    LazyImage.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: LazyImageContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(function () { return LazyImageContainer; }),] },] },
-    ]; };
-    LazyImage.propDecorators = {
-        'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
-        'src': [{ type: Input, args: ["ionx-lazy-image",] },],
-    };
     return LazyImage;
 }());
 export { LazyImage };
-var LazyImageContainer = (function () {
+var LazyImageContainer = /** @class */ (function () {
     function LazyImageContainer(element) {
         this.element = element;
     }
@@ -60,7 +46,7 @@ var LazyImageContainer = (function () {
             //setTimeout(() => this.revalidate(), 200);
         }
         //console.log(this.children);
-        //window.dispatchEvent(new Event("resize"));   
+        //window.dispatchEvent(new Event("resize"));
     };
     LazyImageContainer.prototype.ngOnInit = function () {
         this.lazyLoad = this.newLazyLoad();
@@ -88,18 +74,6 @@ var LazyImageContainer = (function () {
             options.container = this.element.nativeElement;
         }
         return new LazyLoad(options);
-    };
-    LazyImageContainer.decorators = [
-        { type: Directive, args: [{
-                    selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
-                },] },
-    ];
-    /** @nocollapse */
-    LazyImageContainer.ctorParameters = function () { return [
-        { type: ElementRef, },
-    ]; };
-    LazyImageContainer.propDecorators = {
-        'children': [{ type: ContentChildren, args: [LazyImage, { descendants: true },] },],
     };
     return LazyImageContainer;
 }());

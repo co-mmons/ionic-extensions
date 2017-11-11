@@ -8,20 +8,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Directive } from "@angular/core";
-import { Ion } from "ionic-angular";
-var ToolbarSubtitle = (function (_super) {
+import { Directive, ElementRef, Renderer, ChangeDetectionStrategy, ViewEncapsulation, Optional, Inject, forwardRef } from "@angular/core";
+import { Ion, Config, Toolbar, Navbar } from "ionic-angular";
+var ToolbarSubtitle = /** @class */ (function (_super) {
     __extends(ToolbarSubtitle, _super);
     function ToolbarSubtitle() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    ToolbarSubtitle.decorators = [
-        { type: Directive, args: [{
-                    selector: "ion-title[ionx-with-subtitle]"
-                },] },
-    ];
-    /** @nocollapse */
-    ToolbarSubtitle.ctorParameters = function () { return []; };
     return ToolbarSubtitle;
 }(Ion));
 export { ToolbarSubtitle };

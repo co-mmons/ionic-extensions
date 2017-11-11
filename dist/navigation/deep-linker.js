@@ -12,7 +12,7 @@ import { ComponentFactoryResolver } from "@angular/core";
 import { Location } from "@angular/common";
 import { App, UrlSerializer, DeepLinker as IonicDeepLinker } from "ionic-angular";
 import { ModuleLoader } from "ionic-angular/util/module-loader";
-var DeepLinker = (function (_super) {
+var DeepLinker = /** @class */ (function (_super) {
     __extends(DeepLinker, _super);
     function DeepLinker() {
         return _super !== null && _super.apply(this, arguments) || this;
