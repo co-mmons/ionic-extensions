@@ -6,6 +6,16 @@ export { DateTime } from "./input";
 var DateTimePickerModule = /** @class */ (function () {
     function DateTimePickerModule() {
     }
+    DateTimePickerModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: [DateTime, DateTimeOverlay],
+                    exports: [DateTime],
+                    imports: [IonicModule],
+                    entryComponents: [DateTimeOverlay]
+                },] },
+    ];
+    /** @nocollapse */
+    DateTimePickerModule.ctorParameters = function () { return []; };
     return DateTimePickerModule;
 }());
 export { DateTimePickerModule };

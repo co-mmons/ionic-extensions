@@ -5,6 +5,15 @@ export { Spinner } from "./spinner";
 var SpinnerModule = /** @class */ (function () {
     function SpinnerModule() {
     }
+    SpinnerModule.decorators = [
+        { type: NgModule, args: [{
+                    declarations: [Spinner],
+                    exports: [Spinner],
+                    imports: [IonicModule]
+                },] },
+    ];
+    /** @nocollapse */
+    SpinnerModule.ctorParameters = function () { return []; };
     return SpinnerModule;
 }());
 export { SpinnerModule };

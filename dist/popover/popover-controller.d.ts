@@ -1,4 +1,4 @@
-import { EventEmitter } from "@angular/core";
+import { TemplateRef, EventEmitter } from "@angular/core";
 import { PopoverController, NavParams, NavOptions } from "ionic-angular";
 export declare class PopoverControllerComponent {
     private controller;
@@ -20,6 +20,6 @@ export declare class PopoverControllerComponent {
 export declare class PopoverControllerContentComponent {
     private params;
     constructor(params: NavParams);
-    private template;
+    template: TemplateRef<any>;
     ngOnDestroy(): void;
 }

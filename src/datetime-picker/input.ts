@@ -11,7 +11,7 @@ import { DateTimeOverlay } from "./overlay";
     template: `
         <div *ngIf="!_text" class="datetime-text datetime-placeholder">{{placeholder}}</div>
         <div *ngIf="_text" class="datetime-text">{{_text}}</div>
-        <button aria-haspopup="true" type="button" [id]="id" ion-button="item-cover" [attr.aria-labelledby]="_labelId" [attr.aria-disabled]="_disabled" class="item-cover"></button>
+        <button aria-haspopup="true" type="button" ion-button="item-cover" [attr.aria-disabled]="_disabled" class="item-cover"></button>
     `,
     host: {
         "[class.datetime-disabled]": "_disabled"

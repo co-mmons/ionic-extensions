@@ -76,7 +76,7 @@ export class SelectModal {
 
     private wp: boolean;
 
-    private ordered: boolean;
+    ordered: boolean;
 
     private reordered(indexes: {from: number, to: number}) {
         this.optionsChecked = reorderArray(this.optionsChecked, indexes);

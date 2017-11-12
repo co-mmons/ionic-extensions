@@ -93,7 +93,7 @@ export class PopoverControllerContentComponent {
         this.template = params.get("template");
     }
 
-    private template: TemplateRef<any>;
+    template: TemplateRef<any>;
 
     ngOnDestroy() {
         this.template = undefined;

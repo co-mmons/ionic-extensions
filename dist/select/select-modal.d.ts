@@ -9,7 +9,7 @@ export declare class SelectModal {
     private ios;
     private md;
     private wp;
-    private ordered;
+    ordered: boolean;
     private reordered(indexes);
     content: Content;
     items: QueryList<Item>;

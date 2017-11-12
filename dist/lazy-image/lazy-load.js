@@ -1,4 +1,3 @@
-import { LazyLoadOptions } from "./lazy-load-options";
 var defaultOptions = {
     selector: "img",
     container: window,

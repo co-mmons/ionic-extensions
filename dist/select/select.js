@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { Component, ViewEncapsulation, ElementRef, Renderer, Optional, Input } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Select as IonSelect, Modal, ModalController, ModalOptions, App, Config, Item, NavController, Form, DeepLinker } from "ionic-angular";
+import { Select as IonSelect, ModalController, App, Config, Item, Form, DeepLinker } from "ionic-angular";
 import { SelectModal } from "./select-modal";
 var Select = /** @class */ (function (_super) {
     __extends(Select, _super);
@@ -88,6 +88,46 @@ var Select = /** @class */ (function (_super) {
             }
         }
         this._text = this._texts.join(', ');
+    };
+    Select.decorators = [
+        { type: Component, args: [{
+                    selector: "ionx-select",
+                    template: '<div *ngIf="!_text" class="select-placeholder select-text">{{placeholder}}</div>' +
+                        '<div *ngIf="_text" class="select-text">{{selectedText || _text}}</div>' +
+                        '<div class="select-icon">' +
+                        '<div class="select-icon-inner"></div>' +
+                        '</div>' +
+                        '<button aria-haspopup="true" ' +
+                        'type="button" ' +
+                        '[id]="id" ' +
+                        'ion-button="item-cover" ' +
+                        '[attr.aria-labelledby]="_labelId" ' +
+                        '[attr.aria-disabled]="_disabled" ' +
+                        'class="item-cover">' +
+                        '</button>',
+                    host: {
+                        '[class.select-disabled]': '_disabled || readonly',
+                        '[class.select-readonly]': 'readonly',
+                        '[attr.multiple]': 'multiple ? true : null'
+                    },
+                    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: Select, multi: true }],
+                    encapsulation: ViewEncapsulation.None,
+                },] },
+    ];
+    /** @nocollapse */
+    Select.ctorParameters = function () { return [
+        { type: App, },
+        { type: Form, },
+        { type: Config, },
+        { type: ElementRef, },
+        { type: Renderer, },
+        { type: Item, decorators: [{ type: Optional },] },
+        { type: DeepLinker, },
+        { type: ModalController, },
+    ]; };
+    Select.propDecorators = {
+        'readonly': [{ type: Input },],
+        'ordered': [{ type: Input },],
     };
     return Select;
 }(IonSelect));
