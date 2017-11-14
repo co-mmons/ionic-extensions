@@ -1,5 +1,6 @@
-@import "ionic.theme.default.md";
-@import "ionic.theme.default.ios";
+@import "ionic.globals";
+@import "ionic.globals.ios";
+@import "ionic.globals.md";
 
 ion-modal.modal-fullscreen .modal-wrapper {
     top: 0px;
