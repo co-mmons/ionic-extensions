@@ -2,6 +2,11 @@
 @import "ionic.globals.ios";
 @import "ionic.globals.md";
 
+[contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
 ion-modal.modal-fullscreen .modal-wrapper {
     top: 0px;
     left: 0px;
