@@ -16,7 +16,6 @@ var Select = /** @class */ (function (_super) {
     __extends(Select, _super);
     function Select(app, form, config, elementRef, renderer, item, deepLinker, modalController) {
         var _this = _super.call(this, app, form, config, elementRef, renderer, item, deepLinker) || this;
-        _this.app = app;
         _this.modalController = modalController;
         return _this;
     }

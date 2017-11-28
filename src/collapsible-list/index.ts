@@ -1,12 +1,12 @@
 import {
     NgModule, ContentChildren, ContentChild,
-    Renderer, QueryList, Directive, Component, Input,
+    QueryList, Directive, Component, Input,
     ElementRef, HostListener, Optional, Inject, forwardRef
 } from "@angular/core";
 
-import { Item } from "ionic-angular";
+import {Item} from "ionic-angular";
 
-import { isSelfOrChildOf } from "@co.mmons/web-utils/dom";
+import {isSelfOrChildOf} from "@co.mmons/web-utils/dom";
 
 @Component({
     selector: "ion-item-collapsible, ionx-item-collapsible",

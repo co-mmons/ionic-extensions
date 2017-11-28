@@ -1,9 +1,8 @@
 import {URLSearchParams} from "@angular/http";
-import {InjectionToken} from "@angular/core";
 
+import {InjectionToken} from "@angular/core";
 import {UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, DeepLinkConfig, App} from "ionic-angular";
-import {urlToNavGroupStrings, navGroupStringtoObjects, isPartMatch} from "ionic-angular/navigation/url-serializer";
-import {NavLink, NavSegment, NavGroup} from "ionic-angular/navigation/nav-util";
+import {NavLink, NavSegment} from "ionic-angular/navigation/nav-util";
 import {NavigationContainer} from "ionic-angular/navigation/navigation-container";
 import {isPresent} from "ionic-angular/util/util";
 import {serialize} from "@co.mmons/js-utils/json";
@@ -139,6 +138,9 @@ export class UrlSerializer extends IonicUrlSerializer {
         return urlData;
     }
 }
+
+// fix declared but never used
+InjectionToken;
 
 export const URL_SERIALIZER_PROVIDER = {
     provide: IonicUrlSerializer,

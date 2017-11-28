@@ -1,0 +1,7 @@
+{
+    "appVersion/newVersionAvailableMessage/ios": "There is a new version of this application. To update, please visit <b>App Store</b>.",
+    "appVersion/newVersionAvailableMessage/android": "There is a new version of this application. To update, please visit <b>Google Play</b>.",
+    "appVersion/notNow": "Not now",
+    "appVersion/update": "Update",
+    "appVersion/applicationUpdate": "Application update"
+}

@@ -18,7 +18,6 @@ export declare class PopoverControllerComponent {
     dismiss(data?: any, role?: any, navOptions?: NavOptions): Promise<any>;
 }
 export declare class PopoverControllerContentComponent {
-    private params;
     constructor(params: NavParams);
     template: TemplateRef<any>;
     ngOnDestroy(): void;

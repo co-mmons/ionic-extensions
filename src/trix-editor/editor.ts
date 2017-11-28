@@ -2,11 +2,9 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
-    forwardRef,
     OnChanges,
     SimpleChanges,
     ViewEncapsulation,
-    ViewChild,
     Renderer2,
     Input,
     Optional
@@ -16,8 +14,6 @@ import {
     NgControl,
     AbstractControl,
     ControlValueAccessor,
-    NG_VALIDATORS,
-    NG_VALUE_ACCESSOR,
     ValidationErrors,
     Validator
 } from "@angular/forms";

@@ -112,7 +112,6 @@ var PopoverControllerComponent = /** @class */ (function () {
 export { PopoverControllerComponent };
 var PopoverControllerContentComponent = /** @class */ (function () {
     function PopoverControllerContentComponent(params) {
-        this.params = params;
         this.template = params.get("template");
     }
     PopoverControllerContentComponent.prototype.ngOnDestroy = function () {

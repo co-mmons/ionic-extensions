@@ -1,5 +1,5 @@
 import {NgModule, Directive, ContentChildren, QueryList, ElementRef, Input, Optional} from "@angular/core";
-import {FormGroup, FormControl, FormControlName, FormGroupDirective, NgForm, AbstractControl} from "@angular/forms";
+import {FormGroup, FormControlName, FormGroupDirective, NgForm} from "@angular/forms";
 import {TextInput} from "ionic-angular";
 
 @Directive({

@@ -10,18 +10,14 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, HostListener } from "@angular/core";
 import { NgControl } from "@angular/forms";
-import { App, Ion, Config, Item, PopoverController } from "ionic-angular";
+import { Ion, Config, Item, PopoverController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 import { defaultDateTimeFormat } from "./default-formats";
 import { DateTimeOverlay } from "./overlay";
 var DateTime = /** @class */ (function (_super) {
     __extends(DateTime, _super);
-    function DateTime(app, config, elementRef, renderer, intl, popoverController, item, control) {
+    function DateTime(config, elementRef, renderer, intl, popoverController, item, control) {
         var _this = _super.call(this, config, elementRef, renderer, "datetime") || this;
-        _this.app = app;
-        _this.config = config;
-        _this.elementRef = elementRef;
-        _this.renderer = renderer;
         _this.intl = intl;
         _this.popoverController = popoverController;
         _this.item = item;
@@ -207,7 +203,6 @@ var DateTime = /** @class */ (function (_super) {
     ];
     /** @nocollapse */
     DateTime.ctorParameters = function () { return [
-        { type: App, },
         { type: Config, },
         { type: ElementRef, },
         { type: Renderer, },

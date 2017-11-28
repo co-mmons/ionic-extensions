@@ -1,5 +1,5 @@
-import {Component, HostListener, TemplateRef, Input, ViewChild, EventEmitter, Output} from "@angular/core";
-import {PopoverController, NavParams, NavOptions, PopoverOptions, Popover} from "ionic-angular";
+import {Component, TemplateRef, Input, ViewChild, EventEmitter, Output} from "@angular/core";
+import {PopoverController, NavParams, NavOptions, Popover} from "ionic-angular";
 
 @Component({
     selector: "ionx-popover-controller",
@@ -89,7 +89,7 @@ export class PopoverControllerComponent {
 })
 export class PopoverControllerContentComponent {
 
-    constructor(private params: NavParams) {
+    constructor(params: NavParams) {
         this.template = params.get("template");
     }
 

@@ -9,6 +9,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { URLSearchParams } from "@angular/http";
+import { InjectionToken } from "@angular/core";
 import { UrlSerializer as IonicUrlSerializer, DeepLinkConfigToken, App } from "ionic-angular";
 import { isPresent } from "ionic-angular/util/util";
 import { serialize } from "@co.mmons/js-utils/json";
@@ -134,6 +135,8 @@ var UrlSerializer = /** @class */ (function (_super) {
     return UrlSerializer;
 }(IonicUrlSerializer));
 export { UrlSerializer };
+// fix declared but never used
+InjectionToken;
 export var URL_SERIALIZER_PROVIDER = {
     provide: IonicUrlSerializer,
     useFactory: UrlSerializer.setupUrlSerializer,

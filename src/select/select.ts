@@ -1,6 +1,6 @@
 import {Component, ViewEncapsulation, ElementRef, Renderer, Optional, Input} from "@angular/core";
 import {NG_VALUE_ACCESSOR} from "@angular/forms";
-import {Select as IonSelect, Modal, ModalController, ModalOptions, App, Config, Item, NavController, Form, DeepLinker} from "ionic-angular";
+import {Select as IonSelect, ModalController, ModalOptions, App, Config, Item, Form, DeepLinker} from "ionic-angular";
 
 import {SelectModal} from "./select-modal";
 
@@ -31,7 +31,7 @@ import {SelectModal} from "./select-modal";
 export class Select extends IonSelect {
 
     constructor(
-        private app: App,
+        app: App,
         form: Form,
         config: Config,
         elementRef: ElementRef,

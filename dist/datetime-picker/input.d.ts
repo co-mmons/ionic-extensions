@@ -1,17 +1,13 @@
 import { ElementRef, Renderer, OnChanges, SimpleChanges } from "@angular/core";
 import { NgControl, ControlValueAccessor } from "@angular/forms";
-import { App, Ion, Config, Item, PopoverController } from "ionic-angular";
+import { Ion, Config, Item, PopoverController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 export declare class DateTime extends Ion implements ControlValueAccessor, OnChanges {
-    private app;
-    private config;
-    private elementRef;
-    private renderer;
     private intl;
     private popoverController;
     private item;
     private control;
-    constructor(app: App, config: Config, elementRef: ElementRef, renderer: Renderer, intl: IntlService, popoverController: PopoverController, item: Item, control: NgControl);
+    constructor(config: Config, elementRef: ElementRef, renderer: Renderer, intl: IntlService, popoverController: PopoverController, item: Item, control: NgControl);
     /**
      * The display format of the date and time as text that shows
      * within the item. When the `pickerFormat` input is not used, then the
@@ -39,8 +35,8 @@ export declare class DateTime extends Ion implements ControlValueAccessor, OnCha
     value: number | Date;
     private checkHasValue();
     private updateText();
-    private clicked(ev);
-    private keyuped();
+    protected clicked(ev: UIEvent): void;
+    protected keyuped(): void;
     private opened;
     private open(event);
     private overlayClosed(newValue);

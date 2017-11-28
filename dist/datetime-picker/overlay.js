@@ -204,8 +204,6 @@ var DateTimeOverlay = /** @class */ (function () {
             return value;
         }
     };
-    DateTimeOverlay.prototype.timeYearRangeStart = function () {
-    };
     DateTimeOverlay.prototype.todayClicked = function () {
         var now = new Date();
         this.value.setUTCFullYear(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());

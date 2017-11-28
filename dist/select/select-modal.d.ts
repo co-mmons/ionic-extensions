@@ -3,14 +3,17 @@ import { NavParams, ViewController, Searchbar, Item, Content, Config } from "ion
 import { IntlService } from "@co.mmons/angular-intl";
 export declare class SelectModal {
     private navParams;
-    private intl;
+    protected intl: IntlService;
     private viewController;
     constructor(navParams: NavParams, intl: IntlService, viewController: ViewController, config: Config);
     private ios;
     private md;
     private wp;
     ordered: boolean;
-    private reordered(indexes);
+    reordered(indexes: {
+        from: number;
+        to: number;
+    }): void;
     content: Content;
     items: QueryList<Item>;
     multiple: boolean;

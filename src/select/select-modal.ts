@@ -1,5 +1,5 @@
 import {Component, ViewChild, ViewChildren, QueryList} from "@angular/core";
-import {Option, NavParams, ViewController, Searchbar, Item, Content, Config, reorderArray} from "ionic-angular";
+import {NavParams, ViewController, Searchbar, Item, Content, Config, reorderArray} from "ionic-angular";
 import {IntlService} from "@co.mmons/angular-intl";
 
 @Component({
@@ -61,7 +61,7 @@ import {IntlService} from "@co.mmons/angular-intl";
 })
 export class SelectModal {
 
-    constructor(private navParams: NavParams, private intl: IntlService, private viewController: ViewController, config: Config) {
+    constructor(private navParams: NavParams, protected intl: IntlService, private viewController: ViewController, config: Config) {
         this.multiple = this.navParams.get("multiple");
         this.title = this.navParams.get("title") || intl.message("commons-ionic-extensions#Choose...");
         this.ios = config.get("mode") == "ios";
@@ -78,7 +78,7 @@ export class SelectModal {
 
     ordered: boolean;
 
-    private reordered(indexes: {from: number, to: number}) {
+    reordered(indexes: {from: number, to: number}) {
         this.optionsChecked = reorderArray(this.optionsChecked, indexes);
     }
 

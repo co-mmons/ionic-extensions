@@ -1,10 +1,10 @@
-import { NgModule } from "@angular/core";
-import { IonicModule } from "ionic-angular";
+import {NgModule} from "@angular/core";
+import {IonicModule} from "ionic-angular";
 
-import { DateTime } from "./input";
-import { DateTimeOverlay } from "./overlay"
+import {DateTime} from "./input";
+import {DateTimeOverlay} from "./overlay"
 
-export { DateTime } from "./input";
+export {DateTime} from "./input";
 
 @NgModule({
     declarations: [DateTime, DateTimeOverlay],

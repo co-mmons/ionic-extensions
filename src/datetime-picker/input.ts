@@ -1,10 +1,10 @@
-import { Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, forwardRef, HostListener, OnChanges, SimpleChanges } from "@angular/core";
-import { NgControl, NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
-import { App, Ion, Form, Config, Item, PopoverController } from "ionic-angular";
-import { IntlService } from "@co.mmons/angular-intl";
+import {Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, HostListener, OnChanges, SimpleChanges} from "@angular/core";
+import {NgControl, ControlValueAccessor} from "@angular/forms";
+import {Ion, Config, Item, PopoverController} from "ionic-angular";
+import {IntlService} from "@co.mmons/angular-intl";
 
-import { defaultDateFormat, defaultDateTimeFormat } from "./default-formats"
-import { DateTimeOverlay } from "./overlay";
+import {defaultDateTimeFormat} from "./default-formats"
+import {DateTimeOverlay} from "./overlay";
 
 @Component({
     selector: "ionx-datetime",
@@ -20,14 +20,14 @@ import { DateTimeOverlay } from "./overlay";
 })
 export class DateTime extends Ion implements ControlValueAccessor, OnChanges {
 
-    constructor(private app: App,
-                private config: Config,
-                private elementRef: ElementRef,
-                private renderer: Renderer,
-                private intl: IntlService,
-                private popoverController: PopoverController,
-                @Optional() private item: Item,
-                @Optional() private control: NgControl,) {
+    constructor(
+        config: Config,
+        elementRef: ElementRef,
+        renderer: Renderer,
+        private intl: IntlService,
+        private popoverController: PopoverController,
+        @Optional() private item: Item,
+        @Optional() private control: NgControl, ) {
         super(config, elementRef, renderer, "datetime");
 
         if (control) {
@@ -128,7 +128,7 @@ export class DateTime extends Ion implements ControlValueAccessor, OnChanges {
 
 
     @HostListener("click", ["$event"])
-    private clicked(ev: UIEvent) {
+    protected clicked(ev: UIEvent) {
 
         // do not continue if the click event came from a form submit
         if (ev.detail === 0) {
@@ -141,7 +141,7 @@ export class DateTime extends Ion implements ControlValueAccessor, OnChanges {
     }
 
     @HostListener("keyup.space")
-    private keyuped() {
+    protected keyuped() {
         this.open(undefined);
     }
 
@@ -243,7 +243,7 @@ export class DateTime extends Ion implements ControlValueAccessor, OnChanges {
     ngOnInit() {
         this.updateText();
     }
-    
+
     ngAfterContentChecked() {
         this.setItemInputControlCss();
     }

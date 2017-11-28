@@ -1,6 +1,6 @@
-import { Component, ElementRef } from "@angular/core";
-import { NavParams, ViewController } from "ionic-angular";
-import { IntlService } from "@co.mmons/angular-intl";
+import {Component, ElementRef} from "@angular/core";
+import {NavParams, ViewController} from "ionic-angular";
+import {IntlService} from "@co.mmons/angular-intl";
 
 const weekdayNarrowFormat: Intl.DateTimeFormatOptions = {
     weekday: "short"
@@ -130,7 +130,7 @@ export class DateTimeOverlay {
 
     dateValues: {id: number, label: string | number, sublabel?: string, checked?: boolean, hidden?: boolean}[];
 
-    private dateValueClicked(value: number) {
+    dateValueClicked(value: number) {
 
         let tmpDate = new Date(this.dateViewValue);
 
@@ -230,7 +230,7 @@ export class DateTimeOverlay {
 
                 this.dateValues.push({
                     id: tmpDate.getUTCFullYear(),
-                    label: tmpDate.getUTCFullYear() ,
+                    label: tmpDate.getUTCFullYear(),
                     checked: this.value.getUTCFullYear() == tmpDate.getUTCFullYear()
                 });
             }
@@ -289,10 +289,6 @@ export class DateTimeOverlay {
         } else {
             return value;
         }
-    }
-
-    private timeYearRangeStart() {
-
     }
 
     todayClicked() {

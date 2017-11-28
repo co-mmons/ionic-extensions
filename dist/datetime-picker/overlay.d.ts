@@ -24,14 +24,13 @@ export declare class DateTimeOverlay {
         checked?: boolean;
         hidden?: boolean;
     }[];
-    private dateValueClicked(value);
+    dateValueClicked(value: number): void;
     private generateDateValues();
     private generateDateHeader();
     timeVisible: boolean;
     timeHours: number;
     timeMinutes: number;
     formatTime(value: number): number | string;
-    private timeYearRangeStart();
     todayClicked(): void;
     cancelClicked(): void;
     doneClicked(): void;
