@@ -9,7 +9,6 @@ var TrixEditor = /** @class */ (function () {
         this.renderer = renderer;
         this.formControl = formControl;
         this.item = item;
-        this.eventListeners = new EventListenersHelper();
         if (formControl) {
             this.formControl.valueAccessor = this;
         }
@@ -146,24 +145,6 @@ var TrixEditor = /** @class */ (function () {
     };
     TrixEditor.prototype.ngOnDestroy = function () {
         this.eventListeners.removeAll();
-    };
-    TrixEditor.idGenerator = 0;
-    TrixEditor.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-trix-editor",
-                    template: "",
-                    encapsulation: ViewEncapsulation.None
-                },] },
-    ];
-    /** @nocollapse */
-    TrixEditor.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Renderer2, },
-        { type: NgControl, decorators: [{ type: Optional },] },
-        { type: Item, decorators: [{ type: Optional },] },
-    ]; };
-    TrixEditor.propDecorators = {
-        'value': [{ type: Input },],
     };
     return TrixEditor;
 }());

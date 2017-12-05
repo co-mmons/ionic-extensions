@@ -20,7 +20,14 @@ import { serialize } from "@co.mmons/js-utils/json";
  * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
  * helpful when AoT compilation is used.
  */
-var UrlSerializer = /** @class */ (function (_super) {
+var /**
+ * Implementation of ionic's UrlSerializer, that add page params as query
+ * params, instead of path, e.g. "/page/subpage?param1=value".
+ *
+ * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
+ * helpful when AoT compilation is used.
+ */
+UrlSerializer = /** @class */ (function (_super) {
     __extends(UrlSerializer, _super);
     function UrlSerializer() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -134,6 +141,13 @@ var UrlSerializer = /** @class */ (function (_super) {
     };
     return UrlSerializer;
 }(IonicUrlSerializer));
+/**
+ * Implementation of ionic's UrlSerializer, that add page params as query
+ * params, instead of path, e.g. "/page/subpage?param1=value".
+ *
+ * Additionaly it allows to use subarrays in DeepLinkConfig links, which is
+ * helpful when AoT compilation is used.
+ */
 export { UrlSerializer };
 // fix declared but never used
 InjectionToken;

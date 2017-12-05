@@ -227,17 +227,6 @@ var AppVersion = /** @class */ (function () {
         }
         return tags;
     };
-    AppVersion.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    AppVersion.ctorParameters = function () { return [
-        { type: Platform, },
-        { type: HttpClient, },
-        { type: InstalledAppVersion, },
-        { type: IntlService, },
-        { type: AlertController, },
-    ]; };
     return AppVersion;
 }());
 export { AppVersion };

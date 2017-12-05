@@ -33,16 +33,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, Input, ViewChild, EventEmitter, Output } from "@angular/core";
+import { Component, TemplateRef, Input, ViewChild, EventEmitter, Output } from "@angular/core";
 import { PopoverController, NavParams } from "ionic-angular";
 var PopoverControllerComponent = /** @class */ (function () {
     function PopoverControllerComponent(controller) {
         this.controller = controller;
-        this.willEnter = new EventEmitter();
-        this.didEnter = new EventEmitter();
-        this.didDismiss = new EventEmitter();
-        this.willDismiss = new EventEmitter();
-        this._presented = false;
     }
     PopoverControllerComponent.prototype.present = function (options) {
         return __awaiter(this, void 0, void 0, function () {
@@ -87,26 +82,6 @@ var PopoverControllerComponent = /** @class */ (function () {
             resolve();
         });
     };
-    PopoverControllerComponent.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-popover-controller",
-                    template: "\n        <ng-template #popoverContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
-                },] },
-    ];
-    /** @nocollapse */
-    PopoverControllerComponent.ctorParameters = function () { return [
-        { type: PopoverController, },
-    ]; };
-    PopoverControllerComponent.propDecorators = {
-        'cssClass': [{ type: Input },],
-        'enableBackdropDismiss': [{ type: Input },],
-        'showBackdrop': [{ type: Input },],
-        'content': [{ type: ViewChild, args: ["popoverContent",] },],
-        'willEnter': [{ type: Output },],
-        'didEnter': [{ type: Output },],
-        'didDismiss': [{ type: Output },],
-        'willDismiss': [{ type: Output },],
-    };
     return PopoverControllerComponent;
 }());
 export { PopoverControllerComponent };
@@ -117,15 +92,6 @@ var PopoverControllerContentComponent = /** @class */ (function () {
     PopoverControllerContentComponent.prototype.ngOnDestroy = function () {
         this.template = undefined;
     };
-    PopoverControllerContentComponent.decorators = [
-        { type: Component, args: [{
-                    template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
-                },] },
-    ];
-    /** @nocollapse */
-    PopoverControllerContentComponent.ctorParameters = function () { return [
-        { type: NavParams, },
-    ]; };
     return PopoverControllerContentComponent;
 }());
 export { PopoverControllerContentComponent };

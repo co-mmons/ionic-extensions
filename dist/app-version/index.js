@@ -9,14 +9,6 @@ export { AppVersion } from "./app-version";
 var AppVersionModule = /** @class */ (function () {
     function AppVersionModule() {
     }
-    AppVersionModule.decorators = [
-        { type: NgModule, args: [{
-                    imports: [BrowserModule, HttpClientModule, IntlModule, IonicModule],
-                    providers: [InstalledAppVersion, AppVersion]
-                },] },
-    ];
-    /** @nocollapse */
-    AppVersionModule.ctorParameters = function () { return []; };
     return AppVersionModule;
 }());
 export { AppVersionModule };

@@ -1,6 +1,5 @@
 var SubscriptionsHelper = /** @class */ (function () {
     function SubscriptionsHelper() {
-        this.subscriptions = [];
     }
     SubscriptionsHelper.prototype.add = function (subscription) {
         if (subscription) {

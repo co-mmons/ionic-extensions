@@ -28,10 +28,10 @@ var DateTime = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(DateTime.prototype, "disabled", {
-        /**
-         * Whether or not the datetime-picker component is disabled. Default `false`.
-         */
-        get: function () {
+        get: /**
+             * Whether or not the datetime-picker component is disabled. Default `false`.
+             */
+        function () {
             return this._disabled;
         },
         set: function (disabled) {
@@ -190,35 +190,6 @@ var DateTime = /** @class */ (function (_super) {
         element.setElementClass("ng-dirty", control.dirty);
         element.setElementClass("ng-valid", control.valid);
         element.setElementClass("ng-invalid", !control.valid && control.enabled);
-    };
-    DateTime.decorators = [
-        { type: Component, args: [{
-                    selector: "ionx-datetime",
-                    template: "\n        <div *ngIf=\"!_text\" class=\"datetime-text datetime-placeholder\">{{placeholder}}</div>\n        <div *ngIf=\"_text\" class=\"datetime-text\">{{_text}}</div>\n        <button aria-haspopup=\"true\" type=\"button\" ion-button=\"item-cover\" [attr.aria-disabled]=\"_disabled\" class=\"item-cover\"></button>\n    ",
-                    host: {
-                        "[class.datetime-disabled]": "_disabled"
-                    },
-                    encapsulation: ViewEncapsulation.None
-                },] },
-    ];
-    /** @nocollapse */
-    DateTime.ctorParameters = function () { return [
-        { type: Config, },
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: IntlService, },
-        { type: PopoverController, },
-        { type: Item, decorators: [{ type: Optional },] },
-        { type: NgControl, decorators: [{ type: Optional },] },
-    ]; };
-    DateTime.propDecorators = {
-        'displayFormat': [{ type: Input },],
-        'pickerFormat': [{ type: Input },],
-        'placeholder': [{ type: Input },],
-        'disabled': [{ type: Input },],
-        'valueType': [{ type: Input },],
-        'clicked': [{ type: HostListener, args: ["click", ["$event"],] },],
-        'keyuped': [{ type: HostListener, args: ["keyup.space",] },],
     };
     return DateTime;
 }(Ion));

@@ -1,4 +1,4 @@
-import { NgModule, Directive, ContentChildren, ElementRef, Input, Optional } from "@angular/core";
+import { NgModule, Directive, ContentChildren, QueryList, ElementRef, Input, Optional } from "@angular/core";
 import { FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
 import { TextInput } from "ionic-angular";
 var FormHelper = /** @class */ (function () {
@@ -119,38 +119,12 @@ var FormHelper = /** @class */ (function () {
         if (scrollIntoView === void 0) { scrollIntoView = true; }
         this.focusImpl(formControlName, scrollIntoView);
     };
-    FormHelper.decorators = [
-        { type: Directive, args: [{
-                    selector: "[ionx-form-helper],[ionxFormHelper]",
-                    exportAs: "ionxFormHelper"
-                },] },
-    ];
-    /** @nocollapse */
-    FormHelper.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: NgForm, decorators: [{ type: Optional },] },
-        { type: FormGroupDirective, decorators: [{ type: Optional },] },
-    ]; };
-    FormHelper.propDecorators = {
-        'readonly': [{ type: Input },],
-        'busy': [{ type: Input },],
-        'contentControls': [{ type: ContentChildren, args: [FormControlName, { descendants: true },] },],
-    };
     return FormHelper;
 }());
 export { FormHelper };
 var FormHelperModule = /** @class */ (function () {
     function FormHelperModule() {
     }
-    FormHelperModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [FormHelper],
-                    bootstrap: [],
-                    exports: [FormHelper]
-                },] },
-    ];
-    /** @nocollapse */
-    FormHelperModule.ctorParameters = function () { return []; };
     return FormHelperModule;
 }());
 export { FormHelperModule };

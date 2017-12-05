@@ -15,17 +15,6 @@ var ToolbarSubtitle = /** @class */ (function (_super) {
     function ToolbarSubtitle(config, elementRef, renderer) {
         return _super.call(this, config, elementRef, renderer, "ToolbarSubtitle") || this;
     }
-    ToolbarSubtitle.decorators = [
-        { type: Directive, args: [{
-                    selector: "ion-title[ionx-with-subtitle]"
-                },] },
-    ];
-    /** @nocollapse */
-    ToolbarSubtitle.ctorParameters = function () { return [
-        { type: Config, },
-        { type: ElementRef, },
-        { type: Renderer, },
-    ]; };
     return ToolbarSubtitle;
 }(Ion));
 export { ToolbarSubtitle };
