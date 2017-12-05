@@ -8,6 +8,18 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 import { Component, Input, ElementRef, Renderer, Optional, ViewEncapsulation, HostListener } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { Ion, Config, Item, PopoverController } from "ionic-angular";
@@ -28,10 +40,10 @@ var DateTime = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(DateTime.prototype, "disabled", {
-        get: /**
-             * Whether or not the datetime-picker component is disabled. Default `false`.
-             */
-        function () {
+        /**
+         * Whether or not the datetime-picker component is disabled. Default `false`.
+         */
+        get: function () {
             return this._disabled;
         },
         set: function (disabled) {
@@ -191,6 +203,58 @@ var DateTime = /** @class */ (function (_super) {
         element.setElementClass("ng-valid", control.valid);
         element.setElementClass("ng-invalid", !control.valid && control.enabled);
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], DateTime.prototype, "displayFormat", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], DateTime.prototype, "pickerFormat", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], DateTime.prototype, "placeholder", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], DateTime.prototype, "disabled", null);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], DateTime.prototype, "valueType", void 0);
+    __decorate([
+        HostListener("click", ["$event"]),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [UIEvent]),
+        __metadata("design:returntype", void 0)
+    ], DateTime.prototype, "clicked", null);
+    __decorate([
+        HostListener("keyup.space"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], DateTime.prototype, "keyuped", null);
+    DateTime = __decorate([
+        Component({
+            selector: "ionx-datetime",
+            template: "\n        <div *ngIf=\"!_text\" class=\"datetime-text datetime-placeholder\">{{placeholder}}</div>\n        <div *ngIf=\"_text\" class=\"datetime-text\">{{_text}}</div>\n        <button aria-haspopup=\"true\" type=\"button\" ion-button=\"item-cover\" [attr.aria-disabled]=\"_disabled\" class=\"item-cover\"></button>\n    ",
+            host: {
+                "[class.datetime-disabled]": "_disabled"
+            },
+            encapsulation: ViewEncapsulation.None
+        }),
+        __param(5, Optional()),
+        __param(6, Optional()),
+        __metadata("design:paramtypes", [Config,
+            ElementRef,
+            Renderer,
+            IntlService,
+            PopoverController,
+            Item,
+            NgControl])
+    ], DateTime);
     return DateTime;
 }(Ion));
 export { DateTime };

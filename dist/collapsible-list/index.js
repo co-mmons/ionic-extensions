@@ -1,3 +1,15 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 import { NgModule, ContentChildren, ContentChild, QueryList, Directive, Component, Input, ElementRef, HostListener, Optional, Inject, forwardRef } from "@angular/core";
 import { Item } from "ionic-angular";
 import { isSelfOrChildOf } from "@co.mmons/web-utils/dom";
@@ -40,6 +52,32 @@ var CollapsibleItem = /** @class */ (function () {
             }
         }
     };
+    __decorate([
+        ContentChild(Item),
+        __metadata("design:type", Item)
+    ], CollapsibleItem.prototype, "item", void 0);
+    __decorate([
+        Input("expanded"),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], CollapsibleItem.prototype, "expanded", null);
+    __decorate([
+        HostListener("click", ["$event"]),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Event]),
+        __metadata("design:returntype", void 0)
+    ], CollapsibleItem.prototype, "clicked", null);
+    CollapsibleItem = __decorate([
+        Component({
+            selector: "ion-item-collapsible, ionx-item-collapsible",
+            template: "<ng-content></ng-content>",
+            host: {
+                "class": "item-wrapper"
+            }
+        }),
+        __param(1, Optional()), __param(1, Inject(forwardRef(function () { return CollapsibleList; }))),
+        __metadata("design:paramtypes", [ElementRef, CollapsibleList])
+    ], CollapsibleItem);
     return CollapsibleItem;
 }());
 export { CollapsibleItem };
@@ -60,7 +98,7 @@ var CollapsibleList = /** @class */ (function () {
         }
     };
     CollapsibleList.prototype.ngAfterViewInit = function () {
-        // if list is accordion, we need to make sure, that only one item is expanded
+        // if list is accordion, we need to make sure, that only one item is expanded        
         if (this.accordion) {
             // last expanded item
             var lastItem = void 0;
@@ -75,12 +113,32 @@ var CollapsibleList = /** @class */ (function () {
             }
         }
     };
+    __decorate([
+        ContentChildren(CollapsibleItem),
+        __metadata("design:type", QueryList)
+    ], CollapsibleList.prototype, "items", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], CollapsibleList.prototype, "accordion", void 0);
+    CollapsibleList = __decorate([
+        Directive({
+            selector: "ion-list[collapsible], ion-list[ionx-collapsible]"
+        })
+    ], CollapsibleList);
     return CollapsibleList;
 }());
 export { CollapsibleList };
 var CollapsibleListModule = /** @class */ (function () {
     function CollapsibleListModule() {
     }
+    CollapsibleListModule = __decorate([
+        NgModule({
+            declarations: [CollapsibleList, CollapsibleItem],
+            bootstrap: [CollapsibleItem],
+            exports: [CollapsibleList, CollapsibleItem]
+        })
+    ], CollapsibleListModule);
     return CollapsibleListModule;
 }());
 export { CollapsibleListModule };

@@ -1,3 +1,12 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -38,6 +47,11 @@ import { PopoverController, NavParams } from "ionic-angular";
 var PopoverControllerComponent = /** @class */ (function () {
     function PopoverControllerComponent(controller) {
         this.controller = controller;
+        this.willEnter = new EventEmitter();
+        this.didEnter = new EventEmitter();
+        this.didDismiss = new EventEmitter();
+        this.willDismiss = new EventEmitter();
+        this._presented = false;
     }
     PopoverControllerComponent.prototype.present = function (options) {
         return __awaiter(this, void 0, void 0, function () {
@@ -82,6 +96,45 @@ var PopoverControllerComponent = /** @class */ (function () {
             resolve();
         });
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], PopoverControllerComponent.prototype, "cssClass", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], PopoverControllerComponent.prototype, "enableBackdropDismiss", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], PopoverControllerComponent.prototype, "showBackdrop", void 0);
+    __decorate([
+        ViewChild("popoverContent"),
+        __metadata("design:type", TemplateRef)
+    ], PopoverControllerComponent.prototype, "content", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "willEnter", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "didEnter", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "didDismiss", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "willDismiss", void 0);
+    PopoverControllerComponent = __decorate([
+        Component({
+            selector: "ionx-popover-controller",
+            template: "\n        <ng-template #popoverContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
+        }),
+        __metadata("design:paramtypes", [PopoverController])
+    ], PopoverControllerComponent);
     return PopoverControllerComponent;
 }());
 export { PopoverControllerComponent };
@@ -92,6 +145,12 @@ var PopoverControllerContentComponent = /** @class */ (function () {
     PopoverControllerContentComponent.prototype.ngOnDestroy = function () {
         this.template = undefined;
     };
+    PopoverControllerContentComponent = __decorate([
+        Component({
+            template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
+        }),
+        __metadata("design:paramtypes", [NavParams])
+    ], PopoverControllerContentComponent);
     return PopoverControllerContentComponent;
 }());
 export { PopoverControllerContentComponent };

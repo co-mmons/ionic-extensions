@@ -1,3 +1,12 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 import { Component, ViewChild, ViewChildren, QueryList } from "@angular/core";
 import { NavParams, ViewController, Searchbar, Item, Content, Config, reorderArray } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
@@ -6,6 +15,7 @@ var SelectModal = /** @class */ (function () {
         this.navParams = navParams;
         this.intl = intl;
         this.viewController = viewController;
+        this.multiple = false;
         this.multiple = this.navParams.get("multiple");
         this.title = this.navParams.get("title") || intl.message("commons-ionic-extensions#Choose...");
         this.ios = config.get("mode") == "ios";
@@ -119,6 +129,31 @@ var SelectModal = /** @class */ (function () {
             this.content.scrollTo(0, itemToScroll.offsetTop);
         }
     };
+    __decorate([
+        ViewChild(Content),
+        __metadata("design:type", Content)
+    ], SelectModal.prototype, "content", void 0);
+    __decorate([
+        ViewChildren(Item),
+        __metadata("design:type", QueryList)
+    ], SelectModal.prototype, "items", void 0);
+    __decorate([
+        ViewChild(Searchbar),
+        __metadata("design:type", Searchbar)
+    ], SelectModal.prototype, "searchbar", void 0);
+    SelectModal = __decorate([
+        Component({
+            selector: "ionx-select-modal",
+            template: "\n        <ion-header>\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons left>\n                    <button ion-button icon-only (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\"></ion-icon>\n                    </button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar ionx-flat cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content>\n            <ionx-spinner fill ion-fixed *ngIf=\"!options\"></ionx-spinner>\n            <ion-list>\n                \n                <ion-item-group [reorder]=\"optionsChecked.length > 1\" (ionItemReorder)=\"reordered($event)\" *ngIf=\"ordered && optionsChecked && optionsChecked.length && visibleCheckedOptionsCount\">\n                    <ng-template ngFor [ngForOf]=\"optionsChecked\" let-option>\n                        <ion-item *ngIf=\"!option.hidden\" [class.ionx-select-checked]=\"true\">\n                            <ion-label>{{option.label}}</ion-label>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionClicked(option)\"></ion-checkbox>\n                        </ion-item>\n                    </ng-template>\n                </ion-item-group>\n\n                <ion-item-group *ngIf=\"visibleOptionsCount\">\n                    <ng-template ngFor [ngForOf]=\"options\" let-option>\n                        <ion-item *ngIf=\"!option.hidden && (!ordered || !option.checked)\" [class.ionx-select-checked]=\"option.checked\">\n                            <ion-label>{{option.label}}</ion-label>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionClicked(option)\"></ion-checkbox>\n                        </ion-item>\n                    </ng-template>\n                </ion-item-group>\n            </ion-list>\n        </ion-content>\n        <ion-footer>\n            <ion-toolbar>\n                <div class=\"ionx-select-overlay-buttons alert-button-group\">\n                    <button ion-button=\"alert-button\" clear (click)=\"cancelClicked()\">{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</button>\n                    <button ion-button=\"alert-button\" clear (click)=\"okClicked()\">{{\"@co.mmons/js-intl#OK\" | intlMessage}}</button>\n                </div>\n            </ion-toolbar>\n        </ion-footer>\n    ",
+            host: {
+                "[class.alert]": "true",
+                "[class.alert-ios]": "ios",
+                "[class.alert-wp]": "wp",
+                "[class.alert-md]": "md"
+            }
+        }),
+        __metadata("design:paramtypes", [NavParams, IntlService, ViewController, Config])
+    ], SelectModal);
     return SelectModal;
 }());
 export { SelectModal };

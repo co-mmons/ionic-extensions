@@ -1,3 +1,15 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 import { NgModule, Directive, ContentChildren, QueryList, ElementRef, Input, Optional } from "@angular/core";
 import { FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
 import { TextInput } from "ionic-angular";
@@ -119,12 +131,41 @@ var FormHelper = /** @class */ (function () {
         if (scrollIntoView === void 0) { scrollIntoView = true; }
         this.focusImpl(formControlName, scrollIntoView);
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], FormHelper.prototype, "readonly", null);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], FormHelper.prototype, "busy", null);
+    __decorate([
+        ContentChildren(FormControlName, { descendants: true }),
+        __metadata("design:type", QueryList)
+    ], FormHelper.prototype, "contentControls", void 0);
+    FormHelper = __decorate([
+        Directive({
+            selector: "[ionx-form-helper],[ionxFormHelper]",
+            exportAs: "ionxFormHelper"
+        }),
+        __param(1, Optional()), __param(2, Optional()),
+        __metadata("design:paramtypes", [ElementRef, NgForm, FormGroupDirective])
+    ], FormHelper);
     return FormHelper;
 }());
 export { FormHelper };
 var FormHelperModule = /** @class */ (function () {
     function FormHelperModule() {
     }
+    FormHelperModule = __decorate([
+        NgModule({
+            declarations: [FormHelper],
+            bootstrap: [],
+            exports: [FormHelper]
+        })
+    ], FormHelperModule);
     return FormHelperModule;
 }());
 export { FormHelperModule };

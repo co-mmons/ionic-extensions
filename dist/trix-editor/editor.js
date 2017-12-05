@@ -1,3 +1,15 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 import { Component, ElementRef, ViewEncapsulation, Renderer2, Input, Optional } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { Item } from "ionic-angular";
@@ -9,10 +21,11 @@ var TrixEditor = /** @class */ (function () {
         this.renderer = renderer;
         this.formControl = formControl;
         this.item = item;
+        this.eventListeners = new EventListenersHelper();
         if (formControl) {
             this.formControl.valueAccessor = this;
         }
-        this.id = "ionx-trix-editor" + (TrixEditor.idGenerator++);
+        this.id = "ionx-trix-editor" + (TrixEditor_1.idGenerator++);
         this.toolbar = this.nativeElement.appendChild(document.createElement("trix-toolbar"));
         this.toolbar.id = this.id + "-toolbar";
         this.toolbar.style.position = "sticky";
@@ -20,6 +33,7 @@ var TrixEditor = /** @class */ (function () {
         this.editor = this.nativeElement.appendChild(document.createElement("trix-editor"));
         this.editor.setAttribute("toolbar", this.toolbar.id);
     }
+    TrixEditor_1 = TrixEditor;
     Object.defineProperty(TrixEditor.prototype, "value", {
         get: function () {
             if (this.editor["editor"]) {
@@ -146,7 +160,23 @@ var TrixEditor = /** @class */ (function () {
     TrixEditor.prototype.ngOnDestroy = function () {
         this.eventListeners.removeAll();
     };
+    TrixEditor.idGenerator = 0;
+    __decorate([
+        Input(),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], TrixEditor.prototype, "value", null);
+    TrixEditor = TrixEditor_1 = __decorate([
+        Component({
+            selector: "ionx-trix-editor",
+            template: "",
+            encapsulation: ViewEncapsulation.None
+        }),
+        __param(2, Optional()), __param(3, Optional()),
+        __metadata("design:paramtypes", [ElementRef, Renderer2, NgControl, Item])
+    ], TrixEditor);
     return TrixEditor;
+    var TrixEditor_1;
 }());
 export { TrixEditor };
 //# sourceMappingURL=editor.js.map

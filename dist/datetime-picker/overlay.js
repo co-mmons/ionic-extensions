@@ -1,3 +1,12 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 import { Component, ElementRef } from "@angular/core";
 import { NavParams, ViewController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
@@ -16,6 +25,9 @@ var DateTimeOverlay = /** @class */ (function () {
         this.element = element;
         this.viewController = viewController;
         this.intl = intl;
+        this.dateView = "days";
+        this.dateViews = [{ id: "days", label: "Dzień" }, { id: "months", label: "Miesiąc" }, { id: "years", label: "Rok" }];
+        this.timeVisible = false;
         this.formatOptions = params.get("formatOptions");
         this.value = params.get("value");
         if (this.formatOptions.hour || this.formatOptions.hour12 || this.formatOptions.minute) {
@@ -215,6 +227,7 @@ var DateTimeOverlay = /** @class */ (function () {
         this.viewController.dismiss(this.value, null, { animate: false });
     };
     DateTimeOverlay.prototype.ngOnInit = function () {
+        // find popover-content parent
         {
             var parent_1 = this.element.nativeElement.parentElement;
             while (parent_1) {
@@ -229,6 +242,13 @@ var DateTimeOverlay = /** @class */ (function () {
         this.generateDateValues();
         this.generateDateHeader();
     };
+    DateTimeOverlay = __decorate([
+        Component({
+            selector: "ionx-datetime-overlay",
+            template: "\n        <div class=\"ionx-datetime-overlay-content\">\n            <ion-segment [(ngModel)]=\"dateView\" (ionChange)=\"dateViewChanged()\">\n                <ion-segment-button *ngFor=\"let view of dateViews\" [value]=\"view.id\">{{view.label}}</ion-segment-button>\n            </ion-segment>\n            <ion-row class=\"ionx-datetime-overlay-date-header\">\n                <ion-col col-3>\n                    <button ion-button clear icon-only (click)=\"dateViewMove(-1)\">\n                        <ion-icon name=\"arrow-dropleft\"></ion-icon>\n                    </button>\n                </ion-col>\n                <ion-col col-6 text-center>{{dateHeader}}</ion-col>\n                <ion-col col-3 text-right>\n                    <button ion-button clear icon-only (click)=\"dateViewMove(1)\">\n                        <ion-icon name=\"arrow-dropright\"></ion-icon>\n                    </button>\n                </ion-col>\n            </ion-row>\n            <ion-row class=\"ionx-datetime-overlay-date-values\">\n                <ion-col *ngFor=\"let value of dateValues\" [attr.col-2]=\"dateView == 'days' ? true : null\" [attr.col-3]=\"dateView == 'years' ? true : null\" [attr.col-6]=\"dateView == 'months' ? true : null\" [style.visibility]=\"value.hidden ? 'hidden' : 'visible'\">\n                    <button ion-button [outline]=\"!value.checked\" (click)=\"dateValueClicked(value.id)\">\n                        <span>{{value.label}}</span>\n                        <small *ngIf=\"value.sublabel\">{{value.sublabel}}</small>\n                    </button>\n                </ion-col>\n                <ion-col col-6 *ngIf=\"dateView == 'days'\">\n                    <button ion-button (click)=\"todayClicked()\">Dzisiaj</button>\n                </ion-col>\n            </ion-row>\n        </div>\n        <div class=\"ionx-datetime-overlay-time\" *ngIf=\"timeVisible\">\n            <ion-row>\n                <ion-col col-2>{{formatTime(timeHours)}}</ion-col>\n                <ion-col>\n                    <ion-range [(ngModel)]=\"timeHours\" min=\"0\" max=\"23\" step=\"1\"></ion-range>                \n                </ion-col>\n            </ion-row>\n            <ion-row>\n                <ion-col col-2>{{formatTime(timeMinutes)}}</ion-col>\n                <ion-col>\n                    <ion-range [(ngModel)]=\"timeMinutes\" min=\"0\" max=\"59\" step=\"1\"></ion-range>                \n                </ion-col>\n            </ion-row>\n        </div>\n        <ion-row class=\"ionx-datetime-overlay-footer\">\n            <ion-col text-right>\n                <button ion-button small (click)=\"cancelClicked()\">Anuluj</button>\n                <button ion-button small (click)=\"doneClicked()\">Gotowe</button>\n            </ion-col>\n        </ion-row>\n    "
+        }),
+        __metadata("design:paramtypes", [ElementRef, NavParams, ViewController, IntlService])
+    ], DateTimeOverlay);
     return DateTimeOverlay;
 }());
 export { DateTimeOverlay };
