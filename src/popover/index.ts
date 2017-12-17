@@ -3,6 +3,8 @@ import {IonicModule} from "ionic-angular";
 
 import {PopoverControllerComponent, PopoverControllerContentComponent} from "./popover-controller";
 
+export {PopoverControllerComponent} from "./popover-controller";
+
 @NgModule({
     declarations: [PopoverControllerComponent, PopoverControllerContentComponent],
     exports: [PopoverControllerComponent],

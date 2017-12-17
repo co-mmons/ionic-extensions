@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component, ElementRef } from "@angular/core";
+import { Component, ElementRef, ChangeDetectorRef } from "@angular/core";
 import { NavParams, ViewController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 var weekdayNarrowFormat = {
@@ -21,10 +21,11 @@ var monthFormat = {
     month: "long"
 };
 var DateTimeOverlay = /** @class */ (function () {
-    function DateTimeOverlay(element, params, viewController, intl) {
+    function DateTimeOverlay(element, params, viewController, intl, changeDetector) {
         this.element = element;
         this.viewController = viewController;
         this.intl = intl;
+        this.changeDetector = changeDetector;
         this.dateView = "days";
         this.dateViews = [{ id: "days", label: "Dzień" }, { id: "months", label: "Miesiąc" }, { id: "years", label: "Rok" }];
         this.timeVisible = false;
@@ -191,6 +192,7 @@ var DateTimeOverlay = /** @class */ (function () {
         },
         set: function (hours) {
             this.value.setUTCHours(hours);
+            this.changeDetector.detectChanges();
         },
         enumerable: true,
         configurable: true
@@ -201,6 +203,7 @@ var DateTimeOverlay = /** @class */ (function () {
         },
         set: function (minutes) {
             this.value.setUTCMinutes(minutes);
+            this.changeDetector.detectChanges();
         },
         enumerable: true,
         configurable: true
@@ -247,7 +250,7 @@ var DateTimeOverlay = /** @class */ (function () {
             selector: "ionx-datetime-overlay",
             template: "\n        <div class=\"ionx-datetime-overlay-content\">\n            <ion-segment [(ngModel)]=\"dateView\" (ionChange)=\"dateViewChanged()\">\n                <ion-segment-button *ngFor=\"let view of dateViews\" [value]=\"view.id\">{{view.label}}</ion-segment-button>\n            </ion-segment>\n            <ion-row class=\"ionx-datetime-overlay-date-header\">\n                <ion-col col-3>\n                    <button ion-button clear icon-only (click)=\"dateViewMove(-1)\">\n                        <ion-icon name=\"arrow-dropleft\"></ion-icon>\n                    </button>\n                </ion-col>\n                <ion-col col-6 text-center>{{dateHeader}}</ion-col>\n                <ion-col col-3 text-right>\n                    <button ion-button clear icon-only (click)=\"dateViewMove(1)\">\n                        <ion-icon name=\"arrow-dropright\"></ion-icon>\n                    </button>\n                </ion-col>\n            </ion-row>\n            <ion-row class=\"ionx-datetime-overlay-date-values\">\n                <ion-col *ngFor=\"let value of dateValues\" [attr.col-2]=\"dateView == 'days' ? true : null\" [attr.col-3]=\"dateView == 'years' ? true : null\" [attr.col-6]=\"dateView == 'months' ? true : null\" [style.visibility]=\"value.hidden ? 'hidden' : 'visible'\">\n                    <button ion-button [outline]=\"!value.checked\" (click)=\"dateValueClicked(value.id)\">\n                        <span>{{value.label}}</span>\n                        <small *ngIf=\"value.sublabel\">{{value.sublabel}}</small>\n                    </button>\n                </ion-col>\n                <ion-col col-6 *ngIf=\"dateView == 'days'\">\n                    <button ion-button (click)=\"todayClicked()\">Dzisiaj</button>\n                </ion-col>\n            </ion-row>\n        </div>\n        <div class=\"ionx-datetime-overlay-time\" *ngIf=\"timeVisible\">\n            <ion-row>\n                <ion-col col-2>{{formatTime(timeHours)}}</ion-col>\n                <ion-col>\n                    <ion-range [(ngModel)]=\"timeHours\" min=\"0\" max=\"23\" step=\"1\"></ion-range>                \n                </ion-col>\n            </ion-row>\n            <ion-row>\n                <ion-col col-2>{{formatTime(timeMinutes)}}</ion-col>\n                <ion-col>\n                    <ion-range [(ngModel)]=\"timeMinutes\" min=\"0\" max=\"59\" step=\"1\"></ion-range>                \n                </ion-col>\n            </ion-row>\n        </div>\n        <ion-row class=\"ionx-datetime-overlay-footer\">\n            <ion-col text-right>\n                <button ion-button small (click)=\"cancelClicked()\">Anuluj</button>\n                <button ion-button small (click)=\"doneClicked()\">Gotowe</button>\n            </ion-col>\n        </ion-row>\n    "
         }),
-        __metadata("design:paramtypes", [ElementRef, NavParams, ViewController, IntlService])
+        __metadata("design:paramtypes", [ElementRef, NavParams, ViewController, IntlService, ChangeDetectorRef])
     ], DateTimeOverlay);
     return DateTimeOverlay;
 }());

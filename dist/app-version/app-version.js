@@ -200,7 +200,7 @@ var AppVersion = /** @class */ (function () {
     AppVersion.prototype.parseVersion = function (app, content) {
         if (app.platform == "ios") {
             if (content.results && content.results[0]) {
-                return new AppNewVersion(app, this.alertController, this.intl, content.results[0].version, content.results[0].trackViewUrl, content.results[0].releaseNotes ? this.parseTags(content.results[0].releaseNotes) : undefined);
+                return new AppNewVersion(this, app, content.results[0].version, content.results[0].trackViewUrl, content.results[0].releaseNotes ? this.parseTags(content.results[0].releaseNotes) : undefined);
             }
         }
         else if (app.platform == "android" && typeof content == "string") {
@@ -220,7 +220,7 @@ var AppVersion = /** @class */ (function () {
                 }
             }
             if (versionNumber) {
-                return new AppNewVersion(app, this.alertController, this.intl, versionNumber, "https://play.google.com/store/apps/details?id=" + app.id);
+                return new AppNewVersion(this, app, versionNumber, "https://play.google.com/store/apps/details?id=" + app.id);
             }
         }
         return undefined;
@@ -236,6 +236,49 @@ var AppVersion = /** @class */ (function () {
         }
         return tags;
     };
+    AppVersion.prototype.showUpdateMessage = function (version) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var linkId = "commons-ionic-extensions-app-version-" + version.app.id;
+            var storeLink = document.getElementById(linkId);
+            if (!storeLink) {
+                storeLink = document.createElement("a");
+                storeLink.id = "app-version-" + version.app.id;
+                storeLink.style.display = "none";
+                storeLink.setAttribute("href", version.url);
+                storeLink.setAttribute("target", "_blank");
+                storeLink.innerHTML = "store";
+                document.body.appendChild(storeLink);
+            }
+            if (_this.updateMessageAlert) {
+                _this.updateMessageAlert.dismiss();
+            }
+            _this.updateMessageAlert = _this.alertController.create({
+                title: _this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
+                message: _this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
+                enableBackdropDismiss: false,
+                buttons: [
+                    {
+                        text: _this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"),
+                        role: "cancel"
+                    },
+                    {
+                        text: _this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
+                        handler: function () {
+                            _this.updateMessageAlert.dismiss(true);
+                            storeLink.click();
+                            return false;
+                        }
+                    }
+                ]
+            });
+            _this.updateMessageAlert.onDidDismiss(function (data) {
+                storeLink.remove();
+                resolve(data ? true : false);
+            });
+            _this.updateMessageAlert.present();
+        });
+    };
     AppVersion = __decorate([
         Injectable(),
         __metadata("design:paramtypes", [Platform, HttpClient, InstalledAppVersion, IntlService, AlertController])
@@ -244,10 +287,9 @@ var AppVersion = /** @class */ (function () {
 }());
 export { AppVersion };
 var AppNewVersion = /** @class */ (function () {
-    function AppNewVersion(app, alertController, intl, version, url, tags) {
+    function AppNewVersion(appVersion, app, version, url, tags) {
+        this.appVersion = appVersion;
         this.app = app;
-        this.alertController = alertController;
-        this.intl = intl;
         this.version = version;
         this.url = url;
         this.tags = tags;
@@ -259,44 +301,7 @@ var AppNewVersion = /** @class */ (function () {
         return false;
     };
     AppNewVersion.prototype.showUpdateMessage = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var linkId = "commons-ionic-extensions-app-version-" + _this.app.id;
-            var storeLink = document.getElementById(linkId);
-            if (!storeLink) {
-                storeLink = document.createElement("a");
-                storeLink.id = "app-version-" + _this.app.id;
-                storeLink.style.display = "none";
-                storeLink.setAttribute("href", _this.url);
-                storeLink.setAttribute("target", "_blank");
-                storeLink.innerHTML = "store";
-                document.body.appendChild(storeLink);
-            }
-            var alert = _this.alertController.create({
-                title: _this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
-                message: _this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + _this.app.platform),
-                enableBackdropDismiss: false,
-                buttons: [
-                    {
-                        text: _this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"),
-                        role: "cancel"
-                    },
-                    {
-                        text: _this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
-                        handler: function () {
-                            alert.dismiss(true);
-                            storeLink.click();
-                            return false;
-                        }
-                    }
-                ]
-            });
-            alert.onDidDismiss(function (data) {
-                storeLink.remove();
-                resolve(data ? true : false);
-            });
-            alert.present();
-        });
+        return this.appVersion.showUpdateMessage(this);
     };
     return AppNewVersion;
 }());

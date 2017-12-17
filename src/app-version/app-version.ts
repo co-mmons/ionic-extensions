@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AppVersion as InstalledAppVersion} from "@ionic-native/app-version";
-import {Platform, AlertController} from "ionic-angular";
+import {Platform, AlertController, Alert} from "ionic-angular";
 import {IntlService} from "@co.mmons/angular-intl";
 
 @Injectable()
@@ -145,9 +145,8 @@ export class AppVersion {
             
             if (content.results && content.results[0]) {
                 return new AppNewVersion(
+                    this,
                     app,
-                    this.alertController,
-                    this.intl,
                     content.results[0].version,
                     content.results[0].trackViewUrl,
                     content.results[0].releaseNotes ? this.parseTags(content.results[0].releaseNotes) : undefined
@@ -175,7 +174,7 @@ export class AppVersion {
             }
 
             if (versionNumber) {
-                return new AppNewVersion(app, this.alertController, this.intl, versionNumber, `https://play.google.com/store/apps/details?id=${app.id}`);
+                return new AppNewVersion(this, app, versionNumber, `https://play.google.com/store/apps/details?id=${app.id}`);
             }
         }
 
@@ -193,6 +192,59 @@ export class AppVersion {
 
         return tags;
     }
+
+
+    private updateMessageAlert: Alert;
+
+    showUpdateMessage(version: AppNewVersion): Promise<boolean> {
+
+        return new Promise((resolve, reject) => {
+
+            let linkId = "commons-ionic-extensions-app-version-" + version.app.id;
+
+            let storeLink = document.getElementById(linkId);
+            if (!storeLink) {
+                storeLink = document.createElement("a");
+                storeLink.id = "app-version-" + version.app.id
+                storeLink.style.display = "none";
+                storeLink.setAttribute("href", version.url);
+                storeLink.setAttribute("target", "_blank");
+                storeLink.innerHTML = "store";
+                document.body.appendChild(storeLink);
+            }
+
+            if (this.updateMessageAlert) {
+                this.updateMessageAlert.dismiss();
+            }
+
+            this.updateMessageAlert = this.alertController.create({
+                title: this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
+                message: this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
+                enableBackdropDismiss: false,
+                buttons: [
+                    {
+                        text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"),
+                        role: "cancel"
+                    },
+                    {
+                        text: this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
+                        handler: () => {
+                            this.updateMessageAlert.dismiss(true);
+                            storeLink.click();
+                            return false;
+                        }
+                    }
+                ]
+            });
+
+            this.updateMessageAlert.onDidDismiss((data) => {
+                storeLink.remove();
+                resolve(data ? true : false);
+            });
+
+            this.updateMessageAlert.present();
+        });
+    }
 }
 
 export interface AppIdentifiers {
@@ -209,8 +261,8 @@ export interface AppPlatform {
 }
 
 export class AppNewVersion {
-    constructor(private app: AppPlatform, private alertController: AlertController, private intl: IntlService, public readonly version?: string, public readonly url?: string, private tags?: string[]) {
 
+    constructor(private appVersion: AppVersion, public readonly app: AppPlatform, public readonly version?: string, public readonly url?: string, private tags?: string[]) {
     }
 
     hasTag(tag: string): boolean {
@@ -222,48 +274,6 @@ export class AppNewVersion {
     }
 
     showUpdateMessage(): Promise<boolean> {
-
-        return new Promise((resolve, reject) => {
-
-            let linkId = "commons-ionic-extensions-app-version-" + this.app.id;
-
-            let storeLink = document.getElementById(linkId);
-            if (!storeLink) {
-                storeLink = document.createElement("a");
-                storeLink.id = "app-version-" + this.app.id
-                storeLink.style.display = "none";
-                storeLink.setAttribute("href", this.url);
-                storeLink.setAttribute("target", "_blank");
-                storeLink.innerHTML = "store";
-                document.body.appendChild(storeLink);
-            }
-
-            let alert = this.alertController.create({
-                title: this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
-                message: this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + this.app.platform),
-                enableBackdropDismiss: false,
-                buttons: [
-                    {
-                        text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"),
-                        role: "cancel"
-                    },
-                    {
-                        text: this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
-                        handler: () => {
-                            alert.dismiss(true);
-                            storeLink.click();
-                            return false;
-                        }
-                    }
-                ]
-            });
-            
-            alert.onDidDismiss((data) => {
-                storeLink.remove();
-                resolve(data ? true : false);
-            });
-
-            alert.present();
-        });
+        return this.appVersion.showUpdateMessage(this);
     }
 }

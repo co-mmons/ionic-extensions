@@ -1,11 +1,12 @@
-import { ElementRef } from "@angular/core";
+import { ElementRef, ChangeDetectorRef } from "@angular/core";
 import { NavParams, ViewController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 export declare class DateTimeOverlay {
     private element;
     private viewController;
     private intl;
-    constructor(element: ElementRef, params: NavParams, viewController: ViewController, intl: IntlService);
+    private changeDetector;
+    constructor(element: ElementRef, params: NavParams, viewController: ViewController, intl: IntlService, changeDetector: ChangeDetectorRef);
     private value;
     private formatOptions;
     dateHeader: string;

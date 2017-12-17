@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from "@angular/core";
 import { IonicModule } from "ionic-angular";
 import { PopoverControllerComponent, PopoverControllerContentComponent } from "./popover-controller";
+export { PopoverControllerComponent } from "./popover-controller";
 var PopoverModule = /** @class */ (function () {
     function PopoverModule() {
     }

@@ -1,4 +1,4 @@
-import {Component, ElementRef} from "@angular/core";
+import {Component, ElementRef, ChangeDetectorRef} from "@angular/core";
 import {NavParams, ViewController} from "ionic-angular";
 import {IntlService} from "@co.mmons/angular-intl";
 
@@ -71,7 +71,7 @@ const monthFormat: Intl.DateTimeFormatOptions = {
 })
 export class DateTimeOverlay {
 
-    constructor(private element: ElementRef, params: NavParams, private viewController: ViewController, private intl: IntlService) {
+    constructor(private element: ElementRef, params: NavParams, private viewController: ViewController, private intl: IntlService, private changeDetector: ChangeDetectorRef) {
         this.formatOptions = params.get("formatOptions");
         this.value = params.get("value");
 
@@ -273,6 +273,7 @@ export class DateTimeOverlay {
 
     set timeHours(hours: number) {
         this.value.setUTCHours(hours);
+        this.changeDetector.detectChanges();
     }
 
     get timeMinutes(): number {
@@ -281,6 +282,7 @@ export class DateTimeOverlay {
 
     set timeMinutes(minutes: number) {
         this.value.setUTCMinutes(minutes);
+        this.changeDetector.detectChanges();
     }
 
     formatTime(value: number): number | string {
