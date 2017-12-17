@@ -273,6 +273,7 @@ export class DateTimeOverlay {
 
     set timeHours(hours: number) {
         this.value.setUTCHours(hours);
+        this.dateViewValue.setUTCHours(hours);
         this.changeDetector.detectChanges();
     }
 
@@ -282,6 +283,7 @@ export class DateTimeOverlay {
 
     set timeMinutes(minutes: number) {
         this.value.setUTCMinutes(minutes);
+        this.dateViewValue.setUTCMinutes(minutes);
         this.changeDetector.detectChanges();
     }
 

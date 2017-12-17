@@ -192,6 +192,7 @@ var DateTimeOverlay = /** @class */ (function () {
         },
         set: function (hours) {
             this.value.setUTCHours(hours);
+            this.dateViewValue.setUTCHours(hours);
             this.changeDetector.detectChanges();
         },
         enumerable: true,
@@ -203,6 +204,7 @@ var DateTimeOverlay = /** @class */ (function () {
         },
         set: function (minutes) {
             this.value.setUTCMinutes(minutes);
+            this.dateViewValue.setUTCMinutes(minutes);
             this.changeDetector.detectChanges();
         },
         enumerable: true,
