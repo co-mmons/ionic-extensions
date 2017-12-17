@@ -155,22 +155,15 @@ export class DateTime extends Ion implements ControlValueAccessor, OnChanges {
 
         let formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
 
-        let value: Date;
-        if (formatOptions.timeZone == "UTC") {
+        let value: Date; {
 
-            if (this._value) {
-                value = new Date(this._value.getTime());
+            if (formatOptions.timeZone == "UTC") {
+                let v = this._value ? this._value : new Date();
+                value = new Date(Date.UTC(v.getUTCFullYear(), v.getUTCMonth(), v.getUTCDate(), v.getUTCHours(), v.getUTCMinutes(), 0, 0));
+
             } else {
-                let v = new Date();
-                value = new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), v.getSeconds()));
-            }
-
-        } else {
-
-            if (this._value) {
-                value = new Date(Date.UTC(this._value.getFullYear(), this._value.getMonth(), this._value.getDate(), this._value.getHours(), this._value.getMinutes(), this._value.getSeconds()));
-            } else {
-                value = new Date();
+                let v = this._value ? this._value : new Date();
+                value = new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), 0, 0));
             }
         }
 
@@ -192,7 +185,7 @@ export class DateTime extends Ion implements ControlValueAccessor, OnChanges {
             if (formatOptions.timeZone == "UTC") {
                 value = new Date(newValue.getTime());
             } else {
-                value = new Date(newValue.getUTCFullYear(), newValue.getUTCMonth(), newValue.getUTCDate(), newValue.getUTCHours(), newValue.getUTCMinutes(), newValue.getUTCSeconds());
+                value = new Date(newValue.getUTCFullYear(), newValue.getUTCMonth(), newValue.getUTCDate(), newValue.getUTCHours(), newValue.getUTCMinutes(), newValue.getUTCSeconds(), 0);
             }
 
             this.value = value;

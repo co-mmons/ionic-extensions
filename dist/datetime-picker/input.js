@@ -115,21 +115,14 @@ var DateTime = /** @class */ (function (_super) {
         }
         var formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
         var value;
-        if (formatOptions.timeZone == "UTC") {
-            if (this._value) {
-                value = new Date(this._value.getTime());
+        {
+            if (formatOptions.timeZone == "UTC") {
+                var v = this._value ? this._value : new Date();
+                value = new Date(Date.UTC(v.getUTCFullYear(), v.getUTCMonth(), v.getUTCDate(), v.getUTCHours(), v.getUTCMinutes(), 0, 0));
             }
             else {
-                var v = new Date();
-                value = new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), v.getSeconds()));
-            }
-        }
-        else {
-            if (this._value) {
-                value = new Date(Date.UTC(this._value.getFullYear(), this._value.getMonth(), this._value.getDate(), this._value.getHours(), this._value.getMinutes(), this._value.getSeconds()));
-            }
-            else {
-                value = new Date();
+                var v = this._value ? this._value : new Date();
+                value = new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), 0, 0));
             }
         }
         var view = this.popoverController.create(DateTimeOverlay, {
@@ -147,7 +140,7 @@ var DateTime = /** @class */ (function (_super) {
                 value = new Date(newValue.getTime());
             }
             else {
-                value = new Date(newValue.getUTCFullYear(), newValue.getUTCMonth(), newValue.getUTCDate(), newValue.getUTCHours(), newValue.getUTCMinutes(), newValue.getUTCSeconds());
+                value = new Date(newValue.getUTCFullYear(), newValue.getUTCMonth(), newValue.getUTCDate(), newValue.getUTCHours(), newValue.getUTCMinutes(), newValue.getUTCSeconds(), 0);
             }
             this.value = value;
             if (this.controlOnChange) {
