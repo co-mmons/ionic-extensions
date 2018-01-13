@@ -6,7 +6,9 @@ export declare class LazyImage {
     constructor(element: ElementRef, renderer: Renderer, container?: LazyImageContainer);
     children: QueryList<LazyImage>;
     private _src;
+    private _alternate;
     src: string;
+    alternate: string;
     private reset();
     private revalidate();
     ngAfterContentInit(): void;

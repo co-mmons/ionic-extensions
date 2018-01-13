@@ -5,6 +5,7 @@ var defaultOptions = {
     throttle: 150,
     dataSrc: "original",
     dataSrcSet: "original-set",
+    dataAlternate: "alternate",
     classLoading: "ionx-lazy-image-loading",
     classLoaded: "ionx-lazy-image-loaded",
     skipInvisible: true,
@@ -79,7 +80,7 @@ function _now() {
 function _convertToArray(nodeSet) {
     return Array.prototype.slice.call(nodeSet);
 }
-function _setSourcesForPicture(element, srcsetDataAttribute) {
+function setSourcesForPicture(element, srcsetDataAttribute) {
     var parent = element.parentElement;
     if (parent.tagName !== 'PICTURE') {
         return;
@@ -94,27 +95,36 @@ function _setSourcesForPicture(element, srcsetDataAttribute) {
         }
     }
 }
-function _setSources(element, srcsetDataAttribute, srcDataAttribute) {
+/**
+ * Sets sources (e.g. src) for lazy load element.
+ * @param element Element, whose image to be loaded.
+ * @param srcsetDataAttribute
+ * @param srcDataAttribute
+ */
+function setSources(element, srcsetDataAttribute, srcDataAttribute) {
     var tagName = element.tagName.toUpperCase();
-    var elementSrc = element.getAttribute('data-' + srcDataAttribute);
+    var elementSrc = element.getAttribute("data-" + srcDataAttribute);
     if (tagName === "IFRAME") {
-        if (elementSrc)
+        if (elementSrc) {
             element.setAttribute("src", elementSrc);
+        }
         return;
     }
     else {
         if (tagName === "IMG") {
-            _setSourcesForPicture(element, srcsetDataAttribute);
+            setSourcesForPicture(element, srcsetDataAttribute);
         }
         var dataTarget = element;
         if (element["__ionxLazyImageTmpImg"]) {
             dataTarget = element["__ionxLazyImageTmpImg"];
         }
-        var imgSrcset = element.getAttribute('data-' + srcsetDataAttribute);
-        if (imgSrcset)
-            dataTarget.setAttribute("srcset", imgSrcset);
-        if (elementSrc)
+        var imgSrcSet = element.getAttribute("data-" + srcsetDataAttribute);
+        if (imgSrcSet) {
+            dataTarget.setAttribute("srcset", imgSrcSet);
+        }
+        if (elementSrc) {
             dataTarget.setAttribute("src", elementSrc);
+        }
         return;
     }
     //if (elementSrc) element.style.backgroundImage = "url(" + elementSrc + ")";
@@ -140,8 +150,13 @@ var LazyLoad = /** @class */ (function () {
             var eventTarget = element;
             if (element["__ionxLazyImageTmpImg"]) {
                 eventTarget = element["__ionxLazyImageTmpImg"];
-                delete element["__ionxLazyImageTmpImg"];
             }
+            var alternate = _this._options.dataAlternate && element.getAttribute("data-" + _this._options.dataAlternate);
+            if (alternate && eventTarget["src"] != alternate) {
+                eventTarget["src"] = alternate;
+                return;
+            }
+            delete element["__ionxLazyImageTmpImg"];
             eventTarget.removeEventListener("load", loadCallback);
             eventTarget.removeEventListener("error", errorCallback);
             element.classList.remove(_this._options.classLoading);
@@ -155,6 +170,7 @@ var LazyLoad = /** @class */ (function () {
                 return;
             }
             var eventTarget = element;
+            // if target element is not <img>, the real target of onload callback is temporary image
             if (element["__ionxLazyImageTmpImg"]) {
                 eventTarget = element["__ionxLazyImageTmpImg"];
                 element.style.backgroundImage = "url(" + eventTarget.src + ")";
@@ -179,7 +195,7 @@ var LazyLoad = /** @class */ (function () {
             tmpImg.addEventListener("error", errorCallback);
             element["__ionxLazyImageTmpImg"] = tmpImg;
         }
-        _setSources(element, this._options.dataSrcSet, this._options.dataSrc);
+        setSources(element, this._options.dataSrcSet, this._options.dataSrc);
         if (this._options.callbackSet) {
             this._options.callbackSet(element);
         }

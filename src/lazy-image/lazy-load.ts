@@ -7,6 +7,7 @@ const defaultOptions: LazyLoadOptions = {
     throttle: 150,
     dataSrc: "original",
     dataSrcSet: "original-set",
+    dataAlternate: "alternate",
     classLoading: "ionx-lazy-image-loading",
     classLoaded: "ionx-lazy-image-loaded",
     skipInvisible: true,
@@ -93,15 +94,17 @@ function _convertToArray(nodeSet) {
     return Array.prototype.slice.call(nodeSet);
 }
 
-function _setSourcesForPicture(element, srcsetDataAttribute) {
-    var parent = element.parentElement;
+function setSourcesForPicture(element, srcsetDataAttribute) {
+
+    let parent = element.parentElement;
     if (parent.tagName !== 'PICTURE') {
         return;
     }
-    for (var i = 0; i < parent.children.length; i++) {
-        var pictureChild = parent.children[i];
+
+    for (let i = 0; i < parent.children.length; i++) {
+        let pictureChild = parent.children[i];
         if (pictureChild.tagName === 'SOURCE') {
-            var sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
+            let sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
             if (sourceSrcset) {
                 pictureChild.setAttribute('srcset', sourceSrcset);
             }
@@ -109,16 +112,29 @@ function _setSourcesForPicture(element, srcsetDataAttribute) {
     }
 }
 
-function _setSources(element, srcsetDataAttribute, srcDataAttribute) {
+/**
+ * Sets sources (e.g. src) for lazy load element.
+ * @param element Element, whose image to be loaded.
+ * @param srcsetDataAttribute 
+ * @param srcDataAttribute 
+ */
+function setSources(element, srcsetDataAttribute, srcDataAttribute) {
+
     let tagName = element.tagName.toUpperCase();
-    let elementSrc = element.getAttribute('data-' + srcDataAttribute);
+    let elementSrc = element.getAttribute("data-" + srcDataAttribute);
+    
     if (tagName === "IFRAME") {
-        if (elementSrc) element.setAttribute("src", elementSrc);
+        
+        if (elementSrc) {
+            element.setAttribute("src", elementSrc);
+        }
+
         return;
+
     } else {
         
         if (tagName === "IMG") {
-            _setSourcesForPicture(element, srcsetDataAttribute);
+            setSourcesForPicture(element, srcsetDataAttribute);
         }
 
         let dataTarget = element;
@@ -126,9 +142,14 @@ function _setSources(element, srcsetDataAttribute, srcDataAttribute) {
             dataTarget = element["__ionxLazyImageTmpImg"];
         }
 
-        var imgSrcset = element.getAttribute('data-' + srcsetDataAttribute);
-        if (imgSrcset) dataTarget.setAttribute("srcset", imgSrcset);
-        if (elementSrc) dataTarget.setAttribute("src", elementSrc);
+        let imgSrcSet = element.getAttribute("data-" + srcsetDataAttribute);
+        if (imgSrcSet) {
+            dataTarget.setAttribute("srcset", imgSrcSet);
+        }
+
+        if (elementSrc) {
+            dataTarget.setAttribute("src", elementSrc);
+        }
 
         return;
     }
@@ -178,8 +199,15 @@ export class LazyLoad {
 
             if (element["__ionxLazyImageTmpImg"]) {
                 eventTarget = element["__ionxLazyImageTmpImg"];
-                delete element["__ionxLazyImageTmpImg"];
             }
+
+            let alternate = this._options.dataAlternate && element.getAttribute("data-" + this._options.dataAlternate);
+            if (alternate && eventTarget["src"] != alternate) {
+                eventTarget["src"] = alternate;
+                return;
+            }
+
+            delete element["__ionxLazyImageTmpImg"];
 
             eventTarget.removeEventListener("load", loadCallback);
             eventTarget.removeEventListener("error", errorCallback);
@@ -198,7 +226,8 @@ export class LazyLoad {
             }
             
             let eventTarget: any = element;
-
+            
+            // if target element is not <img>, the real target of onload callback is temporary image
             if (element["__ionxLazyImageTmpImg"]) {
                 eventTarget = element["__ionxLazyImageTmpImg"];
                 element.style.backgroundImage = `url(${eventTarget.src})`;
@@ -227,7 +256,7 @@ export class LazyLoad {
             element["__ionxLazyImageTmpImg"] = tmpImg;
         }
 
-        _setSources(element, this._options.dataSrcSet, this._options.dataSrc);
+        setSources(element, this._options.dataSrcSet, this._options.dataSrc);
 
         if (this._options.callbackSet) {
             this._options.callbackSet(element);

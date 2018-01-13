@@ -16,9 +16,17 @@ export class LazyImage {
 
 	private _src: string;
 
+	private _alternate: string;
+
 	@Input("ionx-lazy-image")
 	public set src(value: string) {
 		this._src = value;
+		this.reset();
+	}
+
+	@Input("ionx-lazy-image-alternate")
+	public set alternate(value: string) {
+		this._alternate = value;
 		this.reset();
 	}
 
@@ -29,6 +37,9 @@ export class LazyImage {
 			this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
 		}
 
+		if (this._alternate) {
+			this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
+		}
 	}
 
 	private revalidate() {

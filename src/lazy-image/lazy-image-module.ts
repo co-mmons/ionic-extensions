@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { LazyImage, LazyImageContainer } from "./lazy-image";
+import {NgModule} from "@angular/core";
+import {LazyImage, LazyImageContainer} from "./lazy-image";
 
 @NgModule({
     declarations: [LazyImage, LazyImageContainer],

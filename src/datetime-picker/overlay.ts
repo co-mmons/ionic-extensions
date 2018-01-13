@@ -19,7 +19,7 @@ const monthFormat: Intl.DateTimeFormatOptions = {
     selector: "ionx-datetime-overlay",
     template: `
         <div class="ionx-datetime-overlay-content">
-            <ion-segment [(ngModel)]="dateView" (ionChange)="dateViewChanged()">
+            <ion-segment color="primary" [(ngModel)]="dateView" (ionChange)="dateViewChanged()">
                 <ion-segment-button *ngFor="let view of dateViews" [value]="view.id">{{view.label}}</ion-segment-button>
             </ion-segment>
             <ion-row class="ionx-datetime-overlay-date-header">

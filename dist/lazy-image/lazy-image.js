@@ -27,10 +27,21 @@ var LazyImage = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(LazyImage.prototype, "alternate", {
+        set: function (value) {
+            this._alternate = value;
+            this.reset();
+        },
+        enumerable: true,
+        configurable: true
+    });
     LazyImage.prototype.reset = function () {
         if (this._src) {
             this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
             this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
+        }
+        if (this._alternate) {
+            this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
         }
     };
     LazyImage.prototype.revalidate = function () {
@@ -53,6 +64,11 @@ var LazyImage = /** @class */ (function () {
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], LazyImage.prototype, "src", null);
+    __decorate([
+        Input("ionx-lazy-image-alternate"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], LazyImage.prototype, "alternate", null);
     LazyImage = LazyImage_1 = __decorate([
         Directive({
             selector: "[ionx-lazy-image]"

@@ -5,6 +5,7 @@ export interface LazyLoadOptions {
     throttle?: number;
     dataSrc?: string;
     dataSrcSet?: string;
+    dataAlternate?: string;
     classLoading?: string;
     classLoaded?: string;
     skipInvisible?: boolean;
