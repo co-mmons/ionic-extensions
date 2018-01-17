@@ -149,7 +149,7 @@ export function ensureImagesLoaded(root: HTMLElement, options?: {retryError?: bo
 	}
 
 	if (options && options.lazy) {
-		ensureLazyImagesLoaded(root);
+		ensureLazyImagesLoaded(root, {retryError: options && options.retryError});
 	}
 }
 

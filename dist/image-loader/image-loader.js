@@ -151,7 +151,7 @@ export function ensureImagesLoaded(root, options) {
         image.ionxImageLoader.reload();
     }
     if (options && options.lazy) {
-        ensureLazyImagesLoaded(root);
+        ensureLazyImagesLoaded(root, { retryError: options && options.retryError });
     }
 }
 //# sourceMappingURL=image-loader.js.map
