@@ -8,16 +8,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Directive, Input, ElementRef } from "@angular/core";
+import { ensureLazyImagesLoaded } from "../lazy-image/lazy-load";
 var ImageLoader = /** @class */ (function () {
     function ImageLoader(element) {
         this.element = element;
     }
     Object.defineProperty(ImageLoader.prototype, "src", {
+        get: function () {
+            return this._src;
+        },
         set: function (value) {
             var old = this._src;
             this._src = value;
             if (old != this._src) {
-                this.reset();
+                this.reload();
             }
         },
         enumerable: true,
@@ -35,7 +39,7 @@ var ImageLoader = /** @class */ (function () {
             var old = this._alternate;
             this._alternate = value;
             if (old != this._alternate) {
-                this.reset();
+                this.reload();
             }
         },
         enumerable: true,
@@ -48,14 +52,16 @@ var ImageLoader = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ImageLoader.prototype.reset = function () {
+    ImageLoader.prototype.reload = function () {
         if (!this.loading && this.initialized) {
             this.loaded = false;
+            this.error = false;
+            this.load();
         }
     };
     ImageLoader.prototype.load = function () {
         var _this = this;
-        if (this.loaded || !this._src || this.loading) {
+        if (this.loaded || this.error || !this._src || this.loading) {
             return;
         }
         this.loading = true;
@@ -77,6 +83,7 @@ var ImageLoader = /** @class */ (function () {
             _this.tmpImg = undefined;
             _this.loaded = true;
             _this.loading = false;
+            _this.error = false;
         };
         img.onerror = function () {
             if (_this._alternate && _this._alternate != img.src) {
@@ -87,12 +94,20 @@ var ImageLoader = /** @class */ (function () {
             img.onload = undefined;
             _this.tmpImg = undefined;
             _this.loading = false;
+            _this.loaded = false;
+            _this.error = true;
         };
         img.src = this._src;
     };
     ImageLoader.prototype.ngAfterViewInit = function () {
         this.initialized = true;
+        this.element.nativeElement.ionxImageLoader = this;
         this.load();
+    };
+    ImageLoader.prototype.ngOnDestroy = function () {
+        if (this.element.nativeElement) {
+            delete this.element.nativeElement.ionxImageLoader;
+        }
     };
     __decorate([
         Input("src"),
@@ -116,11 +131,27 @@ var ImageLoader = /** @class */ (function () {
     ], ImageLoader.prototype, "alternate2", null);
     ImageLoader = __decorate([
         Directive({
-            selector: "[ionx-image-loader]"
+            selector: "[ionx-image-loader]",
+            host: {
+                "[attr.ionx-image-loader]": "true"
+            }
         }),
         __metadata("design:paramtypes", [ElementRef])
     ], ImageLoader);
     return ImageLoader;
 }());
 export { ImageLoader };
+export function ensureImagesLoaded(root, options) {
+    var images = root.querySelectorAll("[ionx-image-loader]");
+    for (var i = 0; i < images.length; i++) {
+        var image = images.item(i);
+        if (!image.ionxImageLoader || !image.ionxImageLoader.src || image.ionxImageLoader.loaded || (image.ionxImageLoader.error && (!options || !options.retryError))) {
+            continue;
+        }
+        image.ionxImageLoader.reload();
+    }
+    if (options && options.lazy) {
+        ensureLazyImagesLoaded(root);
+    }
+}
 //# sourceMappingURL=image-loader.js.map

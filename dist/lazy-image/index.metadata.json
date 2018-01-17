@@ -1,1 +1,1 @@
-[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./lazy-image-module","export":["LazyImageModule"]},{"from":"./lazy-image","export":["LazyImage","LazyImageContainer"]}]}]
+[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./lazy-image-module","export":["LazyImageModule"]},{"from":"./lazy-image","export":["LazyImage","LazyImageContainer"]},{"from":"./lazy-load","export":["ensureLazyImagesLoaded"]}]}]

@@ -4,15 +4,21 @@ export declare class ImageLoader {
     constructor(element: ElementRef);
     private _src;
     private _alternate;
-    private loaded;
-    private loading;
+    loaded: boolean;
+    loading: boolean;
+    error: boolean;
     private tmpImg;
     private initialized;
     src: string;
     protected src2: string;
     alternate: string;
     protected alternate2: string;
-    private reset();
+    reload(): void;
     private load();
     ngAfterViewInit(): void;
+    ngOnDestroy(): void;
 }
+export declare function ensureImagesLoaded(root: HTMLElement, options?: {
+    retryError?: boolean;
+    lazy?: boolean;
+}): void;

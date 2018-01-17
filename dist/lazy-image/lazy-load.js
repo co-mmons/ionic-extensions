@@ -134,8 +134,12 @@ function _bind(fn, obj) {
         return fn.apply(obj, arguments);
     };
 }
+var instanceCounter = 0;
+var instances = {};
 var LazyLoad = /** @class */ (function () {
     function LazyLoad(options) {
+        this.id = (++instanceCounter) + "";
+        instances[this.id] = this;
         this._options = Object.assign({}, defaultOptions, options);
         this._queryOriginNode = this._options.container === window ? document : this._options.container;
         this._previousLoopTime = 0;
@@ -144,6 +148,13 @@ var LazyLoad = /** @class */ (function () {
         window.addEventListener("resize", this._handleScrollFn);
         this.update();
     }
+    Object.defineProperty(LazyLoad.prototype, "container", {
+        get: function () {
+            return this._queryOriginNode;
+        },
+        enumerable: true,
+        configurable: true
+    });
     LazyLoad.prototype._showOnAppear = function (element) {
         var _this = this;
         var errorCallback = function () {
@@ -160,6 +171,7 @@ var LazyLoad = /** @class */ (function () {
             eventTarget.removeEventListener("load", loadCallback);
             eventTarget.removeEventListener("error", errorCallback);
             element.classList.remove(_this._options.classLoading);
+            element.lazyLoadError = true;
             if (_this._options.callbackError) {
                 _this._options.callbackError.callback_error(element);
             }
@@ -176,6 +188,7 @@ var LazyLoad = /** @class */ (function () {
                 element.style.backgroundImage = "url(" + eventTarget.src + ")";
                 delete element["__ionxLazyImageTmpImg"];
             }
+            element.lazyLoadError = false;
             if (_this._options.callbackLoad) {
                 _this._options.callbackLoad(element);
             }
@@ -213,7 +226,7 @@ var LazyLoad = /** @class */ (function () {
                 this._showOnAppear(element);
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
-                element.wasProcessed = true;
+                element.lazyLoadProcessed = true;
             }
         }
         /* Removing processed elements from this._elements. */
@@ -234,7 +247,7 @@ var LazyLoad = /** @class */ (function () {
         for (var i = 0; i < this._elements.length; i++) {
             var element = this._elements[i];
             /* If the element has already been processed, skip it */
-            if (element.wasProcessed) {
+            if (element.lazyLoadProcessed) {
                 elementsToPurge.push(i);
             }
         }
@@ -289,8 +302,16 @@ var LazyLoad = /** @class */ (function () {
         }
     };
     ;
-    LazyLoad.prototype.update = function () {
+    LazyLoad.prototype.update = function (options) {
         this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._options.selector));
+        if (options && options.retryError) {
+            for (var _i = 0, _a = this._elements; _i < _a.length; _i++) {
+                var element = _a[_i];
+                if (element.lazyLoadProcessed && element.lazyLoadError) {
+                    element.lazyLoadProcessed = false;
+                }
+            }
+        }
         this._purgeElements();
         this._loopThroughElements();
         this._startScrollHandler();
@@ -305,8 +326,27 @@ var LazyLoad = /** @class */ (function () {
         this._elements = null;
         this._queryOriginNode = null;
         this._options = null;
+        delete instances[this.id];
     };
     return LazyLoad;
 }());
 export { LazyLoad };
+export function ensureLazyImagesLoaded(root, options) {
+    for (var instanceId in instances) {
+        var loader = instances[instanceId];
+        var container = loader.container;
+        if (root === container) {
+            loader.update({ retryError: options && options.retryError });
+        }
+        else {
+            var parent_1 = container.parentElement;
+            while (parent_1 && parent_1 !== root) {
+                parent_1 = parent_1.parentElement;
+            }
+            if (parent_1) {
+                loader.update({ retryError: options && options.retryError });
+            }
+        }
+    }
+}
 //# sourceMappingURL=lazy-load.js.map

@@ -1,7 +1,11 @@
 import {Directive, Input, ElementRef} from "@angular/core";
+import {ensureLazyImagesLoaded} from "../lazy-image/lazy-load";
 
 @Directive({
-	selector: "[ionx-image-loader]"
+	selector: "[ionx-image-loader]",
+	host: {
+		"[attr.ionx-image-loader]": "true"
+	}
 })
 export class ImageLoader {
 
@@ -12,9 +16,11 @@ export class ImageLoader {
 
 	private _alternate: string;
 
-	private loaded: boolean;
+	loaded: boolean;
 
-	private loading: boolean;
+	loading: boolean;
+
+	error: boolean;
 
 	private tmpImg: HTMLImageElement;
 
@@ -26,8 +32,12 @@ export class ImageLoader {
 		this._src = value;
 
 		if (old != this._src) {
-			this.reset();
+			this.reload();
 		}
+	}
+
+	public get src() {
+		return this._src;
 	}
 
 	@Input("ionx-image-loader")
@@ -41,7 +51,7 @@ export class ImageLoader {
 		this._alternate = value;
 
 		if (old != this._alternate) {
-			this.reset();
+			this.reload();
 		}
 	}
 
@@ -50,15 +60,17 @@ export class ImageLoader {
 		this.alternate = value;
 	}
 
-	private reset() {
+	reload() {
 		if (!this.loading && this.initialized) {
 			this.loaded = false;
+			this.error = false;
+			this.load();
 		}
 	}
 
 	private load() {
 
-		if (this.loaded || !this._src || this.loading) {
+		if (this.loaded || this.error || !this._src || this.loading) {
 			return;
 		}
 
@@ -87,6 +99,7 @@ export class ImageLoader {
 			this.tmpImg = undefined;
 			this.loaded = true;
 			this.loading = false;
+			this.error = false;
 		};
 
 		img.onerror = () => {
@@ -101,6 +114,8 @@ export class ImageLoader {
 
 			this.tmpImg = undefined;
 			this.loading = false;
+			this.loaded = false;
+			this.error = true;
 		};
 
 		img.src = this._src;
@@ -108,7 +123,36 @@ export class ImageLoader {
 
 	ngAfterViewInit() {
 		this.initialized = true;
+		this.element.nativeElement.ionxImageLoader = this;
 		this.load();
 	}
 
+	ngOnDestroy() {
+		if (this.element.nativeElement) {
+			delete this.element.nativeElement.ionxImageLoader;
+		}
+	}
+
+}
+
+export function ensureImagesLoaded(root: HTMLElement, options?: {retryError?: boolean, lazy?: boolean}) {
+
+	let images = root.querySelectorAll("[ionx-image-loader]");
+	for (let i = 0; i < images.length; i++) {
+		let image: Element & ImageLoaderElement = images.item(i);
+
+		if (!image.ionxImageLoader || !image.ionxImageLoader.src || image.ionxImageLoader.loaded || (image.ionxImageLoader.error && (!options || !options.retryError))) {
+			continue;
+		}
+
+		image.ionxImageLoader.reload();
+	}
+
+	if (options && options.lazy) {
+		ensureLazyImagesLoaded(root);
+	}
+}
+
+interface ImageLoaderElement {
+	ionxImageLoader?: ImageLoader;
 }

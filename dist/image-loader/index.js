@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from "@angular/core";
 import { ImageLoader } from "./image-loader";
+export { ImageLoader, ensureImagesLoaded } from "./image-loader";
 var ImageLoaderModule = /** @class */ (function () {
     function ImageLoaderModule() {
     }

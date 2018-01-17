@@ -162,9 +162,16 @@ function _bind(fn, obj) {
     };
 }
 
+var instanceCounter = 0;
+var instances: {[instanceId: string]: LazyLoad} = {};
+
+
 export class LazyLoad {
 
     constructor(options?: LazyLoadOptions) {
+
+        this.id = (++instanceCounter) + "";
+        instances[this.id] = this;
 
         this._options = Object.assign({}, defaultOptions, options);
         this._queryOriginNode = this._options.container === window ? document : <HTMLElement|Document>this._options.container;
@@ -178,6 +185,8 @@ export class LazyLoad {
         this.update();
     }
 
+    private id: string;
+
     private _options: LazyLoadOptions;
 
     private _queryOriginNode: HTMLElement | Document;
@@ -188,10 +197,15 @@ export class LazyLoad {
 
     private _handleScrollFn: any;
 
-    private _elements: any;
+    private _elements: Array<HTMLElement & ExtendedHtmlElement>;
 
 
-    private _showOnAppear(element: HTMLElement) {
+    get container(): HTMLElement | Document {
+        return this._queryOriginNode;
+    }
+
+
+    private _showOnAppear(element: HTMLElement & ExtendedHtmlElement) {
 
         let errorCallback = () => {
 
@@ -212,6 +226,7 @@ export class LazyLoad {
             eventTarget.removeEventListener("load", loadCallback);
             eventTarget.removeEventListener("error", errorCallback);
             element.classList.remove(this._options.classLoading);
+            element.lazyLoadError = true;
 
             if (this._options.callbackError) {
                 this._options.callbackError.callback_error(element);
@@ -233,6 +248,8 @@ export class LazyLoad {
                 element.style.backgroundImage = `url(${eventTarget.src})`;
                 delete element["__ionxLazyImageTmpImg"];
             }
+
+            element.lazyLoadError = false;
 
             if (this._options.callbackLoad) {
                 this._options.callbackLoad(element);
@@ -281,7 +298,7 @@ export class LazyLoad {
 
                 /* Marking the element as processed. */
                 processedIndexes.push(i);
-                element.wasProcessed = true;
+                element.lazyLoadProcessed = true;
             }
         }
 
@@ -307,7 +324,7 @@ export class LazyLoad {
             let element = this._elements[i];
 
             /* If the element has already been processed, skip it */
-            if (element.wasProcessed) {
+            if (element.lazyLoadProcessed) {
                 elementsToPurge.push(i);
             }
         }
@@ -369,8 +386,17 @@ export class LazyLoad {
         }
     };
 
-    public update() {
+    public update(options?: {retryError?: boolean}) {
+
         this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._options.selector));
+        if (options && options.retryError) {
+            for (let element of this._elements) {
+                if (element.lazyLoadProcessed && element.lazyLoadError) {
+                    element.lazyLoadProcessed = false;
+                }
+            }
+        }
+
         this._purgeElements();
         this._loopThroughElements();
         this._startScrollHandler();
@@ -386,6 +412,36 @@ export class LazyLoad {
         this._elements = null;
         this._queryOriginNode = null;
         this._options = null;
+        
+        delete instances[this.id];
     }
 
+}
+
+export function ensureLazyImagesLoaded(root: HTMLElement, options?: {retryError?: boolean}) {
+
+    for (let instanceId in instances) {
+        let loader: LazyLoad = instances[instanceId];
+        let container = loader.container;
+
+        if (root === container) {
+            loader.update({retryError: options && options.retryError});
+        } else {
+
+            let parent = container.parentElement;
+            while (parent && parent !== root) {
+                parent = parent.parentElement;
+            }
+
+            if (parent) {
+                loader.update({retryError: options && options.retryError});
+            }
+        }
+    }
+}
+
+
+interface ExtendedHtmlElement {
+    lazyLoadProcessed?: boolean;
+    lazyLoadError?: boolean;
 }
