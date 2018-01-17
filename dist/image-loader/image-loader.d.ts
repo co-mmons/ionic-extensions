@@ -21,4 +21,4 @@ export declare class ImageLoader {
 export declare function ensureImagesLoaded(root: HTMLElement, options?: {
     retryError?: boolean;
     lazy?: boolean;
-}): void;
+}): Promise<void>;

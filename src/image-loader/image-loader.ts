@@ -135,7 +135,7 @@ export class ImageLoader {
 
 }
 
-export function ensureImagesLoaded(root: HTMLElement, options?: {retryError?: boolean, lazy?: boolean}) {
+export async function ensureImagesLoaded(root: HTMLElement, options?: {retryError?: boolean, lazy?: boolean}) {
 
 	let images = root.querySelectorAll("[ionx-image-loader]");
 	for (let i = 0; i < images.length; i++) {
@@ -149,7 +149,7 @@ export function ensureImagesLoaded(root: HTMLElement, options?: {retryError?: bo
 	}
 
 	if (options && options.lazy) {
-		ensureLazyImagesLoaded(root, {retryError: options && options.retryError});
+		await ensureLazyImagesLoaded(root, {retryError: options && options.retryError});
 	}
 }
 

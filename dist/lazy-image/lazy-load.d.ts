@@ -23,4 +23,4 @@ export declare class LazyLoad {
 }
 export declare function ensureLazyImagesLoaded(root: HTMLElement, options?: {
     retryError?: boolean;
-}): void;
+}): Promise<void>;

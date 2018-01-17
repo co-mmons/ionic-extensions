@@ -418,7 +418,7 @@ export class LazyLoad {
 
 }
 
-export function ensureLazyImagesLoaded(root: HTMLElement, options?: {retryError?: boolean}) {
+export async function ensureLazyImagesLoaded(root: HTMLElement, options?: {retryError?: boolean}) {
 
     for (let instanceId in instances) {
         let loader: LazyLoad = instances[instanceId];
