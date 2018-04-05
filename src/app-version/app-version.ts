@@ -180,15 +180,15 @@ export class AppVersion {
 
             if (!versionNumber) {
                 match = (/#((\d+\.)?(\d+\.)?(\*|\d+))#/ig).exec(content);
-                if (match && match.length >= 1) {
-                    versionNumber = match[0];
+                if (match && match.length > 1) {
+                    versionNumber = match[1];
                 }
             }
 
             if (!versionNumber) {
                 match = (/###((\d+\.)?(\d+\.)?(\*|\d+))###/ig).exec(content);
-                if (match && match.length >= 1) {
-                    versionNumber = match[0];
+                if (match && match.length > 1) {
+                    versionNumber = match[1];
                 }
             }
 
