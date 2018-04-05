@@ -10,13 +10,29 @@ export class AppVersion {
     constructor(private platform: Platform, private http: HttpClient, private appVersion: InstalledAppVersion, private intl: IntlService, private alertController: AlertController) {        
     }
 
-    async newVersionAvailable(id: string | AppIdentifiers): Promise<AppNewVersion> {
+    async newVersionAvailable(id: string | AppIdentifiers, publishedVersions?: {android?: string, ios?: string} | string): Promise<AppNewVersion> {
         try {
-            let installed = await this.installedVersionNumber();
-            let published = await this.publishedVersion(id);
+            
+            let platform = this.appPlatform(id);
+            if (!platform) {
+                return;
+            }
 
-            if (this.compareVersionNumbers(published ? published.version : undefined, installed) > 0) {
-                return published;
+            let installedVersion = await this.installedVersionNumber();
+            let publishedVersion = typeof publishedVersions == "string" ? publishedVersions : (publishedVersions && publishedVersions[platform.platform]);
+
+            if (publishedVersion && this.compareVersionNumbers(publishedVersion, installedVersion) <= 0) {
+                return;
+            }
+            
+            let verifiedPublishedVersion = await this.publishedVersion(id, platform);
+
+            if (verifiedPublishedVersion) {
+                if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) == 0) {
+                    return verifiedPublishedVersion;
+                } else if (!publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, installedVersion) > 0) {
+                    return verifiedPublishedVersion;
+                }
             }
 
         } catch (e) {
@@ -26,7 +42,7 @@ export class AppVersion {
         return undefined;
     }
 
-    installedVersionNumber() {
+    installedVersionNumber(): Promise<string> {
         return this.appVersion.getVersionNumber();
     }
 
@@ -44,8 +60,12 @@ export class AppVersion {
         return undefined;
     }
 
-    private async publishedVersion(id: string | AppIdentifiers): Promise<AppNewVersion> {
-        let app = this.appPlatform(id);
+    private async publishedVersion(id: string | AppIdentifiers, app?: AppPlatform): Promise<AppNewVersion> {
+        
+        if (!app) {
+            app = this.appPlatform(id);
+        }
+
         if (app) {
             
             let httpOptions: any = {};
@@ -158,18 +178,17 @@ export class AppVersion {
             let versionNumber: string;
             let match: RegExpExecArray;
 
-            match = (/itemprop="softwareVersion"[^>]*?>(.*?)<\//ig).exec(content);
-            if (match.length > 1 && match[1]) {
-                let versionMatch = match[1].trim().match(/^(\d+\.)?(\d+\.)?(\*|\d+)$/);
-                if (versionMatch && versionMatch.length) {
-                    versionNumber = versionMatch[0];
+            if (!versionNumber) {
+                match = (/#((\d+\.)?(\d+\.)?(\*|\d+))#/ig).exec(content);
+                if (match && match.length >= 1) {
+                    versionNumber = match[0];
                 }
             }
 
             if (!versionNumber) {
-                match = (/(?:whatsnew|recent-change)(.+?)#((\d+\.)?(\d+\.)?(\*|\d+))/ig).exec(content);
-                if (match && match.length > 2) {
-                    versionNumber = match[2];
+                match = (/###((\d+\.)?(\d+\.)?(\*|\d+))###/ig).exec(content);
+                if (match && match.length >= 1) {
+                    versionNumber = match[0];
                 }
             }
 

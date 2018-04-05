@@ -9,10 +9,13 @@ export declare class AppVersion {
     private intl;
     private alertController;
     constructor(platform: Platform, http: HttpClient, appVersion: InstalledAppVersion, intl: IntlService, alertController: AlertController);
-    newVersionAvailable(id: string | AppIdentifiers): Promise<AppNewVersion>;
-    installedVersionNumber(): Promise<any>;
+    newVersionAvailable(id: string | AppIdentifiers, publishedVersions?: {
+        android?: string;
+        ios?: string;
+    } | string): Promise<AppNewVersion>;
+    installedVersionNumber(): Promise<string>;
     publishedVersionNumber(id: string | AppIdentifiers): Promise<string>;
-    private publishedVersion(id);
+    private publishedVersion(id, app?);
     private appPlatform(id);
     private compareVersionNumbers(a, b);
     private parseVersion(app, content);

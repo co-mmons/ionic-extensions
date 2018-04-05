@@ -55,21 +55,34 @@ var AppVersion = /** @class */ (function () {
         this.intl = intl;
         this.alertController = alertController;
     }
-    AppVersion.prototype.newVersionAvailable = function (id) {
+    AppVersion.prototype.newVersionAvailable = function (id, publishedVersions) {
         return __awaiter(this, void 0, void 0, function () {
-            var installed, published, e_1;
+            var platform, installedVersion, publishedVersion, verifiedPublishedVersion, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
+                        platform = this.appPlatform(id);
+                        if (!platform) {
+                            return [2 /*return*/];
+                        }
                         return [4 /*yield*/, this.installedVersionNumber()];
                     case 1:
-                        installed = _a.sent();
-                        return [4 /*yield*/, this.publishedVersion(id)];
+                        installedVersion = _a.sent();
+                        publishedVersion = typeof publishedVersions == "string" ? publishedVersions : (publishedVersions && publishedVersions[platform.platform]);
+                        if (publishedVersion && this.compareVersionNumbers(publishedVersion, installedVersion) <= 0) {
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, this.publishedVersion(id, platform)];
                     case 2:
-                        published = _a.sent();
-                        if (this.compareVersionNumbers(published ? published.version : undefined, installed) > 0) {
-                            return [2 /*return*/, published];
+                        verifiedPublishedVersion = _a.sent();
+                        if (verifiedPublishedVersion) {
+                            if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) == 0) {
+                                return [2 /*return*/, verifiedPublishedVersion];
+                            }
+                            else if (!publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, installedVersion) > 0) {
+                                return [2 /*return*/, verifiedPublishedVersion];
+                            }
                         }
                         return [3 /*break*/, 4];
                     case 3:
@@ -107,13 +120,15 @@ var AppVersion = /** @class */ (function () {
             });
         });
     };
-    AppVersion.prototype.publishedVersion = function (id) {
+    AppVersion.prototype.publishedVersion = function (id, app) {
         return __awaiter(this, void 0, void 0, function () {
-            var app, httpOptions, content;
+            var httpOptions, content;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        app = this.appPlatform(id);
+                        if (!app) {
+                            app = this.appPlatform(id);
+                        }
                         if (!app) return [3 /*break*/, 2];
                         httpOptions = {};
                         if (app.platform == "android") {
@@ -206,17 +221,16 @@ var AppVersion = /** @class */ (function () {
         else if (app.platform == "android" && typeof content == "string") {
             var versionNumber = void 0;
             var match = void 0;
-            match = (/itemprop="softwareVersion"[^>]*?>(.*?)<\//ig).exec(content);
-            if (match.length > 1 && match[1]) {
-                var versionMatch = match[1].trim().match(/^(\d+\.)?(\d+\.)?(\*|\d+)$/);
-                if (versionMatch && versionMatch.length) {
-                    versionNumber = versionMatch[0];
+            if (!versionNumber) {
+                match = (/#((\d+\.)?(\d+\.)?(\*|\d+))#/ig).exec(content);
+                if (match && match.length >= 1) {
+                    versionNumber = match[0];
                 }
             }
             if (!versionNumber) {
-                match = (/(?:whatsnew|recent-change)(.+?)#((\d+\.)?(\d+\.)?(\*|\d+))/ig).exec(content);
-                if (match && match.length > 2) {
-                    versionNumber = match[2];
+                match = (/###((\d+\.)?(\d+\.)?(\*|\d+))###/ig).exec(content);
+                if (match && match.length >= 1) {
+                    versionNumber = match[0];
                 }
             }
             if (versionNumber) {
