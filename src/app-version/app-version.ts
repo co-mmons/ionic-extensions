@@ -221,6 +221,7 @@ export class AppVersion {
 
             if (this.updateMessageAlert) {
                 reject(new Error("Already showing update message"));
+                return;
             }
 
             let linkId = "commons-ionic-extensions-app-version-" + version.app.id;

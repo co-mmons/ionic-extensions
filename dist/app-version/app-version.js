@@ -255,6 +255,7 @@ var AppVersion = /** @class */ (function () {
         return new Promise(function (resolve, reject) {
             if (_this.updateMessageAlert) {
                 reject(new Error("Already showing update message"));
+                return;
             }
             var linkId = "commons-ionic-extensions-app-version-" + version.app.id;
             var storeLink = document.getElementById(linkId);
