@@ -219,6 +219,10 @@ export class AppVersion {
 
         return new Promise((resolve, reject) => {
 
+            if (this.updateMessageAlert) {
+                reject(new Error("Already showing update message"));
+            }
+
             let linkId = "commons-ionic-extensions-app-version-" + version.app.id;
 
             let storeLink = document.getElementById(linkId);
@@ -230,10 +234,6 @@ export class AppVersion {
                 storeLink.setAttribute("target", "_blank");
                 storeLink.innerHTML = "store";
                 document.body.appendChild(storeLink);
-            }
-
-            if (this.updateMessageAlert) {
-                this.updateMessageAlert.dismiss();
             }
 
             this.updateMessageAlert = this.alertController.create({
@@ -259,6 +259,7 @@ export class AppVersion {
             this.updateMessageAlert.onDidDismiss((data) => {
                 storeLink.remove();
                 resolve(data ? true : false);
+                this.updateMessageAlert = undefined;
             });
 
             this.updateMessageAlert.present();

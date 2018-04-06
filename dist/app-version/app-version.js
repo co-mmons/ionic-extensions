@@ -253,6 +253,9 @@ var AppVersion = /** @class */ (function () {
     AppVersion.prototype.showUpdateMessage = function (version) {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            if (_this.updateMessageAlert) {
+                reject(new Error("Already showing update message"));
+            }
             var linkId = "commons-ionic-extensions-app-version-" + version.app.id;
             var storeLink = document.getElementById(linkId);
             if (!storeLink) {
@@ -263,9 +266,6 @@ var AppVersion = /** @class */ (function () {
                 storeLink.setAttribute("target", "_blank");
                 storeLink.innerHTML = "store";
                 document.body.appendChild(storeLink);
-            }
-            if (_this.updateMessageAlert) {
-                _this.updateMessageAlert.dismiss();
             }
             _this.updateMessageAlert = _this.alertController.create({
                 title: _this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
@@ -289,6 +289,7 @@ var AppVersion = /** @class */ (function () {
             _this.updateMessageAlert.onDidDismiss(function (data) {
                 storeLink.remove();
                 resolve(data ? true : false);
+                _this.updateMessageAlert = undefined;
             });
             _this.updateMessageAlert.present();
         });
