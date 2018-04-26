@@ -41,6 +41,9 @@ var Select = /** @class */ (function (_super) {
             data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
             data.title = (this.selectOptions ? this.selectOptions.title : undefined) || this._item.getLabelText();
             data.ordered = this.ordered;
+            data.selectionValidator = this.selectionValidator;
+            data.searchHandler = this.searchHandler;
+            data.alwaysArrayResult = this.alwaysArrayResult;
             data.options = this._options.map(function (input) {
                 var selectionIndex = -1;
                 for (var i = 0; i < values_1.length; i++) {
@@ -54,14 +57,13 @@ var Select = /** @class */ (function (_super) {
                     value: input.value,
                     checked: input.selected,
                     checkedTimestamp: selectionIndex,
-                    disabled: input.disabled
+                    disabled: input.disabled,
+                    divider: input["_elementRef"].nativeElement.hasAttribute("divider")
                 };
             });
             var overlay = this.modalController.create(SelectModal, data, options);
             overlay.onDidDismiss(function (values) {
-                if (values) {
-                    _this.value = values;
-                }
+                _this.value = values;
             });
             if (ev) {
                 Object.defineProperty(ev, 'target', { value: ev.currentTarget });
@@ -109,6 +111,18 @@ var Select = /** @class */ (function (_super) {
         Input(),
         __metadata("design:type", Boolean)
     ], Select.prototype, "ordered", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], Select.prototype, "alwaysArrayResult", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Function)
+    ], Select.prototype, "searchHandler", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Function)
+    ], Select.prototype, "selectionValidator", void 0);
     Select = Select_1 = __decorate([
         Component({
             selector: "ionx-select",

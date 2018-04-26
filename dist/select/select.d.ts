@@ -6,5 +6,23 @@ export declare class Select extends IonSelect {
     open(ev?: UIEvent): void;
     readonly: boolean;
     ordered: boolean;
+    alwaysArrayResult: boolean;
+    searchHandler: (query: string, options: {
+        label: string;
+        value: any;
+        hidden: boolean;
+        checked: boolean;
+    }[]) => void;
+    selectionValidator: (option: {
+        label: string;
+        value: any;
+        hidden: boolean;
+        checked: boolean;
+    }, options: {
+        label: string;
+        value: any;
+        hidden: boolean;
+        checked: boolean;
+    }[]) => void;
     _updateText(): void;
 }

@@ -15,6 +15,11 @@ import {IntlService} from "@co.mmons/angular-intl";
                     </button>
                 </ion-buttons>
 
+                <ion-buttons right>
+                    <button ion-button (click)="cancelClicked()">{{"@co.mmons/js-intl#Cancel" | intlMessage}}</button>
+                    <button ion-button (click)="okClicked()">{{"@co.mmons/js-intl#OK" | intlMessage}}</button>
+                </ion-buttons>
+
             </ion-toolbar>
             <ion-toolbar>
                 <ion-searchbar ionx-flat cancelButtonText="{{'@co.mmons/js-intl#Cancel' | intlMessage}}" placeholder="{{'@co.mmons/js-intl#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
@@ -35,7 +40,8 @@ import {IntlService} from "@co.mmons/angular-intl";
 
                 <ion-item-group *ngIf="visibleOptionsCount">
                     <ng-template ngFor [ngForOf]="options" let-option>
-                        <ion-item *ngIf="!option.hidden && (!ordered || !option.checked)" [class.ionx-select-checked]="option.checked">
+                        <ion-item-divider *ngIf="option.divider && !option.hidden">{{option.label}}</ion-item-divider>
+                        <ion-item *ngIf="!option.divider && !option.hidden && (!ordered || !option.checked)" [class.ionx-select-checked]="option.checked">
                             <ion-label>{{option.label}}</ion-label>
                             <ion-checkbox [(ngModel)]="option.checked" (ionChange)="optionClicked(option)"></ion-checkbox>
                         </ion-item>
@@ -43,14 +49,6 @@ import {IntlService} from "@co.mmons/angular-intl";
                 </ion-item-group>
             </ion-list>
         </ion-content>
-        <ion-footer>
-            <ion-toolbar>
-                <div class="ionx-select-overlay-buttons alert-button-group">
-                    <button ion-button="alert-button" clear (click)="cancelClicked()">{{"@co.mmons/js-intl#Cancel" | intlMessage}}</button>
-                    <button ion-button="alert-button" clear (click)="okClicked()">{{"@co.mmons/js-intl#OK" | intlMessage}}</button>
-                </div>
-            </ion-toolbar>
-        </ion-footer>
     `,
     host: {
         "[class.alert]": "true",
@@ -68,6 +66,9 @@ export class SelectModal {
         this.md = config.get("mode") == "md";
         this.wp = config.get("mode") == "wp";
         this.ordered = this.navParams.get("ordered") && this.multiple;
+        this.alwaysArrayResult = !!this.navParams.get("alwaysArrayResult");
+        this.selectionValidator = this.navParams.get("selectionValidator");
+        this.searchHandler = this.navParams.get("searchHandler");
     }
 
     private ios: boolean;
@@ -90,7 +91,13 @@ export class SelectModal {
 
     multiple: boolean = false;
 
+    alwaysArrayResult: boolean;
+
     title: any;
+
+    searchHandler: any;
+
+    selectionValidator: any;
 
     options: any[];
 
@@ -129,6 +136,10 @@ export class SelectModal {
         }
 
         this.recalculateVisibleOptions();
+
+        if (this.selectionValidator) {
+            this.selectionValidator(option, this.options);
+        }
     }
 
     recalculateVisibleOptions() {
@@ -136,13 +147,31 @@ export class SelectModal {
         this.visibleCheckedOptionsCount = 0;
         this.visibleOptionsCount = 0;
         
-        for (let option of this.options) {
+        for (let i = 0; i < this.options.length; i++) {
 
-            if (!option.hidden && (!this.ordered || !option.checked)) {
+            // check, whether divider can be shown
+            if (this.options[i].divider) {
+                this.options[i].hidden = true;
+                if (this.options.length - 1 > i) {
+                    for (let ii = i + 1; ii < this.options.length; ii++) {
+
+                        if (this.options[ii].divider) {
+                            break;
+                        }
+
+                        if (!this.options[ii].hidden) {
+                            this.options[i].hidden = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!this.options[i].hidden && (!this.ordered || !this.options[i].checked)) {
                 this.visibleOptionsCount++;
             }
 
-            if (!option.hidden && option.checked) {
+            if (!this.options[i].hidden && this.options[i].checked) {
                 this.visibleCheckedOptionsCount++;
             }
         }
@@ -165,7 +194,11 @@ export class SelectModal {
             }
         }
 
-        this.viewController.dismiss(values);
+        if (this.multiple || this.alwaysArrayResult) {
+            this.viewController.dismiss(values);
+        } else {
+            this.viewController.dismiss(values.length > 0 ? values[0] : undefined);
+        }
     }
 
     cancelClicked() {
@@ -182,8 +215,14 @@ export class SelectModal {
             query = query.trim().toLowerCase();
         }
 
-        for (let o of this.options) {
-            o.hidden = query && o.label.toLowerCase().indexOf(query) < 0;
+        if (this.searchHandler) {
+            this.searchHandler(query, this.options);
+
+        } else {
+
+            for (let o of this.options) {
+                o.hidden = query && o.label.toLowerCase().indexOf(query) < 0;
+            }
         }
 
         this.recalculateVisibleOptions();

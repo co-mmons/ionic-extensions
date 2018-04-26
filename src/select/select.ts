@@ -55,6 +55,9 @@ export class Select extends IonSelect {
             data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
             data.title = (this.selectOptions ? this.selectOptions.title : undefined) || this._item.getLabelText();
             data.ordered = this.ordered;
+            data.selectionValidator = this.selectionValidator;
+            data.searchHandler = this.searchHandler;
+            data.alwaysArrayResult = this.alwaysArrayResult;
 
             data.options = this._options.map(input => {
 
@@ -71,16 +74,15 @@ export class Select extends IonSelect {
                     value: input.value,
                     checked: input.selected,
                     checkedTimestamp: selectionIndex,
-                    disabled: input.disabled
+                    disabled: input.disabled,
+                    divider: input["_elementRef"].nativeElement.hasAttribute("divider")
                 };
             });
 
             let overlay = this.modalController.create(SelectModal, data, options);
 
             overlay.onDidDismiss(values => {
-                if (values) {
-                    this.value = values;
-                }
+                this.value = values;
             });
 
             if (ev) {
@@ -99,6 +101,15 @@ export class Select extends IonSelect {
 
     @Input()
     ordered: boolean;
+
+    @Input()
+    alwaysArrayResult: boolean;
+
+    @Input()
+    searchHandler: (query: string, options: {label: string, value: any, hidden: boolean, checked: boolean}[]) => void;
+
+    @Input()
+    selectionValidator: (option: {label: string, value: any, hidden: boolean, checked: boolean}, options: {label: string, value: any, hidden: boolean, checked: boolean}[]) => void;
 
     _updateText() {
         this._texts.length = 0;

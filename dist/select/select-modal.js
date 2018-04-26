@@ -22,6 +22,9 @@ var SelectModal = /** @class */ (function () {
         this.md = config.get("mode") == "md";
         this.wp = config.get("mode") == "wp";
         this.ordered = this.navParams.get("ordered") && this.multiple;
+        this.alwaysArrayResult = !!this.navParams.get("alwaysArrayResult");
+        this.selectionValidator = this.navParams.get("selectionValidator");
+        this.searchHandler = this.navParams.get("searchHandler");
     }
     SelectModal.prototype.reordered = function (indexes) {
         this.optionsChecked = reorderArray(this.optionsChecked, indexes);
@@ -50,16 +53,33 @@ var SelectModal = /** @class */ (function () {
             }
         }
         this.recalculateVisibleOptions();
+        if (this.selectionValidator) {
+            this.selectionValidator(option, this.options);
+        }
     };
     SelectModal.prototype.recalculateVisibleOptions = function () {
         this.visibleCheckedOptionsCount = 0;
         this.visibleOptionsCount = 0;
-        for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
-            var option = _a[_i];
-            if (!option.hidden && (!this.ordered || !option.checked)) {
+        for (var i = 0; i < this.options.length; i++) {
+            // check, whether divider can be shown
+            if (this.options[i].divider) {
+                this.options[i].hidden = true;
+                if (this.options.length - 1 > i) {
+                    for (var ii = i + 1; ii < this.options.length; ii++) {
+                        if (this.options[ii].divider) {
+                            break;
+                        }
+                        if (!this.options[ii].hidden) {
+                            this.options[i].hidden = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!this.options[i].hidden && (!this.ordered || !this.options[i].checked)) {
                 this.visibleOptionsCount++;
             }
-            if (!option.hidden && option.checked) {
+            if (!this.options[i].hidden && this.options[i].checked) {
                 this.visibleCheckedOptionsCount++;
             }
         }
@@ -80,7 +100,12 @@ var SelectModal = /** @class */ (function () {
                 }
             }
         }
-        this.viewController.dismiss(values);
+        if (this.multiple || this.alwaysArrayResult) {
+            this.viewController.dismiss(values);
+        }
+        else {
+            this.viewController.dismiss(values.length > 0 ? values[0] : undefined);
+        }
     };
     SelectModal.prototype.cancelClicked = function () {
         this.viewController.dismiss(undefined);
@@ -90,9 +115,14 @@ var SelectModal = /** @class */ (function () {
         if (query) {
             query = query.trim().toLowerCase();
         }
-        for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
-            var o = _a[_i];
-            o.hidden = query && o.label.toLowerCase().indexOf(query) < 0;
+        if (this.searchHandler) {
+            this.searchHandler(query, this.options);
+        }
+        else {
+            for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
+                var o = _a[_i];
+                o.hidden = query && o.label.toLowerCase().indexOf(query) < 0;
+            }
         }
         this.recalculateVisibleOptions();
     };
@@ -144,7 +174,7 @@ var SelectModal = /** @class */ (function () {
     SelectModal = __decorate([
         Component({
             selector: "ionx-select-modal",
-            template: "\n        <ion-header>\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons left>\n                    <button ion-button icon-only (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\"></ion-icon>\n                    </button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar ionx-flat cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content>\n            <ionx-spinner fill ion-fixed *ngIf=\"!options\"></ionx-spinner>\n            <ion-list>\n                \n                <ion-item-group [reorder]=\"optionsChecked.length > 1\" (ionItemReorder)=\"reordered($event)\" *ngIf=\"ordered && optionsChecked && optionsChecked.length && visibleCheckedOptionsCount\">\n                    <ng-template ngFor [ngForOf]=\"optionsChecked\" let-option>\n                        <ion-item *ngIf=\"!option.hidden\" [class.ionx-select-checked]=\"true\">\n                            <ion-label>{{option.label}}</ion-label>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionClicked(option)\"></ion-checkbox>\n                        </ion-item>\n                    </ng-template>\n                </ion-item-group>\n\n                <ion-item-group *ngIf=\"visibleOptionsCount\">\n                    <ng-template ngFor [ngForOf]=\"options\" let-option>\n                        <ion-item *ngIf=\"!option.hidden && (!ordered || !option.checked)\" [class.ionx-select-checked]=\"option.checked\">\n                            <ion-label>{{option.label}}</ion-label>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionClicked(option)\"></ion-checkbox>\n                        </ion-item>\n                    </ng-template>\n                </ion-item-group>\n            </ion-list>\n        </ion-content>\n        <ion-footer>\n            <ion-toolbar>\n                <div class=\"ionx-select-overlay-buttons alert-button-group\">\n                    <button ion-button=\"alert-button\" clear (click)=\"cancelClicked()\">{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</button>\n                    <button ion-button=\"alert-button\" clear (click)=\"okClicked()\">{{\"@co.mmons/js-intl#OK\" | intlMessage}}</button>\n                </div>\n            </ion-toolbar>\n        </ion-footer>\n    ",
+            template: "\n        <ion-header>\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons left>\n                    <button ion-button icon-only (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\"></ion-icon>\n                    </button>\n                </ion-buttons>\n\n                <ion-buttons right>\n                    <button ion-button (click)=\"cancelClicked()\">{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</button>\n                    <button ion-button (click)=\"okClicked()\">{{\"@co.mmons/js-intl#OK\" | intlMessage}}</button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar ionx-flat cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content>\n            <ionx-spinner fill ion-fixed *ngIf=\"!options\"></ionx-spinner>\n            <ion-list>\n                \n                <ion-item-group [reorder]=\"optionsChecked.length > 1\" (ionItemReorder)=\"reordered($event)\" *ngIf=\"ordered && optionsChecked && optionsChecked.length && visibleCheckedOptionsCount\">\n                    <ng-template ngFor [ngForOf]=\"optionsChecked\" let-option>\n                        <ion-item *ngIf=\"!option.hidden\" [class.ionx-select-checked]=\"true\">\n                            <ion-label>{{option.label}}</ion-label>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionClicked(option)\"></ion-checkbox>\n                        </ion-item>\n                    </ng-template>\n                </ion-item-group>\n\n                <ion-item-group *ngIf=\"visibleOptionsCount\">\n                    <ng-template ngFor [ngForOf]=\"options\" let-option>\n                        <ion-item-divider *ngIf=\"option.divider && !option.hidden\">{{option.label}}</ion-item-divider>\n                        <ion-item *ngIf=\"!option.divider && !option.hidden && (!ordered || !option.checked)\" [class.ionx-select-checked]=\"option.checked\">\n                            <ion-label>{{option.label}}</ion-label>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionClicked(option)\"></ion-checkbox>\n                        </ion-item>\n                    </ng-template>\n                </ion-item-group>\n            </ion-list>\n        </ion-content>\n    ",
             host: {
                 "[class.alert]": "true",
                 "[class.alert-ios]": "ios",

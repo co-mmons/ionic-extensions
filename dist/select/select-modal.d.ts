@@ -17,7 +17,10 @@ export declare class SelectModal {
     content: Content;
     items: QueryList<Item>;
     multiple: boolean;
+    alwaysArrayResult: boolean;
     title: any;
+    searchHandler: any;
+    selectionValidator: any;
     options: any[];
     visibleOptionsCount: number;
     visibleCheckedOptionsCount: number;
