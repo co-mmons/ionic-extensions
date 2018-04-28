@@ -106,6 +106,19 @@ export class Select extends IonSelect {
     alwaysArrayResult: boolean;
 
     @Input()
+    set compareAsString(compare: boolean) {
+        if (compare) {
+            this.compareWith = (a, b) => {
+                if (a !== undefined && a !== null && b !== undefined && b !== null) {
+                    return a.toString() == b.toString();
+                } else {
+                    return a == b;
+                }
+            }
+        }
+    }
+
+    @Input()
     searchHandler: (query: string, options: {label: string, value: any, hidden: boolean, checked: boolean}[]) => void;
 
     @Input()

@@ -7,6 +7,7 @@ export declare class Select extends IonSelect {
     readonly: boolean;
     ordered: boolean;
     alwaysArrayResult: boolean;
+    compareAsString: boolean;
     searchHandler: (query: string, options: {
         label: string;
         value: any;

@@ -74,6 +74,22 @@ var Select = /** @class */ (function (_super) {
             _super.prototype.open.call(this, ev);
         }
     };
+    Object.defineProperty(Select.prototype, "compareAsString", {
+        set: function (compare) {
+            if (compare) {
+                this.compareWith = function (a, b) {
+                    if (a !== undefined && a !== null && b !== undefined && b !== null) {
+                        return a.toString() == b.toString();
+                    }
+                    else {
+                        return a == b;
+                    }
+                };
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Select.prototype._updateText = function () {
         this._texts.length = 0;
         if (this._options) {
@@ -115,6 +131,11 @@ var Select = /** @class */ (function (_super) {
         Input(),
         __metadata("design:type", Boolean)
     ], Select.prototype, "alwaysArrayResult", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], Select.prototype, "compareAsString", null);
     __decorate([
         Input(),
         __metadata("design:type", Function)
