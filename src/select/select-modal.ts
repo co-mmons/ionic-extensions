@@ -1,6 +1,7 @@
 import {Component, ViewChild, ViewChildren, QueryList} from "@angular/core";
 import {NavParams, ViewController, Searchbar, Item, Content, Config, reorderArray} from "ionic-angular";
 import {IntlService} from "@co.mmons/angular-intl";
+import {waitTill} from "@co.mmons/js-utils/core/wait";
 
 @Component({
     selector: "ionx-select-modal",
@@ -235,7 +236,7 @@ export class SelectModal {
         this.items.changes.subscribe(() => this.scrollToSelected());
     }
 
-	ionViewDidEnter() {
+	async ionViewDidEnter() {
         this.options = this.navParams.get("options");
         
         this.optionsChecked = [];
@@ -247,6 +248,9 @@ export class SelectModal {
         this.optionsChecked.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
 
         this.recalculateVisibleOptions();
+
+        await waitTill(() => !!this.searchbar);
+        this.searchbar.setFocus();
     }
 
     private scrollToSelected() {

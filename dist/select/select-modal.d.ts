@@ -33,6 +33,6 @@ export declare class SelectModal {
     search(ev: any): void;
     ngOnInit(): void;
     ngAfterViewInit(): void;
-    ionViewDidEnter(): void;
+    ionViewDidEnter(): Promise<void>;
     private scrollToSelected();
 }
