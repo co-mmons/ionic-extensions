@@ -122,7 +122,7 @@ var DateTimeOverlay = /** @class */ (function () {
             }
         }
         else if (this.dateView == "months") {
-            var tmpDate_1 = new Date(1999, this.dateViewValue.getUTCMonth());
+            var tmpDate_1 = new Date(Date.UTC(1999, this.dateViewValue.getUTCMonth()));
             for (var m = 0; m < 12; m++) {
                 tmpDate_1.setUTCMonth(m);
                 this.dateValues.push({

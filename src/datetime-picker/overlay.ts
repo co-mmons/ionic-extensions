@@ -193,7 +193,7 @@ export class DateTimeOverlay {
 
         } else if (this.dateView == "months") {
 
-            let tmpDate = new Date(1999, this.dateViewValue.getUTCMonth());
+            let tmpDate = new Date(Date.UTC(1999, this.dateViewValue.getUTCMonth()));
 
             for (let m = 0; m < 12; m++) {
                 tmpDate.setUTCMonth(m);
