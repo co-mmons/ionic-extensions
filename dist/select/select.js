@@ -39,7 +39,7 @@ var Select = /** @class */ (function (_super) {
             var values_1 = this.getValues();
             var data = {};
             data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
-            data.title = (this.selectOptions ? this.selectOptions.title : undefined) || this._item.getLabelText();
+            data.title = (this.selectOptions ? this.selectOptions.title : undefined) || (this._item && this._item.getLabelText());
             data.ordered = this.ordered;
             data.selectionValidator = this.selectionValidator;
             data.searchHandler = this.searchHandler;
