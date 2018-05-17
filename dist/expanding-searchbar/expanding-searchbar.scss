@@ -17,16 +17,18 @@
     &.searchbar-md {
         left: $searchbar-md-padding-start + $toolbar-md-padding;
         top: $toolbar-md-padding;
+        padding: 0px;
     }
 
     &.ionx-expanding-searchbar-expanded {
-        transition: width 250ms ease-in;
+        opacity: 1;
 
         &.searchbar-ios {
             width: calc(100% - #{($toolbar-ios-padding + $searchbar-ios-padding-horizontal) * 2});
         }
 
         &.searchbar-md {
+            transition: width 250ms ease-in;
             width: calc(100% - #{($toolbar-md-padding + $searchbar-md-padding-start) * 2});
         }
     }
@@ -47,5 +49,18 @@
 
     & > .toolbar-content > *:not(.ionx-expanding-searchbar) {
         visibility: hidden !important;
+    }
+}
+
+.statusbar-padding {
+
+    &:first-child .searchbar.ionx-expanding-searchbar.searchbar-ios {
+        top: 20px;
+        top: constant(safe-area-inset-top);
+        top: env(safe-area-inset-top);
+    }
+
+    &:not(:first-child) .searchbar.ionx-expanding-searchbar.searchbar-ios {
+        top: 0px;
     }
 }

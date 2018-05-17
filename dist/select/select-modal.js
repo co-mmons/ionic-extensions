@@ -53,7 +53,7 @@ var SelectModal = /** @class */ (function () {
         this.viewController = viewController;
         this.multiple = false;
         this.multiple = this.navParams.get("multiple");
-        this.title = this.navParams.get("title") || intl.message("commons-ionic-extensions#Choose...");
+        this.title = this.navParams.get("title") || intl.message("@co.mmons/ionic-extensions#Choose...");
         this.ios = config.get("mode") == "ios";
         this.md = config.get("mode") == "md";
         this.wp = config.get("mode") == "wp";

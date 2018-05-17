@@ -62,7 +62,7 @@ export class SelectModal {
 
     constructor(private navParams: NavParams, protected intl: IntlService, private viewController: ViewController, config: Config) {
         this.multiple = this.navParams.get("multiple");
-        this.title = this.navParams.get("title") || intl.message("commons-ionic-extensions#Choose...");
+        this.title = this.navParams.get("title") || intl.message("@co.mmons/ionic-extensions#Choose...");
         this.ios = config.get("mode") == "ios";
         this.md = config.get("mode") == "md";
         this.wp = config.get("mode") == "wp";

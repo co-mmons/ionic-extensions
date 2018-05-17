@@ -53,7 +53,7 @@ export class Select extends IonSelect {
 
             let data: any = {};
             data.multiple = this.multiple === true || this.multiple === "true" ? true : false;
-            data.title = (this.selectOptions ? this.selectOptions.title : undefined) || (this._item && this._item.getLabelText());
+            data.title = (this.selectOptions ? this.selectOptions.title : undefined) || (this._item && this._item.getLabelText()) || this.getNativeElement().getAttribute("title");
             data.ordered = this.ordered;
             data.selectionValidator = this.selectionValidator;
             data.searchHandler = this.searchHandler;

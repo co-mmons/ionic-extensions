@@ -121,13 +121,13 @@ export class AppVersion {
         if (app.platform == "ios") {
 
             if (app.appleIdType == "bundleId") {
-                app.url = `http://itunes.apple.com/lookup?bundleId=${app.id}`;
+                app.url = `http://itunes.apple.com/lookup?bundleId=${app.id}&${Date.now()}`;
             } else {
-                app.url = `http://itunes.apple.com/lookup?id=${app.id}`;
+                app.url = `http://itunes.apple.com/lookup?id=${app.id}&${Date.now()}`;
             }
 
         } else {
-            app.url = `https://play.google.com/store/apps/details?id=${app.id}&hl=en`;
+            app.url = `https://play.google.com/store/apps/details?id=${app.id}&hl=en&${Date.now()}`;
         }
 
         return app;

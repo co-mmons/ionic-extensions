@@ -40,10 +40,11 @@ export class ExpandingSearchbar {
             this.parentNativeElement.classList.add(parentCssClass);
             this.searchbar.setFocus();
 
-
         } else {
             this.nativeElement.classList.remove(expandedCssClass);
             this.parentNativeElement.classList.remove(parentCssClass);
+            this.searchbar.clearInput(undefined);
+            setTimeout(() => this.searchbar._searchbarInput.nativeElement.blur(), 50);
         }
     }
 
@@ -53,7 +54,7 @@ export class ExpandingSearchbar {
 
     private collapseIfPossible(cleared?: boolean) {
 
-        if (cleared || !this.searchbar.hasValue()) {
+        if (this.expanded && (cleared || !this.searchbar.hasValue())) {
             setTimeout(() => {
                 this.expanded = false;
             }, cleared ? 250 : 0);

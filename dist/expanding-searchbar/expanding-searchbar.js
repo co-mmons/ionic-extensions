@@ -45,6 +45,7 @@ var ExpandingSearchbar = /** @class */ (function () {
             return this.nativeElement.classList.contains(expandedCssClass);
         },
         set: function (expanded) {
+            var _this = this;
             if (expanded) {
                 this.nativeElement.classList.add(expandedCssClass);
                 this.parentNativeElement.classList.add(parentCssClass);
@@ -53,6 +54,8 @@ var ExpandingSearchbar = /** @class */ (function () {
             else {
                 this.nativeElement.classList.remove(expandedCssClass);
                 this.parentNativeElement.classList.remove(parentCssClass);
+                this.searchbar.clearInput(undefined);
+                setTimeout(function () { return _this.searchbar._searchbarInput.nativeElement.blur(); }, 50);
             }
         },
         enumerable: true,
@@ -63,7 +66,7 @@ var ExpandingSearchbar = /** @class */ (function () {
     };
     ExpandingSearchbar.prototype.collapseIfPossible = function (cleared) {
         var _this = this;
-        if (cleared || !this.searchbar.hasValue()) {
+        if (this.expanded && (cleared || !this.searchbar.hasValue())) {
             setTimeout(function () {
                 _this.expanded = false;
             }, cleared ? 250 : 0);

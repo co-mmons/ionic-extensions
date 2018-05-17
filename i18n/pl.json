@@ -3,5 +3,6 @@
     "appVersion/newVersionAvailableMessage/android": "Jest dostępna nowa wersja aplikacji. Aby zaktualizować, przejdź do <b>Google Play</b>.",
     "appVersion/notNow": "Nie teraz",
     "appVersion/update": "Aktualizuj",
-    "appVersion/applicationUpdate": "Aktualizacja aplikacji"
+    "appVersion/applicationUpdate": "Aktualizacja aplikacji",
+    "Choose...": "Wybierz..."
 }
