@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version";
+import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { Platform, AlertController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 export declare class AppVersion {
@@ -8,7 +9,8 @@ export declare class AppVersion {
     private appVersion;
     private intl;
     private alertController;
-    constructor(platform: Platform, http: HttpClient, appVersion: InstalledAppVersion, intl: IntlService, alertController: AlertController);
+    private inAppBrowser;
+    constructor(platform: Platform, http: HttpClient, appVersion: InstalledAppVersion, intl: IntlService, alertController: AlertController, inAppBrowser: InAppBrowser);
     newVersionAvailable(id: string | AppIdentifiers, publishedVersions?: {
         android?: string;
         ios?: string;

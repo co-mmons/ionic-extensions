@@ -45,15 +45,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version";
+import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { Platform, AlertController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
 var AppVersion = /** @class */ (function () {
-    function AppVersion(platform, http, appVersion, intl, alertController) {
+    function AppVersion(platform, http, appVersion, intl, alertController, inAppBrowser) {
         this.platform = platform;
         this.http = http;
         this.appVersion = appVersion;
         this.intl = intl;
         this.alertController = alertController;
+        this.inAppBrowser = inAppBrowser;
     }
     AppVersion.prototype.newVersionAvailable = function (id, publishedVersions) {
         return __awaiter(this, void 0, void 0, function () {
@@ -281,7 +283,7 @@ var AppVersion = /** @class */ (function () {
                         text: _this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
                         handler: function () {
                             _this.updateMessageAlert.dismiss(true);
-                            storeLink.click();
+                            _this.inAppBrowser.create(version.url, "_system");
                             return false;
                         }
                     }
@@ -297,7 +299,7 @@ var AppVersion = /** @class */ (function () {
     };
     AppVersion = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [Platform, HttpClient, InstalledAppVersion, IntlService, AlertController])
+        __metadata("design:paramtypes", [Platform, HttpClient, InstalledAppVersion, IntlService, AlertController, InAppBrowser])
     ], AppVersion);
     return AppVersion;
 }());

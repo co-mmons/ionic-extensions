@@ -1,13 +1,14 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AppVersion as InstalledAppVersion} from "@ionic-native/app-version";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {Platform, AlertController, Alert} from "ionic-angular";
 import {IntlService} from "@co.mmons/angular-intl";
 
 @Injectable()
 export class AppVersion {
 
-    constructor(private platform: Platform, private http: HttpClient, private appVersion: InstalledAppVersion, private intl: IntlService, private alertController: AlertController) {        
+    constructor(private platform: Platform, private http: HttpClient, private appVersion: InstalledAppVersion, private intl: IntlService, private alertController: AlertController, private inAppBrowser: InAppBrowser) {        
     }
 
     async newVersionAvailable(id: string | AppIdentifiers, publishedVersions?: {android?: string, ios?: string} | string): Promise<AppNewVersion> {
@@ -250,7 +251,7 @@ export class AppVersion {
                         text: this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
                         handler: () => {
                             this.updateMessageAlert.dismiss(true);
-                            storeLink.click();
+                            this.inAppBrowser.create(version.url, "_system");
                             return false;
                         }
                     }
