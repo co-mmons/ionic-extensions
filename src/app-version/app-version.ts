@@ -268,10 +268,12 @@ export class AppNewVersion {
 
         if (!url) {
             if (app.platform == "ios" && app.appleId) {
-                url = `https://itunes.apple.com/us/app/id${app.appleId}?mt=8&uo=4`;
+                this.url = `https://itunes.apple.com/us/app/id${app.appleId}?mt=8&uo=4`;
             } else if (app.platform == "android" && app.packageOrBundleId) {
-                url = `https://play.google.com/store/apps/details?id=${app.packageOrBundleId}`;
+                this.url = `https://play.google.com/store/apps/details?id=${app.packageOrBundleId}`;
             }
+        } else {
+            this.url = url;
         }
 
     }
