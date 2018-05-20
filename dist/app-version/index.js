@@ -12,7 +12,7 @@ import { InAppBrowser } from "@ionic-native/in-app-browser";
 import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version";
 import { IntlModule } from "@co.mmons/angular-intl";
 import { AppVersion } from "./app-version";
-export { AppVersion } from "./app-version";
+export { AppVersion, AppNewVersion } from "./app-version";
 var AppVersionModule = /** @class */ (function () {
     function AppVersionModule() {
     }

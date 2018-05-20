@@ -75,7 +75,7 @@ var AppVersion = /** @class */ (function () {
                         if (publishedVersion && this.compareVersionNumbers(publishedVersion, installedVersion) <= 0) {
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.publishedVersion(id, platform)];
+                        return [4 /*yield*/, this.storeVersion(id, platform)];
                     case 2:
                         verifiedPublishedVersion = _a.sent();
                         if (verifiedPublishedVersion) {
@@ -99,14 +99,14 @@ var AppVersion = /** @class */ (function () {
     AppVersion.prototype.installedVersionNumber = function () {
         return this.appVersion.getVersionNumber();
     };
-    AppVersion.prototype.publishedVersionNumber = function (id) {
+    AppVersion.prototype.storeVersionNumber = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var version, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.publishedVersion(id)];
+                        return [4 /*yield*/, this.storeVersion(id)];
                     case 1:
                         version = _a.sent();
                         if (version && version.version) {
@@ -122,7 +122,7 @@ var AppVersion = /** @class */ (function () {
             });
         });
     };
-    AppVersion.prototype.publishedVersion = function (id, app) {
+    AppVersion.prototype.storeVersion = function (id, app) {
         return __awaiter(this, void 0, void 0, function () {
             var httpOptions, content;
             return __generator(this, function (_a) {

@@ -16,10 +16,10 @@ export declare class AppVersion {
         ios?: string;
     } | string): Promise<AppNewVersion>;
     installedVersionNumber(): Promise<string>;
-    publishedVersionNumber(id: string | AppIdentifiers): Promise<string>;
-    private publishedVersion(id, app?);
+    storeVersionNumber(id: string | AppIdentifiers): Promise<string>;
+    private storeVersion(id, app?);
     appPlatform(id: string | AppIdentifiers): AppPlatform;
-    private compareVersionNumbers(a, b);
+    compareVersionNumbers(a: string, b: string): number;
     private parseVersion(app, content);
     private parseTags(text);
     private updateMessageAlert;

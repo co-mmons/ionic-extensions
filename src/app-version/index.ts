@@ -7,7 +7,7 @@ import {AppVersion as InstalledAppVersion} from "@ionic-native/app-version";
 import {IntlModule} from "@co.mmons/angular-intl";
 
 import {AppVersion} from "./app-version";
-export {AppVersion} from "./app-version";
+export {AppVersion, AppIdentifiers, AppNewVersion, AppPlatform} from "./app-version";
 
 @NgModule({
     imports: [BrowserModule, HttpClientModule, IntlModule, IonicModule],

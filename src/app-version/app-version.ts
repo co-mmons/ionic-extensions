@@ -26,7 +26,7 @@ export class AppVersion {
                 return;
             }
             
-            let verifiedPublishedVersion = await this.publishedVersion(id, platform);
+            let verifiedPublishedVersion = await this.storeVersion(id, platform);
 
             if (verifiedPublishedVersion) {
                 if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) == 0) {
@@ -47,9 +47,9 @@ export class AppVersion {
         return this.appVersion.getVersionNumber();
     }
 
-    async publishedVersionNumber(id: string | AppIdentifiers): Promise<string> {
+    async storeVersionNumber(id: string | AppIdentifiers): Promise<string> {
         try {
-            let version = await this.publishedVersion(id);
+            let version = await this.storeVersion(id);
             if (version && version.version) {
                 return version.version;
             }
@@ -61,7 +61,7 @@ export class AppVersion {
         return undefined;
     }
 
-    private async publishedVersion(id: string | AppIdentifiers, app?: AppPlatform): Promise<AppNewVersion> {
+    private async storeVersion(id: string | AppIdentifiers, app?: AppPlatform): Promise<AppNewVersion> {
         
         if (!app) {
             app = this.appPlatform(id);
@@ -128,7 +128,7 @@ export class AppVersion {
         return app;
     }
 
-    private compareVersionNumbers(a: string, b: string): number {
+    compareVersionNumbers(a: string, b: string): number {
         
         if (a && !b) {
             return 1;
