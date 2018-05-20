@@ -18,7 +18,7 @@ export declare class AppVersion {
     installedVersionNumber(): Promise<string>;
     publishedVersionNumber(id: string | AppIdentifiers): Promise<string>;
     private publishedVersion(id, app?);
-    private appPlatform(id);
+    appPlatform(id: string | AppIdentifiers): AppPlatform;
     private compareVersionNumbers(a, b);
     private parseVersion(app, content);
     private parseTags(text);
@@ -28,21 +28,21 @@ export declare class AppVersion {
 export interface AppIdentifiers {
     androidPackageId?: string;
     iosBundleId?: string;
-    iosId?: string;
+    iosId?: string | number;
 }
 export interface AppPlatform {
     platform?: "android" | "ios";
     url?: string;
-    id?: string;
-    appleIdType?: "id" | "bundleId";
+    packageOrBundleId?: string | number;
+    appleId?: string | number;
 }
 export declare class AppNewVersion {
     private appVersion;
     readonly app: AppPlatform;
     readonly version: string;
-    readonly url: string;
     private tags;
-    constructor(appVersion: AppVersion, app: AppPlatform, version?: string, url?: string, tags?: string[]);
+    constructor(appVersion: AppVersion, app: AppPlatform, version: string, tags?: string[], url?: string);
+    readonly url: string;
     hasTag(tag: string): boolean;
     showUpdateMessage(): Promise<boolean>;
 }

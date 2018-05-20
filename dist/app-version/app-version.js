@@ -160,36 +160,29 @@ var AppVersion = /** @class */ (function () {
             return undefined;
         }
         if (typeof id == "string") {
-            app.id = id;
-            app.appleIdType = "bundleId";
+            app.packageOrBundleId = id;
         }
-        else if (id && app.platform == "ios") {
-            if (id.iosBundleId) {
-                app.id = id.iosBundleId;
-                app.appleIdType = "bundleId";
-            }
-            else {
-                app.id = id.iosId;
-                app.appleIdType = "id";
-            }
+        else if (id && app.platform == "ios" && (id.iosBundleId || id.iosId)) {
+            app.packageOrBundleId = id.iosBundleId;
+            app.appleId = id.iosId;
         }
         else if (id && app.platform == "android" && id.androidPackageId) {
-            app.id = id.androidPackageId;
+            app.packageOrBundleId = id.androidPackageId;
         }
-        if (!app.id) {
+        if (!app.packageOrBundleId) {
             console.error(new Error("Missing app identifier for package"));
             return undefined;
         }
         if (app.platform == "ios") {
-            if (app.appleIdType == "bundleId") {
-                app.url = "http://itunes.apple.com/lookup?bundleId=" + app.id + "&" + Date.now();
+            if (app.appleId) {
+                app.url = "http://itunes.apple.com/lookup?id=" + app.appleId + "&" + Date.now();
             }
             else {
-                app.url = "http://itunes.apple.com/lookup?id=" + app.id + "&" + Date.now();
+                app.url = "http://itunes.apple.com/lookup?bundleId=" + app.packageOrBundleId + "&" + Date.now();
             }
         }
         else {
-            app.url = "https://play.google.com/store/apps/details?id=" + app.id + "&hl=en&" + Date.now();
+            app.url = "https://play.google.com/store/apps/details?id=" + app.packageOrBundleId + "&hl=en&" + Date.now();
         }
         return app;
     };
@@ -217,7 +210,7 @@ var AppVersion = /** @class */ (function () {
     AppVersion.prototype.parseVersion = function (app, content) {
         if (app.platform == "ios") {
             if (content.results && content.results[0]) {
-                return new AppNewVersion(this, app, content.results[0].version, content.results[0].trackViewUrl, content.results[0].releaseNotes ? this.parseTags(content.results[0].releaseNotes) : undefined);
+                return new AppNewVersion(this, app, content.results[0].version, content.results[0].releaseNotes ? this.parseTags(content.results[0].releaseNotes) : undefined, content.results[0].trackViewUrl);
             }
         }
         else if (app.platform == "android" && typeof content == "string") {
@@ -236,7 +229,7 @@ var AppVersion = /** @class */ (function () {
                 }
             }
             if (versionNumber) {
-                return new AppNewVersion(this, app, versionNumber, "https://play.google.com/store/apps/details?id=" + app.id);
+                return new AppNewVersion(this, app, versionNumber);
             }
         }
         return undefined;
@@ -259,17 +252,6 @@ var AppVersion = /** @class */ (function () {
                 reject(new Error("Already showing update message"));
                 return;
             }
-            var linkId = "commons-ionic-extensions-app-version-" + version.app.id;
-            var storeLink = document.getElementById(linkId);
-            if (!storeLink) {
-                storeLink = document.createElement("a");
-                storeLink.id = "app-version-" + version.app.id;
-                storeLink.style.display = "none";
-                storeLink.setAttribute("href", version.url);
-                storeLink.setAttribute("target", "_blank");
-                storeLink.innerHTML = "store";
-                document.body.appendChild(storeLink);
-            }
             _this.updateMessageAlert = _this.alertController.create({
                 title: _this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
                 message: _this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
@@ -290,7 +272,6 @@ var AppVersion = /** @class */ (function () {
                 ]
             });
             _this.updateMessageAlert.onDidDismiss(function (data) {
-                storeLink.remove();
                 resolve(data ? true : false);
                 _this.updateMessageAlert = undefined;
             });
@@ -305,12 +286,19 @@ var AppVersion = /** @class */ (function () {
 }());
 export { AppVersion };
 var AppNewVersion = /** @class */ (function () {
-    function AppNewVersion(appVersion, app, version, url, tags) {
+    function AppNewVersion(appVersion, app, version, tags, url) {
         this.appVersion = appVersion;
         this.app = app;
         this.version = version;
-        this.url = url;
         this.tags = tags;
+        if (!url) {
+            if (app.platform == "ios" && app.appleId) {
+                url = "https://itunes.apple.com/us/app/id" + app.appleId + "?mt=8&uo=4";
+            }
+            else if (app.platform == "android" && app.packageOrBundleId) {
+                url = "https://play.google.com/store/apps/details?id=" + app.packageOrBundleId;
+            }
+        }
     }
     AppNewVersion.prototype.hasTag = function (tag) {
         if (this.tags) {
