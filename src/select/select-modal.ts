@@ -72,11 +72,11 @@ export class SelectModal {
         this.searchHandler = this.navParams.get("searchHandler");
     }
 
-    private ios: boolean;
+    ios: boolean;
 
-    private md: boolean;
+    md: boolean;
 
-    private wp: boolean;
+    wp: boolean;
 
     ordered: boolean;
 

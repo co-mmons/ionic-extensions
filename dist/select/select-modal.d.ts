@@ -6,9 +6,9 @@ export declare class SelectModal {
     protected intl: IntlService;
     private viewController;
     constructor(navParams: NavParams, intl: IntlService, viewController: ViewController, config: Config);
-    private ios;
-    private md;
-    private wp;
+    ios: boolean;
+    md: boolean;
+    wp: boolean;
     ordered: boolean;
     reordered(indexes: {
         from: number;

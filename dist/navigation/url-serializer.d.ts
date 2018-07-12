@@ -17,11 +17,11 @@ export declare class UrlSerializer extends IonicUrlSerializer {
 }
 export declare const URL_SERIALIZER_PROVIDER: {
     provide: typeof IonicUrlSerializer;
-    useFactory: (app: App, config: DeepLinkConfig) => IonicUrlSerializer;
+    useFactory: typeof UrlSerializer.setupUrlSerializer;
     deps: (InjectionToken<any> | typeof App)[];
 };
 export declare const urlSerializerProvider: {
     provide: typeof IonicUrlSerializer;
-    useFactory: (app: App, config: DeepLinkConfig) => IonicUrlSerializer;
+    useFactory: typeof UrlSerializer.setupUrlSerializer;
     deps: (InjectionToken<any> | typeof App)[];
 };
