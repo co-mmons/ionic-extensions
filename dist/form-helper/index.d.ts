@@ -1,5 +1,5 @@
-import { QueryList, ElementRef } from "@angular/core";
-import { FormGroup, FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
+import { ElementRef, QueryList } from "@angular/core";
+import { FormControlName, FormGroup, FormGroupDirective, NgForm } from "@angular/forms";
 export declare class FormHelper {
     readonly element: ElementRef;
     readonly ngForm: NgForm;
@@ -13,7 +13,7 @@ export declare class FormHelper {
     formControlName(name: string): FormControlName;
     readonly formGroup: FormGroup;
     validateAll(): void;
-    private focusImpl(control, scrollIntoView?);
+    private focusImpl;
     focus(formControlName: string, scrollIntoView?: boolean): void;
 }
 export declare class FormHelperModule {

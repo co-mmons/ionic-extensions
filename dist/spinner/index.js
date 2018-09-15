@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from "@angular/core";
-import { IonicModule } from "ionic-angular";
+import { IonicModule } from "@ionic/angular";
 import { Spinner } from "./spinner";
 export { Spinner } from "./spinner";
 var SpinnerModule = /** @class */ (function () {

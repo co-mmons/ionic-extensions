@@ -14,7 +14,7 @@ export declare class ImageLoader {
     alternate: string;
     protected alternate2: string;
     reload(): void;
-    private load();
+    private load;
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
 }

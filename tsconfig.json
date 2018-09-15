@@ -18,6 +18,8 @@
     "exclude": [
         "dist",
         "test",
+        "tmp",
+        "i18n",
         "node_modules"
     ],
 

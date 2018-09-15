@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {IonicModule} from "ionic-angular";
+import {IonicModule} from "@ionic/angular";
 
 import {Spinner} from "./spinner";
 export {Spinner} from "./spinner";

@@ -22,8 +22,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -42,12 +42,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version";
-import { InAppBrowser } from "@ionic-native/in-app-browser";
-import { Platform, AlertController } from "ionic-angular";
+import { Injectable } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
+import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version/ngx";
+import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
+import { AlertController, Platform } from "@ionic/angular";
 var AppVersion = /** @class */ (function () {
     function AppVersion(platform, http, appVersion, intl, alertController, inAppBrowser) {
         this.platform = platform;
@@ -247,36 +247,45 @@ var AppVersion = /** @class */ (function () {
     };
     AppVersion.prototype.showUpdateMessage = function (version) {
         var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (_this.updateMessageAlert) {
-                reject(new Error("Already showing update message"));
-                return;
-            }
-            _this.updateMessageAlert = _this.alertController.create({
-                title: _this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
-                message: _this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
-                enableBackdropDismiss: false,
-                buttons: [
-                    {
-                        text: _this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"),
-                        role: "cancel"
-                    },
-                    {
-                        text: _this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
-                        handler: function () {
-                            _this.updateMessageAlert.dismiss(true);
-                            _this.inAppBrowser.create(version.url, "_system");
-                            return false;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, result;
+            var _this = this;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.updateMessageAlert) {
+                            reject(new Error("Already showing update message"));
+                            return [2 /*return*/];
                         }
-                    }
-                ]
+                        _a = this;
+                        return [4 /*yield*/, this.alertController.create({
+                                header: this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
+                                message: this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
+                                backdropDismiss: false,
+                                buttons: [
+                                    { text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"), role: "cancel" },
+                                    {
+                                        text: this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
+                                        handler: function () {
+                                            _this.updateMessageAlert.dismiss(true);
+                                            _this.inAppBrowser.create(version.url, "_system");
+                                            return false;
+                                        }
+                                    }
+                                ]
+                            })];
+                    case 1:
+                        _a.updateMessageAlert = (_b.sent());
+                        this.updateMessageAlert.present();
+                        return [4 /*yield*/, this.updateMessageAlert.onDidDismiss()];
+                    case 2:
+                        result = _b.sent();
+                        resolve(!!result);
+                        this.updateMessageAlert = undefined;
+                        return [2 /*return*/];
+                }
             });
-            _this.updateMessageAlert.onDidDismiss(function (data) {
-                resolve(data ? true : false);
-                _this.updateMessageAlert = undefined;
-            });
-            _this.updateMessageAlert.present();
-        });
+        }); });
     };
     AppVersion = __decorate([
         Injectable(),

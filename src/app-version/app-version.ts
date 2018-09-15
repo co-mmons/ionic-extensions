@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {AppVersion as InstalledAppVersion} from "@ionic-native/app-version";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
-import {Platform, AlertController, Alert} from "ionic-angular";
+import {Injectable} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
+import {AppVersion as InstalledAppVersion} from "@ionic-native/app-version/ngx";
+import {InAppBrowser} from "@ionic-native/in-app-browser/ngx";
+import {AlertController, Platform} from "@ionic/angular";
 
 @Injectable()
 export class AppVersion {
@@ -208,26 +208,23 @@ export class AppVersion {
     }
 
 
-    private updateMessageAlert: Alert;
+    private updateMessageAlert: HTMLIonAlertElement;
 
     showUpdateMessage(version: AppNewVersion): Promise<boolean> {
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
 
             if (this.updateMessageAlert) {
                 reject(new Error("Already showing update message"));
                 return;
             }
 
-            this.updateMessageAlert = this.alertController.create({
-                title: this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
+            this.updateMessageAlert = (await this.alertController.create({
+                header: this.intl.message("@co.mmons/ionic-extensions#appVersion/applicationUpdate"),
                 message: this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
-                enableBackdropDismiss: false,
+                backdropDismiss: false,
                 buttons: [
-                    {
-                        text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"),
-                        role: "cancel"
-                    },
+                    {text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"), role: "cancel"},
                     {
                         text: this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
                         handler: () => {
@@ -237,14 +234,14 @@ export class AppVersion {
                         }
                     }
                 ]
-            });
-
-            this.updateMessageAlert.onDidDismiss((data) => {
-                resolve(data ? true : false);
-                this.updateMessageAlert = undefined;
-            });
+            }));
 
             this.updateMessageAlert.present();
+
+            let result = await this.updateMessageAlert.onDidDismiss();
+            resolve(!!result);
+
+            this.updateMessageAlert = undefined;
         });
     }
 }

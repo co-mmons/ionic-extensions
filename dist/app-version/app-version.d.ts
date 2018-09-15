@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version";
-import { InAppBrowser } from "@ionic-native/in-app-browser";
-import { Platform, AlertController } from "ionic-angular";
 import { IntlService } from "@co.mmons/angular-intl";
+import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version/ngx";
+import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
+import { AlertController, Platform } from "@ionic/angular";
 export declare class AppVersion {
     private platform;
     private http;
@@ -17,11 +17,11 @@ export declare class AppVersion {
     } | string): Promise<AppNewVersion>;
     installedVersionNumber(): Promise<string>;
     storeVersionNumber(id: string | AppIdentifiers): Promise<string>;
-    private storeVersion(id, app?);
+    private storeVersion;
     appPlatform(id: string | AppIdentifiers): AppPlatform;
     compareVersionNumbers(a: string, b: string): number;
-    private parseVersion(app, content);
-    private parseTags(text);
+    private parseVersion;
+    private parseTags;
     private updateMessageAlert;
     showUpdateMessage(version: AppNewVersion): Promise<boolean>;
 }
@@ -40,7 +40,7 @@ export declare class AppNewVersion {
     private appVersion;
     readonly app: AppPlatform;
     readonly version: string;
-    private tags;
+    private tags?;
     constructor(appVersion: AppVersion, app: AppPlatform, version: string, tags?: string[], url?: string);
     readonly url: string;
     hasTag(tag: string): boolean;

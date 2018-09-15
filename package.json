@@ -14,9 +14,9 @@
     "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
     "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
     "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
-    "@ionic-native/app-version": "^4.4.0",
-    "@ionic-native/in-app-browser": "^4.4.0",
-    "trix": "^0.11.4"
+    "@ionic-native/app-version": "^5.0.0-beta.17",
+    "@ionic-native/in-app-browser": "^5.0.0-beta.17",
+    "trix": "^0.12.1"
   },
   "peerDependencies": {
     "@angular/common": "^6.0.0",
@@ -28,16 +28,16 @@
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/platform-server": "^6.0.0",
-    "@ionic-native/core": "^4.4.0",
+    "@angular/router": "^6.1.7",
+    "@ionic-native/core": "^5.0.0-beta.17",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-inappbrowser": "^3.0.0",
-    "ionic-angular": "^3.9.2",
+    "@ionic/angular": "4.0.0-beta.11",
     "rxjs": "^6.2.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "rxjs-compat": "^6.2.1",
     "@types/cordova": "0.0.34",
-    "typescript": "~2.7.0"
+    "typescript": "~2.9.0"
   }
 }

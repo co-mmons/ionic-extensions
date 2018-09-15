@@ -1,6 +1,5 @@
-import {NgModule, Directive, ContentChildren, QueryList, ElementRef, Input, Optional} from "@angular/core";
-import {FormGroup, FormControlName, FormGroupDirective, NgForm} from "@angular/forms";
-import {TextInput} from "ionic-angular";
+import {ContentChildren, Directive, ElementRef, Input, NgModule, Optional, QueryList} from "@angular/core";
+import {FormControlName, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Directive({
     selector: "[ionx-form-helper],[ionxFormHelper]",
@@ -115,9 +114,9 @@ export class FormHelper {
             control = control.valueAccessor;
         }
 
-        if (control instanceof TextInput) {
-            control.setFocus();
-            elementToScroll = control.getNativeElement().closest(".item");
+        if (control instanceof HTMLIonInputElement) {
+            control.focus();
+            elementToScroll = control.closest(".item") as HTMLElement;
         } else if (control && typeof control.focus == "function") {
             control.focus();
         }

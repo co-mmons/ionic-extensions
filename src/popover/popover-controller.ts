@@ -1,5 +1,5 @@
 import {Component, TemplateRef, Input, ViewChild, EventEmitter, Output} from "@angular/core";
-import {PopoverController, NavParams, NavOptions, Popover} from "ionic-angular";
+import {PopoverController} from "@ionic/angular";
 
 @Component({
     selector: "ionx-popover-controller",
@@ -38,29 +38,34 @@ export class PopoverControllerComponent {
     @Output()
     public readonly willDismiss: EventEmitter<any> = new EventEmitter();
 
-    private popover: Popover;
+    private popover: HTMLIonPopoverElement;
 
-    public async present(options?: Event | NavOptions) {
+    public async present(options?: Event) {
 
         // already opened - should we close existing and open new?
         if (this.popover) {
             return;
         }
         
-        this.popover = this.controller.create(PopoverControllerContentComponent, {template: this.content}, {enableBackdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass});
-        this.popover.onWillDismiss((data) => this.willDismiss.next(data));
-        this.popover.onDidDismiss((data) => {
-            this.didDismiss.next(data);
-            this.popover = undefined;
-            this._presented = false;
-        });
+        this.popover = (await this.controller.create({component: PopoverControllerContentComponent, componentProps: {template: this.content}, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass}));
 
         this.willEnter.next();
 
-        await this.popover.present({ev: options});
+        await this.popover.present();
 
         this.didEnter.next();
+
         this._presented = true;
+
+        if (await this.popover.onWillDismiss()) {
+            this.willDismiss.next();
+        }
+
+        if (await this.popover.onDidDismiss()) {
+            this.didDismiss.next();
+            this.popover = undefined;
+            this._presented = false;
+        }
     }
 
     private _presented: boolean = false;
@@ -69,10 +74,10 @@ export class PopoverControllerComponent {
         return this._presented;
     }
 
-    public dismiss(data?: any, role?: any, navOptions?: NavOptions): Promise<any> {
+    public dismiss(data?: any, role?: any): Promise<any> {
 
         if (this.popover) {
-            return this.popover.dismiss(data, role, navOptions);
+            return this.popover.dismiss(data, role);
         }
 
         return new Promise((resolve, reject) => {
@@ -89,8 +94,8 @@ export class PopoverControllerComponent {
 })
 export class PopoverControllerContentComponent {
 
-    constructor(params: NavParams) {
-        this.template = params.get("template");
+    constructor(params: any) {
+        //this.template = params.get("template");
     }
 
     template: TemplateRef<any>;

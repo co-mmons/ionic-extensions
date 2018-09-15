@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {IonicModule} from "ionic-angular";
+import {IonicModule} from "@ionic/angular";
 
 import {PopoverControllerComponent, PopoverControllerContentComponent} from "./popover-controller";
 

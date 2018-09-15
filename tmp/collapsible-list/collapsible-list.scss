@@ -1,6 +1,7 @@
-@import "../node_modules/ionic-angular/components/item/item";
-@import "../node_modules/ionic-angular/components/item/item.ios";
-@import "../node_modules/ionic-angular/components/item/item.md";
+@import "~@ionic/angular/dist/components/item/item.vars";
+@import "~@ionic/angular/dist/components/item/item.ios.vars";
+@import "~@ionic/angular/dist/components/item/item.md.vars";
+@import "~@ionic/angular/dist/components/item/item.mixins";
 
 ion-item-collapsible, ionx-item-collapsible {
 

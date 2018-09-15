@@ -10,9 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { NgModule, Directive, ContentChildren, QueryList, ElementRef, Input, Optional } from "@angular/core";
+import { ContentChildren, Directive, ElementRef, Input, NgModule, Optional, QueryList } from "@angular/core";
 import { FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
-import { TextInput } from "ionic-angular";
 var FormHelper = /** @class */ (function () {
     function FormHelper(element, ngForm, formGroupDirective) {
         this.element = element;
@@ -113,9 +112,9 @@ var FormHelper = /** @class */ (function () {
         if (control instanceof FormControlName) {
             control = control.valueAccessor;
         }
-        if (control instanceof TextInput) {
-            control.setFocus();
-            elementToScroll = control.getNativeElement().closest(".item");
+        if (control instanceof HTMLIonInputElement) {
+            control.focus();
+            elementToScroll = control.closest(".item");
         }
         else if (control && typeof control.focus == "function") {
             control.focus();

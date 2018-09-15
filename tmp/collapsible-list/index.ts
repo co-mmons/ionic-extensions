@@ -4,7 +4,7 @@ import {
     ElementRef, HostListener, Optional, Inject, forwardRef
 } from "@angular/core";
 
-import {Item} from "ionic-angular";
+import {Item} from "@ionic/angular";
 
 import {isSelfOrChildOf} from "@co.mmons/web-utils/dom";
 
@@ -47,18 +47,18 @@ export class CollapsibleItem {
     @HostListener("click", ["$event"])
     clicked(event: Event) {
 
-        if (isSelfOrChildOf(event.target, this.item.getElementRef().nativeElement)) {
+        // if (isSelfOrChildOf(event.target, this.item.getElementRef().nativeElement)) {
 
-            if (!this.expanded) {
-                if (this.parentList) {
-                    this.parentList.expand(this);
-                } else {
-                    this.expanded = true;
-                }
-            } else {
-                this.expanded = false;
-            }
-        }
+        //     if (!this.expanded) {
+        //         if (this.parentList) {
+        //             this.parentList.expand(this);
+        //         } else {
+        //             this.expanded = true;
+        //         }
+        //     } else {
+        //         this.expanded = false;
+        //     }
+        // }
     }
 }
 

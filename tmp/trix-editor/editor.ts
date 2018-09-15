@@ -18,7 +18,7 @@ import {
     Validator
 } from "@angular/forms";
 
-import {IonicFormInput, Item} from "ionic-angular";
+import {Item} from "@ionic/angular";
 
 import "trix";
 import {EventListenersHelper} from "../helpers/event-listeners-helper";
@@ -28,7 +28,7 @@ import {EventListenersHelper} from "../helpers/event-listeners-helper";
     template: ``,
     encapsulation: ViewEncapsulation.None
 })
-export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChanges, Validator, IonicFormInput {
+export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChanges, Validator {
 
     private static idGenerator: number = 0;
 
@@ -139,13 +139,13 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
         }
 
         if (this.item) {
-            this.renderer.addClass(this.item.getNativeElement(), "input-has-focus");
+            //this.renderer.addClass(this.item.getNativeElement(), "input-has-focus");
         }
     }
 
     private editorBlured(event: Event) {
         if (this.item) {
-            this.renderer.removeClass(this.item.getNativeElement(), "input-has-focus");
+            //this.renderer.removeClass(this.item.getNativeElement(), "input-has-focus");
         }
     }
 
@@ -164,7 +164,7 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
         elements.push(this.element.nativeElement);
 
         if (this.item) {
-            elements.push(this.item.getNativeElement());
+            //elements.push(this.item.getNativeElement());
         }
 
         for (let e of elements) {
@@ -186,24 +186,24 @@ export class TrixEditor implements AfterViewInit, ControlValueAccessor, OnChange
         this.eventListeners.add(this.editor, "trix-blur", event => this.editorBlured(event));
         this.eventListeners.add(this.editor, "trix-initialize", event => this.editorInitialized(event));
 
-        if (this.item) {
+        // if (this.item) {
 
-            let parent = this.toolbar.parentElement;
-            while (true) {
+        //     let parent = this.toolbar.parentElement;
+        //     while (true) {
 
-                if (!parent) {
-                    break;
-                }
+        //         if (!parent) {
+        //             break;
+        //         }
 
-                parent.style.overflow = "visible";
+        //         parent.style.overflow = "visible";
 
-                if (parent === this.item.getNativeElement()) {
-                    break;
-                }
+        //         if (parent === this.item.getNativeElement()) {
+        //             break;
+        //         }
 
-                parent = parent.parentElement;
-            }
-        }
+        //         parent = parent.parentElement;
+        //     }
+        // }
     }
 
     ngAfterContentChecked() {

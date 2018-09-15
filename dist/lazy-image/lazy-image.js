@@ -55,6 +55,7 @@ var LazyImage = /** @class */ (function () {
         this.children.changes.subscribe(function () { return _this.revalidate(); });
         this.revalidate();
     };
+    var LazyImage_1;
     __decorate([
         ContentChildren(LazyImage_1, { descendants: true }),
         __metadata("design:type", QueryList)
@@ -77,7 +78,6 @@ var LazyImage = /** @class */ (function () {
         __metadata("design:paramtypes", [ElementRef, Renderer, LazyImageContainer])
     ], LazyImage);
     return LazyImage;
-    var LazyImage_1;
 }());
 export { LazyImage };
 var LazyImageContainer = /** @class */ (function () {

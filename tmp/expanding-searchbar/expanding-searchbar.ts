@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input, Optional} from "@angular/core";
-import {Searchbar, Navbar, Toolbar} from "ionic-angular";
+import {Searchbar, Navbar, Toolbar} from "@ionic/angular";
 import {Subscription} from "rxjs/Subscription";
 
 const expandedCssClass = "ionx-expanding-searchbar-expanded";
