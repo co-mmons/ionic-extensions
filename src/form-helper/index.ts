@@ -108,25 +108,23 @@ export class FormHelper {
             }
         }
 
-        let elementToScroll: HTMLElement;
+        let element: HTMLElement;
 
         if (control instanceof FormControlName) {
             control = control.valueAccessor;
         }
 
-        if (control instanceof HTMLIonInputElement) {
-            control.focus();
-            elementToScroll = control.closest(".item") as HTMLElement;
-        } else if (control && typeof control.focus == "function") {
-            control.focus();
+        if (control["element"] instanceof ElementRef) {
+            element = control["element"].nativeElement;
         }
 
-        if (!elementToScroll && control && control.nativeElement) {
-            elementToScroll = control.nativeElement.closest(".item") || control.nativeElement;            
+        if (element) {
+            element.focus();
+            element = element.closest("ion-item") as HTMLElement;
         }
 
-        if (scrollIntoView && elementToScroll) {
-            elementToScroll.scrollIntoView();
+        if (scrollIntoView && element) {
+            element.scrollIntoView();
         }
     }
 

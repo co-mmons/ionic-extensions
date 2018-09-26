@@ -108,22 +108,19 @@ var FormHelper = /** @class */ (function () {
                 }
             }
         }
-        var elementToScroll;
+        var element;
         if (control instanceof FormControlName) {
             control = control.valueAccessor;
         }
-        if (control instanceof HTMLIonInputElement) {
-            control.focus();
-            elementToScroll = control.closest(".item");
+        if (control["element"] instanceof ElementRef) {
+            element = control["element"].nativeElement;
         }
-        else if (control && typeof control.focus == "function") {
-            control.focus();
+        if (element) {
+            element.focus();
+            element = element.closest("ion-item");
         }
-        if (!elementToScroll && control && control.nativeElement) {
-            elementToScroll = control.nativeElement.closest(".item") || control.nativeElement;
-        }
-        if (scrollIntoView && elementToScroll) {
-            elementToScroll.scrollIntoView();
+        if (scrollIntoView && element) {
+            element.scrollIntoView();
         }
     };
     FormHelper.prototype.focus = function (formControlName, scrollIntoView) {
