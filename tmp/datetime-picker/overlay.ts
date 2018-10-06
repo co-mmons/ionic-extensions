@@ -182,6 +182,7 @@ export class DateTimeOverlay {
 
             for (let d = 1; d <= 33; d++) {
                 tmpDate.setUTCDate(d);
+                tmpDate.setUTCHours(0, 0, 0, 0);
                 this.dateValues.push({
                     id: d,
                     label: d,
