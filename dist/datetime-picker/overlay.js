@@ -111,7 +111,7 @@ var DateTimeOverlay = /** @class */ (function () {
         var tmpDate = new Date(this.dateViewValue);
         if (this.dateView == "days") {
             for (var d = 1; d <= 33; d++) {
-                tmpDate.setUTCDate(d);
+                tmpDate.setUTCDate(d); tmpDate.setUTCHours(0, 0, 0, 0);
                 this.dateValues.push({
                     id: d,
                     label: d,
