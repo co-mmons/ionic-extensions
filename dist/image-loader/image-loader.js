@@ -87,10 +87,30 @@ var ImageLoader = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ImageLoader.prototype, "cssClasses", {
+        set: function (value) {
+            this._cssClasses = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClasses2", {
+        set: function (value) {
+            this._cssClasses = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ImageLoader.prototype.reload = function () {
         if (!this.loading && this.initialized) {
             this.loaded = false;
             this.error = false;
+            if (this._cssClasses && this._cssClasses.loaded) {
+                this.element.nativeElement.classList.remove(this._cssClasses.loaded);
+            }
+            if (this._cssClasses && this._cssClasses.error) {
+                this.element.nativeElement.classList.remove(this._cssClasses.error);
+            }
             this.load();
         }
     };
@@ -100,6 +120,9 @@ var ImageLoader = /** @class */ (function () {
             return;
         }
         this.loading = true;
+        if (this._cssClasses && this._cssClasses.loading) {
+            this.element.nativeElement.classList.add(this._cssClasses.loading);
+        }
         var element = this.element.nativeElement;
         var img;
         // if host element is not <img>, we need to create tmp 
@@ -119,6 +142,12 @@ var ImageLoader = /** @class */ (function () {
             _this.loaded = true;
             _this.loading = false;
             _this.error = false;
+            if (_this._cssClasses && _this._cssClasses.loading) {
+                _this.element.nativeElement.classList.remove(_this._cssClasses.loading);
+            }
+            if (_this._cssClasses && _this._cssClasses.loaded) {
+                _this.element.nativeElement.classList.add(_this._cssClasses.loaded);
+            }
         };
         img.onerror = function () {
             if (_this._alternate && _this._alternate != img.src) {
@@ -131,17 +160,23 @@ var ImageLoader = /** @class */ (function () {
             _this.loading = false;
             _this.loaded = false;
             _this.error = true;
+            if (_this._cssClasses && _this._cssClasses.loading) {
+                _this.element.nativeElement.classList.remove(_this._cssClasses.loading);
+            }
+            if (_this._cssClasses && _this._cssClasses.error) {
+                _this.element.nativeElement.classList.add(_this._cssClasses.error);
+            }
         };
         img.src = this._src;
     };
     ImageLoader.prototype.ngAfterViewInit = function () {
         this.initialized = true;
-        this.element.nativeElement.ionxImageLoader = this;
+        this.element.nativeElement["ionxImageLoader"] = this;
         this.load();
     };
     ImageLoader.prototype.ngOnDestroy = function () {
         if (this.element.nativeElement) {
-            delete this.element.nativeElement.ionxImageLoader;
+            delete this.element.nativeElement["ionxImageLoader"];
         }
     };
     __decorate([
@@ -164,6 +199,16 @@ var ImageLoader = /** @class */ (function () {
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], ImageLoader.prototype, "alternate2", null);
+    __decorate([
+        Input("css-classes"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ImageLoader.prototype, "cssClasses", null);
+    __decorate([
+        Input("ionx-image-loader-css-classes"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ImageLoader.prototype, "cssClasses2", null);
     ImageLoader = __decorate([
         Directive({
             selector: "[ionx-image-loader]",
