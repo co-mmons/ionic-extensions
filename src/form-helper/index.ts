@@ -124,8 +124,53 @@ export class FormHelper {
         }
 
         if (scrollIntoView && element) {
-            element.scrollIntoView();
+            this.scrollIntoView(element);
         }
+    }
+
+    private findParentImpl(element: HTMLElement): HTMLElement {
+
+        if (!element) {
+            return;
+        }
+
+        if (element.scrollHeight >= element.clientHeight) {
+            const overflowY = window.getComputedStyle(element).overflowY;
+            if (overflowY !== "visible" && overflowY !== "hidden") {
+                return element;
+            }
+        }
+
+        if (element.assignedSlot) {
+            let p = this.findParentImpl(element.assignedSlot.parentElement);
+            if (p) {
+                return p;
+            }
+        }
+
+        return this.findParentImpl(element.parentElement);
+    }
+
+    private scrollIntoView(element: HTMLElement) {
+        let parent = this.findParentImpl(element);
+
+        if (parent) {
+
+            let top = element.offsetTop;
+
+            if (element.offsetParent) {
+                let offsetParent = element.offsetParent as HTMLElement;
+                while (offsetParent != parent && !!offsetParent) {
+                    top += offsetParent.offsetTop;
+                    offsetParent = offsetParent.offsetParent as HTMLElement;
+                }
+            }
+
+            parent.scrollTo({top: top, behavior: "smooth"});
+            return;
+        }
+
+        element.scrollIntoView();
     }
 
     public focus(formControlName: string, scrollIntoView: boolean = true) {

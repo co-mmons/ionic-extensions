@@ -14,6 +14,8 @@ export declare class FormHelper {
     readonly formGroup: FormGroup;
     validateAll(): void;
     private focusImpl;
+    private findParentImpl;
+    private scrollIntoView;
     focus(formControlName: string, scrollIntoView?: boolean): void;
 }
 export declare class FormHelperModule {

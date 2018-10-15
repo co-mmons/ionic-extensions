@@ -120,8 +120,42 @@ var FormHelper = /** @class */ (function () {
             element = element.closest("ion-item");
         }
         if (scrollIntoView && element) {
-            element.scrollIntoView();
+            this.scrollIntoView(element);
         }
+    };
+    FormHelper.prototype.findParentImpl = function (element) {
+        if (!element) {
+            return;
+        }
+        if (element.scrollHeight >= element.clientHeight) {
+            var overflowY = window.getComputedStyle(element).overflowY;
+            if (overflowY !== "visible" && overflowY !== "hidden") {
+                return element;
+            }
+        }
+        if (element.assignedSlot) {
+            var p = this.findParentImpl(element.assignedSlot.parentElement);
+            if (p) {
+                return p;
+            }
+        }
+        return this.findParentImpl(element.parentElement);
+    };
+    FormHelper.prototype.scrollIntoView = function (element) {
+        var parent = this.findParentImpl(element);
+        if (parent) {
+            var top_1 = element.offsetTop;
+            if (element.offsetParent) {
+                var offsetParent = element.offsetParent;
+                while (offsetParent != parent && !!offsetParent) {
+                    top_1 += offsetParent.offsetTop;
+                    offsetParent = offsetParent.offsetParent;
+                }
+            }
+            parent.scrollTo({ top: top_1, behavior: "smooth" });
+            return;
+        }
+        element.scrollIntoView();
     };
     FormHelper.prototype.focus = function (formControlName, scrollIntoView) {
         if (scrollIntoView === void 0) { scrollIntoView = true; }
