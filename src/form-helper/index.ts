@@ -118,13 +118,23 @@ export class FormHelper {
             element = control["element"].nativeElement;
         }
 
+        // element to focus
         if (element) {
-            element.focus();
-            element = element.closest("ion-item") as HTMLElement;
+            
+            let focusable = element;
+
+            if (element.tagName.toLowerCase() == "ion-input") {
+                let realInput = element.shadowRoot.querySelector(".native-input");
+                if (realInput) {
+                    focusable = realInput as HTMLElement;
+                }
+            }
+
+            focusable.focus();
         }
 
-        if (scrollIntoView && element) {
-            this.scrollIntoView(element);
+        if (scrollIntoView && element) {            
+            this.scrollIntoView(element.closest("ion-item") as HTMLElement || element);
         }
     }
 

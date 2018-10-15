@@ -115,12 +115,19 @@ var FormHelper = /** @class */ (function () {
         if (control["element"] instanceof ElementRef) {
             element = control["element"].nativeElement;
         }
+        // element to focus
         if (element) {
-            element.focus();
-            element = element.closest("ion-item");
+            var focusable = element;
+            if (element.tagName.toLowerCase() == "ion-input") {
+                var realInput = element.shadowRoot.querySelector(".native-input");
+                if (realInput) {
+                    focusable = realInput;
+                }
+            }
+            focusable.focus();
         }
         if (scrollIntoView && element) {
-            this.scrollIntoView(element);
+            this.scrollIntoView(element.closest("ion-item") || element);
         }
     };
     FormHelper.prototype.findParentImpl = function (element) {
