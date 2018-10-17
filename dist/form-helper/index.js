@@ -125,11 +125,9 @@ var FormHelper = /** @class */ (function () {
         // element to focus
         if (element) {
             var focusable = element;
-            if (element.tagName.toLowerCase() == "ion-input") {
-                var realInput = element.shadowRoot.querySelector(".native-input");
-                if (realInput) {
-                    focusable = realInput;
-                }
+            var realInput = (element.shadowRoot && element.shadowRoot.querySelector(".native-input")) || element.querySelector(".native-input");
+            if (realInput) {
+                focusable = realInput;
             }
             focusable.focus();
         }
