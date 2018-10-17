@@ -66,34 +66,40 @@ export class FormHelper {
             return;
         }
 
-        let firstNotValidControl;
-        
-        for (let control of this.formGroupDirective.directives) {
+        let invalidControlNames: string[] = [];
 
-            let wasPristine = control.control.pristine;
-            let wasUntouched = control.control.untouched;
+        for (let controlName in this.formGroup.controls) {
+            let control = this.formGroup.controls[controlName];
 
-            control.control.markAsDirty();
-            control.control.markAsTouched();
-            control.control.updateValueAndValidity();
+            let wasPristine = control.pristine;
+            let wasUntouched = control.untouched;
 
-            if (!control.valid && !firstNotValidControl) {
-                firstNotValidControl = control;
+            control.markAsDirty();
+            control.markAsTouched();
+            control.updateValueAndValidity();
+
+            if (!control.valid && !invalidControlNames) {
+                invalidControlNames.push(controlName);
 
             } else if (control.valid) {
-                
+
                 if (wasPristine) {
-                    control.control.markAsPristine();
+                    control.markAsPristine();
                 }
 
                 if (wasUntouched) {
-                    control.control.markAsUntouched();
+                    control.markAsUntouched();
                 }
             }
         }
-
-        if (firstNotValidControl) {
-            this.focusImpl(firstNotValidControl);
+        
+        for (let control of this.formGroupDirective.directives) {
+            for (let invalidControl of invalidControlNames) {
+                if (control.name == invalidControl) {
+                    this.focusImpl(invalidControl);
+                    break;
+                }
+            }
         }
     }
 
