@@ -65,9 +65,7 @@ export class FormHelper {
         if (!this.formGroupDirective) {
             return;
         }
-
-        let invalidControlNames: string[] = [];
-
+        
         for (let controlName in this.formGroup.controls) {
             let control = this.formGroup.controls[controlName];
 
@@ -78,10 +76,7 @@ export class FormHelper {
             control.markAsTouched();
             control.updateValueAndValidity();
 
-            if (!control.valid) {
-                invalidControlNames.push(controlName);
-
-            } else if (control.valid) {
+            if (control.valid) {
 
                 if (wasPristine) {
                     control.markAsPristine();
@@ -92,13 +87,11 @@ export class FormHelper {
                 }
             }
         }
-        
-        for (let invalidControl of invalidControlNames) {
-            for (let control of this.formGroupDirective.directives) {
-                if (control.name == invalidControl) {
-                    this.focusImpl(invalidControl);
-                    break;
-                }
+
+        for (let control of this.contentControls.toArray()) {
+            if (!control.valid) {
+                this.focusImpl(control);
+                break;
             }
         }
     }

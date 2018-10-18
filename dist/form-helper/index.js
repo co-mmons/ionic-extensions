@@ -73,7 +73,6 @@ var FormHelper = /** @class */ (function () {
         if (!this.formGroupDirective) {
             return;
         }
-        var invalidControlNames = [];
         for (var controlName in this.formGroup.controls) {
             var control = this.formGroup.controls[controlName];
             var wasPristine = control.pristine;
@@ -81,10 +80,7 @@ var FormHelper = /** @class */ (function () {
             control.markAsDirty();
             control.markAsTouched();
             control.updateValueAndValidity();
-            if (!control.valid) {
-                invalidControlNames.push(controlName);
-            }
-            else if (control.valid) {
+            if (control.valid) {
                 if (wasPristine) {
                     control.markAsPristine();
                 }
@@ -93,14 +89,11 @@ var FormHelper = /** @class */ (function () {
                 }
             }
         }
-        for (var _i = 0, invalidControlNames_1 = invalidControlNames; _i < invalidControlNames_1.length; _i++) {
-            var invalidControl = invalidControlNames_1[_i];
-            for (var _a = 0, _b = this.formGroupDirective.directives; _a < _b.length; _a++) {
-                var control = _b[_a];
-                if (control.name == invalidControl) {
-                    this.focusImpl(invalidControl);
-                    break;
-                }
+        for (var _i = 0, _a = this.contentControls.toArray(); _i < _a.length; _i++) {
+            var control = _a[_i];
+            if (!control.valid) {
+                this.focusImpl(control);
+                break;
             }
         }
     };
