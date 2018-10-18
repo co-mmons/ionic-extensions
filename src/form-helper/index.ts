@@ -93,8 +93,8 @@ export class FormHelper {
             }
         }
         
-        for (let control of this.formGroupDirective.directives) {
-            for (let invalidControl of invalidControlNames) {
+        for (let invalidControl of invalidControlNames) {
+            for (let control of this.formGroupDirective.directives) {
                 if (control.name == invalidControl) {
                     this.focusImpl(invalidControl);
                     break;
