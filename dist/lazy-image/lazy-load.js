@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var defaultOptions = {
     selector: "img",
     container: window,
+    scroll: null,
     threshold: 300,
     throttle: 150,
     dataSrc: "original",
@@ -296,6 +297,9 @@ var LazyLoad = /** @class */ (function () {
         if (!this._isHandlingScroll) {
             this._isHandlingScroll = true;
             this._options.container.addEventListener("scroll", this._handleScrollFn);
+            if (this._options.scroll) {
+                this._options.scroll.addEventListener("scroll", this._handleScrollFn);
+            }
         }
     };
     ;
@@ -303,6 +307,9 @@ var LazyLoad = /** @class */ (function () {
         if (this._isHandlingScroll) {
             this._isHandlingScroll = false;
             this._options.container.removeEventListener("scroll", this._handleScrollFn);
+            if (this._options.scroll) {
+                this._options.scroll.removeEventListener("scroll", this._handleScrollFn);
+            }
         }
     };
     ;

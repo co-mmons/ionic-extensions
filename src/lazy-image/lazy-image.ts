@@ -62,7 +62,7 @@ export class LazyImage {
 })
 export class LazyImageContainer {
 
-	constructor(private element: ElementRef) {
+	constructor(private element: ElementRef<HTMLElement>) {
 	}
 
 	private lazyLoad: LazyLoad;
@@ -103,13 +103,8 @@ export class LazyImageContainer {
 
 		let options: LazyLoadOptions = {};
 		options.selector = ".ionx-lazy-image";
-
-		let scrollContent = (<HTMLElement>this.element.nativeElement).getElementsByClassName("scroll-content");
-		if (scrollContent.length) {
-			options.container = <HTMLElement>scrollContent.item(0);
-		} else {
-			options.container = this.element.nativeElement;
-		}
+		options.container = this.element.nativeElement;
+		options.scroll = this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".inner-scroll");
 
 		return new LazyLoad(options);
 	}

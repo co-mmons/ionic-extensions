@@ -3,6 +3,7 @@ import { LazyLoadOptions } from "./lazy-load-options";
 const defaultOptions: LazyLoadOptions = {
     selector: "img",
     container: window,
+    scroll: null,
     threshold: 300,
     throttle: 150,
     dataSrc: "original",
@@ -341,6 +342,9 @@ export class LazyLoad {
         if (!this._isHandlingScroll) {
             this._isHandlingScroll = true;
             this._options.container.addEventListener("scroll", this._handleScrollFn);
+            if (this._options.scroll) {
+                this._options.scroll.addEventListener("scroll", this._handleScrollFn);
+            }
         }
     };
 
@@ -348,6 +352,9 @@ export class LazyLoad {
         if (this._isHandlingScroll) {
             this._isHandlingScroll = false;
             this._options.container.removeEventListener("scroll", this._handleScrollFn);
+            if (this._options.scroll) {
+                this._options.scroll.removeEventListener("scroll", this._handleScrollFn);
+            }
         }
     };
 

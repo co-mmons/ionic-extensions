@@ -15,7 +15,7 @@ export declare class LazyImage {
 }
 export declare class LazyImageContainer {
     private element;
-    constructor(element: ElementRef);
+    constructor(element: ElementRef<HTMLElement>);
     private lazyLoad;
     revalidate(): void;
     children: QueryList<LazyImage>;

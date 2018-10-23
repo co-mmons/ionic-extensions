@@ -111,13 +111,8 @@ var LazyImageContainer = /** @class */ (function () {
     LazyImageContainer.prototype.newLazyLoad = function () {
         var options = {};
         options.selector = ".ionx-lazy-image";
-        var scrollContent = this.element.nativeElement.getElementsByClassName("scroll-content");
-        if (scrollContent.length) {
-            options.container = scrollContent.item(0);
-        }
-        else {
-            options.container = this.element.nativeElement;
-        }
+        options.container = this.element.nativeElement;
+        options.scroll = this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".inner-scroll");
         return new LazyLoad(options);
     };
     __decorate([
