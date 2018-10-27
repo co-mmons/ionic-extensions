@@ -21,7 +21,7 @@ function findParentImpl(element: HTMLElement): HTMLElement {
     return findParentImpl(element.parentElement);
 }
 
-export function scrollIntoView(element: HTMLElement) {
+export function scrollIntoView(element: HTMLElement, scrollBehavior?: ScrollBehavior) {
     let parent = findParentImpl(element);
 
     if (parent) {
@@ -36,7 +36,7 @@ export function scrollIntoView(element: HTMLElement) {
             }
         }
 
-        parent.scrollTo({top: top, behavior: "smooth"});
+        parent.scrollTo({top: top, behavior: scrollBehavior});
         return;
     }
 

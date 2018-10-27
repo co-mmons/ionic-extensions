@@ -1,1 +1,1 @@
-export declare function scrollIntoView(element: HTMLElement): void;
+export declare function scrollIntoView(element: HTMLElement, scrollBehavior?: ScrollBehavior): void;

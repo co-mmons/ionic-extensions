@@ -16,7 +16,7 @@ function findParentImpl(element) {
     }
     return findParentImpl(element.parentElement);
 }
-export function scrollIntoView(element) {
+export function scrollIntoView(element, scrollBehavior) {
     var parent = findParentImpl(element);
     if (parent) {
         var top_1 = element.offsetTop;
@@ -27,7 +27,7 @@ export function scrollIntoView(element) {
                 offsetParent = offsetParent.offsetParent;
             }
         }
-        parent.scrollTo({ top: top_1, behavior: "smooth" });
+        parent.scrollTo({ top: top_1, behavior: scrollBehavior });
         return;
     }
     element.scrollIntoView();
