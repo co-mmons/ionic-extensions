@@ -12,6 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 import { ContentChildren, Directive, ElementRef, Input, NgModule, Optional, QueryList } from "@angular/core";
 import { FormControlName, FormGroupDirective, NgForm } from "@angular/forms";
+import { scrollIntoView } from "../scroll/scroll-into-view";
 var FormHelper = /** @class */ (function () {
     function FormHelper(element, ngForm, formGroupDirective) {
         this.element = element;
@@ -75,19 +76,8 @@ var FormHelper = /** @class */ (function () {
         }
         for (var controlName in this.formGroup.controls) {
             var control = this.formGroup.controls[controlName];
-            var wasPristine = control.pristine;
-            var wasUntouched = control.untouched;
-            control.markAsDirty();
             control.markAsTouched();
             control.updateValueAndValidity();
-            if (control.valid) {
-                if (wasPristine) {
-                    control.markAsPristine();
-                }
-                if (wasUntouched) {
-                    control.markAsUntouched();
-                }
-            }
         }
         for (var _i = 0, _a = this.contentControls.toArray(); _i < _a.length; _i++) {
             var control = _a[_i];
@@ -97,8 +87,8 @@ var FormHelper = /** @class */ (function () {
             }
         }
     };
-    FormHelper.prototype.focusImpl = function (control, scrollIntoView) {
-        if (scrollIntoView === void 0) { scrollIntoView = true; }
+    FormHelper.prototype.focusImpl = function (control, scroll) {
+        if (scroll === void 0) { scroll = true; }
         if (typeof control == "string" && this.formGroupDirective) {
             for (var _i = 0, _a = this.formGroupDirective.directives; _i < _a.length; _i++) {
                 var c = _a[_i];
@@ -117,50 +107,21 @@ var FormHelper = /** @class */ (function () {
         }
         // element to focus
         if (element) {
-            var focusable = element;
-            var realInput = (element.shadowRoot && element.shadowRoot.querySelector(".native-input")) || element.querySelector(".native-input");
-            if (realInput) {
-                focusable = realInput;
+            if (element["setFocus"]) {
+                element["setFocus"]();
             }
-            focusable.focus();
-        }
-        if (scrollIntoView && element) {
-            this.scrollIntoView(element.closest("ion-item") || element);
-        }
-    };
-    FormHelper.prototype.findParentImpl = function (element) {
-        if (!element) {
-            return;
-        }
-        if (element.scrollHeight >= element.clientHeight) {
-            var overflowY = window.getComputedStyle(element).overflowY;
-            if (overflowY !== "visible" && overflowY !== "hidden") {
-                return element;
-            }
-        }
-        if (element.assignedSlot) {
-            var p = this.findParentImpl(element.assignedSlot.parentElement);
-            if (p) {
-                return p;
-            }
-        }
-        return this.findParentImpl(element.parentElement);
-    };
-    FormHelper.prototype.scrollIntoView = function (element) {
-        var parent = this.findParentImpl(element);
-        if (parent) {
-            var top_1 = element.offsetTop;
-            if (element.offsetParent) {
-                var offsetParent = element.offsetParent;
-                while (offsetParent != parent && !!offsetParent) {
-                    top_1 += offsetParent.offsetTop;
-                    offsetParent = offsetParent.offsetParent;
+            else {
+                var focusable = element;
+                var realInput = (element.shadowRoot && element.shadowRoot.querySelector(".native-input")) || element.querySelector(".native-input");
+                if (realInput) {
+                    focusable = realInput;
                 }
+                focusable.focus();
             }
-            parent.scrollTo({ top: top_1, behavior: "smooth" });
-            return;
         }
-        element.scrollIntoView();
+        if (scroll && element) {
+            scrollIntoView(element.closest("ion-item") || element);
+        }
     };
     FormHelper.prototype.focus = function (formControlName, scrollIntoView) {
         if (scrollIntoView === void 0) { scrollIntoView = true; }

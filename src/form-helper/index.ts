@@ -1,5 +1,6 @@
 import {ContentChildren, Directive, ElementRef, Input, NgModule, Optional, QueryList} from "@angular/core";
 import {FormControlName, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
+import {scrollIntoView} from "../scroll/scroll-into-view";
 
 @Directive({
     selector: "[ionx-form-helper],[ionxFormHelper]",
@@ -68,24 +69,8 @@ export class FormHelper {
         
         for (let controlName in this.formGroup.controls) {
             let control = this.formGroup.controls[controlName];
-
-            let wasPristine = control.pristine;
-            let wasUntouched = control.untouched;
-
-            control.markAsDirty();
             control.markAsTouched();
             control.updateValueAndValidity();
-
-            if (control.valid) {
-
-                if (wasPristine) {
-                    control.markAsPristine();
-                }
-
-                if (wasUntouched) {
-                    control.markAsUntouched();
-                }
-            }
         }
 
         for (let control of this.contentControls.toArray()) {
@@ -96,7 +81,7 @@ export class FormHelper {
         }
     }
 
-    private focusImpl(control: string | any, scrollIntoView: boolean = true) {
+    private focusImpl(control: string | any, scroll: boolean = true) {
 
         if (typeof control == "string" && this.formGroupDirective) {
             for (let c of this.formGroupDirective.directives) {
@@ -119,65 +104,26 @@ export class FormHelper {
 
         // element to focus
         if (element) {
-            
-            let focusable = element;
 
-            let realInput = (element.shadowRoot && element.shadowRoot.querySelector(".native-input")) || element.querySelector(".native-input");
-            if (realInput) {
-                focusable = realInput as HTMLElement;
-            }
+            if (element["setFocus"]) {
+                element["setFocus"]();
+                
+            } else {
+                
+                let focusable = element;
 
-            focusable.focus();
-        }
-
-        if (scrollIntoView && element) {            
-            this.scrollIntoView(element.closest("ion-item") as HTMLElement || element);
-        }
-    }
-
-    private findParentImpl(element: HTMLElement): HTMLElement {
-
-        if (!element) {
-            return;
-        }
-
-        if (element.scrollHeight >= element.clientHeight) {
-            const overflowY = window.getComputedStyle(element).overflowY;
-            if (overflowY !== "visible" && overflowY !== "hidden") {
-                return element;
-            }
-        }
-
-        if (element.assignedSlot) {
-            let p = this.findParentImpl(element.assignedSlot.parentElement);
-            if (p) {
-                return p;
-            }
-        }
-
-        return this.findParentImpl(element.parentElement);
-    }
-
-    private scrollIntoView(element: HTMLElement) {
-        let parent = this.findParentImpl(element);
-
-        if (parent) {
-
-            let top = element.offsetTop;
-
-            if (element.offsetParent) {
-                let offsetParent = element.offsetParent as HTMLElement;
-                while (offsetParent != parent && !!offsetParent) {
-                    top += offsetParent.offsetTop;
-                    offsetParent = offsetParent.offsetParent as HTMLElement;
+                let realInput = (element.shadowRoot && element.shadowRoot.querySelector(".native-input")) || element.querySelector(".native-input");
+                if (realInput) {
+                    focusable = realInput as HTMLElement;
                 }
-            }
 
-            parent.scrollTo({top: top, behavior: "smooth"});
-            return;
+                focusable.focus();
+            }
         }
 
-        element.scrollIntoView();
+        if (scroll && element) {            
+            scrollIntoView(element.closest("ion-item") as HTMLElement || element);
+        }
     }
 
     public focus(formControlName: string, scrollIntoView: boolean = true) {
