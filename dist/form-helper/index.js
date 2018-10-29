@@ -70,13 +70,19 @@ var FormHelper = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    FormHelper.prototype.validateAll = function () {
+    FormHelper.prototype.validateAll = function (markAs) {
+        if (markAs === void 0) { markAs = "touched"; }
         if (!this.formGroupDirective) {
             return;
         }
         for (var controlName in this.formGroup.controls) {
             var control = this.formGroup.controls[controlName];
-            control.markAsTouched();
+            if (markAs == "touched") {
+                control.markAsTouched();
+            }
+            if (markAs == "dirty") {
+                control.markAsDirty();
+            }
             control.updateValueAndValidity();
         }
         for (var _i = 0, _a = this.contentControls.toArray(); _i < _a.length; _i++) {

@@ -12,7 +12,7 @@ export declare class FormHelper {
     protected readonly contentControls: QueryList<FormControlName>;
     formControlName(name: string): FormControlName;
     readonly formGroup: FormGroup;
-    validateAll(): void;
+    validateAll(markAs?: "touched" | "dirty"): void;
     private focusImpl;
     focus(formControlName: string, scrollIntoView?: boolean): void;
 }

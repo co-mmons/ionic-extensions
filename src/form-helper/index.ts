@@ -61,15 +61,23 @@ export class FormHelper {
         return this.formGroupDirective ? this.formGroupDirective.form : undefined;
     }
 
-    public validateAll() {
+    public validateAll(markAs: "touched" | "dirty" = "touched") {
 
         if (!this.formGroupDirective) {
             return;
         }
-        
+
         for (let controlName in this.formGroup.controls) {
             let control = this.formGroup.controls[controlName];
-            control.markAsTouched();
+
+            if (markAs == "touched") {
+                control.markAsTouched();
+            }
+
+            if (markAs == "dirty") {
+                control.markAsDirty();
+            }
+
             control.updateValueAndValidity();
         }
 
