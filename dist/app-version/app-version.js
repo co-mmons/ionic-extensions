@@ -42,16 +42,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
 import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version/ngx";
+import { HTTP } from "@ionic-native/http";
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 import { AlertController, Platform } from "@ionic/angular";
 var AppVersion = /** @class */ (function () {
-    function AppVersion(platform, http, appVersion, intl, alertController, inAppBrowser) {
+    function AppVersion(platform, appVersion, intl, alertController, inAppBrowser) {
         this.platform = platform;
-        this.http = http;
         this.appVersion = appVersion;
         this.intl = intl;
         this.alertController = alertController;
@@ -136,9 +135,9 @@ var AppVersion = /** @class */ (function () {
                         if (app.platform == "android") {
                             httpOptions.responseType = "text";
                         }
-                        return [4 /*yield*/, this.http.get(app.url, httpOptions).toPromise()];
+                        return [4 /*yield*/, HTTP.get(app.url, {}, {})];
                     case 1:
-                        content = (_a.sent());
+                        content = (_a.sent()).data;
                         return [2 /*return*/, this.parseVersion(app, content)];
                     case 2: return [2 /*return*/, undefined];
                 }
@@ -289,7 +288,7 @@ var AppVersion = /** @class */ (function () {
     };
     AppVersion = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [Platform, HttpClient, InstalledAppVersion, IntlService, AlertController, InAppBrowser])
+        __metadata("design:paramtypes", [Platform, InstalledAppVersion, IntlService, AlertController, InAppBrowser])
     ], AppVersion);
     return AppVersion;
 }());

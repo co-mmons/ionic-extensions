@@ -1,14 +1,14 @@
-import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
 import {AppVersion as InstalledAppVersion} from "@ionic-native/app-version/ngx";
+import {HTTP} from "@ionic-native/http";
 import {InAppBrowser} from "@ionic-native/in-app-browser/ngx";
 import {AlertController, Platform} from "@ionic/angular";
 
 @Injectable()
 export class AppVersion {
 
-    constructor(private platform: Platform, private http: HttpClient, private appVersion: InstalledAppVersion, private intl: IntlService, private alertController: AlertController, private inAppBrowser: InAppBrowser) {
+    constructor(private platform: Platform, private appVersion: InstalledAppVersion, private intl: IntlService, private alertController: AlertController, private inAppBrowser: InAppBrowser) {
     }
 
     async newVersionAvailable(id: string | AppIdentifiers, publishedVersions?: {android?: string, ios?: string} | string): Promise<AppNewVersion> {
@@ -74,7 +74,7 @@ export class AppVersion {
                 httpOptions.responseType = "text";
             }
 
-            let content = (await this.http.get(app.url, httpOptions).toPromise());
+            let content = (await HTTP.get(app.url, {}, {})).data;
 
             return this.parseVersion(app, content);
         } else {

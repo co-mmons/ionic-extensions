@@ -1,16 +1,14 @@
-import { HttpClient } from "@angular/common/http";
 import { IntlService } from "@co.mmons/angular-intl";
 import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version/ngx";
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 import { AlertController, Platform } from "@ionic/angular";
 export declare class AppVersion {
     private platform;
-    private http;
     private appVersion;
     private intl;
     private alertController;
     private inAppBrowser;
-    constructor(platform: Platform, http: HttpClient, appVersion: InstalledAppVersion, intl: IntlService, alertController: AlertController, inAppBrowser: InAppBrowser);
+    constructor(platform: Platform, appVersion: InstalledAppVersion, intl: IntlService, alertController: AlertController, inAppBrowser: InAppBrowser);
     newVersionAvailable(id: string | AppIdentifiers, publishedVersions?: {
         android?: string;
         ios?: string;

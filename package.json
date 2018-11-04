@@ -15,6 +15,7 @@
     "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
     "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
     "@ionic-native/app-version": "^5.0.0-beta.17",
+    "@ionic-native/http": "^5.0.0-beta.21",
     "@ionic-native/in-app-browser": "^5.0.0-beta.17",
     "trix": "^0.12.1"
   },
