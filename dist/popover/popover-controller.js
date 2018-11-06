@@ -53,7 +53,7 @@ var PopoverControllerComponent = /** @class */ (function () {
         this.willDismiss = new EventEmitter();
         this._presented = false;
     }
-    PopoverControllerComponent.prototype.present = function (options) {
+    PopoverControllerComponent.prototype.present = function (event) {
         return __awaiter(this, void 0, void 0, function () {
             var _a;
             return __generator(this, function (_b) {
@@ -64,7 +64,7 @@ var PopoverControllerComponent = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         _a = this;
-                        return [4 /*yield*/, this.controller.create({ component: PopoverControllerContentComponent, componentProps: { template: this.content }, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass })];
+                        return [4 /*yield*/, this.controller.create({ component: PopoverControllerContentComponent, componentProps: { template: this.content }, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass, event: event })];
                     case 1:
                         _a.popover = (_b.sent());
                         this.willEnter.next();

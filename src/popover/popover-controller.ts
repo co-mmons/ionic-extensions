@@ -40,14 +40,14 @@ export class PopoverControllerComponent {
 
     private popover: HTMLIonPopoverElement;
 
-    public async present(options?: Event) {
+    public async present(event?: Event) {
 
         // already opened - should we close existing and open new?
         if (this.popover) {
             return;
         }
         
-        this.popover = (await this.controller.create({component: PopoverControllerContentComponent, componentProps: {template: this.content}, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass}));
+        this.popover = (await this.controller.create({component: PopoverControllerContentComponent, componentProps: {template: this.content}, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass, event: event}));
 
         this.willEnter.next();
 

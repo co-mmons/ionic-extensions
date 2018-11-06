@@ -12,7 +12,7 @@ export declare class PopoverControllerComponent {
     readonly didDismiss: EventEmitter<any>;
     readonly willDismiss: EventEmitter<any>;
     private popover;
-    present(options?: Event): Promise<void>;
+    present(event?: Event): Promise<void>;
     private _presented;
     readonly presented: boolean;
     dismiss(data?: any, role?: any): Promise<any>;
