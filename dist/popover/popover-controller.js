@@ -42,7 +42,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, TemplateRef, Input, ViewChild, EventEmitter, Output } from "@angular/core";
+import { Component, TemplateRef, Input, ViewChild, EventEmitter, Output, ViewEncapsulation } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 var PopoverControllerComponent = /** @class */ (function () {
     function PopoverControllerComponent(controller) {
@@ -51,6 +51,7 @@ var PopoverControllerComponent = /** @class */ (function () {
         this.didEnter = new EventEmitter();
         this.didDismiss = new EventEmitter();
         this.willDismiss = new EventEmitter();
+        this._dismissing = false;
         this._presented = false;
     }
     PopoverControllerComponent.prototype.present = function (event) {
@@ -78,18 +79,27 @@ var PopoverControllerComponent = /** @class */ (function () {
                         if (_b.sent()) {
                             this.willDismiss.next();
                         }
+                        this._dismissing = true;
                         return [4 /*yield*/, this.popover.onDidDismiss()];
                     case 4:
                         if (_b.sent()) {
                             this.didDismiss.next();
                             this.popover = undefined;
                             this._presented = false;
+                            this._dismissing = false;
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
+    Object.defineProperty(PopoverControllerComponent.prototype, "dismissing", {
+        get: function () {
+            return this._dismissing;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PopoverControllerComponent.prototype, "presented", {
         get: function () {
             return this._presented;
@@ -140,6 +150,7 @@ var PopoverControllerComponent = /** @class */ (function () {
     PopoverControllerComponent = __decorate([
         Component({
             selector: "ionx-popover-controller",
+            encapsulation: ViewEncapsulation.None,
             template: "\n        <ng-template #popoverContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
         }),
         __metadata("design:paramtypes", [PopoverController])
@@ -160,7 +171,8 @@ var PopoverControllerContentComponent = /** @class */ (function () {
     ], PopoverControllerContentComponent.prototype, "template", void 0);
     PopoverControllerContentComponent = __decorate([
         Component({
-            template: "\n        <ng-container *ngTemplateOutlet=\"template\"></ng-container>\n    "
+            encapsulation: ViewEncapsulation.None,
+            template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
         }),
         __metadata("design:paramtypes", [])
     ], PopoverControllerContentComponent);

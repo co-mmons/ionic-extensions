@@ -1,8 +1,9 @@
-import {Component, TemplateRef, Input, ViewChild, EventEmitter, Output} from "@angular/core";
+import {Component, TemplateRef, Input, ViewChild, EventEmitter, Output, ViewEncapsulation} from "@angular/core";
 import {PopoverController} from "@ionic/angular";
 
 @Component({
     selector: "ionx-popover-controller",
+    encapsulation: ViewEncapsulation.None,
     template: `
         <ng-template #popoverContent>
             <ng-content></ng-content>
@@ -61,11 +62,19 @@ export class PopoverControllerComponent {
             this.willDismiss.next();
         }
 
+        this._dismissing = true;
         if (await this.popover.onDidDismiss()) {
             this.didDismiss.next();
             this.popover = undefined;
             this._presented = false;
+            this._dismissing = false;
         }
+    }
+
+    private _dismissing: boolean = false;
+
+    public get dismissing(): boolean {
+        return this._dismissing;
     }
 
     private _presented: boolean = false;
@@ -88,8 +97,9 @@ export class PopoverControllerComponent {
 }
 
 @Component({
+    encapsulation: ViewEncapsulation.None,
     template: `
-        <ng-container *ngTemplateOutlet="template"></ng-container>
+        <ng-template [ngTemplateOutlet]="template"></ng-template>
     `
 })
 export class PopoverControllerContentComponent {
