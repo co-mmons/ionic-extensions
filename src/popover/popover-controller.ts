@@ -89,7 +89,7 @@ export class PopoverControllerComponent {
 
 @Component({
     template: `
-        <ng-template [ngTemplateOutlet]="template"></ng-template>
+        <ng-container *ngTemplateOutlet="template"></ng-container>
     `
 })
 export class PopoverControllerContentComponent {

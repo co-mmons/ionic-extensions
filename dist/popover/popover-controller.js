@@ -160,7 +160,7 @@ var PopoverControllerContentComponent = /** @class */ (function () {
     ], PopoverControllerContentComponent.prototype, "template", void 0);
     PopoverControllerContentComponent = __decorate([
         Component({
-            template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
+            template: "\n        <ng-container *ngTemplateOutlet=\"template\"></ng-container>\n    "
         }),
         __metadata("design:paramtypes", [])
     ], PopoverControllerContentComponent);
