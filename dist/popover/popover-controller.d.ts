@@ -18,7 +18,7 @@ export declare class PopoverControllerComponent {
     dismiss(data?: any, role?: any): Promise<any>;
 }
 export declare class PopoverControllerContentComponent {
-    constructor(params: any);
+    constructor();
     template: TemplateRef<any>;
     ngOnDestroy(): void;
 }

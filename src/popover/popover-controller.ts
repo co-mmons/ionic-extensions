@@ -94,10 +94,11 @@ export class PopoverControllerComponent {
 })
 export class PopoverControllerContentComponent {
 
-    constructor(params: any) {
+    constructor() {
         //this.template = params.get("template");
     }
 
+    @Input()
     template: TemplateRef<any>;
 
     ngOnDestroy() {

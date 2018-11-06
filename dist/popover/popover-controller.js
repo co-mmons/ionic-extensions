@@ -148,17 +148,21 @@ var PopoverControllerComponent = /** @class */ (function () {
 }());
 export { PopoverControllerComponent };
 var PopoverControllerContentComponent = /** @class */ (function () {
-    function PopoverControllerContentComponent(params) {
+    function PopoverControllerContentComponent() {
         //this.template = params.get("template");
     }
     PopoverControllerContentComponent.prototype.ngOnDestroy = function () {
         this.template = undefined;
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", TemplateRef)
+    ], PopoverControllerContentComponent.prototype, "template", void 0);
     PopoverControllerContentComponent = __decorate([
         Component({
             template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
         }),
-        __metadata("design:paramtypes", [Object])
+        __metadata("design:paramtypes", [])
     ], PopoverControllerContentComponent);
     return PopoverControllerContentComponent;
 }());
