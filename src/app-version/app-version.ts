@@ -69,12 +69,15 @@ export class AppVersion {
 
         if (app) {
             
-            let httpOptions: any = {};
-            if (app.platform == "android") {
-                httpOptions.responseType = "text";
-            }
+            // let httpOptions: any = {};
+            // if (app.platform == "android") {
+            //     httpOptions.responseType = "text";
+            // }
 
             let content = (await HTTP.get(app.url, {}, {})).data;
+            if (app.platform == "ios" && content) {
+                content = JSON.parse(content);
+            }
 
             return this.parseVersion(app, content);
         } else {

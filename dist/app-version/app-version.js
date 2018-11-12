@@ -123,7 +123,7 @@ var AppVersion = /** @class */ (function () {
     };
     AppVersion.prototype.storeVersion = function (id, app) {
         return __awaiter(this, void 0, void 0, function () {
-            var httpOptions, content;
+            var content;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -131,13 +131,12 @@ var AppVersion = /** @class */ (function () {
                             app = this.appPlatform(id);
                         }
                         if (!app) return [3 /*break*/, 2];
-                        httpOptions = {};
-                        if (app.platform == "android") {
-                            httpOptions.responseType = "text";
-                        }
                         return [4 /*yield*/, HTTP.get(app.url, {}, {})];
                     case 1:
                         content = (_a.sent()).data;
+                        if (app.platform == "ios" && content) {
+                            content = JSON.parse(content);
+                        }
                         return [2 /*return*/, this.parseVersion(app, content)];
                     case 2: return [2 /*return*/, undefined];
                 }
