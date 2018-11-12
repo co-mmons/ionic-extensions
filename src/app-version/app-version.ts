@@ -29,7 +29,7 @@ export class AppVersion {
             let verifiedPublishedVersion = await this.storeVersion(id, platform);
 
             if (verifiedPublishedVersion) {
-                if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) == 0) {
+                if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) >= 0) {
                     return verifiedPublishedVersion;
                 } else if (!publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, installedVersion) > 0) {
                     return verifiedPublishedVersion;
@@ -227,8 +227,9 @@ export class AppVersion {
                 message: this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
                 backdropDismiss: false,
                 buttons: [
-                    {text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"), role: "cancel"},
+                    {role: "cancel", text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow")},
                     {
+                        role: "update",
                         text: this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
                         handler: () => {
                             this.updateMessageAlert.dismiss(true);
@@ -242,7 +243,7 @@ export class AppVersion {
             this.updateMessageAlert.present();
 
             let result = await this.updateMessageAlert.onDidDismiss();
-            resolve(!!result);
+            resolve(result.role == "update");
 
             this.updateMessageAlert = undefined;
         });

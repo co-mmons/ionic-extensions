@@ -78,7 +78,7 @@ var AppVersion = /** @class */ (function () {
                     case 2:
                         verifiedPublishedVersion = _a.sent();
                         if (verifiedPublishedVersion) {
-                            if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) == 0) {
+                            if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) >= 0) {
                                 return [2 /*return*/, verifiedPublishedVersion];
                             }
                             else if (!publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, installedVersion) > 0) {
@@ -261,8 +261,9 @@ var AppVersion = /** @class */ (function () {
                                 message: this.intl.message("@co.mmons/ionic-extensions#appVersion/newVersionAvailableMessage/" + version.app.platform),
                                 backdropDismiss: false,
                                 buttons: [
-                                    { text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow"), role: "cancel" },
+                                    { role: "cancel", text: this.intl.message("@co.mmons/ionic-extensions#appVersion/notNow") },
                                     {
+                                        role: "update",
                                         text: this.intl.message("@co.mmons/ionic-extensions#appVersion/update"),
                                         handler: function () {
                                             _this.updateMessageAlert.dismiss(true);
@@ -278,7 +279,7 @@ var AppVersion = /** @class */ (function () {
                         return [4 /*yield*/, this.updateMessageAlert.onDidDismiss()];
                     case 2:
                         result = _b.sent();
-                        resolve(!!result);
+                        resolve(result.role == "update");
                         this.updateMessageAlert = undefined;
                         return [2 /*return*/];
                 }
