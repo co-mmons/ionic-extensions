@@ -82,7 +82,7 @@ var FormHelper = /** @class */ (function () {
             control.markAsDirty();
             control.markAsTouched();
             control.updateValueAndValidity();
-            if (!control.valid && !invalidControlNames) {
+            if (!control.valid) {
                 invalidControlNames.push(controlName);
             }
             else if (control.valid) {
