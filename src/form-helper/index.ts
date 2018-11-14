@@ -79,7 +79,7 @@ export class FormHelper {
             control.markAsTouched();
             control.updateValueAndValidity();
 
-            if (!control.valid && !invalidControlNames) {
+            if (!control.valid) {
                 invalidControlNames.push(controlName);
 
             } else if (control.valid) {
