@@ -3,25 +3,9 @@
     ion-list.list:not(.list-lines-none) {
         margin: 0px;
 
-        .list-header {
-            margin-top: 0px;
-        }
-
-        .item-block:first-child {
-            border-top: none;
-        }
-
-        ion-item.item:last-child, & > *:last-child ion-item.item:last-child {
+        & > ion-item.item:last-child, & > *:last-child > ion-item.item:last-child {
             --border-width: 0px;
             --inner-border-width: 0px;
         }
     }
 }
-
-
-// .select-popover {
-//     .popover-content {
-//         width: calc(100% - 24px);
-//         left: 12px !important;
-//     }
-// }
