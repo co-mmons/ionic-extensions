@@ -108,8 +108,8 @@ var FormHelper = /** @class */ (function () {
         if (control instanceof FormControlName) {
             control = control.valueAccessor;
         }
-        if (control["element"] instanceof ElementRef) {
-            element = control["element"].nativeElement;
+        if (control["el"] instanceof ElementRef) {
+            element = control["el"].nativeElement;
         }
         // element to focus
         if (element) {
