@@ -1,6 +1,6 @@
 .ionx-list-popover {
 
-    ion-list.list {
+    ion-list.list:not(.list-lines-none) {
         margin: 0px;
 
         .list-header {
@@ -11,11 +11,13 @@
             border-top: none;
         }
 
-        ion-item.item:last-child, *:last-child ion-item.item:last-child {
+        ion-item.item:last-child, & > *:last-child ion-item.item:last-child {
             --border-width: 0px;
+            --inner-border-width: 0px;
         }
     }
 }
+
 
 // .select-popover {
 //     .popover-content {
