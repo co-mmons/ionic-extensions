@@ -101,15 +101,32 @@ var ImageLoader = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ImageLoader.prototype, "cssClassesTarget", {
+        set: function (value) {
+            this._cssClassesTarget = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClassesParent", {
+        set: function (value) {
+            this._cssClassesTarget = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ImageLoader.prototype.reload = function () {
         if (!this.loading && this.initialized) {
             this.loaded = false;
             this.error = false;
-            if (this._cssClasses && this._cssClasses.loaded) {
-                this.element.nativeElement.classList.remove(this._cssClasses.loaded);
-            }
-            if (this._cssClasses && this._cssClasses.error) {
-                this.element.nativeElement.classList.remove(this._cssClasses.error);
+            if (this._cssClasses) {
+                var target = this._cssClassesTarget ? this.element.nativeElement.closest(this._cssClassesTarget) : this.element.nativeElement;
+                if (this._cssClasses.loaded) {
+                    target.classList.remove(this._cssClasses.loaded);
+                }
+                if (this._cssClasses.error) {
+                    target.classList.remove(this._cssClasses.error);
+                }
             }
             this.load();
         }
@@ -142,11 +159,14 @@ var ImageLoader = /** @class */ (function () {
             _this.loaded = true;
             _this.loading = false;
             _this.error = false;
-            if (_this._cssClasses && _this._cssClasses.loading) {
-                _this.element.nativeElement.classList.remove(_this._cssClasses.loading);
-            }
-            if (_this._cssClasses && _this._cssClasses.loaded) {
-                _this.element.nativeElement.classList.add(_this._cssClasses.loaded);
+            if (_this._cssClasses) {
+                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
+                if (_this._cssClasses.loading) {
+                    target.classList.remove(_this._cssClasses.loading);
+                }
+                if (_this._cssClasses.loaded) {
+                    target.classList.add(_this._cssClasses.loaded);
+                }
             }
         };
         img.onerror = function () {
@@ -160,11 +180,14 @@ var ImageLoader = /** @class */ (function () {
             _this.loading = false;
             _this.loaded = false;
             _this.error = true;
-            if (_this._cssClasses && _this._cssClasses.loading) {
-                _this.element.nativeElement.classList.remove(_this._cssClasses.loading);
-            }
-            if (_this._cssClasses && _this._cssClasses.error) {
-                _this.element.nativeElement.classList.add(_this._cssClasses.error);
+            if (_this._cssClasses) {
+                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
+                if (_this._cssClasses.loading) {
+                    target.classList.remove(_this._cssClasses.loading);
+                }
+                if (_this._cssClasses.error) {
+                    target.classList.add(_this._cssClasses.error);
+                }
             }
         };
         img.src = this._src;
@@ -209,6 +232,16 @@ var ImageLoader = /** @class */ (function () {
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], ImageLoader.prototype, "cssClasses2", null);
+    __decorate([
+        Input("css-classes-target"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "cssClassesTarget", null);
+    __decorate([
+        Input("ionx-image-loader-css-classes-target"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "cssClassesParent", null);
     ImageLoader = __decorate([
         Directive({
             selector: "[ionx-image-loader]",

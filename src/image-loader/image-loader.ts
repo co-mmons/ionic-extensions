@@ -78,17 +78,34 @@ export class ImageLoader {
 		this._cssClasses = value;
 	}
 
+	private _cssClassesTarget: string;
+
+	@Input("css-classes-target")
+	public set cssClassesTarget(value: string) {
+		this._cssClassesTarget = value;
+	}
+
+	@Input("ionx-image-loader-css-classes-target")
+	protected set cssClassesParent(value: string) {
+		this._cssClassesTarget = value;
+	}
+
 	reload() {
 		if (!this.loading && this.initialized) {
 			this.loaded = false;
 			this.error = false;
 
-			if (this._cssClasses && this._cssClasses.loaded) {
-				this.element.nativeElement.classList.remove(this._cssClasses.loaded);
-			}
+			if (this._cssClasses) {
 
-			if (this._cssClasses && this._cssClasses.error) {
-				this.element.nativeElement.classList.remove(this._cssClasses.error);
+				let target = this._cssClassesTarget ? this.element.nativeElement.closest(this._cssClassesTarget) : this.element.nativeElement;
+
+				if (this._cssClasses.loaded) {
+					target.classList.remove(this._cssClasses.loaded);
+				}
+
+				if (this._cssClasses.error) {
+					target.classList.remove(this._cssClasses.error);
+				}
 			}
 			
 			this.load();
@@ -131,12 +148,16 @@ export class ImageLoader {
 			this.loading = false;
 			this.error = false;
 
-			if (this._cssClasses && this._cssClasses.loading) {
-				this.element.nativeElement.classList.remove(this._cssClasses.loading);
-			}
+			if (this._cssClasses) {
+				let target = this._cssClassesTarget ? element.closest(this._cssClassesTarget) : element;
 
-			if (this._cssClasses && this._cssClasses.loaded) {
-				this.element.nativeElement.classList.add(this._cssClasses.loaded);
+				if (this._cssClasses.loading) {
+					target.classList.remove(this._cssClasses.loading);
+				}
+
+				if (this._cssClasses.loaded) {
+					target.classList.add(this._cssClasses.loaded);
+				}
 			}
 		};
 
@@ -155,12 +176,16 @@ export class ImageLoader {
 			this.loaded = false;
 			this.error = true;
 
-			if (this._cssClasses && this._cssClasses.loading) {
-				this.element.nativeElement.classList.remove(this._cssClasses.loading);
-			}
+			if (this._cssClasses) {
+				let target = this._cssClassesTarget ? element.closest(this._cssClassesTarget) : element;
 
-			if (this._cssClasses && this._cssClasses.error) {
-				this.element.nativeElement.classList.add(this._cssClasses.error);
+				if (this._cssClasses.loading) {
+					target.classList.remove(this._cssClasses.loading);
+				}
+
+				if (this._cssClasses.error) {
+					target.classList.add(this._cssClasses.error);
+				}
 			}
 		};
 

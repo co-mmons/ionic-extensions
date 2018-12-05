@@ -21,6 +21,9 @@ export declare class ImageLoader {
     private _cssClasses;
     cssClasses: ImageLoaderStateCssClasses;
     protected cssClasses2: ImageLoaderStateCssClasses;
+    private _cssClassesTarget;
+    cssClassesTarget: string;
+    protected cssClassesParent: string;
     reload(): void;
     private load;
     ngAfterViewInit(): void;
