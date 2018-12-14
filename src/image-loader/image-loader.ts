@@ -28,6 +28,7 @@ export class ImageLoader {
 
 	error: boolean;
 
+	//@ts-ignore
 	private tmpImg: HTMLImageElement;
 
 	private initialized: boolean;
