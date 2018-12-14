@@ -264,7 +264,7 @@ var SelectOverlayContent = /** @class */ (function () {
                         return [4 /*yield*/, checkPosition_1(parent_1.getBoundingClientRect())];
                     case 1:
                         _a.sent();
-                        if (!(window.cordova.platformId == "browser")) return [3 /*break*/, 3];
+                        if (!(!window.cordova || window.cordova.platformId == "browser")) return [3 /*break*/, 3];
                         return [4 /*yield*/, waitTill(function () { return !!_this.searchbar && !!_this.searchbar.nativeElement.querySelector("input"); })];
                     case 2:
                         _a.sent();

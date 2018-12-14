@@ -317,7 +317,7 @@ export class SelectOverlayContent {
 
             await checkPosition(parent.getBoundingClientRect());
 
-            if (window.cordova.platformId == "browser") {
+            if (!window.cordova || window.cordova.platformId == "browser") {
                 await waitTill(() => !!this.searchbar && !!this.searchbar.nativeElement.querySelector("input"));
                 this.searchbar.nativeElement.setFocus();
             }
