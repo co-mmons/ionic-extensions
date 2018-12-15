@@ -1,7 +1,8 @@
-import {Component, Input, ElementRef} from "@angular/core";
+import {Component, Input, ElementRef, ChangeDetectionStrategy} from "@angular/core";
 
 @Component({
     selector: "ionx-select-option",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: "<ng-content></ng-content>"
 })
 export class SelectOption {

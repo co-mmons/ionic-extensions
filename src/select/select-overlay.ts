@@ -1,12 +1,13 @@
-import {Component, ElementRef, Input, Optional, QueryList, ViewChild, ViewChildren} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ElementRef, Input, Optional, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
-import {scrollIntoView} from "../scroll/scroll-into-view";
 import {sleep, waitTill} from "@co.mmons/js-utils/core";
-import {Config, ModalController, PopoverController, IonReorderGroup} from "@ionic/angular";
+import {Config, IonReorderGroup, ModalController, PopoverController} from "@ionic/angular";
+import {scrollIntoView} from "../scroll/scroll-into-view";
 import {SelectOverlayOption} from "./select-overlay-option";
 
 @Component({
     selector: "ionx-select-overlay",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <ion-header *ngIf="modalOverlay">
             <ion-toolbar>
