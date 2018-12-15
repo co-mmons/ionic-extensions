@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component, Input, ElementRef } from "@angular/core";
+import { Component, Input, ElementRef, ChangeDetectionStrategy } from "@angular/core";
 var SelectOption = /** @class */ (function () {
     function SelectOption(element) {
         this.element = element;
@@ -30,6 +30,7 @@ var SelectOption = /** @class */ (function () {
     SelectOption = __decorate([
         Component({
             selector: "ionx-select-option",
+            changeDetection: ChangeDetectionStrategy.OnPush,
             template: "<ng-content></ng-content>"
         }),
         __metadata("design:paramtypes", [ElementRef])

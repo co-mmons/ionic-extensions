@@ -1,6 +1,6 @@
 import { ElementRef, QueryList } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
-import { Config, ModalController, PopoverController, IonReorderGroup } from "@ionic/angular";
+import { Config, IonReorderGroup, ModalController, PopoverController } from "@ionic/angular";
 import { SelectOverlayOption } from "./select-overlay-option";
 export declare class SelectOverlayContent {
     private element;
