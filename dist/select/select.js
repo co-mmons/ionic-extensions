@@ -232,6 +232,12 @@ var Select = /** @class */ (function () {
                                 overlayTitle = label.innerText;
                             }
                         }
+                        else if (this.element.nativeElement.title) {
+                            overlayTitle = this.element.nativeElement.title;
+                        }
+                        else if (this.placeholder) {
+                            overlayTitle = this.placeholder;
+                        }
                         overlayData = {
                             overlay: overlay,
                             options: options,

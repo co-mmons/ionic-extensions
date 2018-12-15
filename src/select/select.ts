@@ -258,6 +258,10 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
             if (label) {
                 overlayTitle = label.innerText;
             }
+        } else if (this.element.nativeElement.title) {
+            overlayTitle = this.element.nativeElement.title;
+        } else if (this.placeholder) {
+            overlayTitle = this.placeholder;
         }
 
         let overlayData = {
