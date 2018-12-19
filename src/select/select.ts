@@ -1,14 +1,13 @@
-import {Component, ContentChildren, ElementRef, Input, OnChanges, OnInit, Optional, QueryList, SimpleChanges, ViewEncapsulation, Output, EventEmitter, ChangeDetectionStrategy} from "@angular/core";
+import {Component, ContentChildren, ElementRef, EventEmitter, Input, OnChanges, OnInit, Optional, Output, QueryList, SimpleChanges, ViewEncapsulation} from "@angular/core";
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
 import {ModalController, PopoverController} from "@ionic/angular";
+import {SelectOption} from "./select-option";
 import {SelectOverlayContent} from "./select-overlay";
 import {SelectOverlayOption} from "./select-overlay-option";
-import {SelectOption} from "./select-option";
 
 @Component({
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: "ionx-select",
     host: {
         "class": "select interactive"

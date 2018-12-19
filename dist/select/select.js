@@ -45,12 +45,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, ContentChildren, ElementRef, Input, Optional, QueryList, ViewEncapsulation, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ContentChildren, ElementRef, EventEmitter, Input, Optional, Output, QueryList, ViewEncapsulation } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
-import { SelectOverlayContent } from "./select-overlay";
 import { SelectOption } from "./select-option";
+import { SelectOverlayContent } from "./select-overlay";
 var Select = /** @class */ (function () {
     function Select(element, intl, popoverController, modalController, control) {
         var _this = this;
@@ -336,7 +336,6 @@ var Select = /** @class */ (function () {
     Select = __decorate([
         Component({
             encapsulation: ViewEncapsulation.None,
-            changeDetection: ChangeDetectionStrategy.OnPush,
             selector: "ionx-select",
             host: {
                 "class": "select interactive"

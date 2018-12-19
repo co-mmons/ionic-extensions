@@ -1,4 +1,4 @@
-import { ElementRef, OnChanges, OnInit, QueryList, SimpleChanges, EventEmitter } from "@angular/core";
+import { ElementRef, EventEmitter, OnChanges, OnInit, QueryList, SimpleChanges } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
