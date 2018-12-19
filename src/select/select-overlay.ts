@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, Optional, QueryList, ViewChild, ViewChildren} from "@angular/core";
+import {Component, ElementRef, Input, Optional, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
 import {sleep, waitTill} from "@co.mmons/js-utils/core";
 import {Config, IonReorderGroup, ModalController, PopoverController} from "@ionic/angular";
@@ -7,7 +7,6 @@ import {SelectOverlayOption} from "./select-overlay-option";
 
 @Component({
     selector: "ionx-select-overlay",
-    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <ion-header *ngIf="modalOverlay">
             <ion-toolbar>
