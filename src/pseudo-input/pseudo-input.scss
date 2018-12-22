@@ -1,16 +1,13 @@
 ionx-pseudo-input {
     padding: var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);
-    display: flex;
-    position: relative;
-    color: var(--color);
-    font-family: var(--ion-font-family, inherit);
+    display: block;
     overflow: hidden;
     user-select: text;
 }
 
 .item-label-stacked ionx-pseudo-input {
     align-self: flex-start;
-    --padding-top: 8px;
-    --padding-bottom: 8px;
+    --padding-top: 9px;
+    --padding-bottom: 9px;
     --padding-start: 0;
 }
