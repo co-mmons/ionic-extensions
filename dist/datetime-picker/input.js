@@ -42,7 +42,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, ElementRef, HostListener, Input, ViewEncapsulation, ViewChild, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController } from "@ionic/angular";
@@ -66,6 +66,44 @@ var DateTimePickerInput = /** @class */ (function () {
                 return this._listItem;
             }
             return this._listItem = this.element.nativeElement.closest("ion-item");
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateTimePickerInput.prototype, "displayFormat", {
+        //@ts-ignore
+        get: function () {
+            return this._displayFormat;
+        },
+        /**
+         * The display format of the date and time as text that shows
+         * within the item. When the `pickerFormat` input is not used, then the
+         * `displayFormat` is used for both display the formatted text, and determining
+         * the datetime-picker picker's columns.
+         */
+        set: function (format) {
+            if (typeof format == "string") {
+                this._displayFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+            }
+            else {
+                this._displayFormat = format;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateTimePickerInput.prototype, "pickerFormat", {
+        //@ts-ignore
+        get: function () {
+            return this._pickerFormat;
+        },
+        set: function (format) {
+            if (typeof format == "string") {
+                this._pickerFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+            }
+            else {
+                this._pickerFormat = format;
+            }
         },
         enumerable: true,
         configurable: true
@@ -273,12 +311,14 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     __decorate([
         Input(),
-        __metadata("design:type", Object)
-    ], DateTimePickerInput.prototype, "displayFormat", void 0);
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], DateTimePickerInput.prototype, "displayFormat", null);
     __decorate([
         Input(),
-        __metadata("design:type", Object)
-    ], DateTimePickerInput.prototype, "pickerFormat", void 0);
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], DateTimePickerInput.prototype, "pickerFormat", null);
     __decorate([
         Input(),
         __metadata("design:type", String)

@@ -1,4 +1,4 @@
-import { ElementRef, OnChanges, SimpleChanges, EventEmitter } from "@angular/core";
+import { ElementRef, EventEmitter, OnChanges, SimpleChanges } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController } from "@ionic/angular";
@@ -10,14 +10,16 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, modalController: ModalController, control: NgControl);
     private _listItem;
     private readonly listItem;
+    private _displayFormat;
     /**
      * The display format of the date and time as text that shows
      * within the item. When the `pickerFormat` input is not used, then the
      * `displayFormat` is used for both display the formatted text, and determining
      * the datetime-picker picker's columns.
      */
-    displayFormat: Intl.DateTimeFormatOptions;
-    pickerFormat: Intl.DateTimeFormatOptions;
+    displayFormat: Intl.DateTimeFormatOptions | string;
+    private _pickerFormat;
+    pickerFormat: Intl.DateTimeFormatOptions | string;
     overlayTitle: string;
     placeholder: string;
     ionChange: EventEmitter<Date | number>;

@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnChanges, SimpleChanges, ViewEncapsulation, ViewChild, Output, EventEmitter} from "@angular/core";
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation} from "@angular/core";
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
 import {ModalController} from "@ionic/angular";
@@ -35,6 +35,8 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         return this._listItem = this.element.nativeElement.closest("ion-item");
     }
 
+    private _displayFormat: Intl.DateTimeFormatOptions;
+
     /**
      * The display format of the date and time as text that shows
      * within the item. When the `pickerFormat` input is not used, then the
@@ -42,10 +44,37 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
      * the datetime-picker picker's columns.
      */
     @Input()
-    public displayFormat: Intl.DateTimeFormatOptions;
+    //@ts-ignore
+    public set displayFormat(format: Intl.DateTimeFormatOptions | string) {
+
+        if (typeof format == "string") {
+            this._displayFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+        } else {
+            this._displayFormat = format;
+        }
+    }
+
+    //@ts-ignore
+    public get displayFormat(): Intl.DateTimeFormatOptions {
+        return this._displayFormat;
+    }
+
+    private _pickerFormat: Intl.DateTimeFormatOptions;
 
     @Input() 
-    public pickerFormat: Intl.DateTimeFormatOptions;
+    //@ts-ignore
+    public set pickerFormat(format: Intl.DateTimeFormatOptions | string) {
+        if (typeof format == "string") {
+            this._pickerFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+        } else {
+            this._pickerFormat = format;
+        }
+    }
+
+    //@ts-ignore
+    public get pickerFormat(): Intl.DateTimeFormatOptions {
+        return this._pickerFormat;
+    }
 
     @Input() 
     public overlayTitle: string;
