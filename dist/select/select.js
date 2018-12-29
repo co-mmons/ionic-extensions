@@ -149,8 +149,8 @@ var Select = /** @class */ (function () {
     Select.prototype.updateText = function () {
         if (this.hasValue()) {
             var labels = [];
-            if (this.options$) {
-                for (var _i = 0, _a = this.options$.toArray(); _i < _a.length; _i++) {
+            if (this.options) {
+                for (var _i = 0, _a = this.options.toArray(); _i < _a.length; _i++) {
                     var opt = _a[_i];
                     for (var _b = 0, _c = this.values || []; _b < _c.length; _b++) {
                         var val = _c[_b];
@@ -176,18 +176,11 @@ var Select = /** @class */ (function () {
             }
         }
     };
-    Object.defineProperty(Select.prototype, "options", {
+    Object.defineProperty(Select.prototype, "options$", {
         set: function (val) {
-            this.options$ = val;
-            // const values = this.getValues();
-            // if (values.length === 0) {
-            //     // there are no values set at this point
-            //     // so check to see who should be selected
-            //     // we use writeValue() because we don't want to update ngModel
-            //     this.writeValue(val.filter(o => o.selected).map(o => o.value));
-            // } else {
-            //     this._updateText();
-            // }
+            var _this = this;
+            this.options = val;
+            this.options.changes.subscribe(function () { return _this.updateText(); });
         },
         enumerable: true,
         configurable: true
@@ -222,7 +215,7 @@ var Select = /** @class */ (function () {
                             overlay = "popover";
                         }
                         options = [];
-                        for (_i = 0, _a = this.options$.toArray(); _i < _a.length; _i++) {
+                        for (_i = 0, _a = this.options.toArray(); _i < _a.length; _i++) {
                             option = _a[_i];
                             options.push({ value: option.value, checked: this.isOptionSelected(option), label: option.label, divider: !!option.divider });
                         }
@@ -332,7 +325,7 @@ var Select = /** @class */ (function () {
         ContentChildren(SelectOption),
         __metadata("design:type", QueryList),
         __metadata("design:paramtypes", [QueryList])
-    ], Select.prototype, "options", null);
+    ], Select.prototype, "options$", null);
     Select = __decorate([
         Component({
             encapsulation: ViewEncapsulation.None,

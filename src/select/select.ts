@@ -152,8 +152,8 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         if (this.hasValue()) {
 
             let labels: string[] = [];
-            if (this.options$) {
-                for (let opt of this.options$.toArray()) {
+            if (this.options) {
+                for (let opt of this.options.toArray()) {
                     for (let val of this.values || []) {
                         if (this.valueComparator(opt.value, val)) {
                             labels.push(opt.label);
@@ -180,7 +180,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     }
 
 
-    private valueComparator = (a, b) => {
+    private valueComparator = (a: any, b: any) => {
 
         if (this.compareAsString) {
             if (a !== undefined && a !== null && b !== undefined && b !== null) {
@@ -194,20 +194,13 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     }
 
 
-    private options$: QueryList<SelectOption>;
+    private options: QueryList<SelectOption>;
 
     @ContentChildren(SelectOption)
-    set options(val: QueryList<SelectOption>) {
-        this.options$ = val;
-        // const values = this.getValues();
-        // if (values.length === 0) {
-        //     // there are no values set at this point
-        //     // so check to see who should be selected
-        //     // we use writeValue() because we don't want to update ngModel
-        //     this.writeValue(val.filter(o => o.selected).map(o => o.value));
-        // } else {
-        //     this._updateText();
-        // }
+    // @ts-ignore
+    private set options$(val: QueryList<SelectOption>) {
+        this.options = val;
+        this.options.changes.subscribe(() => this.updateText());
     }
 
     private isOptionSelected(option: SelectOption) {
@@ -248,7 +241,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         }
 
         let options: SelectOverlayOption[] = [];
-        for (let option of this.options$.toArray()) {
+        for (let option of this.options.toArray()) {
             options.push({value: option.value, checked: this.isOptionSelected(option), label: option.label, divider: !!option.divider});
         }
 

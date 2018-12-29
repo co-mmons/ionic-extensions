@@ -1,8 +1,7 @@
-import { ElementRef, EventEmitter, OnChanges, OnInit, QueryList, SimpleChanges } from "@angular/core";
+import { ElementRef, EventEmitter, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
-import { SelectOption } from "./select-option";
 export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     private element;
     protected intl: IntlService;
@@ -36,8 +35,8 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     private updateText;
     private checkListItemHasValue;
     private valueComparator;
+    private options;
     private options$;
-    options: QueryList<SelectOption>;
     private isOptionSelected;
     private controlOnChange;
     registerOnChange(fn: Function): void;
