@@ -33,7 +33,7 @@ const monthFormat: Intl.DateTimeFormatOptions = {
                 </ion-buttons>
             </ion-toolbar>
             <ion-toolbar>
-                <ion-segment color="primary" [(ngModel)]="dateView" (ionChange)="dateViewChanged()">
+                <ion-segment [(ngModel)]="dateView" (ionChange)="dateViewChanged()">
                     <ion-segment-button *ngFor="let view of dateViews" [value]="view.id">{{view.label}}</ion-segment-button>
                 </ion-segment>
             </ion-toolbar>
