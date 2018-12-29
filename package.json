@@ -10,6 +10,7 @@
     "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
+    "@co.mmons/angular-extensions": "git+https://github.com/co-mmons/angular-extensions.git",
     "@co.mmons/angular-intl": "git+https://github.com/co-mmons/angular-intl.git",
     "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
     "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
