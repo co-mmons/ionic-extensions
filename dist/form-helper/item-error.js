@@ -39,7 +39,7 @@ var FormItemError = /** @class */ (function () {
             selector: "ionx-form-item-error",
             template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"_control\">{{_control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",
             host: {
-                "[style.display]": "_control.invalid ? 'flex' : 'none'"
+                "[style.display]": "_control.invalid && _control.touched ? 'flex' : 'none'"
             }
         }),
         __metadata("design:paramtypes", [FormGroupDirective])

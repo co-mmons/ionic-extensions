@@ -11,7 +11,7 @@ import {AbstractControl, FormGroupDirective} from "@angular/forms";
         </label>
     `,
     host: {
-        "[style.display]": "_control.invalid ? 'flex' : 'none'"
+        "[style.display]": "_control.invalid && _control.touched ? 'flex' : 'none'"
     }
 })
 export class FormItemError {
