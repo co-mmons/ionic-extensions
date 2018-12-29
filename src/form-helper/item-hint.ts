@@ -10,7 +10,7 @@ import {Component, ComponentRef, Input, ViewChild, ViewContainerRef} from "@angu
         </label>
     `
     })
-export class ItemHint {
+export class FormItemHint {
 
     constructor() {
     }

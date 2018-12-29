@@ -8,10 +8,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, ComponentRef, Input, ViewChild, ViewContainerRef } from "@angular/core";
-var ItemHint = /** @class */ (function () {
-    function ItemHint() {
+var FormItemHint = /** @class */ (function () {
+    function FormItemHint() {
     }
-    Object.defineProperty(ItemHint.prototype, "label", {
+    Object.defineProperty(FormItemHint.prototype, "label", {
         set: function (label) {
             this.labelComponentContainer.clear();
             this.labelComponentContainer.insert(label.hostView);
@@ -22,24 +22,24 @@ var ItemHint = /** @class */ (function () {
     __decorate([
         Input(),
         __metadata("design:type", String)
-    ], ItemHint.prototype, "icon", void 0);
+    ], FormItemHint.prototype, "icon", void 0);
     __decorate([
         ViewChild("labelComponentContainer", { read: ViewContainerRef }),
         __metadata("design:type", ViewContainerRef)
-    ], ItemHint.prototype, "labelComponentContainer", void 0);
+    ], FormItemHint.prototype, "labelComponentContainer", void 0);
     __decorate([
         Input(),
         __metadata("design:type", ComponentRef),
         __metadata("design:paramtypes", [ComponentRef])
-    ], ItemHint.prototype, "label", null);
-    ItemHint = __decorate([
+    ], FormItemHint.prototype, "label", null);
+    FormItemHint = __decorate([
         Component({
             selector: "ionx-form-item-hint",
             template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"icon\"></ion-icon>\n        <label>\n            <template #labelComponentContainer></template>\n            <ng-content></ng-content>\n        </label>\n    "
         }),
         __metadata("design:paramtypes", [])
-    ], ItemHint);
-    return ItemHint;
+    ], FormItemHint);
+    return FormItemHint;
 }());
-export { ItemHint };
+export { FormItemHint };
 //# sourceMappingURL=item-hint.js.map

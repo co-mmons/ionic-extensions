@@ -14,7 +14,7 @@ import {AbstractControl, FormGroupDirective} from "@angular/forms";
         "[style.display]": "_control.invalid ? 'flex' : 'none'"
     }
 })
-export class ItemError {
+export class FormItemError {
 
     constructor(private formGroup: FormGroupDirective) {
     }

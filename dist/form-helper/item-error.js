@@ -9,11 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, Input } from "@angular/core";
 import { AbstractControl, FormGroupDirective } from "@angular/forms";
-var ItemError = /** @class */ (function () {
-    function ItemError(formGroup) {
+var FormItemError = /** @class */ (function () {
+    function FormItemError(formGroup) {
         this.formGroup = formGroup;
     }
-    Object.defineProperty(ItemError.prototype, "control", {
+    Object.defineProperty(FormItemError.prototype, "control", {
         set: function (control) {
             if (control instanceof AbstractControl) {
                 this._control = control;
@@ -28,13 +28,13 @@ var ItemError = /** @class */ (function () {
     __decorate([
         Input(),
         __metadata("design:type", String)
-    ], ItemError.prototype, "icon", void 0);
+    ], FormItemError.prototype, "icon", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
-    ], ItemError.prototype, "control", null);
-    ItemError = __decorate([
+    ], FormItemError.prototype, "control", null);
+    FormItemError = __decorate([
         Component({
             selector: "ionx-form-item-error",
             template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"_control\">{{_control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",
@@ -43,8 +43,8 @@ var ItemError = /** @class */ (function () {
             }
         }),
         __metadata("design:paramtypes", [FormGroupDirective])
-    ], ItemError);
-    return ItemError;
+    ], FormItemError);
+    return FormItemError;
 }());
-export { ItemError };
+export { FormItemError };
 //# sourceMappingURL=item-error.js.map

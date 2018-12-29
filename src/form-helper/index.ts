@@ -7,13 +7,19 @@ import {IonicModule} from "@ionic/angular";
 import {FormHeading} from "./heading";
 import {FormHelper} from "./helper";
 import {FormItem} from "./item";
-import {ItemError} from "./item-error";
-import {ItemHint} from "./item-hint";
+import {FormItemError} from "./item-error";
+import {FormItemHint} from "./item-hint";
+
+export * from "./heading";
+export * from "./helper";
+export * from "./item";
+export * from "./item-error";
+export * from "./item-hint";
 
 @NgModule({
-    declarations: [FormItem, FormHeading, ItemError, ItemHint, FormHelper],
+    declarations: [FormItem, FormHeading, FormItemError, FormItemHint, FormHelper],
     imports: [CommonModule, FormsModule, IonicModule, IntlModule, MatchMediaModule],
-    exports: [FormItem, ItemError, ItemHint, FormHeading, FormHelper]
+    exports: [FormItem, FormItemError, FormItemHint, FormHeading, FormHelper]
 })
 export class FormHelperModule {
 }

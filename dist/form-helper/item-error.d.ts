@@ -1,5 +1,5 @@
 import { AbstractControl, FormGroupDirective } from "@angular/forms";
-export declare class ItemError {
+export declare class FormItemError {
     private formGroup;
     constructor(formGroup: FormGroupDirective);
     icon: string;

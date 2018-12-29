@@ -1,5 +1,5 @@
 import { ComponentRef } from "@angular/core";
-export declare class ItemHint {
+export declare class FormItemHint {
     constructor();
     icon: string;
     private labelComponentContainer;
