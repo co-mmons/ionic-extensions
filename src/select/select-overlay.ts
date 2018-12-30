@@ -1,9 +1,9 @@
-import {Component, ElementRef, Input, Optional, QueryList, ViewChild, ViewChildren} from "@angular/core";
+import {Component, ElementRef, Input, Optional, ViewChild} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
 import {sleep, waitTill} from "@co.mmons/js-utils/core";
-import {Config, IonReorderGroup, ModalController, PopoverController} from "@ionic/angular";
-import {scrollIntoView} from "../scroll/scroll-into-view";
+import {ModalController, PopoverController} from "@ionic/angular";
 import {SelectOverlayOption} from "./select-overlay-option";
+import {SelectLabel} from "./select-label";
 
 @Component({
     selector: "ionx-select-overlay",
@@ -27,49 +27,37 @@ import {SelectOverlayOption} from "./select-overlay-option";
                 <ion-searchbar #searchbar cancelButtonText="{{'@co.mmons/js-intl#Cancel' | intlMessage}}" placeholder="{{'@co.mmons/js-intl#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
             </ion-toolbar>
         </ion-header>
-        <ion-content [scrollY]="modalOverlay">
+        <ion-content [scrollY]="modalOverlay" #content>
             
-            <div class="ionx-select-overlay-spinner" slot="fixed" *ngIf="!optionsChecked">
+            <div class="ionx-select-overlay-spinner" slot="fixed" *ngIf="!checkedOptions">
                 <ion-spinner></ion-spinner>
             </div>
 
-            <div *ngIf="optionsChecked">
+            <ion-list *ngIf="visibleOptions">
+                <ion-virtual-scroll [items]="visibleOptions" [headerFn]="optionDivider.bind(this)" #virtualScroll>
+                    <ion-item-divider *virtualHeader="let option">
+                        <ion-label>{{option.label}}</ion-label>
+                    </ion-item-divider>
 
-                <ion-reorder-group #self (ionItemReorder)="reordered(self)" *ngIf="ordered && optionsChecked && multiple && optionsChecked.length && visibleCheckedOptionsCount" [disabled]="false">
-                    <ng-template ngFor [ngForOf]="optionsChecked" let-option>
-                        <ion-item *ngIf="!option.hidden" #listItem>
-                            <ion-checkbox [(ngModel)]="option.checked" (ionChange)="optionChanged(option)" (click)="optionClicked(option)"></ion-checkbox>
-                            <ion-label>{{option.label}}</ion-label>
-                            <ion-reorder slot="end"></ion-reorder>
-                        </ion-item>
-                    </ng-template>
-                </ion-reorder-group>
-
-                <ion-item-group *ngIf="visibleOptionsCount">
-                    <ng-template ngFor [ngForOf]="options" let-option>
-                        <ion-item-divider *ngIf="md && option.divider && !option.hidden"><ion-label>{{option.label}}</ion-label></ion-item-divider>
-                        <ion-list-header *ngIf="ios && option.divider && !option.hidden"><ion-label>{{option.label}}</ion-label></ion-list-header>
-                        <ion-item #listItem *ngIf="!option.divider && !option.hidden && (!ordered || !option.checked)" [class.ionx-select-checked]="option.checked">
-                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
-                            <ion-label>{{option.label}}</ion-label>
-                        </ion-item>
-                    </ng-template>
-                </ion-item-group>
-
-            </div>
+                    <ion-item #listItem *virtualItem="let option">
+                        <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
+                        <ion-label>
+                            <span *ngIf="!label; else customLabel">{{option.label}}</span>
+                            <ng-template #customLabel>
+                                <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
+                            </ng-template>
+                        </ion-label>
+                    </ion-item>
+                </ion-virtual-scroll>
+            </ion-list>
 
         </ion-content>
     `
 })
 export class SelectOverlayContent {
 
-    constructor(private element: ElementRef<HTMLElement>, config: Config, protected intl: IntlService, @Optional() private popoverController: PopoverController, @Optional() private modalController: ModalController) {
-        this.md = config.get("mode") == "md";
-        this.ios = !this.md;
+    constructor(private element: ElementRef<HTMLElement>, protected intl: IntlService, @Optional() private popoverController: PopoverController, @Optional() private modalController: ModalController) {
     }
-
-    readonly md: boolean;
-    readonly ios: boolean;
 
     @Input()
     private overlay: string;
@@ -82,18 +70,17 @@ export class SelectOverlayContent {
         return this.overlay == "modal";
     }
 
-    @Input()
-    ordered: boolean;
+    @ViewChild("virtualScroll", {read: ElementRef})
+    scroll: ElementRef<HTMLIonVirtualScrollElement>;
 
-    async reordered(group: IonReorderGroup) {
-        this.optionsChecked = await group.complete(this.optionsChecked);
-    }
-
-    @ViewChildren("listItem", {read: ElementRef})
-    items: QueryList<ElementRef<HTMLIonItemElement>>;
+    @ViewChild("content", {read: ElementRef})
+    content: ElementRef<HTMLIonContentElement>;
 
     @Input()
     multiple: boolean = false;
+
+    @Input()
+    orderable: boolean;
 
     @Input()
     updateValues: (values: any[]) => void;
@@ -111,19 +98,27 @@ export class SelectOverlayContent {
     valueComparator: (a: any, b: any) => boolean;
 
     @Input()
+    label: SelectLabel;
+
+    @Input()
     options: SelectOverlayOption[];
 
-    visibleOptionsCount: number;
+    visibleOptions: SelectOverlayOption[];
 
-    visibleCheckedOptionsCount: number;
-
-    optionsChecked: SelectOverlayOption[];
+    checkedOptions: SelectOverlayOption[];
 
     private lastClickedOption: SelectOverlayOption;
 
+    optionDivider(option: SelectOverlayOption, index: number, options: SelectOverlayOption[]) {
+        for (let i = 0; i < this.options.length; i++) {
+            if (this.options[i] === option && i > 0 && this.options[i - 1].divider) {
+                return this.options[i - 1];
+            }
+        }
+    }
+
     optionClicked(option: SelectOverlayOption) {
         this.lastClickedOption = option;
-        //console.log("clicked", option);
     }
 
     optionChanged(option: SelectOverlayOption) {
@@ -135,7 +130,7 @@ export class SelectOverlayContent {
         if (this.multiple && this.valueValidator) {
 
             let values: any[] = [];
-            for (let o of this.optionsChecked) {
+            for (let o of this.checkedOptions) {
                 if (o !== option) {
                     values.push(o.value);
                 }
@@ -147,27 +142,25 @@ export class SelectOverlayContent {
                 o.checked = false;
             }
 
-            this.optionsChecked = [];
+            this.checkedOptions = [];
 
             VALUES: for (let v of this.valueValidator(option.value, optionWasChecked, values) || []) {
                 for (let o of this.options) {
                     if (this.valueComparator(o.value, v)) {
                         o.checked = true;
-                        this.optionsChecked.push(o);
+                        this.checkedOptions.push(o);
                         continue VALUES;
                     }
                 }
             }
 
-            this.recalculateVisibleOptions();
-
         } else {
 
             if (!option.checked) {
 
-                for (let i = 0; i < this.optionsChecked.length; i++) {
-                    if (this.optionsChecked[i] === option) {
-                        this.optionsChecked.splice(i, 1);
+                for (let i = 0; i < this.checkedOptions.length; i++) {
+                    if (this.checkedOptions[i] === option) {
+                        this.checkedOptions.splice(i, 1);
                         break;
                     }
                 }
@@ -182,14 +175,12 @@ export class SelectOverlayContent {
                         }
                     }
 
-                    this.optionsChecked = [option];
+                    this.checkedOptions = [option];
 
                 } else {
-                    this.optionsChecked.push(option);
+                    this.checkedOptions.push(option);
                 }
             }
-
-            this.recalculateVisibleOptions();
         }
 
         if (!this.multiple) {
@@ -199,10 +190,7 @@ export class SelectOverlayContent {
         this.lastClickedOption = undefined;
     }
 
-    recalculateVisibleOptions() {
-
-        this.visibleCheckedOptionsCount = 0;
-        this.visibleOptionsCount = 0;
+    private buildVisibleOptions() {
 
         for (let i = 0; i < this.options.length; i++) {
 
@@ -222,32 +210,65 @@ export class SelectOverlayContent {
                     }
                 }
             }
+        }
 
-            let checked = false;
-            for (let o of this.optionsChecked) {
-                if (o === this.options[i]) {
-                    checked = true;
+        this.visibleOptions = [];
+        for (let option of this.options) {
+            if (!option.hidden && !option.divider) {
+                this.visibleOptions.push(option);
+            }
+        }
+    }
+
+    private async initOptions() {
+
+        this.checkedOptions = [];
+        for (let option of this.options) {
+            if (option.checked) {
+                this.checkedOptions.push(option);
+            }
+        }
+
+        //this.checkedOptions.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
+        this.buildVisibleOptions();
+
+        if (this.checkedOptions.length > 0) {
+            await waitTill(() => !!this.scroll);
+
+            let indexToScroll: number = -1;
+
+            for (let i = 0; i < this.visibleOptions.length; i++) {
+                if (this.visibleOptions[i].checked) {
+                    indexToScroll = i;
                     break;
                 }
             }
 
-            if (!this.options[i].hidden && (!this.ordered || !checked)) {
-                this.visibleOptionsCount++;
-            }
-
-            if (!this.options[i].hidden && checked) {
-                this.visibleCheckedOptionsCount++;
+            if (indexToScroll > 10) {
+                (await this.content.nativeElement.getScrollElement()).scrollTop = await this.scroll.nativeElement.positionForItem(indexToScroll - 4);
             }
         }
-
     }
 
     okClicked() {
 
         let values = [];
 
-        for (let o of this.optionsChecked) {
-            values.push(o.value);
+        if (this.orderable) {
+            for (let o of this.checkedOptions) {
+                values.push(o.value);
+            }
+
+        } else {
+
+            OPTIONS: for (let option of this.options) {
+                for (let checked of this.checkedOptions) {
+                    if (option === checked) {
+                        values.push(checked.value);
+                        continue OPTIONS;
+                    }
+                }
+            }
         }
 
         this.updateValues(values);
@@ -281,24 +302,22 @@ export class SelectOverlayContent {
             if (!query) {
                 o.hidden = false;
             } else {
-                o.hidden = this.searchHandler ? !this.searchHandler(query, o.value, o.label) : o.label.toLowerCase().indexOf(query) < 0;
+                o.hidden = this.searchHandler ? !this.searchHandler(query, o.value, o.label) : (o.label || "").toLowerCase().indexOf(query) < 0;
             }
         }
 
-        this.recalculateVisibleOptions();
+        this.buildVisibleOptions();
     }
 
     ngOnInit() {
-        if (this.popoverOverlay) {
+        if (this.popoverOverlay || this.options.length <= 25) {
             this.initOptions();
         }
-        //console.log(this.element.nativeElement.parentElement);
-        //this.element.nativeElement.parentElement.style.width = "300px";
     }
 
     async ngAfterViewInit() {
 
-        if (this.modalOverlay) {
+        if (this.modalOverlay && this.options.length > 25) {
 
             // dirty way to check if modal animation finished
             // we check if position didn't change
@@ -325,42 +344,5 @@ export class SelectOverlayContent {
             this.initOptions();
         }
     }
-
-    private async initOptions() {
-
-        this.optionsChecked = [];
-        for (let option of this.options) {
-            if (option.checked) {
-                this.optionsChecked.push(option);
-            }
-        }
-
-        //this.optionsChecked.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
-        this.recalculateVisibleOptions();
-
-        if (this.optionsChecked.length > 0) {
-            await waitTill(() => !!this.items && this.items.length > 0);
-
-            let items = this.items.toArray();
-            let itemToScroll: HTMLElement;
-
-            for (let i = 0; i < items.length; i++) {
-
-                if (items[i].nativeElement.classList.contains("ionx-select-checked")) {
-
-                    if (i > 5) {
-                        itemToScroll = items[i - 2].nativeElement;
-                    }
-
-                    break;
-                }
-            }
-            
-            if (itemToScroll) {
-                scrollIntoView(itemToScroll);
-            }
-        }
-    }
-
 
 }

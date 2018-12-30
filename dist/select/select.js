@@ -45,11 +45,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, ContentChildren, ElementRef, EventEmitter, Input, Optional, Output, QueryList, ViewEncapsulation } from "@angular/core";
+import { Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, Optional, Output, QueryList, ViewEncapsulation } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
+import { SelectLabel } from "./select-label";
 import { SelectOption } from "./select-option";
+import { SelectOptions } from "./select-options";
 import { SelectOverlayContent } from "./select-overlay";
 var Select = /** @class */ (function () {
     function Select(element, intl, popoverController, modalController, control) {
@@ -60,6 +62,7 @@ var Select = /** @class */ (function () {
         this.modalController = modalController;
         this.control = control;
         this.ionChange = new EventEmitter();
+        this.change = this.ionChange;
         this.values = [];
         this.valueComparator = function (a, b) {
             if (_this.compareAsString) {
@@ -86,22 +89,15 @@ var Select = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Select.prototype, "text", {
-        get: function () {
-            return this.text$ || this.placeholder;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Select.prototype, "disabled", {
         /**
-         * Whether or not the datetime-picker component is disabled. Default `false`.
+         * Whether or not the select component is disabled.
          */
         get: function () {
-            return this.disabled$;
+            return this._disabled;
         },
         set: function (disabled) {
-            this.disabled$ = disabled || disabled == "true" ? true : false;
+            this._disabled = disabled || disabled == "true" ? true : false;
         },
         enumerable: true,
         configurable: true
@@ -126,7 +122,6 @@ var Select = /** @class */ (function () {
             }
             this.values = newValue;
             if (changed) {
-                this.updateText();
                 this.checkListItemHasValue();
                 var value_1 = this.value;
                 if (this.controlOnChange && !this.muteOnChange) {
@@ -139,32 +134,48 @@ var Select = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /*private*/ Select.prototype.labelImpl$ = function (value) {
+        if (this.options instanceof SelectOptions) {
+            if (!this.cachedLabels) {
+                this.cachedLabels = new Array(this.options.length);
+            }
+            for (var i = 0; i < this.options.length; i++) {
+                if (this.valueComparator(value, this.options[i].value)) {
+                    if (this.cachedLabels[i]) {
+                        return this.cachedLabels[i];
+                    }
+                    return this.cachedLabels[i] = this.options[i].label ? this.options[i].label : (this.label ? this.label(value) : value + "");
+                }
+            }
+        }
+        else if (this.options) {
+            if (!this.cachedLabels) {
+                this.cachedLabels = new Array(this.options.length);
+            }
+            for (var i = 0; i < this.options.length; i++) {
+                if (this.valueComparator(value, this.options[i])) {
+                    if (this.cachedLabels[i]) {
+                        return this.cachedLabels[i];
+                    }
+                    return this.cachedLabels[i] = this.label ? this.label(value) : value + "";
+                }
+            }
+        }
+        else if (this.optionsComponents) {
+            for (var options = this.optionsComponents.toArray(), i = 0; i < options.length; i++) {
+                if (this.valueComparator(value, options[i].value)) {
+                    return options[i].label;
+                }
+            }
+        }
+        return value;
+    };
     Select.prototype.writeValue = function (value) {
         this.muteOnChange = true;
         this.value = value;
     };
     Select.prototype.hasValue = function () {
         return this.values.length > 0;
-    };
-    Select.prototype.updateText = function () {
-        if (this.hasValue()) {
-            var labels = [];
-            if (this.options) {
-                for (var _i = 0, _a = this.options.toArray(); _i < _a.length; _i++) {
-                    var opt = _a[_i];
-                    for (var _b = 0, _c = this.values || []; _b < _c.length; _b++) {
-                        var val = _c[_b];
-                        if (this.valueComparator(opt.value, val)) {
-                            labels.push(opt.label);
-                        }
-                    }
-                }
-            }
-            this.text$ = labels.join(", ") || undefined;
-        }
-        else {
-            this.text$ = null;
-        }
     };
     Select.prototype.checkListItemHasValue = function () {
         if (this.listItem) {
@@ -176,19 +187,18 @@ var Select = /** @class */ (function () {
             }
         }
     };
-    Object.defineProperty(Select.prototype, "options$", {
+    Object.defineProperty(Select.prototype, "_optionsComponents", {
         set: function (val) {
-            var _this = this;
-            this.options = val;
-            this.options.changes.subscribe(function () { return _this.updateText(); });
+            this.optionsComponents = val;
+            //this.optionsComponents.changes.subscribe(() => this.updateText());
         },
         enumerable: true,
         configurable: true
     });
-    Select.prototype.isOptionSelected = function (option) {
+    Select.prototype.isValueSelected = function (value) {
         for (var _i = 0, _a = this.values || []; _i < _a.length; _i++) {
             var v = _a[_i];
-            if (this.valueComparator(option.value, v)) {
+            if (this.valueComparator(value, v)) {
                 return true;
             }
         }
@@ -205,21 +215,38 @@ var Select = /** @class */ (function () {
     };
     Select.prototype.open = function (event) {
         return __awaiter(this, void 0, void 0, function () {
-            var overlay, options, _i, _a, option, overlayTitle, label, overlayData, popover, modal;
+            var overlay, options, _i, _a, option, _b, _c, option, _d, _e, option, overlayTitle, label, overlayData, popover, modal;
             var _this = this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0:
                         overlay = this.overlay;
                         if (!overlay) {
                             overlay = "popover";
                         }
                         options = [];
-                        for (_i = 0, _a = this.options.toArray(); _i < _a.length; _i++) {
-                            option = _a[_i];
-                            options.push({ value: option.value, checked: this.isOptionSelected(option), label: option.label, divider: !!option.divider });
+                        if (this.options instanceof SelectOptions) {
+                            for (_i = 0, _a = this.options; _i < _a.length; _i++) {
+                                option = _a[_i];
+                                options.push({ value: option.value, checked: option.value ? this.isValueSelected(option.value) : false, label: option.label ? option.label : ((!this.searchTest || !this.labelTemplate) ? this.labelImpl$(option.value) : undefined), disabled: option.disabled, divider: option.divider });
+                            }
                         }
-                        if (this.listItem) {
+                        else if (this.options) {
+                            for (_b = 0, _c = this.options; _b < _c.length; _b++) {
+                                option = _c[_b];
+                                options.push({ value: option, checked: this.isValueSelected(option), label: !this.labelTemplate || !this.searchTest ? this.labelImpl$(option) : undefined });
+                            }
+                        }
+                        else if (this.optionsComponents) {
+                            for (_d = 0, _e = this.optionsComponents.toArray(); _d < _e.length; _d++) {
+                                option = _e[_d];
+                                options.push({ value: option.value, checked: this.isValueSelected(option.value), label: option.label, divider: !!option.divider });
+                            }
+                        }
+                        if (this.title) {
+                            overlayTitle = this.title;
+                        }
+                        else if (this.listItem) {
                             label = this.listItem.querySelector("ion-label");
                             if (label) {
                                 overlayTitle = label.innerText;
@@ -236,8 +263,9 @@ var Select = /** @class */ (function () {
                             options: options,
                             multiple: !!this.multiple,
                             title: overlayTitle,
-                            ordered: !!this.orderable,
-                            valueValidator: this.validator,
+                            label: this.labelTemplate,
+                            orderable: !!this.orderable,
+                            valueValidator: this.checkValidator,
                             valueComparator: this.valueComparator,
                             width: this.element.nativeElement.getBoundingClientRect().width,
                             updateValues: function (value) {
@@ -250,26 +278,26 @@ var Select = /** @class */ (function () {
                         if (!(overlay == "popover")) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.popoverController.create({ component: SelectOverlayContent, componentProps: overlayData, cssClass: "ionx-select-overlay-width", event: event })];
                     case 1:
-                        popover = _b.sent();
+                        popover = _f.sent();
                         popover.present();
                         return [3 /*break*/, 4];
                     case 2: return [4 /*yield*/, this.modalController.create({ component: SelectOverlayContent, componentProps: overlayData })];
                     case 3:
-                        modal = _b.sent();
+                        modal = _f.sent();
                         modal.present();
-                        _b.label = 4;
+                        _f.label = 4;
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
     Select.prototype.ngOnChanges = function (changes) {
-        // if (changes["displayFormat"]) {
-        //     this.updateText();
-        // }
+        if (changes.options) {
+            this.cachedLabels = undefined;
+        }
     };
     Select.prototype.ngOnInit = function () {
-        this.updateText();
+        //this.updateText();
         if (this.listItem) {
             this.listItem.classList.add("item-select", "item-interactive");
             this.element.nativeElement.classList.add("in-item");
@@ -297,20 +325,28 @@ var Select = /** @class */ (function () {
     ], Select.prototype, "multiple", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", String)
+    ], Select.prototype, "title", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Boolean)
     ], Select.prototype, "orderable", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Function)
-    ], Select.prototype, "searchHandler", void 0);
+    ], Select.prototype, "searchTest", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Function)
-    ], Select.prototype, "validator", void 0);
+    ], Select.prototype, "checkValidator", void 0);
     __decorate([
         Output(),
         __metadata("design:type", EventEmitter)
     ], Select.prototype, "ionChange", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], Select.prototype, "change", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object),
@@ -322,10 +358,22 @@ var Select = /** @class */ (function () {
         __metadata("design:paramtypes", [Object])
     ], Select.prototype, "value", null);
     __decorate([
+        ContentChild(SelectLabel),
+        __metadata("design:type", SelectLabel)
+    ], Select.prototype, "labelTemplate", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Function)
+    ], Select.prototype, "label", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object)
+    ], Select.prototype, "options", void 0);
+    __decorate([
         ContentChildren(SelectOption),
         __metadata("design:type", QueryList),
         __metadata("design:paramtypes", [QueryList])
-    ], Select.prototype, "options$", null);
+    ], Select.prototype, "_optionsComponents", null);
     Select = __decorate([
         Component({
             encapsulation: ViewEncapsulation.None,
@@ -333,7 +381,7 @@ var Select = /** @class */ (function () {
             host: {
                 "class": "select interactive"
             },
-            template: "\n        <div class=\"select-inner\">\n            <div class=\"select-text\" [class.select-placeholder]=\"!hasValue()\">{{text}}</div>\n            <div class=\"select-icon\" role=\"presentation\">\n                <div class=\"select-icon-inner\"></div>\n            </div>\n            <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\"></button>\n        </div>\n    "
+            template: "\n        <div class=\"select-inner\">\n            <div class=\"select-text\" [class.select-placeholder]=\"values.length == 0\">\n                <span *ngIf=\"values.length == 0; else showValues\">{{placeholder}}</span>\n                <ng-template #showValues>\n                    <ng-template ngFor [ngForOf]=\"values\" let-value let-index=\"index\">\n                        <span *ngIf=\"index > 0 && (!labelTemplate || labelTemplate.separator)\">{{!labelTemplate ? \", \" : labelTemplate.separator}}</span>\n                        <span *ngIf=\"!labelTemplate; else hasLabelTemplate\">{{labelImpl$(value)}}</span>\n                        <ng-template #hasLabelTemplate>\n                            <ng-container *ngTemplateOutlet=\"labelTemplate.templateRef; context: {$implicit: value, index: index}\"></ng-container>\n                        </ng-template>\n                    </ng-template>\n                </ng-template>\n            </div>\n            <div class=\"select-icon\" role=\"presentation\">\n                <div class=\"select-icon-inner\"></div>\n            </div>\n            <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\"></button>\n        </div>\n    "
         }),
         __param(4, Optional()),
         __metadata("design:paramtypes", [ElementRef, IntlService, PopoverController, ModalController, NgControl])

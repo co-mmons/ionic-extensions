@@ -45,20 +45,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, ElementRef, Input, Optional, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { Component, ElementRef, Input, Optional, ViewChild } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
 import { sleep, waitTill } from "@co.mmons/js-utils/core";
-import { Config, ModalController, PopoverController } from "@ionic/angular";
-import { scrollIntoView } from "../scroll/scroll-into-view";
+import { ModalController, PopoverController } from "@ionic/angular";
+import { SelectLabel } from "./select-label";
 var SelectOverlayContent = /** @class */ (function () {
-    function SelectOverlayContent(element, config, intl, popoverController, modalController) {
+    function SelectOverlayContent(element, intl, popoverController, modalController) {
         this.element = element;
         this.intl = intl;
         this.popoverController = popoverController;
         this.modalController = modalController;
         this.multiple = false;
-        this.md = config.get("mode") == "md";
-        this.ios = !this.md;
     }
     Object.defineProperty(SelectOverlayContent.prototype, "popoverOverlay", {
         get: function () {
@@ -74,24 +72,15 @@ var SelectOverlayContent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    SelectOverlayContent.prototype.reordered = function (group) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = this;
-                        return [4 /*yield*/, group.complete(this.optionsChecked)];
-                    case 1:
-                        _a.optionsChecked = _b.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
+    SelectOverlayContent.prototype.optionDivider = function (option, index, options) {
+        for (var i = 0; i < this.options.length; i++) {
+            if (this.options[i] === option && i > 0 && this.options[i - 1].divider) {
+                return this.options[i - 1];
+            }
+        }
     };
     SelectOverlayContent.prototype.optionClicked = function (option) {
         this.lastClickedOption = option;
-        //console.log("clicked", option);
     };
     SelectOverlayContent.prototype.optionChanged = function (option) {
         if (!this.lastClickedOption || option !== this.lastClickedOption) {
@@ -99,7 +88,7 @@ var SelectOverlayContent = /** @class */ (function () {
         }
         if (this.multiple && this.valueValidator) {
             var values = [];
-            for (var _i = 0, _a = this.optionsChecked; _i < _a.length; _i++) {
+            for (var _i = 0, _a = this.checkedOptions; _i < _a.length; _i++) {
                 var o = _a[_i];
                 if (o !== option) {
                     values.push(o.value);
@@ -110,25 +99,24 @@ var SelectOverlayContent = /** @class */ (function () {
                 var o = _c[_b];
                 o.checked = false;
             }
-            this.optionsChecked = [];
+            this.checkedOptions = [];
             VALUES: for (var _d = 0, _e = this.valueValidator(option.value, optionWasChecked, values) || []; _d < _e.length; _d++) {
                 var v = _e[_d];
                 for (var _f = 0, _g = this.options; _f < _g.length; _f++) {
                     var o = _g[_f];
                     if (this.valueComparator(o.value, v)) {
                         o.checked = true;
-                        this.optionsChecked.push(o);
+                        this.checkedOptions.push(o);
                         continue VALUES;
                     }
                 }
             }
-            this.recalculateVisibleOptions();
         }
         else {
             if (!option.checked) {
-                for (var i = 0; i < this.optionsChecked.length; i++) {
-                    if (this.optionsChecked[i] === option) {
-                        this.optionsChecked.splice(i, 1);
+                for (var i = 0; i < this.checkedOptions.length; i++) {
+                    if (this.checkedOptions[i] === option) {
+                        this.checkedOptions.splice(i, 1);
                         break;
                     }
                 }
@@ -141,22 +129,19 @@ var SelectOverlayContent = /** @class */ (function () {
                             o.checked = false;
                         }
                     }
-                    this.optionsChecked = [option];
+                    this.checkedOptions = [option];
                 }
                 else {
-                    this.optionsChecked.push(option);
+                    this.checkedOptions.push(option);
                 }
             }
-            this.recalculateVisibleOptions();
         }
         if (!this.multiple) {
             this.okClicked();
         }
         this.lastClickedOption = undefined;
     };
-    SelectOverlayContent.prototype.recalculateVisibleOptions = function () {
-        this.visibleCheckedOptionsCount = 0;
-        this.visibleOptionsCount = 0;
+    SelectOverlayContent.prototype.buildVisibleOptions = function () {
         for (var i = 0; i < this.options.length; i++) {
             if (this.options[i].divider) {
                 this.options[i].hidden = true;
@@ -172,27 +157,74 @@ var SelectOverlayContent = /** @class */ (function () {
                     }
                 }
             }
-            var checked = false;
-            for (var _i = 0, _a = this.optionsChecked; _i < _a.length; _i++) {
-                var o = _a[_i];
-                if (o === this.options[i]) {
-                    checked = true;
-                    break;
-                }
-            }
-            if (!this.options[i].hidden && (!this.ordered || !checked)) {
-                this.visibleOptionsCount++;
-            }
-            if (!this.options[i].hidden && checked) {
-                this.visibleCheckedOptionsCount++;
+        }
+        this.visibleOptions = [];
+        for (var _i = 0, _a = this.options; _i < _a.length; _i++) {
+            var option = _a[_i];
+            if (!option.hidden && !option.divider) {
+                this.visibleOptions.push(option);
             }
         }
     };
+    SelectOverlayContent.prototype.initOptions = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _i, _a, option, indexToScroll, i, _b;
+            var _this = this;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        this.checkedOptions = [];
+                        for (_i = 0, _a = this.options; _i < _a.length; _i++) {
+                            option = _a[_i];
+                            if (option.checked) {
+                                this.checkedOptions.push(option);
+                            }
+                        }
+                        //this.checkedOptions.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
+                        this.buildVisibleOptions();
+                        if (!(this.checkedOptions.length > 0)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, waitTill(function () { return !!_this.scroll; })];
+                    case 1:
+                        _c.sent();
+                        indexToScroll = -1;
+                        for (i = 0; i < this.visibleOptions.length; i++) {
+                            if (this.visibleOptions[i].checked) {
+                                indexToScroll = i;
+                                break;
+                            }
+                        }
+                        if (!(indexToScroll > 10)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.content.nativeElement.getScrollElement()];
+                    case 2:
+                        _b = (_c.sent());
+                        return [4 /*yield*/, this.scroll.nativeElement.positionForItem(indexToScroll - 4)];
+                    case 3:
+                        _b.scrollTop = _c.sent();
+                        _c.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
     SelectOverlayContent.prototype.okClicked = function () {
         var values = [];
-        for (var _i = 0, _a = this.optionsChecked; _i < _a.length; _i++) {
-            var o = _a[_i];
-            values.push(o.value);
+        if (this.orderable) {
+            for (var _i = 0, _a = this.checkedOptions; _i < _a.length; _i++) {
+                var o = _a[_i];
+                values.push(o.value);
+            }
+        }
+        else {
+            OPTIONS: for (var _b = 0, _c = this.options; _b < _c.length; _b++) {
+                var option = _c[_b];
+                for (var _d = 0, _e = this.checkedOptions; _d < _e.length; _d++) {
+                    var checked = _e[_d];
+                    if (option === checked) {
+                        values.push(checked.value);
+                        continue OPTIONS;
+                    }
+                }
+            }
         }
         this.updateValues(values);
         if (this.popoverController && this.popoverOverlay) {
@@ -221,17 +253,15 @@ var SelectOverlayContent = /** @class */ (function () {
                 o.hidden = false;
             }
             else {
-                o.hidden = this.searchHandler ? !this.searchHandler(query, o.value, o.label) : o.label.toLowerCase().indexOf(query) < 0;
+                o.hidden = this.searchHandler ? !this.searchHandler(query, o.value, o.label) : (o.label || "").toLowerCase().indexOf(query) < 0;
             }
         }
-        this.recalculateVisibleOptions();
+        this.buildVisibleOptions();
     };
     SelectOverlayContent.prototype.ngOnInit = function () {
-        if (this.popoverOverlay) {
+        if (this.popoverOverlay || this.options.length <= 25) {
             this.initOptions();
         }
-        //console.log(this.element.nativeElement.parentElement);
-        //this.element.nativeElement.parentElement.style.width = "300px";
     };
     SelectOverlayContent.prototype.ngAfterViewInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -240,7 +270,7 @@ var SelectOverlayContent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.modalOverlay) return [3 /*break*/, 4];
+                        if (!(this.modalOverlay && this.options.length > 25)) return [3 /*break*/, 4];
                         parent_1 = this.element.nativeElement.offsetParent;
                         checkPosition_1 = function (lastRect) { return __awaiter(_this, void 0, void 0, function () {
                             var rect;
@@ -278,61 +308,26 @@ var SelectOverlayContent = /** @class */ (function () {
             });
         });
     };
-    SelectOverlayContent.prototype.initOptions = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _i, _a, option, items, itemToScroll, i;
-            var _this = this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        this.optionsChecked = [];
-                        for (_i = 0, _a = this.options; _i < _a.length; _i++) {
-                            option = _a[_i];
-                            if (option.checked) {
-                                this.optionsChecked.push(option);
-                            }
-                        }
-                        //this.optionsChecked.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
-                        this.recalculateVisibleOptions();
-                        if (!(this.optionsChecked.length > 0)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, waitTill(function () { return !!_this.items && _this.items.length > 0; })];
-                    case 1:
-                        _b.sent();
-                        items = this.items.toArray();
-                        itemToScroll = void 0;
-                        for (i = 0; i < items.length; i++) {
-                            if (items[i].nativeElement.classList.contains("ionx-select-checked")) {
-                                if (i > 5) {
-                                    itemToScroll = items[i - 2].nativeElement;
-                                }
-                                break;
-                            }
-                        }
-                        if (itemToScroll) {
-                            scrollIntoView(itemToScroll);
-                        }
-                        _b.label = 2;
-                    case 2: return [2 /*return*/];
-                }
-            });
-        });
-    };
     __decorate([
         Input(),
         __metadata("design:type", String)
     ], SelectOverlayContent.prototype, "overlay", void 0);
     __decorate([
-        Input(),
-        __metadata("design:type", Boolean)
-    ], SelectOverlayContent.prototype, "ordered", void 0);
+        ViewChild("virtualScroll", { read: ElementRef }),
+        __metadata("design:type", ElementRef)
+    ], SelectOverlayContent.prototype, "scroll", void 0);
     __decorate([
-        ViewChildren("listItem", { read: ElementRef }),
-        __metadata("design:type", QueryList)
-    ], SelectOverlayContent.prototype, "items", void 0);
+        ViewChild("content", { read: ElementRef }),
+        __metadata("design:type", ElementRef)
+    ], SelectOverlayContent.prototype, "content", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
     ], SelectOverlayContent.prototype, "multiple", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], SelectOverlayContent.prototype, "orderable", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Function)
@@ -355,6 +350,10 @@ var SelectOverlayContent = /** @class */ (function () {
     ], SelectOverlayContent.prototype, "valueComparator", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", SelectLabel)
+    ], SelectOverlayContent.prototype, "label", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Array)
     ], SelectOverlayContent.prototype, "options", void 0);
     __decorate([
@@ -364,10 +363,10 @@ var SelectOverlayContent = /** @class */ (function () {
     SelectOverlayContent = __decorate([
         Component({
             selector: "ionx-select-overlay",
-            template: "\n        <ion-header *ngIf=\"modalOverlay\">\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons slot=\"start\">\n                    <ion-button (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n\n                <ion-buttons slot=\"end\">\n                    <ion-button (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content [scrollY]=\"modalOverlay\">\n            \n            <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!optionsChecked\">\n                <ion-spinner></ion-spinner>\n            </div>\n\n            <div *ngIf=\"optionsChecked\">\n\n                <ion-reorder-group #self (ionItemReorder)=\"reordered(self)\" *ngIf=\"ordered && optionsChecked && multiple && optionsChecked.length && visibleCheckedOptionsCount\" [disabled]=\"false\">\n                    <ng-template ngFor [ngForOf]=\"optionsChecked\" let-option>\n                        <ion-item *ngIf=\"!option.hidden\" #listItem>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ionChange)=\"optionChanged(option)\" (click)=\"optionClicked(option)\"></ion-checkbox>\n                            <ion-label>{{option.label}}</ion-label>\n                            <ion-reorder slot=\"end\"></ion-reorder>\n                        </ion-item>\n                    </ng-template>\n                </ion-reorder-group>\n\n                <ion-item-group *ngIf=\"visibleOptionsCount\">\n                    <ng-template ngFor [ngForOf]=\"options\" let-option>\n                        <ion-item-divider *ngIf=\"md && option.divider && !option.hidden\"><ion-label>{{option.label}}</ion-label></ion-item-divider>\n                        <ion-list-header *ngIf=\"ios && option.divider && !option.hidden\"><ion-label>{{option.label}}</ion-label></ion-list-header>\n                        <ion-item #listItem *ngIf=\"!option.divider && !option.hidden && (!ordered || !option.checked)\" [class.ionx-select-checked]=\"option.checked\">\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                            <ion-label>{{option.label}}</ion-label>\n                        </ion-item>\n                    </ng-template>\n                </ion-item-group>\n\n            </div>\n\n        </ion-content>\n    "
+            template: "\n        <ion-header *ngIf=\"modalOverlay\">\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons slot=\"start\">\n                    <ion-button (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n\n                <ion-buttons slot=\"end\">\n                    <ion-button (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content [scrollY]=\"modalOverlay\" #content>\n            \n            <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n                <ion-spinner></ion-spinner>\n            </div>\n\n            <ion-list *ngIf=\"visibleOptions\">\n                <ion-virtual-scroll [items]=\"visibleOptions\" [headerFn]=\"optionDivider.bind(this)\" #virtualScroll>\n                    <ion-item-divider *virtualHeader=\"let option\">\n                        <ion-label>{{option.label}}</ion-label>\n                    </ion-item-divider>\n\n                    <ion-item #listItem *virtualItem=\"let option\">\n                        <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                        <ion-label>\n                            <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                            <ng-template #customLabel>\n                                <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                            </ng-template>\n                        </ion-label>\n                    </ion-item>\n                </ion-virtual-scroll>\n            </ion-list>\n\n        </ion-content>\n    "
         }),
-        __param(3, Optional()), __param(4, Optional()),
-        __metadata("design:paramtypes", [ElementRef, Config, IntlService, PopoverController, ModalController])
+        __param(2, Optional()), __param(3, Optional()),
+        __metadata("design:paramtypes", [ElementRef, IntlService, PopoverController, ModalController])
     ], SelectOverlayContent);
     return SelectOverlayContent;
 }());

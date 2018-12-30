@@ -49,7 +49,7 @@ ionx-select-overlay {
     }
 
     ion-item-divider {
-        margin-top: 8px;
+        --padding-top: 16px;
     }
 
     .ionx-select-overlay-spinner {
@@ -78,6 +78,11 @@ ion-popover ionx-select-overlay ion-content {
     ion-item:last-child {
         --inner-border-width: 0px;
     }
+
+    ion-list.list {
+        margin: 8px 0px;
+        padding: 0px;
+    }
 }
 
 .md {
@@ -105,10 +110,18 @@ ion-popover ionx-select-overlay ion-content {
         --padding-end: 12px;
     }
 
+    .ionx-select-overlay-width .popover-content {
+
+        @media (max-width: 767px) {
+            width: calc(100% - (32px + var(--ion-safe-area-right, 0px) + var(--ion-safe-area-left, 0px)));
+        }
+    }
 }
 
 .ios {
     @import "~@ionic/core/dist/collection/components/select/select.ios.vars.scss";
+    @import "~@ionic/core/dist/collection/components/item/item.ios.vars.scss";
+    @import "~@ionic/core/dist/collection/components/list-header/list-header.ios.vars.scss";
 
     ionx-select {
         @import "~@ionic/core/dist/collection/components/select/select.ios.scss";
@@ -131,18 +144,22 @@ ion-popover ionx-select-overlay ion-content {
         --padding-end: 12px;
     }
 
-}
-
-.ios .ionx-select-overlay-width .popover-content {
-    
-    @media (max-width: 767px) {
-        width: calc(100% - (10px + var(--ion-safe-area-right, 0px) + var(--ion-safe-area-left, 0px)));
+    ionx-select-overlay {
+        ion-item-divider {
+            --background: transparent;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: $item-ios-border-bottom;
+            font-weight: 500;
+            --color: #{$list-ios-header-color};
+        }
     }
-}
 
-.md .ionx-select-overlay-width .popover-content {
-
-    @media (max-width: 767px) {
-        width: calc(100% - (32px + var(--ion-safe-area-right, 0px) + var(--ion-safe-area-left, 0px)));
+    .ionx-select-overlay-width .popover-content {
+        
+        @media (max-width: 767px) {
+            width: calc(100% - (10px + var(--ion-safe-area-right, 0px) + var(--ion-safe-area-left, 0px)));
+        }
     }
 }

@@ -1,7 +1,9 @@
-import { ElementRef, EventEmitter, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { ElementRef, EventEmitter, OnChanges, OnInit, QueryList, SimpleChanges } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
+import { SelectOption } from "./select-option";
+import { SelectOptions } from "./select-options";
 export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     private element;
     protected intl: IntlService;
@@ -13,31 +15,55 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     private readonly listItem;
     placeholder: string;
     overlay: "popover" | "modal";
-    alwaysArray: boolean;
-    compareAsString: boolean;
-    multiple: boolean;
-    orderable: boolean;
-    searchHandler: (query: string, value: any, label: string) => boolean;
-    validator: (value: any, checked: boolean, otherCheckedValues: any[]) => any[];
-    ionChange: EventEmitter<any>;
-    private text$;
-    readonly text: string;
-    private disabled$;
     /**
-     * Whether or not the datetime-picker component is disabled. Default `false`.
+     * Whether value should be always returned as array, no matter if multiple is set to true.
+     */
+    alwaysArray: boolean;
+    /**
+     * Compare values as string, that is whether toString() of both values are equal.
+     */
+    compareAsString: boolean;
+    /**
+     * If multiple value selection is allowed.
+     */
+    multiple: boolean;
+    /**
+     * The title of the select overlay (only in case of modals).
+     */
+    title: string;
+    /**
+     * If multiple values selection can be ordered after selection.
+     */
+    orderable: boolean;
+    /**
+     * A function, that will be used for testing if value passes search critieria.
+     * Default implementation checks lowercased label of value against
+     * lowercased searched text.
+     */
+    searchTest: (query: string, value: any, label: string) => boolean;
+    checkValidator: (value: any, checked: boolean, otherCheckedValues: any[]) => any[];
+    readonly ionChange: EventEmitter<any>;
+    readonly change: EventEmitter<any>;
+    private _disabled;
+    /**
+     * Whether or not the select component is disabled.
      */
     disabled: boolean | string;
-    private values;
+    values: any[];
     value: any | any[];
+    private cachedLabels;
+    labelImpl$(value: any): string;
     private muteOnChange;
     writeValue(value: any): void;
     hasValue(): boolean;
-    private updateText;
     private checkListItemHasValue;
     private valueComparator;
-    private options;
-    private options$;
-    private isOptionSelected;
+    private labelTemplate;
+    label: (value: any) => string;
+    options: any[] | SelectOptions;
+    private optionsComponents;
+    protected _optionsComponents: QueryList<SelectOption>;
+    private isValueSelected;
     private controlOnChange;
     registerOnChange(fn: Function): void;
     private controlOnTouched;
