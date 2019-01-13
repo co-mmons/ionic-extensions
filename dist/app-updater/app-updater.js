@@ -43,20 +43,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { Injectable } from "@angular/core";
+import { Capacitor, Plugins } from "@capacitor/core";
 import { IntlService } from "@co.mmons/angular-intl";
-import { AppVersion as InstalledAppVersion } from "@ionic-native/app-version/ngx";
 import { HTTP } from "@ionic-native/http";
-import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
-import { AlertController, Platform } from "@ionic/angular";
-var AppVersion = /** @class */ (function () {
-    function AppVersion(platform, appVersion, intl, alertController, inAppBrowser) {
-        this.platform = platform;
-        this.appVersion = appVersion;
+import { AlertController } from "@ionic/angular";
+var AppUpdater = /** @class */ (function () {
+    function AppUpdater(intl, alertController) {
         this.intl = intl;
         this.alertController = alertController;
-        this.inAppBrowser = inAppBrowser;
     }
-    AppVersion.prototype.newVersionAvailable = function (id, publishedVersions) {
+    AppUpdater.prototype.checkUpdateAvailable = function (id, publishedVersions) {
         return __awaiter(this, void 0, void 0, function () {
             var platform, installedVersion, publishedVersion, verifiedPublishedVersion, e_1;
             return __generator(this, function (_a) {
@@ -67,21 +63,21 @@ var AppVersion = /** @class */ (function () {
                         if (!platform) {
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.installedVersionNumber()];
+                        return [4 /*yield*/, this.installedVersion()];
                     case 1:
                         installedVersion = _a.sent();
                         publishedVersion = typeof publishedVersions == "string" ? publishedVersions : (publishedVersions && publishedVersions[platform.platform]);
-                        if (publishedVersion && this.compareVersionNumbers(publishedVersion, installedVersion) <= 0) {
+                        if (publishedVersion && this.compareVersions(publishedVersion, installedVersion) <= 0) {
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.storeVersion(id, platform)];
+                        return [4 /*yield*/, this.fetchStore(id, platform)];
                     case 2:
                         verifiedPublishedVersion = _a.sent();
                         if (verifiedPublishedVersion) {
-                            if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) >= 0) {
+                            if (publishedVersion && this.compareVersions(verifiedPublishedVersion.version, publishedVersion) >= 0) {
                                 return [2 /*return*/, verifiedPublishedVersion];
                             }
-                            else if (!publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, installedVersion) > 0) {
+                            else if (!publishedVersion && this.compareVersions(verifiedPublishedVersion.version, installedVersion) > 0) {
                                 return [2 /*return*/, verifiedPublishedVersion];
                             }
                         }
@@ -95,17 +91,24 @@ var AppVersion = /** @class */ (function () {
             });
         });
     };
-    AppVersion.prototype.installedVersionNumber = function () {
-        return this.appVersion.getVersionNumber();
+    AppUpdater.prototype.installedVersion = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Plugins.Device.getInfo()];
+                    case 1: return [2 /*return*/, (_a.sent()).appVersion];
+                }
+            });
+        });
     };
-    AppVersion.prototype.storeVersionNumber = function (id) {
+    AppUpdater.prototype.storeVersion = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var version, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.storeVersion(id)];
+                        return [4 /*yield*/, this.fetchStore(id)];
                     case 1:
                         version = _a.sent();
                         if (version && version.version) {
@@ -121,39 +124,15 @@ var AppVersion = /** @class */ (function () {
             });
         });
     };
-    AppVersion.prototype.storeVersion = function (id, app) {
-        return __awaiter(this, void 0, void 0, function () {
-            var content;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!app) {
-                            app = this.appPlatform(id);
-                        }
-                        if (!app) return [3 /*break*/, 2];
-                        return [4 /*yield*/, HTTP.get(app.url, {}, {})];
-                    case 1:
-                        content = (_a.sent()).data;
-                        if (app.platform == "ios" && content) {
-                            content = JSON.parse(content);
-                        }
-                        return [2 /*return*/, this.parseVersion(app, content)];
-                    case 2: return [2 /*return*/, undefined];
-                }
-            });
-        });
-    };
-    AppVersion.prototype.appPlatform = function (id) {
+    AppUpdater.prototype.appPlatform = function (id) {
         var app = {};
-        if (this.platform.is("cordova") && window.cordova.platformId != "browser") {
-            if (this.platform.is("ios")) {
-                app.platform = "ios";
-            }
-            else if (this.platform.is("android")) {
-                app.platform = "android";
-            }
+        if (Capacitor.platform == "ios") {
+            app.platform = "ios";
         }
-        if (!app.platform) {
+        else if (Capacitor.platform == "android") {
+            app.platform = "android";
+        }
+        else {
             //console.debug("Platform " + this.platform.platforms().join(", ") + " not supported");
             return undefined;
         }
@@ -184,7 +163,7 @@ var AppVersion = /** @class */ (function () {
         }
         return app;
     };
-    AppVersion.prototype.compareVersionNumbers = function (a, b) {
+    AppUpdater.prototype.compareVersions = function (a, b) {
         if (a && !b) {
             return 1;
         }
@@ -205,10 +184,33 @@ var AppVersion = /** @class */ (function () {
         }
         return 0;
     };
-    AppVersion.prototype.parseVersion = function (app, content) {
+    AppUpdater.prototype.fetchStore = function (id, app) {
+        return __awaiter(this, void 0, void 0, function () {
+            var content;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!app) {
+                            app = this.appPlatform(id);
+                        }
+                        if (!app) return [3 /*break*/, 2];
+                        return [4 /*yield*/, HTTP.get(app.url, {}, {})];
+                    case 1:
+                        content = (_a.sent()).data;
+                        if (app.platform == "ios" && content) {
+                            console.log(content);
+                            content = JSON.parse(content);
+                        }
+                        return [2 /*return*/, this.readStore(app, content)];
+                    case 2: return [2 /*return*/, undefined];
+                }
+            });
+        });
+    };
+    AppUpdater.prototype.readStore = function (app, content) {
         if (app.platform == "ios") {
             if (content.results && content.results[0]) {
-                return new AppNewVersion(this, app, content.results[0].version, content.results[0].releaseNotes ? this.parseTags(content.results[0].releaseNotes) : undefined, content.results[0].trackViewUrl);
+                return new AppUpdate(this, app, content.results[0].version, content.results[0].releaseNotes ? this.parseTags(content.results[0].releaseNotes) : undefined, content.results[0].trackViewUrl);
             }
         }
         else if (app.platform == "android" && typeof content == "string") {
@@ -227,12 +229,12 @@ var AppVersion = /** @class */ (function () {
                 }
             }
             if (versionNumber) {
-                return new AppNewVersion(this, app, versionNumber);
+                return new AppUpdate(this, app, versionNumber);
             }
         }
         return undefined;
     };
-    AppVersion.prototype.parseTags = function (text) {
+    AppUpdater.prototype.parseTags = function (text) {
         var tags = [];
         var match = text.match(/#[^\s]+/ig);
         if (match) {
@@ -243,7 +245,7 @@ var AppVersion = /** @class */ (function () {
         }
         return tags;
     };
-    AppVersion.prototype.showUpdateMessage = function (version) {
+    AppUpdater.prototype.showUpdateMessage = function (version) {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
             var _a, result;
@@ -267,7 +269,7 @@ var AppVersion = /** @class */ (function () {
                                         text: this.intl.message("@co.mmons/ionic-extensions#AppUpdater/update"),
                                         handler: function () {
                                             _this.updateMessageAlert.dismiss(true);
-                                            _this.inAppBrowser.create(version.url, "_system");
+                                            window.open(version.url, "_system");
                                             return false;
                                         }
                                     }
@@ -286,16 +288,16 @@ var AppVersion = /** @class */ (function () {
             });
         }); });
     };
-    AppVersion = __decorate([
+    AppUpdater = __decorate([
         Injectable(),
-        __metadata("design:paramtypes", [Platform, InstalledAppVersion, IntlService, AlertController, InAppBrowser])
-    ], AppVersion);
-    return AppVersion;
+        __metadata("design:paramtypes", [IntlService, AlertController])
+    ], AppUpdater);
+    return AppUpdater;
 }());
-export { AppVersion };
-var AppNewVersion = /** @class */ (function () {
-    function AppNewVersion(appVersion, app, version, tags, url) {
-        this.appVersion = appVersion;
+export { AppUpdater };
+var AppUpdate = /** @class */ (function () {
+    function AppUpdate(updateCheck, app, version, tags, url) {
+        this.updateCheck = updateCheck;
         this.app = app;
         this.version = version;
         this.tags = tags;
@@ -311,16 +313,16 @@ var AppNewVersion = /** @class */ (function () {
             this.url = url;
         }
     }
-    AppNewVersion.prototype.hasTag = function (tag) {
+    AppUpdate.prototype.hasTag = function (tag) {
         if (this.tags) {
             return this.tags.indexOf(tag) > -1;
         }
         return false;
     };
-    AppNewVersion.prototype.showUpdateMessage = function () {
-        return this.appVersion.showUpdateMessage(this);
+    AppUpdate.prototype.showUpdateMessage = function () {
+        return this.updateCheck.showUpdateMessage(this);
     };
-    return AppNewVersion;
+    return AppUpdate;
 }());
-export { AppNewVersion };
-//# sourceMappingURL=app-version.js.map
+export { AppUpdate };
+//# sourceMappingURL=app-updater.js.map

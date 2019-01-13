@@ -1,37 +1,36 @@
 import {Injectable} from "@angular/core";
+import {Capacitor, Plugins} from "@capacitor/core";
 import {IntlService} from "@co.mmons/angular-intl";
-import {AppVersion as InstalledAppVersion} from "@ionic-native/app-version/ngx";
 import {HTTP} from "@ionic-native/http";
-import {InAppBrowser} from "@ionic-native/in-app-browser/ngx";
-import {AlertController, Platform} from "@ionic/angular";
+import {AlertController} from "@ionic/angular";
 
 @Injectable()
-export class AppVersion {
+export class AppUpdater {
 
-    constructor(private platform: Platform, private appVersion: InstalledAppVersion, private intl: IntlService, private alertController: AlertController, private inAppBrowser: InAppBrowser) {
+    constructor(private intl: IntlService, private alertController: AlertController) {
     }
 
-    async newVersionAvailable(id: string | AppIdentifiers, publishedVersions?: {android?: string, ios?: string} | string): Promise<AppNewVersion> {
+    async checkUpdateAvailable(id: string | AppIdentifiers, publishedVersions?: {android?: string, ios?: string} | string): Promise<AppUpdate> {
         try {
-            
+
             let platform = this.appPlatform(id);
             if (!platform) {
                 return;
             }
 
-            let installedVersion = await this.installedVersionNumber();
+            let installedVersion = await this.installedVersion();
             let publishedVersion = typeof publishedVersions == "string" ? publishedVersions : (publishedVersions && publishedVersions[platform.platform]);
 
-            if (publishedVersion && this.compareVersionNumbers(publishedVersion, installedVersion) <= 0) {
+            if (publishedVersion && this.compareVersions(publishedVersion, installedVersion) <= 0) {
                 return;
             }
-            
-            let verifiedPublishedVersion = await this.storeVersion(id, platform);
+
+            let verifiedPublishedVersion = await this.fetchStore(id, platform);
 
             if (verifiedPublishedVersion) {
-                if (publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, publishedVersion) >= 0) {
+                if (publishedVersion && this.compareVersions(verifiedPublishedVersion.version, publishedVersion) >= 0) {
                     return verifiedPublishedVersion;
-                } else if (!publishedVersion && this.compareVersionNumbers(verifiedPublishedVersion.version, installedVersion) > 0) {
+                } else if (!publishedVersion && this.compareVersions(verifiedPublishedVersion.version, installedVersion) > 0) {
                     return verifiedPublishedVersion;
                 }
             }
@@ -43,13 +42,13 @@ export class AppVersion {
         return undefined;
     }
 
-    installedVersionNumber(): Promise<string> {
-        return this.appVersion.getVersionNumber();
+    async installedVersion(): Promise<string> {
+        return (await Plugins.Device.getInfo()).appVersion;
     }
 
-    async storeVersionNumber(id: string | AppIdentifiers): Promise<string> {
+    async storeVersion(id: string | AppIdentifiers): Promise<string> {
         try {
-            let version = await this.storeVersion(id);
+            let version = await this.fetchStore(id);
             if (version && version.version) {
                 return version.version;
             }
@@ -61,43 +60,15 @@ export class AppVersion {
         return undefined;
     }
 
-    private async storeVersion(id: string | AppIdentifiers, app?: AppPlatform): Promise<AppNewVersion> {
-        
-        if (!app) {
-            app = this.appPlatform(id);
-        }
-
-        if (app) {
-            
-            // let httpOptions: any = {};
-            // if (app.platform == "android") {
-            //     httpOptions.responseType = "text";
-            // }
-
-            let content = (await HTTP.get(app.url, {}, {})).data;
-            if (app.platform == "ios" && content) {
-                content = JSON.parse(content);
-            }
-
-            return this.parseVersion(app, content);
-        } else {
-            return undefined;
-        }
-    }
-
     public appPlatform(id: string | AppIdentifiers): AppPlatform {
 
         let app: AppPlatform = {};
 
-        if (this.platform.is("cordova") && window.cordova.platformId != "browser") {
-            if (this.platform.is("ios")) {
-                app.platform = "ios";
-            } else if (this.platform.is("android")) {
-                app.platform = "android";
-            }
-        }
-
-        if (!app.platform) {
+        if (Capacitor.platform == "ios") {
+            app.platform = "ios";
+        } else if (Capacitor.platform == "android") {
+            app.platform = "android";
+        } else {
             //console.debug("Platform " + this.platform.platforms().join(", ") + " not supported");
             return undefined;
         }
@@ -131,8 +102,8 @@ export class AppVersion {
         return app;
     }
 
-    compareVersionNumbers(a: string, b: string): number {
-        
+    compareVersions(a: string, b: string): number {
+
         if (a && !b) {
             return 1;
         } else if (!a && b) {
@@ -157,12 +128,37 @@ export class AppVersion {
         return 0;
     }
 
-    private parseVersion(app: AppPlatform, content: any): AppNewVersion {
+    private async fetchStore(id: string | AppIdentifiers, app?: AppPlatform): Promise<AppUpdate> {
+
+        if (!app) {
+            app = this.appPlatform(id);
+        }
+
+        if (app) {
+
+            // let httpOptions: any = {};
+            // if (app.platform == "android") {
+            //     httpOptions.responseType = "text";
+            // }
+
+            let content = (await HTTP.get(app.url, {}, {})).data;
+            if (app.platform == "ios" && content) {
+                console.log(content);
+                content = JSON.parse(content);
+            }
+
+            return this.readStore(app, content);
+        } else {
+            return undefined;
+        }
+    }
+
+    private readStore(app: AppPlatform, content: any): AppUpdate {
 
         if (app.platform == "ios") {
-            
+
             if (content.results && content.results[0]) {
-                return new AppNewVersion(
+                return new AppUpdate(
                     this,
                     app,
                     content.results[0].version,
@@ -191,7 +187,7 @@ export class AppVersion {
             }
 
             if (versionNumber) {
-                return new AppNewVersion(this, app, versionNumber);
+                return new AppUpdate(this, app, versionNumber);
             }
         }
 
@@ -213,7 +209,7 @@ export class AppVersion {
 
     private updateMessageAlert: HTMLIonAlertElement;
 
-    showUpdateMessage(version: AppNewVersion): Promise<boolean> {
+    showUpdateMessage(version: AppUpdate): Promise<boolean> {
 
         return new Promise(async (resolve, reject) => {
 
@@ -233,7 +229,7 @@ export class AppVersion {
                         text: this.intl.message("@co.mmons/ionic-extensions#AppUpdater/update"),
                         handler: () => {
                             this.updateMessageAlert.dismiss(true);
-                            this.inAppBrowser.create(version.url, "_system");
+                            window.open(version.url, "_system");
                             return false;
                         }
                     }
@@ -263,9 +259,9 @@ export interface AppPlatform {
     appleId?: string | number;
 }
 
-export class AppNewVersion {
+export class AppUpdate {
 
-    constructor(private appVersion: AppVersion, public readonly app: AppPlatform, public readonly version: string, private tags?: string[], url?: string) {
+    constructor(private updateCheck: AppUpdater, public readonly app: AppPlatform, public readonly version: string, private tags?: string[], url?: string) {
 
         if (!url) {
             if (app.platform == "ios" && app.appleId) {
@@ -290,6 +286,6 @@ export class AppNewVersion {
     }
 
     showUpdateMessage(): Promise<boolean> {
-        return this.appVersion.showUpdateMessage(this);
+        return this.updateCheck.showUpdateMessage(this);
     }
 }
