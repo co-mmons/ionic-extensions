@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input} from "@angular/core";
-import {unsubscribe} from "@co.mmons/rjxs-utils";
+import {unsubscribe} from "@co.mmons/rxjs-utils";
 import {IonSearchbar} from "@ionic/angular";
 import {Subscription} from "rxjs";
 

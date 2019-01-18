@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Directive, ElementRef, Input } from "@angular/core";
-import { unsubscribe } from "@co.mmons/rjxs-utils";
+import { unsubscribe } from "@co.mmons/rxjs-utils";
 import { IonSearchbar } from "@ionic/angular";
 var expandedCssClass = "ionx-expanding-searchbar-expanded";
 var parentCssClass = "ionx-expanding-searchbar-parent";
