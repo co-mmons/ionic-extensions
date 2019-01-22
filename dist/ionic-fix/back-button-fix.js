@@ -30,7 +30,7 @@ var IonicBackButtonFix = /** @class */ (function () {
     });
     IonicBackButtonFix.prototype.onClick = function (ev) {
         if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-            this.navCtrl.goBack(true);
+            this.navCtrl.back({ animated: true });
             ev.preventDefault();
         }
         else if (this.router && this.defaultHref != null) {

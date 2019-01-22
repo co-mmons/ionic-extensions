@@ -24,7 +24,7 @@ export class IonicBackButtonFix {
     onClick(ev: Event) {
 
         if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-            this.navCtrl.goBack(true);
+            this.navCtrl.back({animated: true});
             ev.preventDefault();
             
         } else if (this.router && this.defaultHref != null) {
