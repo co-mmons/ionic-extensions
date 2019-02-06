@@ -16,7 +16,7 @@ export class TextareaAutosize implements OnInit {
     }
 
     private get textarea() {
-        return this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector("textarea");
+        return this.element.nativeElement.querySelector("textarea");
     }
 
     private adjust(): void {

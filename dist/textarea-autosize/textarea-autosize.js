@@ -53,7 +53,7 @@ var TextareaAutosize = /** @class */ (function () {
     };
     Object.defineProperty(TextareaAutosize.prototype, "textarea", {
         get: function () {
-            return this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector("textarea");
+            return this.element.nativeElement.querySelector("textarea");
         },
         enumerable: true,
         configurable: true
