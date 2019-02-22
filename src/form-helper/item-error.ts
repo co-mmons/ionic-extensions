@@ -11,7 +11,7 @@ import {AbstractControl, FormGroupDirective} from "@angular/forms";
         </label>
     `,
     host: {
-        "[style.display]": "_control.invalid && _control.touched ? 'flex' : 'none'"
+        "[style.display]": "_control.invalid && _control[markedAs] ? 'flex' : 'none'"
     }
 })
 export class FormItemError {
@@ -21,6 +21,9 @@ export class FormItemError {
 
     @Input()
     icon: string;
+
+    @Input()
+    markedAs: "touched" | "dirty" = "touched";
 
     _control: AbstractControl;
 

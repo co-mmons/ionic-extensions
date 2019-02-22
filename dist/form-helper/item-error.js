@@ -12,6 +12,7 @@ import { AbstractControl, FormGroupDirective } from "@angular/forms";
 var FormItemError = /** @class */ (function () {
     function FormItemError(formGroup) {
         this.formGroup = formGroup;
+        this.markedAs = "touched";
     }
     Object.defineProperty(FormItemError.prototype, "control", {
         set: function (control) {
@@ -31,6 +32,10 @@ var FormItemError = /** @class */ (function () {
     ], FormItemError.prototype, "icon", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", String)
+    ], FormItemError.prototype, "markedAs", void 0);
+    __decorate([
+        Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], FormItemError.prototype, "control", null);
@@ -39,7 +44,7 @@ var FormItemError = /** @class */ (function () {
             selector: "ionx-form-item-error",
             template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"_control\">{{_control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",
             host: {
-                "[style.display]": "_control.invalid && _control.touched ? 'flex' : 'none'"
+                "[style.display]": "_control.invalid && _control[markedAs] ? 'flex' : 'none'"
             }
         }),
         __metadata("design:paramtypes", [FormGroupDirective])
