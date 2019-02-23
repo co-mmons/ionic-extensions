@@ -42,15 +42,14 @@ ionx-form-item-hint {
 ionx-form-heading {
 
     ion-item {
-        font-size: 14px;
-        font-weight: 600;
         --padding-start: 0px;
         --padding-end: 0px;
         --inner-padding-end: 16px;
         --inner-padding-start: 16px;
 
-        ion-label {
-            margin-bottom: 0px;
+        & > ion-label {
+            font-size: 0.9rem;
+            font-weight: 600;
         }
     }
 }
@@ -58,9 +57,9 @@ ionx-form-heading {
 .ios ionx-form-heading {
 
     ion-item {
-        font-size: 12px;
 
-        ion-label {
+        &.item-label > ion-label {
+            font-size: 0.8rem;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
