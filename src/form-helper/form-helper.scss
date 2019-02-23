@@ -48,6 +48,7 @@ ionx-form-heading {
         --inner-padding-start: 16px;
 
         & > ion-label {
+            opacity: 0.6;
             font-size: 0.9rem;
             font-weight: 600;
         }
@@ -59,6 +60,7 @@ ionx-form-heading {
     ion-item {
 
         &.item-label > ion-label {
+            opacity: 0.8;
             font-size: 0.8rem;
             letter-spacing: 1px;
             text-transform: uppercase;
