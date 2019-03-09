@@ -76,6 +76,9 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     @Input()
     public compareAsString: boolean;
 
+    @Input()
+    public comparator: (a: any, b: any) => boolean | number;
+
     /**
      * If multiple value selection is allowed.
      */
@@ -250,6 +253,10 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
             } else {
                 return a == b;
             }
+
+        } else if (this.comparator) {
+            const r = this.comparator(a, b);
+            return r === 0 || r === true;
         }
         
         return a === b;

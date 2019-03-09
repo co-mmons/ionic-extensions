@@ -23,6 +23,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
      * Compare values as string, that is whether toString() of both values are equal.
      */
     compareAsString: boolean;
+    comparator: (a: any, b: any) => boolean | number;
     /**
      * If multiple value selection is allowed.
      */

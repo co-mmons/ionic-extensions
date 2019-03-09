@@ -73,6 +73,10 @@ var Select = /** @class */ (function () {
                     return a == b;
                 }
             }
+            else if (_this.comparator) {
+                var r = _this.comparator(a, b);
+                return r === 0 || r === true;
+            }
             return a === b;
         };
         if (control) {
@@ -319,6 +323,10 @@ var Select = /** @class */ (function () {
         Input(),
         __metadata("design:type", Boolean)
     ], Select.prototype, "compareAsString", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Function)
+    ], Select.prototype, "comparator", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
