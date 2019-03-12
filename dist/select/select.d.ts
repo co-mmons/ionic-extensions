@@ -47,7 +47,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     checkValidator: (value: any, checked: boolean, otherCheckedValues: any[]) => any[];
     readonly ionChange: EventEmitter<any>;
     readonly change: EventEmitter<any>;
-    private _disabled;
+    _disabled: boolean;
     /**
      * Whether or not the select component is disabled.
      */

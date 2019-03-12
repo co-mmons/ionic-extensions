@@ -137,7 +137,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     public readonly change: EventEmitter<any> = this.ionChange;
 
 
-    private _disabled: boolean;
+    _disabled: boolean;
 
     /**
      * Whether or not the select component is disabled.
