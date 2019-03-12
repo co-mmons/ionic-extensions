@@ -63,13 +63,13 @@ ion-item {
     --inner-padding-start: 16px;
     --inner-padding-end: 16px;
 
-    [slot=start] {
+    > [slot=start] {
         margin-left: 16px;
         margin-right: 0px;
         margin-inline-end: 0px;
     }
 
-    [slot=end] {
+    > [slot=end] {
         margin-left: 16px;
         margin-inline-start: 16px;
         margin-inline-end: 0px;

@@ -102,7 +102,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     public orderable: boolean;
 
 
-    private _readonly: boolean;
+    _readonly: boolean;
 
     @Input()
     public set readonly(readonly: boolean) {

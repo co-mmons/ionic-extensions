@@ -36,7 +36,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
      * If multiple values selection can be ordered after selection.
      */
     orderable: boolean;
-    private _readonly;
+    _readonly: boolean;
     readonly: boolean;
     /**
      * A function, that will be used for testing if value passes search critieria.
