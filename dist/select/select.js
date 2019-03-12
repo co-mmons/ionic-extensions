@@ -93,6 +93,21 @@ var Select = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Select.prototype, "readonly", {
+        get: function () {
+            return !!this._readonly;
+        },
+        set: function (readonly) {
+            if (typeof readonly === "string") {
+                this.readonly = readonly === "true";
+            }
+            else {
+                this._readonly = readonly;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Select.prototype, "disabled", {
         /**
          * Whether or not the select component is disabled.
@@ -341,6 +356,11 @@ var Select = /** @class */ (function () {
     ], Select.prototype, "orderable", void 0);
     __decorate([
         Input(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], Select.prototype, "readonly", null);
+    __decorate([
+        Input(),
         __metadata("design:type", Function)
     ], Select.prototype, "searchTest", void 0);
     __decorate([
@@ -389,7 +409,7 @@ var Select = /** @class */ (function () {
             host: {
                 "class": "select interactive"
             },
-            template: "\n        <div class=\"select-inner\">\n            <div class=\"select-text\" [class.select-placeholder]=\"values.length == 0\">\n                <span *ngIf=\"values.length == 0; else showValues\">{{placeholder}}</span>\n                <ng-template #showValues>\n                    <ng-template ngFor [ngForOf]=\"values\" let-value let-index=\"index\">\n                        <span *ngIf=\"index > 0 && (!labelTemplate || labelTemplate.separator)\">{{!labelTemplate ? \", \" : labelTemplate.separator}}</span>\n                        <span *ngIf=\"!labelTemplate; else hasLabelTemplate\">{{labelImpl$(value)}}</span>\n                        <ng-template #hasLabelTemplate>\n                            <ng-container *ngTemplateOutlet=\"labelTemplate.templateRef; context: {$implicit: value, index: index}\"></ng-container>\n                        </ng-template>\n                    </ng-template>\n                </ng-template>\n            </div>\n            <div class=\"select-icon\" role=\"presentation\">\n                <div class=\"select-icon-inner\"></div>\n            </div>\n            <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\"></button>\n        </div>\n    "
+            template: "\n        <div class=\"select-inner\">\n            <div class=\"select-text\" [class.select-placeholder]=\"values.length == 0\">\n                <span *ngIf=\"values.length == 0; else showValues\">{{placeholder}}</span>\n                <ng-template #showValues>\n                    <ng-template ngFor [ngForOf]=\"values\" let-value let-index=\"index\">\n                        <span *ngIf=\"index > 0 && (!labelTemplate || labelTemplate.separator)\">{{!labelTemplate ? \", \" : labelTemplate.separator}}</span>\n                        <span *ngIf=\"!labelTemplate; else hasLabelTemplate\">{{labelImpl$(value)}}</span>\n                        <ng-template #hasLabelTemplate>\n                            <ng-container *ngTemplateOutlet=\"labelTemplate.templateRef; context: {$implicit: value, index: index}\"></ng-container>\n                        </ng-template>\n                    </ng-template>\n                </ng-template>\n            </div>\n            \n            <ng-container  *ngIf=\"!_readonly && !_disabled\">\n                <div class=\"select-icon\" role=\"presentation\">\n                    <div class=\"select-icon-inner\"></div>\n                </div>\n                <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\"></button>\n            </ng-container>\n            \n        </div>\n    "
         }),
         __param(4, Optional()),
         __metadata("design:paramtypes", [ElementRef, IntlService, PopoverController, ModalController, NgControl])

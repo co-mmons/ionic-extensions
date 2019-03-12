@@ -259,7 +259,7 @@ var SelectOverlayContent = /** @class */ (function () {
         this.buildVisibleOptions();
     };
     SelectOverlayContent.prototype.ngOnInit = function () {
-        if (this.popoverOverlay || this.options.length <= 25) {
+        if (this.popoverOverlay) {
             this.initOptions();
         }
     };
@@ -270,7 +270,8 @@ var SelectOverlayContent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(this.modalOverlay && this.options.length > 25)) return [3 /*break*/, 4];
+                        if (!this.modalOverlay) return [3 /*break*/, 5];
+                        if (!(this.options.length > 25)) return [3 /*break*/, 2];
                         parent_1 = this.element.nativeElement.offsetParent;
                         checkPosition_1 = function (lastRect) { return __awaiter(_this, void 0, void 0, function () {
                             var rect;
@@ -294,16 +295,18 @@ var SelectOverlayContent = /** @class */ (function () {
                         return [4 /*yield*/, checkPosition_1(parent_1.getBoundingClientRect())];
                     case 1:
                         _a.sent();
-                        if (!(!window.cordova || window.cordova.platformId == "browser")) return [3 /*break*/, 3];
-                        return [4 /*yield*/, waitTill(function () { return !!_this.searchbar && !!_this.searchbar.nativeElement.querySelector("input"); })];
+                        _a.label = 2;
                     case 2:
+                        if (!(!window.cordova || window.cordova.platformId == "browser")) return [3 /*break*/, 4];
+                        return [4 /*yield*/, waitTill(function () { return !!_this.searchbar && !!_this.searchbar.nativeElement.querySelector("input"); })];
+                    case 3:
                         _a.sent();
                         this.searchbar.nativeElement.setFocus();
-                        _a.label = 3;
-                    case 3:
-                        this.initOptions();
                         _a.label = 4;
-                    case 4: return [2 /*return*/];
+                    case 4:
+                        this.initOptions();
+                        _a.label = 5;
+                    case 5: return [2 /*return*/];
                 }
             });
         });

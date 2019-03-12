@@ -28,10 +28,14 @@ import {SelectOverlayOption} from "./select-overlay-option";
                     </ng-template>
                 </ng-template>
             </div>
-            <div class="select-icon" role="presentation">
-                <div class="select-icon-inner"></div>
-            </div>
-            <button type="button" role="combobox" aria-haspopup="dialog" class="select-cover" (click)="open($event)"></button>
+            
+            <ng-container  *ngIf="!_readonly && !_disabled">
+                <div class="select-icon" role="presentation">
+                    <div class="select-icon-inner"></div>
+                </div>
+                <button type="button" role="combobox" aria-haspopup="dialog" class="select-cover" (click)="open($event)"></button>
+            </ng-container>
+            
         </div>
     `
 })
@@ -96,6 +100,24 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
      */
     @Input()
     public orderable: boolean;
+
+
+    private _readonly: boolean;
+
+    @Input()
+    public set readonly(readonly: boolean) {
+
+        if (typeof readonly === "string") {
+            this.readonly = readonly === "true";
+        } else {
+            this._readonly = readonly;
+        }
+    }
+
+    public get readonly(): boolean {
+        return !!this._readonly;
+    }
+
 
     /**
      * A function, that will be used for testing if value passes search critieria.

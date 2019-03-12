@@ -310,31 +310,34 @@ export class SelectOverlayContent {
     }
 
     ngOnInit() {
-        if (this.popoverOverlay || this.options.length <= 25) {
+        if (this.popoverOverlay) {
             this.initOptions();
         }
     }
 
     async ngAfterViewInit() {
 
-        if (this.modalOverlay && this.options.length > 25) {
+        if (this.modalOverlay) {
 
-            // dirty way to check if modal animation finished
-            // we check if position didn't change
-            let parent = this.element.nativeElement.offsetParent as HTMLElement;
-            let checkPosition = async (lastRect: ClientRect) => {
-                await sleep(100);
+            if (this.options.length > 25) {
 
-                let rect = parent.getBoundingClientRect();
-                if (rect.bottom != lastRect.bottom || rect.top != lastRect.top || rect.left != lastRect.left || rect.right != lastRect.right) {
-                    lastRect = rect;
-                    await checkPosition(rect);
-                } else {
-                    return true;
-                }
-            };
+                // dirty way to check if modal animation finished
+                // we check if position didn't change
+                let parent = this.element.nativeElement.offsetParent as HTMLElement;
+                let checkPosition = async (lastRect: ClientRect) => {
+                    await sleep(100);
 
-            await checkPosition(parent.getBoundingClientRect());
+                    let rect = parent.getBoundingClientRect();
+                    if (rect.bottom != lastRect.bottom || rect.top != lastRect.top || rect.left != lastRect.left || rect.right != lastRect.right) {
+                        lastRect = rect;
+                        await checkPosition(rect);
+                    } else {
+                        return true;
+                    }
+                };
+
+                await checkPosition(parent.getBoundingClientRect());
+            }
 
             if (!window.cordova || window.cordova.platformId == "browser") {
                 await waitTill(() => !!this.searchbar && !!this.searchbar.nativeElement.querySelector("input"));
