@@ -58,15 +58,10 @@ ion-item[white-space-normal] ion-label {
 }
 
 ion-item {
-    --padding-start: 0px;
-    --padding-end: 0px;
-    --inner-padding-start: 16px;
-    --inner-padding-end: 16px;
-
     > [slot=start] {
-        margin-left: 16px;
-        margin-right: 0px;
-        margin-inline-end: 0px;
+        margin-left: 0px;
+        margin-right: 16px;
+        margin-inline-end: 16px;
     }
 
     > [slot=end] {
