@@ -33,22 +33,53 @@ import {SelectLabel} from "./select-label";
                 <ion-spinner></ion-spinner>
             </div>
 
-            <ion-list *ngIf="visibleOptions">
-                <ion-virtual-scroll [items]="visibleOptions" [headerFn]="optionDivider.bind(this)" #virtualScroll>
-                    <ion-item-divider *virtualHeader="let option">
-                        <ion-label>{{option.label}}</ion-label>
-                    </ion-item-divider>
-
-                    <ion-item #listItem *virtualItem="let option">
-                        <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
-                        <ion-label>
-                            <span *ngIf="!label; else customLabel">{{option.label}}</span>
-                            <ng-template #customLabel>
-                                <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
-                            </ng-template>
-                        </ion-label>
-                    </ion-item>
-                </ion-virtual-scroll>
+            <ion-list *ngIf="visibleOptions" lines="full">
+                
+                <ng-container *ngIf="modalOverlay; else popoverOptions">
+            
+                    <ion-virtual-scroll [items]="visibleOptions" [headerFn]="optionDivider.bind(this)" #virtualScroll>
+                        <ion-item-divider *virtualHeader="let option">
+                            <ion-label>{{option.label}}</ion-label>
+                        </ion-item-divider>
+    
+                        <ion-item detail="false" button="true" #listItem *virtualItem="let option">
+                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
+                            <ion-label>
+                                <span *ngIf="!label; else customLabel">{{option.label}}</span>
+                                <ng-template #customLabel>
+                                    <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
+                                </ng-template>
+                            </ion-label>
+                        </ion-item>
+                    </ion-virtual-scroll>
+                    
+                </ng-container>
+                
+                <ng-template #popoverOptions>
+                    
+                    <ng-template ngFor [ngForOf]="visibleOptions" let-option>
+                    
+                        <ion-item-divider *ngIf="option.divider; else basicOption">
+                            <ion-label>{{option.label}}</ion-label>
+                        </ion-item-divider>
+                        
+                        <ng-template #basicOption>
+                        
+                            <ion-item detail="false" button="true" #listItem>
+                                <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
+                                <ion-label>
+                                    <span *ngIf="!label; else customLabel">{{option.label}}</span>
+                                    <ng-template #customLabel>
+                                        <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
+                                    </ng-template>
+                                </ion-label>
+                            </ion-item>
+                            
+                        </ng-template>
+                    
+                    </ng-template>
+                
+                </ng-template>
             </ion-list>
 
         </ion-content>
@@ -233,19 +264,23 @@ export class SelectOverlayContent {
         this.buildVisibleOptions();
 
         if (this.checkedOptions.length > 0) {
-            await waitTill(() => !!this.scroll);
 
-            let indexToScroll: number = -1;
+            if (this.modalOverlay) {
 
-            for (let i = 0; i < this.visibleOptions.length; i++) {
-                if (this.visibleOptions[i].checked) {
-                    indexToScroll = i;
-                    break;
+                await waitTill(() => !!this.scroll);
+
+                let indexToScroll: number = -1;
+
+                for (let i = 0; i < this.visibleOptions.length; i++) {
+                    if (this.visibleOptions[i].checked) {
+                        indexToScroll = i;
+                        break;
+                    }
                 }
-            }
 
-            if (indexToScroll > 10) {
-                (await this.content.nativeElement.getScrollElement()).scrollTop = await this.scroll.nativeElement.positionForItem(indexToScroll - 4);
+                if (indexToScroll > 10) {
+                    (await this.content.nativeElement.getScrollElement()).scrollTop = await this.scroll.nativeElement.positionForItem(indexToScroll - 4);
+                }
             }
         }
     }

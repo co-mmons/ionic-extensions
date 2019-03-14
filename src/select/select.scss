@@ -68,21 +68,21 @@ ionx-select-overlay {
     }
 
     ion-checkbox {
-        margin-right: 8px;
+        margin-right: 16px;
+    }
+
+    ion-item.item:last-child {
+        --border-width: 0px;
+    }
+
+    ion-list.list {
+        margin: 0px;
+        padding: 0px;
     }
 }
 
 ion-popover ionx-select-overlay ion-content {
     --overflow: initial !important;
-
-    ion-item:last-child {
-        --inner-border-width: 0px;
-    }
-
-    ion-list.list {
-        margin: 8px 0px;
-        padding: 0px;
-    }
 }
 
 .md {

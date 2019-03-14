@@ -12,6 +12,8 @@ ionx-form-item {
         --inner-padding-end: 0px;
         --inner-padding-start: 0px;
         --padding-end: 0px;
+        --inner-border-width: 0px;
+        --border-width: 0px 0px 1px 0px;
     }
 }
 
@@ -51,7 +53,7 @@ ionx-form-heading {
 
         & > ion-label {
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 500;
         }
     }
 }
