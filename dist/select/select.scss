@@ -156,6 +156,13 @@ ion-popover ionx-select-overlay ion-content {
         }
     }
 
+    ion-modal ionx-select-overlay ion-list {
+        ion-item.item {
+            border: none;
+            --border-width: 0px;
+        }
+    }
+
     .ionx-select-overlay-width .popover-content {
         
         @media (max-width: 767px) {

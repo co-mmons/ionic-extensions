@@ -1,9 +1,9 @@
 import {Component, ElementRef, Input, Optional, ViewChild} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
-import {sleep, waitTill} from "@co.mmons/js-utils/core";
+import {waitTill} from "@co.mmons/js-utils/core";
 import {ModalController, PopoverController} from "@ionic/angular";
-import {SelectOverlayOption} from "./select-overlay-option";
 import {SelectLabel} from "./select-label";
+import {SelectOverlayOption} from "./select-overlay-option";
 
 @Component({
     selector: "ionx-select-overlay",
@@ -42,7 +42,7 @@ import {SelectLabel} from "./select-label";
                             <ion-label>{{option.label}}</ion-label>
                         </ion-item-divider>
     
-                        <ion-item detail="false" button="true" #listItem *virtualItem="let option">
+                        <ion-item detail="false" button="true" #listItem style="opacity: 1" *virtualItem="let option">
                             <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
                             <ion-label>
                                 <span *ngIf="!label; else customLabel">{{option.label}}</span>
@@ -87,7 +87,7 @@ import {SelectLabel} from "./select-label";
 })
 export class SelectOverlayContent {
 
-    constructor(private element: ElementRef<HTMLElement>, protected intl: IntlService, @Optional() private popoverController: PopoverController, @Optional() private modalController: ModalController) {
+    constructor(public element: ElementRef<HTMLElement>, protected intl: IntlService, @Optional() private popoverController: PopoverController, @Optional() private modalController: ModalController) {
     }
 
     @Input()
@@ -350,29 +350,9 @@ export class SelectOverlayContent {
         }
     }
 
-    async ngAfterViewInit() {
+    async ionViewDidEnter() {
 
         if (this.modalOverlay) {
-
-            if (this.options.length > 25) {
-
-                // dirty way to check if modal animation finished
-                // we check if position didn't change
-                let parent = this.element.nativeElement.offsetParent as HTMLElement;
-                let checkPosition = async (lastRect: ClientRect) => {
-                    await sleep(100);
-
-                    let rect = parent.getBoundingClientRect();
-                    if (rect.bottom != lastRect.bottom || rect.top != lastRect.top || rect.left != lastRect.left || rect.right != lastRect.right) {
-                        lastRect = rect;
-                        await checkPosition(rect);
-                    } else {
-                        return true;
-                    }
-                };
-
-                await checkPosition(parent.getBoundingClientRect());
-            }
 
             if (!window.cordova || window.cordova.platformId == "browser") {
                 await waitTill(() => !!this.searchbar && !!this.searchbar.nativeElement.querySelector("input"));

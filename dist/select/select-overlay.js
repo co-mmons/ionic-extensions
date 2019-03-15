@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import { Component, ElementRef, Input, Optional, ViewChild } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
-import { sleep, waitTill } from "@co.mmons/js-utils/core";
+import { waitTill } from "@co.mmons/js-utils/core";
 import { ModalController, PopoverController } from "@ionic/angular";
 import { SelectLabel } from "./select-label";
 var SelectOverlayContent = /** @class */ (function () {
@@ -264,50 +264,23 @@ var SelectOverlayContent = /** @class */ (function () {
             this.initOptions();
         }
     };
-    SelectOverlayContent.prototype.ngAfterViewInit = function () {
+    SelectOverlayContent.prototype.ionViewDidEnter = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var parent_1, checkPosition_1;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.modalOverlay) return [3 /*break*/, 5];
-                        if (!(this.options.length > 25)) return [3 /*break*/, 2];
-                        parent_1 = this.element.nativeElement.offsetParent;
-                        checkPosition_1 = function (lastRect) { return __awaiter(_this, void 0, void 0, function () {
-                            var rect;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, sleep(100)];
-                                    case 1:
-                                        _a.sent();
-                                        rect = parent_1.getBoundingClientRect();
-                                        if (!(rect.bottom != lastRect.bottom || rect.top != lastRect.top || rect.left != lastRect.left || rect.right != lastRect.right)) return [3 /*break*/, 3];
-                                        lastRect = rect;
-                                        return [4 /*yield*/, checkPosition_1(rect)];
-                                    case 2:
-                                        _a.sent();
-                                        return [3 /*break*/, 4];
-                                    case 3: return [2 /*return*/, true];
-                                    case 4: return [2 /*return*/];
-                                }
-                            });
-                        }); };
-                        return [4 /*yield*/, checkPosition_1(parent_1.getBoundingClientRect())];
+                        if (!this.modalOverlay) return [3 /*break*/, 3];
+                        if (!(!window.cordova || window.cordova.platformId == "browser")) return [3 /*break*/, 2];
+                        return [4 /*yield*/, waitTill(function () { return !!_this.searchbar && !!_this.searchbar.nativeElement.querySelector("input"); })];
                     case 1:
                         _a.sent();
+                        this.searchbar.nativeElement.setFocus();
                         _a.label = 2;
                     case 2:
-                        if (!(!window.cordova || window.cordova.platformId == "browser")) return [3 /*break*/, 4];
-                        return [4 /*yield*/, waitTill(function () { return !!_this.searchbar && !!_this.searchbar.nativeElement.querySelector("input"); })];
-                    case 3:
-                        _a.sent();
-                        this.searchbar.nativeElement.setFocus();
-                        _a.label = 4;
-                    case 4:
                         this.initOptions();
-                        _a.label = 5;
-                    case 5: return [2 /*return*/];
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -367,7 +340,7 @@ var SelectOverlayContent = /** @class */ (function () {
     SelectOverlayContent = __decorate([
         Component({
             selector: "ionx-select-overlay",
-            template: "\n        <ion-header *ngIf=\"modalOverlay\">\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons slot=\"start\">\n                    <ion-button (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n\n                <ion-buttons slot=\"end\">\n                    <ion-button (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content [scrollY]=\"modalOverlay\" #content>\n            \n            <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n                <ion-spinner></ion-spinner>\n            </div>\n\n            <ion-list *ngIf=\"visibleOptions\" lines=\"full\">\n                \n                <ng-container *ngIf=\"modalOverlay; else popoverOptions\">\n            \n                    <ion-virtual-scroll [items]=\"visibleOptions\" [headerFn]=\"optionDivider.bind(this)\" #virtualScroll>\n                        <ion-item-divider *virtualHeader=\"let option\">\n                            <ion-label>{{option.label}}</ion-label>\n                        </ion-item-divider>\n    \n                        <ion-item detail=\"false\" button=\"true\" #listItem *virtualItem=\"let option\">\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                            <ion-label>\n                                <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                <ng-template #customLabel>\n                                    <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                </ng-template>\n                            </ion-label>\n                        </ion-item>\n                    </ion-virtual-scroll>\n                    \n                </ng-container>\n                \n                <ng-template #popoverOptions>\n                    \n                    <ng-template ngFor [ngForOf]=\"visibleOptions\" let-option>\n                    \n                        <ion-item-divider *ngIf=\"option.divider; else basicOption\">\n                            <ion-label>{{option.label}}</ion-label>\n                        </ion-item-divider>\n                        \n                        <ng-template #basicOption>\n                        \n                            <ion-item detail=\"false\" button=\"true\" #listItem>\n                                <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                                <ion-label>\n                                    <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                    <ng-template #customLabel>\n                                        <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                    </ng-template>\n                                </ion-label>\n                            </ion-item>\n                            \n                        </ng-template>\n                    \n                    </ng-template>\n                \n                </ng-template>\n            </ion-list>\n\n        </ion-content>\n    "
+            template: "\n        <ion-header *ngIf=\"modalOverlay\">\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons slot=\"start\">\n                    <ion-button (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n\n                <ion-buttons slot=\"end\">\n                    <ion-button (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content [scrollY]=\"modalOverlay\" #content>\n            \n            <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n                <ion-spinner></ion-spinner>\n            </div>\n\n            <ion-list *ngIf=\"visibleOptions\" lines=\"full\">\n                \n                <ng-container *ngIf=\"modalOverlay; else popoverOptions\">\n            \n                    <ion-virtual-scroll [items]=\"visibleOptions\" [headerFn]=\"optionDivider.bind(this)\" #virtualScroll>\n                        <ion-item-divider *virtualHeader=\"let option\">\n                            <ion-label>{{option.label}}</ion-label>\n                        </ion-item-divider>\n    \n                        <ion-item detail=\"false\" button=\"true\" #listItem style=\"opacity: 1\" *virtualItem=\"let option\">\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                            <ion-label>\n                                <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                <ng-template #customLabel>\n                                    <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                </ng-template>\n                            </ion-label>\n                        </ion-item>\n                    </ion-virtual-scroll>\n                    \n                </ng-container>\n                \n                <ng-template #popoverOptions>\n                    \n                    <ng-template ngFor [ngForOf]=\"visibleOptions\" let-option>\n                    \n                        <ion-item-divider *ngIf=\"option.divider; else basicOption\">\n                            <ion-label>{{option.label}}</ion-label>\n                        </ion-item-divider>\n                        \n                        <ng-template #basicOption>\n                        \n                            <ion-item detail=\"false\" button=\"true\" #listItem>\n                                <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                                <ion-label>\n                                    <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                    <ng-template #customLabel>\n                                        <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                    </ng-template>\n                                </ion-label>\n                            </ion-item>\n                            \n                        </ng-template>\n                    \n                    </ng-template>\n                \n                </ng-template>\n            </ion-list>\n\n        </ion-content>\n    "
         }),
         __param(2, Optional()), __param(3, Optional()),
         __metadata("design:paramtypes", [ElementRef, IntlService, PopoverController, ModalController])

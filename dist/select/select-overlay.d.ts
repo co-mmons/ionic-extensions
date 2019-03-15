@@ -1,10 +1,10 @@
 import { ElementRef } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
-import { SelectOverlayOption } from "./select-overlay-option";
 import { SelectLabel } from "./select-label";
+import { SelectOverlayOption } from "./select-overlay-option";
 export declare class SelectOverlayContent {
-    private element;
+    element: ElementRef<HTMLElement>;
     protected intl: IntlService;
     private popoverController;
     private modalController;
@@ -36,5 +36,5 @@ export declare class SelectOverlayContent {
     private searchbar;
     search(ev: any): void;
     ngOnInit(): void;
-    ngAfterViewInit(): Promise<void>;
+    ionViewDidEnter(): Promise<void>;
 }
