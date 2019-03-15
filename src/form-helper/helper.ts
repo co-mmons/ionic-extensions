@@ -110,6 +110,10 @@ export class FormHelper {
             element = control["el"].nativeElement;
         }
 
+        if (control["_elementRef"] instanceof ElementRef) {
+            element = control["_elementRef"].nativeElement;
+        }
+
         // element to focus
         if (element) {
 
