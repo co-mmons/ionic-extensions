@@ -54,13 +54,6 @@ ionx-select {
 }
 
 ionx-select-overlay {
-    ion-label {
-        white-space: normal !important;
-    }
-
-    ion-item-divider {
-        --padding-top: 16px;
-    }
 
     .ionx-select-overlay-spinner {
         position: absolute; 
@@ -89,6 +82,10 @@ ionx-select-overlay {
 
 ion-popover ionx-select-overlay ion-content {
     --overflow: initial !important;
+
+    ion-item ion-label {
+        white-space: normal;
+    }
 
     ion-item.item:last-child {
         --border-width: 0px;
