@@ -72,11 +72,17 @@ ionx-select-overlay {
 
     ion-checkbox {
         margin-right: 16px;
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
 
     ion-list.list {
         margin: 0px;
         padding: 0px;
+    }
+
+    ion-item.item:last-child {
+        --border-width: 0px;
     }
 }
 
@@ -85,10 +91,6 @@ ion-popover ionx-select-overlay ion-content {
 
     ion-item ion-label {
         white-space: normal;
-    }
-
-    ion-item.item:last-child {
-        --border-width: 0px;
     }
 }
 

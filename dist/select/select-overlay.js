@@ -45,15 +45,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, ElementRef, Input, Optional, ViewChild } from "@angular/core";
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { Component, ElementRef, HostListener, Input, Optional, ViewChild } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
 import { waitTill } from "@co.mmons/js-utils/core";
-import { ModalController, PopoverController } from "@ionic/angular";
+import { Config, ModalController, PopoverController } from "@ionic/angular";
 import { SelectLabel } from "./select-label";
 var SelectOverlayContent = /** @class */ (function () {
-    function SelectOverlayContent(element, intl, popoverController, modalController) {
+    function SelectOverlayContent(element, intl, config, popoverController, modalController) {
         this.element = element;
         this.intl = intl;
+        this.config = config;
         this.popoverController = popoverController;
         this.modalController = modalController;
         this.multiple = false;
@@ -168,10 +170,10 @@ var SelectOverlayContent = /** @class */ (function () {
     };
     SelectOverlayContent.prototype.initOptions = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _i, _a, option, indexToScroll, i, _b;
+            var _i, _a, option, indexToScroll, i;
             var _this = this;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this.checkedOptions = [];
                         for (_i = 0, _a = this.options; _i < _a.length; _i++) {
@@ -182,11 +184,11 @@ var SelectOverlayContent = /** @class */ (function () {
                         }
                         //this.checkedOptions.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
                         this.buildVisibleOptions();
-                        if (!(this.checkedOptions.length > 0)) return [3 /*break*/, 4];
-                        if (!this.modalOverlay) return [3 /*break*/, 4];
+                        if (!(this.checkedOptions.length > 0)) return [3 /*break*/, 2];
+                        if (!this.modalOverlay) return [3 /*break*/, 2];
                         return [4 /*yield*/, waitTill(function () { return !!_this.scroll; })];
                     case 1:
-                        _c.sent();
+                        _b.sent();
                         indexToScroll = -1;
                         for (i = 0; i < this.visibleOptions.length; i++) {
                             if (this.visibleOptions[i].checked) {
@@ -194,15 +196,9 @@ var SelectOverlayContent = /** @class */ (function () {
                                 break;
                             }
                         }
-                        if (!(indexToScroll > 10)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.content.nativeElement.getScrollElement()];
-                    case 2:
-                        _b = (_c.sent());
-                        return [4 /*yield*/, this.scroll.nativeElement.positionForItem(indexToScroll - 4)];
-                    case 3:
-                        _b.scrollTop = _c.sent();
-                        _c.label = 4;
-                    case 4: return [2 /*return*/];
+                        this.scroll.scrollToIndex(indexToScroll);
+                        _b.label = 2;
+                    case 2: return [2 /*return*/];
                 }
             });
         });
@@ -260,9 +256,42 @@ var SelectOverlayContent = /** @class */ (function () {
         this.buildVisibleOptions();
     };
     SelectOverlayContent.prototype.ngOnInit = function () {
+        if (this.config.get("mode") === "md") {
+            this.itemHeight = 49;
+        }
+        else {
+            this.itemHeight = 44.55;
+        }
         if (this.popoverOverlay) {
             this.initOptions();
         }
+    };
+    SelectOverlayContent.prototype.resetScrollHeight = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var oldHeight, newHeight;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        oldHeight = this.scrollHeight;
+                        newHeight = this.content.nativeElement.offsetHeight;
+                        if (!(newHeight == oldHeight)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, waitTill(function () {
+                                newHeight = _this.content.nativeElement.offsetHeight;
+                                return newHeight !== oldHeight;
+                            }, undefined, 2000)];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        this.scrollHeight = newHeight;
+                        if (typeof oldHeight !== "number" && this.scroll) {
+                            this.scroll.checkViewportSize();
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     SelectOverlayContent.prototype.ionViewDidEnter = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -271,6 +300,7 @@ var SelectOverlayContent = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this.modalOverlay) return [3 /*break*/, 3];
+                        this.resetScrollHeight();
                         if (!(!window.cordova || window.cordova.platformId == "browser")) return [3 /*break*/, 2];
                         return [4 /*yield*/, waitTill(function () { return !!_this.searchbar && !!_this.searchbar.nativeElement.querySelector("input"); })];
                     case 1:
@@ -290,8 +320,8 @@ var SelectOverlayContent = /** @class */ (function () {
         __metadata("design:type", String)
     ], SelectOverlayContent.prototype, "overlay", void 0);
     __decorate([
-        ViewChild("virtualScroll", { read: ElementRef }),
-        __metadata("design:type", ElementRef)
+        ViewChild(CdkVirtualScrollViewport),
+        __metadata("design:type", CdkVirtualScrollViewport)
     ], SelectOverlayContent.prototype, "scroll", void 0);
     __decorate([
         ViewChild("content", { read: ElementRef }),
@@ -337,13 +367,27 @@ var SelectOverlayContent = /** @class */ (function () {
         ViewChild("searchbar", { read: ElementRef }),
         __metadata("design:type", ElementRef)
     ], SelectOverlayContent.prototype, "searchbar", void 0);
+    __decorate([
+        HostListener("window:resize"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", Promise)
+    ], SelectOverlayContent.prototype, "resetScrollHeight", null);
     SelectOverlayContent = __decorate([
         Component({
             selector: "ionx-select-overlay",
-            template: "\n        <ion-header *ngIf=\"modalOverlay\">\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons slot=\"start\">\n                    <ion-button (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n\n                <ion-buttons slot=\"end\">\n                    <ion-button (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content [scrollY]=\"modalOverlay\" #content>\n            \n            <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n                <ion-spinner></ion-spinner>\n            </div>\n\n            <ion-list *ngIf=\"visibleOptions\" lines=\"full\">\n                \n                <ng-container *ngIf=\"modalOverlay; else popoverOptions\">\n            \n                    <ion-virtual-scroll [items]=\"visibleOptions\" #virtualScroll>\n                        \n                        <ion-item detail=\"false\" [button]=\"!option.divider\" [style.opacity]=\"1\" [style.fontWeight]=\"option.divider ? 500 : null\" #listItem *virtualItem=\"let option\">\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\" slot=\"start\" *ngIf=\"!option.divider\"></ion-checkbox>\n                            <ion-label>\n                                <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                <ng-template #customLabel>\n                                    <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                </ng-template>\n                            </ion-label>\n                        </ion-item>\n                    </ion-virtual-scroll>\n                    \n                </ng-container>\n                \n                <ng-template #popoverOptions>\n                    \n                    <ng-template ngFor [ngForOf]=\"visibleOptions\" let-option>\n                    \n                        <ion-item-divider *ngIf=\"option.divider; else basicOption\">\n                            <ion-label>{{option.label}}</ion-label>\n                        </ion-item-divider>\n                        \n                        <ng-template #basicOption>\n                        \n                            <ion-item detail=\"false\" button=\"true\" #listItem>\n                                <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                                <ion-label>\n                                    <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                    <ng-template #customLabel>\n                                        <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                    </ng-template>\n                                </ion-label>\n                            </ion-item>\n                            \n                        </ng-template>\n                    \n                    </ng-template>\n                \n                </ng-template>\n            </ion-list>\n\n        </ion-content>\n    "
+            template: "\n        <ion-header *ngIf=\"modalOverlay\">\n            <ion-toolbar>\n                <ion-title>{{title}}</ion-title>\n\n                <ion-buttons slot=\"start\">\n                    <ion-button (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>\n                </ion-buttons>\n\n                <ion-buttons slot=\"end\">\n                    <ion-button (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n                </ion-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\" (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content [scrollY]=\"false\" [scrollX]=\"false\" #content>\n            \n            <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n                <ion-spinner></ion-spinner>\n            </div>\n            \n            <ng-template [ngIf]=\"!!visibleOptions\">\n                <div>\n                \n                <cdk-virtual-scroll-viewport [itemSize]=\"itemHeight\" [style.height.px]=\"scrollHeight\" *ngIf=\"modalOverlay\">\n    \n                    <ion-list lines=\"full\">\n                                \n                        <ion-item detail=\"false\" [button]=\"!option.divider\" [style.fontWeight]=\"option.divider ? 500 : null\" #listItem *cdkVirtualFor=\"let option of visibleOptions\">\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\" slot=\"start\" *ngIf=\"!option.divider\"></ion-checkbox>\n                            <ion-label>\n                                <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                <ng-template #customLabel>\n                                    <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                </ng-template>\n                            </ion-label>\n                        </ion-item>\n                    </ion-list>\n                    \n                </cdk-virtual-scroll-viewport>\n                \n                <ion-list lines=\"full\" *ngIf=\"popoverOverlay\">\n                \n                    <ng-template ngFor [ngForOf]=\"visibleOptions\" let-option>\n                    \n                        <ion-item-divider *ngIf=\"option.divider; else basicOption\">\n                            <ion-label>{{option.label}}</ion-label>\n                        </ion-item-divider>\n                        \n                        <ng-template #basicOption>\n                        \n                            <ion-item detail=\"false\" button=\"true\" #listItem>\n                                <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionClicked(option)\" (ionChange)=\"optionChanged(option)\"></ion-checkbox>\n                                <ion-label>\n                                    <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                    <ng-template #customLabel>\n                                        <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                    </ng-template>\n                                </ion-label>\n                            </ion-item>\n                            \n                        </ng-template>\n                    \n                    </ng-template>\n                </ion-list>\n                </div>\n            </ng-template>\n\n        </ion-content>\n    ",
+            styles: [
+                ":host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }"
+            ]
         }),
-        __param(2, Optional()), __param(3, Optional()),
-        __metadata("design:paramtypes", [ElementRef, IntlService, PopoverController, ModalController])
+        __param(3, Optional()),
+        __param(4, Optional()),
+        __metadata("design:paramtypes", [ElementRef,
+            IntlService,
+            Config,
+            PopoverController,
+            ModalController])
     ], SelectOverlayContent);
     return SelectOverlayContent;
 }());

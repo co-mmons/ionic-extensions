@@ -1,3 +1,4 @@
+import {ScrollingModule} from "@angular/cdk/scrolling";
 import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
@@ -16,7 +17,7 @@ export * from "./select-options";
     declarations: [Select, SelectOption, SelectOverlayContent, SelectLabel],
     entryComponents: [Select, SelectOption, SelectOverlayContent],
     exports: [Select, SelectOption, SelectOverlayContent, SelectLabel],
-    imports: [CommonModule, FormsModule, IonicModule, IntlModule]
+    imports: [CommonModule, FormsModule, IonicModule, IntlModule, ScrollingModule]
 })
 export class SelectModule {
 }

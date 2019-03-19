@@ -1,7 +1,9 @@
-import {Component, ElementRef, Input, Optional, ViewChild} from "@angular/core";
+import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
+import {Component, ElementRef, HostListener, Input, Optional, ViewChild} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
 import {waitTill} from "@co.mmons/js-utils/core";
-import {ModalController, PopoverController} from "@ionic/angular";
+import {Config, ModalController, PopoverController} from "@ionic/angular";
+import {Components} from "@ionic/core";
 import {SelectLabel} from "./select-label";
 import {SelectOverlayOption} from "./select-overlay-option";
 
@@ -27,19 +29,20 @@ import {SelectOverlayOption} from "./select-overlay-option";
                 <ion-searchbar #searchbar cancelButtonText="{{'@co.mmons/js-intl#Cancel' | intlMessage}}" placeholder="{{'@co.mmons/js-intl#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
             </ion-toolbar>
         </ion-header>
-        <ion-content [scrollY]="modalOverlay" #content>
+        <ion-content [scrollY]="false" [scrollX]="false" #content>
             
             <div class="ionx-select-overlay-spinner" slot="fixed" *ngIf="!checkedOptions">
                 <ion-spinner></ion-spinner>
             </div>
-
-            <ion-list *ngIf="visibleOptions" lines="full">
-                
-                <ng-container *ngIf="modalOverlay; else popoverOptions">
             
-                    <ion-virtual-scroll [items]="visibleOptions" #virtualScroll>
-                        
-                        <ion-item detail="false" [button]="!option.divider" [style.opacity]="1" [style.fontWeight]="option.divider ? 500 : null" #listItem *virtualItem="let option">
+            <ng-template [ngIf]="!!visibleOptions">
+                <div>
+                
+                <cdk-virtual-scroll-viewport [itemSize]="itemHeight" [style.height.px]="scrollHeight" *ngIf="modalOverlay">
+    
+                    <ion-list lines="full">
+                                
+                        <ion-item detail="false" [button]="!option.divider" [style.fontWeight]="option.divider ? 500 : null" #listItem *cdkVirtualFor="let option of visibleOptions">
                             <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)" slot="start" *ngIf="!option.divider"></ion-checkbox>
                             <ion-label>
                                 <span *ngIf="!label; else customLabel">{{option.label}}</span>
@@ -48,12 +51,12 @@ import {SelectOverlayOption} from "./select-overlay-option";
                                 </ng-template>
                             </ion-label>
                         </ion-item>
-                    </ion-virtual-scroll>
+                    </ion-list>
                     
-                </ng-container>
+                </cdk-virtual-scroll-viewport>
                 
-                <ng-template #popoverOptions>
-                    
+                <ion-list lines="full" *ngIf="popoverOverlay">
+                
                     <ng-template ngFor [ngForOf]="visibleOptions" let-option>
                     
                         <ion-item-divider *ngIf="option.divider; else basicOption">
@@ -75,16 +78,25 @@ import {SelectOverlayOption} from "./select-overlay-option";
                         </ng-template>
                     
                     </ng-template>
-                
-                </ng-template>
-            </ion-list>
+                </ion-list>
+                </div>
+            </ng-template>
 
         </ion-content>
-    `
+    `,
+    styles: [
+        `:host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }`
+    ]
 })
 export class SelectOverlayContent {
 
-    constructor(public element: ElementRef<HTMLElement>, protected intl: IntlService, @Optional() private popoverController: PopoverController, @Optional() private modalController: ModalController) {
+    constructor(
+        public element: ElementRef<HTMLElement>,
+        protected intl: IntlService,
+        private config: Config,
+        @Optional() private popoverController: PopoverController,
+        @Optional() private modalController: ModalController
+    ) {
     }
 
     @Input()
@@ -98,11 +110,15 @@ export class SelectOverlayContent {
         return this.overlay == "modal";
     }
 
-    @ViewChild("virtualScroll", {read: ElementRef})
-    scroll: ElementRef<HTMLIonVirtualScrollElement>;
+    @ViewChild(CdkVirtualScrollViewport)
+    scroll: CdkVirtualScrollViewport;
+
+    scrollHeight: number;
+
+    itemHeight: number;
 
     @ViewChild("content", {read: ElementRef})
-    content: ElementRef<HTMLIonContentElement>;
+    content: ElementRef<HTMLElement & Components.IonContent>;
 
     @Input()
     multiple: boolean = false;
@@ -275,9 +291,7 @@ export class SelectOverlayContent {
                     }
                 }
 
-                if (indexToScroll > 10) {
-                    (await this.content.nativeElement.getScrollElement()).scrollTop = await this.scroll.nativeElement.positionForItem(indexToScroll - 4);
-                }
+                this.scroll.scrollToIndex(indexToScroll);
             }
         }
     }
@@ -342,14 +356,43 @@ export class SelectOverlayContent {
     }
 
     ngOnInit() {
+
+        if (this.config.get("mode") === "md") {
+            this.itemHeight = 49;
+        } else {
+            this.itemHeight = 44.55;
+        }
+
         if (this.popoverOverlay) {
             this.initOptions();
+        }
+    }
+
+    @HostListener("window:resize")
+    private async resetScrollHeight() {
+
+        const oldHeight = this.scrollHeight;
+        let newHeight = this.content.nativeElement.offsetHeight;
+
+        if (newHeight == oldHeight) {
+            await waitTill(() => {
+                newHeight = this.content.nativeElement.offsetHeight;
+                return newHeight !== oldHeight;
+            }, undefined, 2000);
+        }
+
+        this.scrollHeight = newHeight;
+
+        if (typeof oldHeight !== "number" && this.scroll) {
+            this.scroll.checkViewportSize();
         }
     }
 
     async ionViewDidEnter() {
 
         if (this.modalOverlay) {
+
+            this.resetScrollHeight();
 
             if (!window.cordova || window.cordova.platformId == "browser") {
                 await waitTill(() => !!this.searchbar && !!this.searchbar.nativeElement.querySelector("input"));
