@@ -81,10 +81,6 @@ ionx-select-overlay {
         margin-right: 16px;
     }
 
-    ion-item.item:last-child {
-        --border-width: 0px;
-    }
-
     ion-list.list {
         margin: 0px;
         padding: 0px;
@@ -93,6 +89,10 @@ ionx-select-overlay {
 
 ion-popover ionx-select-overlay ion-content {
     --overflow: initial !important;
+
+    ion-item.item:last-child {
+        --border-width: 0px;
+    }
 }
 
 .md {

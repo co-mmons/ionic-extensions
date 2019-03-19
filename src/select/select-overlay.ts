@@ -37,13 +37,10 @@ import {SelectOverlayOption} from "./select-overlay-option";
                 
                 <ng-container *ngIf="modalOverlay; else popoverOptions">
             
-                    <ion-virtual-scroll [items]="visibleOptions" [headerFn]="optionDivider.bind(this)" #virtualScroll>
-                        <ion-item-divider *virtualHeader="let option">
-                            <ion-label>{{option.label}}</ion-label>
-                        </ion-item-divider>
+                    <ion-virtual-scroll [items]="visibleOptions" #virtualScroll>
                         
-                        <ion-item detail="false" button="true" #listItem *virtualItem="let option">
-                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)" slot="start"></ion-checkbox>
+                        <ion-item detail="false" [button]="!option.divider" [style.opacity]="1" [style.fontWeight]="option.divider ? 500 : null" #listItem *virtualItem="let option">
+                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)" slot="start" *ngIf="!option.divider"></ion-checkbox>
                             <ion-label>
                                 <span *ngIf="!label; else customLabel">{{option.label}}</span>
                                 <ng-template #customLabel>
@@ -245,7 +242,7 @@ export class SelectOverlayContent {
 
         this.visibleOptions = [];
         for (let option of this.options) {
-            if (!option.hidden && !option.divider) {
+            if (!option.hidden) {
                 this.visibleOptions.push(option);
             }
         }
