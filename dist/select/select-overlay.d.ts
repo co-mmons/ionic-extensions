@@ -1,17 +1,16 @@
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { ElementRef } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
-import { Config, ModalController, PopoverController } from "@ionic/angular";
+import { ModalController, PopoverController } from "@ionic/angular";
 import { Components } from "@ionic/core";
 import { SelectLabel } from "./select-label";
 import { SelectOverlayOption } from "./select-overlay-option";
 export declare class SelectOverlayContent {
     element: ElementRef<HTMLElement>;
     protected intl: IntlService;
-    private config;
     private popoverController;
     private modalController;
-    constructor(element: ElementRef<HTMLElement>, intl: IntlService, config: Config, popoverController: PopoverController, modalController: ModalController);
+    constructor(element: ElementRef<HTMLElement>, intl: IntlService, popoverController: PopoverController, modalController: ModalController);
     private overlay;
     readonly popoverOverlay: boolean;
     readonly modalOverlay: boolean;

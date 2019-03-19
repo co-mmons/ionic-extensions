@@ -2,7 +2,7 @@ import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
 import {Component, ElementRef, HostListener, Input, Optional, ViewChild} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
 import {waitTill} from "@co.mmons/js-utils/core";
-import {Config, ModalController, PopoverController} from "@ionic/angular";
+import {ModalController, PopoverController} from "@ionic/angular";
 import {Components} from "@ionic/core";
 import {SelectLabel} from "./select-label";
 import {SelectOverlayOption} from "./select-overlay-option";
@@ -93,7 +93,6 @@ export class SelectOverlayContent {
     constructor(
         public element: ElementRef<HTMLElement>,
         protected intl: IntlService,
-        private config: Config,
         @Optional() private popoverController: PopoverController,
         @Optional() private modalController: ModalController
     ) {
@@ -357,14 +356,17 @@ export class SelectOverlayContent {
 
     ngOnInit() {
 
-        if (this.config.get("mode") === "md") {
-            this.itemHeight = 49;
-        } else {
-            this.itemHeight = 44.55;
-        }
-
         if (this.popoverOverlay) {
             this.initOptions();
+        } else {
+
+            const modal = this.element.nativeElement.closest("ion-modal");
+
+            if (modal.classList.contains("modal-ios")) {
+                this.itemHeight = 44.55;
+            } else {
+                this.itemHeight = 49;
+            }
         }
     }
 

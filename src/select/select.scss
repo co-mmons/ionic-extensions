@@ -80,10 +80,6 @@ ionx-select-overlay {
         margin: 0px;
         padding: 0px;
     }
-
-    ion-item.item:last-child {
-        --border-width: 0px;
-    }
 }
 
 ion-popover ionx-select-overlay ion-content {
@@ -91,6 +87,10 @@ ion-popover ionx-select-overlay ion-content {
 
     ion-item ion-label {
         white-space: normal;
+    }
+
+    ion-item.item:last-child {
+        --border-width: 0px;
     }
 }
 

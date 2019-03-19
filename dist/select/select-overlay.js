@@ -49,13 +49,12 @@ import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { Component, ElementRef, HostListener, Input, Optional, ViewChild } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
 import { waitTill } from "@co.mmons/js-utils/core";
-import { Config, ModalController, PopoverController } from "@ionic/angular";
+import { ModalController, PopoverController } from "@ionic/angular";
 import { SelectLabel } from "./select-label";
 var SelectOverlayContent = /** @class */ (function () {
-    function SelectOverlayContent(element, intl, config, popoverController, modalController) {
+    function SelectOverlayContent(element, intl, popoverController, modalController) {
         this.element = element;
         this.intl = intl;
-        this.config = config;
         this.popoverController = popoverController;
         this.modalController = modalController;
         this.multiple = false;
@@ -256,14 +255,17 @@ var SelectOverlayContent = /** @class */ (function () {
         this.buildVisibleOptions();
     };
     SelectOverlayContent.prototype.ngOnInit = function () {
-        if (this.config.get("mode") === "md") {
-            this.itemHeight = 49;
-        }
-        else {
-            this.itemHeight = 44.55;
-        }
         if (this.popoverOverlay) {
             this.initOptions();
+        }
+        else {
+            var modal = this.element.nativeElement.closest("ion-modal");
+            if (modal.classList.contains("modal-ios")) {
+                this.itemHeight = 44.55;
+            }
+            else {
+                this.itemHeight = 49;
+            }
         }
     };
     SelectOverlayContent.prototype.resetScrollHeight = function () {
@@ -381,11 +383,10 @@ var SelectOverlayContent = /** @class */ (function () {
                 ":host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }"
             ]
         }),
+        __param(2, Optional()),
         __param(3, Optional()),
-        __param(4, Optional()),
         __metadata("design:paramtypes", [ElementRef,
             IntlService,
-            Config,
             PopoverController,
             ModalController])
     ], SelectOverlayContent);
