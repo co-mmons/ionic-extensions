@@ -13,6 +13,12 @@ ionx-select.in-item {
     --padding-top: 8px;
     --padding-bottom: 8px;
     --padding-start: 0;
+    width: 100%;
+
+    .select-text {
+        max-width: calc(100% - 16px);
+        flex: initial;
+    }
 }
 
 ionx-select {
@@ -40,6 +46,10 @@ ionx-select {
         .select-icon {
             display: none;
         }
+    }
+
+    &[white-space-normal] .select-text {
+        white-space: normal !important;
     }
 }
 
@@ -153,13 +163,6 @@ ion-popover ionx-select-overlay ion-content {
             border-bottom: $item-ios-border-bottom;
             font-weight: 500;
             --color: #{$list-ios-header-color};
-        }
-    }
-
-    ion-modal ionx-select-overlay ion-list {
-        ion-item.item {
-            border: none;
-            --border-width: 0px;
         }
     }
 

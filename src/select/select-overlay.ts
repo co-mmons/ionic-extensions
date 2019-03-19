@@ -41,9 +41,9 @@ import {SelectOverlayOption} from "./select-overlay-option";
                         <ion-item-divider *virtualHeader="let option">
                             <ion-label>{{option.label}}</ion-label>
                         </ion-item-divider>
-    
-                        <ion-item detail="false" button="true" #listItem style="opacity: 1" *virtualItem="let option">
-                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
+                        
+                        <ion-item detail="false" button="true" #listItem *virtualItem="let option">
+                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)" slot="start"></ion-checkbox>
                             <ion-label>
                                 <span *ngIf="!label; else customLabel">{{option.label}}</span>
                                 <ng-template #customLabel>
