@@ -30,5 +30,6 @@ export class TextareaAutosize implements OnInit {
 
     async ngOnInit() {
         await waitTill(() => !!this.textarea);
+        this.adjust();
     }
 }

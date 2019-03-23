@@ -74,6 +74,7 @@ var TextareaAutosize = /** @class */ (function () {
                     case 0: return [4 /*yield*/, waitTill(function () { return !!_this.textarea; })];
                     case 1:
                         _a.sent();
+                        this.adjust();
                         return [2 /*return*/];
                 }
             });
