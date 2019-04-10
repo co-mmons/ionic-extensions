@@ -85,7 +85,8 @@ import {SelectOverlayOption} from "./select-overlay-option";
         </ion-content>
     `,
     styles: [
-        `:host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }`
+        `:host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }`,
+        `:host ::ng-deep .hydrated { visibility: visible }`
     ]
 })
 export class SelectOverlayContent {
