@@ -13,11 +13,14 @@ import {SelectOverlayOption} from "./select-overlay-option";
     selector: "ionx-select",
     host: {
         "class": "select interactive",
-        "[attr.ionx--chips-layout]": "!!orderable"
+        "[attr.ionx--chips-layout]": "!!orderable || null",
+        "[attr.ionx--readonly]": "(!!readonly || !!disabled) || null",
+        "[attr.ionx--orderable]": "(!!orderable && !readonly && !disabled && values && values.length > 1) || null",
     },
     styles: [
-        `:host ion-chip { max-width: calc(50% - 4px); margin-inline-start: 0px; margin-bottom: 0px; }`,
-         `:host ion-chip > span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 1.1; }`,
+        `:host ion-chip { max-width: calc(50% - 4px); margin-inline-start: 0px; margin-bottom: 0px; cursor: default; }`,
+        `:host[ionx--orderable] ion-chip { cursor: move; }`,
+        `:host ion-chip > span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 1.1; }`,
         `:host[ionx--chips-layout] .select-text { white-space: normal; width: 100%; }`,
     ],
     template: `
@@ -36,7 +39,7 @@ import {SelectOverlayOption} from "./select-overlay-option";
                     <ng-template ngFor [ngForOf]="values" let-value let-index="index">
                         <span *ngIf="index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable">{{!labelTemplate ? ", " : labelTemplate.separator}}</span>
                         
-                        <ion-chip *ngIf="orderable else simpleText" [attr.ionx--index]="index">
+                        <ion-chip *ngIf="orderable else simpleText" outline="true" [attr.ionx--index]="index">
                             <ng-template *ngTemplateOutlet="optionTemplate; context: {value: value, index: index}"></ng-template>
                         </ion-chip>
                         
