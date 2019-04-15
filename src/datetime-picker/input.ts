@@ -24,6 +24,9 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         }
     }
 
+    @Input()
+    readonly: boolean;
+
     private _listItem: HTMLIonItemElement;
 
     private get listItem() {
@@ -176,7 +179,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     @HostListener("click", ["$event"])
     protected clicked(ev: UIEvent) {
 
-        if (ev.detail === 0 || this.disabled) {
+        if (ev.detail === 0 || this.disabled || this.readonly) {
             return;
         }
 
@@ -195,7 +198,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
     private async open(event?: Event) {
 
-        if (this.disabled || this.opened) {
+        if (this.disabled || this.opened || this.readonly ) {
             return;
         }
 
@@ -313,13 +316,27 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         if (changes["displayFormat"]) {
             this.updateText();
         }
+
+        if (changes["readonly"] || changes["disabled"]) {
+            this.setupCss();
+        }
     }
 
     ngOnInit() {
         this.updateText();
+        this.setupCss();
+    }
+
+    private setupCss() {
 
         if (this.listItem) {
-            this.listItem.classList.add("item-input", "item-interactive");
+            this.listItem.classList.add("item-input");
+
+            if (this.readonly || this.disabled$) {
+                this.listItem.classList.remove("item-interactive");
+            } else {
+                this.listItem.classList.add("item-interactive");
+            }
         }
     }
 

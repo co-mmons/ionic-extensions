@@ -13,6 +13,8 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, popoverController: PopoverController, modalController: ModalController, control: NgControl);
     private _listItem;
     private readonly listItem;
+    private dragula;
+    private textContainer;
     placeholder: string;
     overlay: "popover" | "modal";
     /**
@@ -66,13 +68,14 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     options: any[] | SelectOptions;
     private optionsComponents;
     protected _optionsComponents: QueryList<SelectOption>;
-    private isValueSelected;
+    private indexOfValue;
     private controlOnChange;
     registerOnChange(fn: Function): void;
     private controlOnTouched;
     registerOnTouched(fn: Function): void;
     setDisabledState(isDisabled: boolean): void;
     open(event: Event): Promise<void>;
+    private initDragula;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;
 }

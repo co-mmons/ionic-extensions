@@ -45,10 +45,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, Optional, Output, QueryList, ViewEncapsulation } from "@angular/core";
+import { Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, Optional, Output, QueryList, ViewChild } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
+import * as dragula from "dragula";
 import { SelectLabel } from "./select-label";
 import { SelectOption } from "./select-option";
 import { SelectOptions } from "./select-options";
@@ -214,14 +215,16 @@ var Select = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Select.prototype.isValueSelected = function (value) {
-        for (var _i = 0, _a = this.values || []; _i < _a.length; _i++) {
-            var v = _a[_i];
-            if (this.valueComparator(value, v)) {
-                return true;
+    Select.prototype.indexOfValue = function (value) {
+        if (!this.values) {
+            return -1;
+        }
+        for (var i = 0; i < this.values.length; i++) {
+            if (this.valueComparator(value, this.values[i])) {
+                return i;
             }
         }
-        return false;
+        return -1;
     };
     Select.prototype.registerOnChange = function (fn) {
         this.controlOnChange = fn;
@@ -234,7 +237,7 @@ var Select = /** @class */ (function () {
     };
     Select.prototype.open = function (event) {
         return __awaiter(this, void 0, void 0, function () {
-            var overlay, options, _i, _a, option, _b, _c, option, _d, _e, option, overlayTitle, label, overlayData, popover, modal;
+            var overlay, options, _i, _a, option, valueIndex, _b, _c, option, valueIndex, _d, _e, option, valueIndex, overlayTitle, label, overlayData, popover, modal;
             var _this = this;
             return __generator(this, function (_f) {
                 switch (_f.label) {
@@ -247,19 +250,22 @@ var Select = /** @class */ (function () {
                         if (this.options instanceof SelectOptions) {
                             for (_i = 0, _a = this.options; _i < _a.length; _i++) {
                                 option = _a[_i];
-                                options.push({ value: option.value, checked: option.value ? this.isValueSelected(option.value) : false, label: option.label ? option.label : ((!this.searchTest || !this.labelTemplate) ? this.labelImpl$(option.value) : undefined), disabled: option.disabled, divider: option.divider });
+                                valueIndex = option.value ? this.indexOfValue(option.value) : -1;
+                                options.push({ value: option.value, checked: option.value ? valueIndex > -1 : false, checkedTimestamp: this.orderable && valueIndex, label: option.label ? option.label : ((!this.searchTest || !this.labelTemplate) ? this.labelImpl$(option.value) : undefined), disabled: option.disabled, divider: option.divider });
                             }
                         }
                         else if (this.options) {
                             for (_b = 0, _c = this.options; _b < _c.length; _b++) {
                                 option = _c[_b];
-                                options.push({ value: option, checked: this.isValueSelected(option), label: !this.labelTemplate || !this.searchTest ? this.labelImpl$(option) : undefined });
+                                valueIndex = this.indexOfValue(option);
+                                options.push({ value: option, checked: valueIndex > -1, checkedTimestamp: this.orderable && valueIndex, label: !this.labelTemplate || !this.searchTest ? this.labelImpl$(option) : undefined });
                             }
                         }
                         else if (this.optionsComponents) {
                             for (_d = 0, _e = this.optionsComponents.toArray(); _d < _e.length; _d++) {
                                 option = _e[_d];
-                                options.push({ value: option.value, checked: this.isValueSelected(option.value), label: option.label, divider: !!option.divider });
+                                valueIndex = this.indexOfValue(option.value);
+                                options.push({ value: option.value, checked: valueIndex > -1, checkedTimestamp: this.orderable && valueIndex, label: option.label, divider: !!option.divider });
                             }
                         }
                         if (this.title) {
@@ -310,9 +316,41 @@ var Select = /** @class */ (function () {
             });
         });
     };
+    Select.prototype.initDragula = function () {
+        var _this = this;
+        if (this.orderable && !this.disabled && !this.readonly) {
+            if (this.dragula) {
+                return;
+            }
+            this.dragula = dragula({
+                containers: [this.textContainer.nativeElement],
+                direction: "horizontal",
+                moves: function (el, container, handle) {
+                    return _this.values && _this.values.length > 1;
+                }
+            });
+            this.dragula.on("drop", function (el, target, source, sibling) {
+                var startIndex = parseInt(el.getAttribute("ionx--index"), 0);
+                var endIndex = sibling ? parseInt(sibling.getAttribute("ionx--index"), 0) : _this.values.length;
+                if (endIndex > startIndex) {
+                    endIndex -= 1;
+                }
+                var element = _this.values[startIndex];
+                _this.values.splice(startIndex, 1);
+                _this.values.splice(endIndex, 0, element);
+            });
+        }
+        else if (this.dragula) {
+            this.dragula.destroy();
+            this.dragula = undefined;
+        }
+    };
     Select.prototype.ngOnChanges = function (changes) {
         if (changes.options) {
             this.cachedLabels = undefined;
+        }
+        if (changes["orderable"] || changes["readonly"] || changes["disabled"]) {
+            this.initDragula();
         }
     };
     Select.prototype.ngOnInit = function () {
@@ -321,7 +359,14 @@ var Select = /** @class */ (function () {
             this.listItem.classList.add("item-select", "item-interactive");
             this.element.nativeElement.classList.add("in-item");
         }
+        if (this.orderable) {
+            this.initDragula();
+        }
     };
+    __decorate([
+        ViewChild("textContainer"),
+        __metadata("design:type", ElementRef)
+    ], Select.prototype, "textContainer", void 0);
     __decorate([
         Input(),
         __metadata("design:type", String)
@@ -404,12 +449,17 @@ var Select = /** @class */ (function () {
     ], Select.prototype, "_optionsComponents", null);
     Select = __decorate([
         Component({
-            encapsulation: ViewEncapsulation.None,
             selector: "ionx-select",
             host: {
-                "class": "select interactive"
+                "class": "select interactive",
+                "[attr.ionx--chips-layout]": "!!orderable"
             },
-            template: "\n        <div class=\"select-inner\">\n            <div class=\"select-text\" [class.select-placeholder]=\"values.length == 0\">\n                <span *ngIf=\"values.length == 0; else showValues\">{{placeholder}}</span>\n                <ng-template #showValues>\n                    <ng-template ngFor [ngForOf]=\"values\" let-value let-index=\"index\">\n                        <span *ngIf=\"index > 0 && (!labelTemplate || labelTemplate.separator)\">{{!labelTemplate ? \", \" : labelTemplate.separator}}</span>\n                        <span *ngIf=\"!labelTemplate; else hasLabelTemplate\">{{labelImpl$(value)}}</span>\n                        <ng-template #hasLabelTemplate>\n                            <ng-container *ngTemplateOutlet=\"labelTemplate.templateRef; context: {$implicit: value, index: index}\"></ng-container>\n                        </ng-template>\n                    </ng-template>\n                </ng-template>\n            </div>\n            \n            <ng-container  *ngIf=\"!_readonly && !_disabled\">\n                <div class=\"select-icon\" role=\"presentation\">\n                    <div class=\"select-icon-inner\"></div>\n                </div>\n                <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\"></button>\n            </ng-container>\n            \n        </div>\n    "
+            styles: [
+                ":host ion-chip { max-width: calc(50% - 4px); margin-inline-start: 0px; margin-bottom: 0px; }",
+                ":host ion-chip > span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 1.1; }",
+                ":host[ionx--chips-layout] .select-text { white-space: normal; width: 100%; }",
+            ],
+            template: "\n        \n        <ng-template #optionTemplate let-value=\"value\" let-index=\"index\">\n            <span *ngIf=\"!labelTemplate; else hasLabelTemplate\">{{labelImpl$(value)}}</span>\n            <ng-template #hasLabelTemplate>\n                <ng-container *ngTemplateOutlet=\"labelTemplate.templateRef; context: {$implicit: value, index: index}\"></ng-container>\n            </ng-template>\n        </ng-template>\n        \n        <div class=\"select-inner\">\n            <div class=\"select-text\" #textContainer [class.select-placeholder]=\"values.length == 0\">\n                <span *ngIf=\"values.length == 0; else showValues\">{{placeholder}}</span>\n                <ng-template #showValues>\n                    <ng-template ngFor [ngForOf]=\"values\" let-value let-index=\"index\">\n                        <span *ngIf=\"index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable\">{{!labelTemplate ? \", \" : labelTemplate.separator}}</span>\n                        \n                        <ion-chip *ngIf=\"orderable else simpleText\" [attr.ionx--index]=\"index\">\n                            <ng-template *ngTemplateOutlet=\"optionTemplate; context: {value: value, index: index}\"></ng-template>\n                        </ion-chip>\n                        \n                        <ng-template #simpleText>\n                            <ng-template *ngTemplateOutlet=\"optionTemplate; context: {value: value, index: index}\"></ng-template>\n                        </ng-template>\n                        \n                    </ng-template>\n                </ng-template>\n            </div>\n            \n            <ng-container  *ngIf=\"!_readonly && !_disabled\">\n                <div class=\"select-icon\" role=\"presentation\" *ngIf=\"!orderable\">\n                    <div class=\"select-icon-inner\"></div>\n                </div>\n                <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\" *ngIf=\"!orderable || !values || values.length === 0\"></button>\n            </ng-container>\n            \n        </div>\n    "
         }),
         __param(4, Optional()),
         __metadata("design:paramtypes", [ElementRef, IntlService, PopoverController, ModalController, NgControl])

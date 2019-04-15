@@ -19,7 +19,6 @@
     "@ionic-native/app-version": "^5.0.0-beta.17",
     "@ionic-native/http": "^5.0.0-beta.21",
     "@ionic-native/in-app-browser": "^5.0.0-beta.17",
-    "@ionic/angular": "^4.1.1",
     "trix": "^1.0.0"
   },
   "peerDependencies": {
@@ -34,6 +33,8 @@
     "@angular/platform-browser-dynamic": "^7.1.0",
     "@angular/platform-server": "^7.1.0",
     "@angular/router": "^7.1.0",
+    "@ionic/angular": "^4.1.1",
+    "dragula": "^3.7.2",
     "@ionic-native/core": "^5.0.0-beta.17",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-inappbrowser": "^3.0.0",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@capacitor/core": "^1.0.0-beta.13",
     "@types/cordova": "0.0.34",
+    "@types/dragula": "^2.1.34",
     "typescript": "~3.1.0"
   }
 }

@@ -1,7 +1,8 @@
-import {Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, OnChanges, OnInit, Optional, Output, QueryList, SimpleChanges, ViewEncapsulation} from "@angular/core";
+import {Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, OnChanges, OnInit, Optional, Output, QueryList, SimpleChanges, ViewChild} from "@angular/core";
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
 import {ModalController, PopoverController} from "@ionic/angular";
+import * as dragula from "dragula";
 import {SelectLabel} from "./select-label";
 import {SelectOption} from "./select-option";
 import {SelectOptions} from "./select-options";
@@ -9,31 +10,49 @@ import {SelectOverlayContent} from "./select-overlay";
 import {SelectOverlayOption} from "./select-overlay-option";
 
 @Component({
-    encapsulation: ViewEncapsulation.None,
     selector: "ionx-select",
     host: {
-        "class": "select interactive"
+        "class": "select interactive",
+        "[attr.ionx--chips-layout]": "!!orderable"
     },
+    styles: [
+        `:host ion-chip { max-width: calc(50% - 4px); margin-inline-start: 0px; margin-bottom: 0px; }`,
+         `:host ion-chip > span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 1.1; }`,
+        `:host[ionx--chips-layout] .select-text { white-space: normal; width: 100%; }`,
+    ],
     template: `
+        
+        <ng-template #optionTemplate let-value="value" let-index="index">
+            <span *ngIf="!labelTemplate; else hasLabelTemplate">{{labelImpl$(value)}}</span>
+            <ng-template #hasLabelTemplate>
+                <ng-container *ngTemplateOutlet="labelTemplate.templateRef; context: {$implicit: value, index: index}"></ng-container>
+            </ng-template>
+        </ng-template>
+        
         <div class="select-inner">
-            <div class="select-text" [class.select-placeholder]="values.length == 0">
+            <div class="select-text" #textContainer [class.select-placeholder]="values.length == 0">
                 <span *ngIf="values.length == 0; else showValues">{{placeholder}}</span>
                 <ng-template #showValues>
                     <ng-template ngFor [ngForOf]="values" let-value let-index="index">
-                        <span *ngIf="index > 0 && (!labelTemplate || labelTemplate.separator)">{{!labelTemplate ? ", " : labelTemplate.separator}}</span>
-                        <span *ngIf="!labelTemplate; else hasLabelTemplate">{{labelImpl$(value)}}</span>
-                        <ng-template #hasLabelTemplate>
-                            <ng-container *ngTemplateOutlet="labelTemplate.templateRef; context: {$implicit: value, index: index}"></ng-container>
+                        <span *ngIf="index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable">{{!labelTemplate ? ", " : labelTemplate.separator}}</span>
+                        
+                        <ion-chip *ngIf="orderable else simpleText" [attr.ionx--index]="index">
+                            <ng-template *ngTemplateOutlet="optionTemplate; context: {value: value, index: index}"></ng-template>
+                        </ion-chip>
+                        
+                        <ng-template #simpleText>
+                            <ng-template *ngTemplateOutlet="optionTemplate; context: {value: value, index: index}"></ng-template>
                         </ng-template>
+                        
                     </ng-template>
                 </ng-template>
             </div>
             
             <ng-container  *ngIf="!_readonly && !_disabled">
-                <div class="select-icon" role="presentation">
+                <div class="select-icon" role="presentation" *ngIf="!orderable">
                     <div class="select-icon-inner"></div>
                 </div>
-                <button type="button" role="combobox" aria-haspopup="dialog" class="select-cover" (click)="open($event)"></button>
+                <button type="button" role="combobox" aria-haspopup="dialog" class="select-cover" (click)="open($event)" *ngIf="!orderable || !values || values.length === 0"></button>
             </ng-container>
             
         </div>
@@ -61,6 +80,10 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         return this._listItem = this.element.nativeElement.closest("ion-item");
     }
 
+    private dragula: dragula.Drake;
+
+    @ViewChild("textContainer")
+    private textContainer: ElementRef<HTMLElement>;
 
     @Input()
     public placeholder: string;
@@ -304,15 +327,19 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         //this.optionsComponents.changes.subscribe(() => this.updateText());
     }
 
-    private isValueSelected(value: any) {
+    private indexOfValue(value: any): number {
 
-        for (let v of this.values || []) {
-            if (this.valueComparator(value, v)) {
-                return true;
+        if (!this.values) {
+            return -1;
+        }
+
+        for (let i = 0; i < this.values.length; i++) {
+            if (this.valueComparator(value, this.values[i])) {
+                return i;
             }
         }
 
-        return false;
+        return -1;
     }
 
 
@@ -343,20 +370,22 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
         let options: SelectOverlayOption[] = [];
         if (this.options instanceof SelectOptions) {
-            for (let option of this.options) {
-                options.push({value: option.value, checked: option.value ? this.isValueSelected(option.value) : false, label: option.label ? option.label : ((!this.searchTest || !this.labelTemplate) ? this.labelImpl$(option.value) : undefined), disabled: option.disabled, divider: option.divider});
+            for (const option of this.options) {
+                const valueIndex = option.value ? this.indexOfValue(option.value) : -1;
+                options.push({value: option.value, checked: option.value ? valueIndex > -1 : false, checkedTimestamp: this.orderable && valueIndex, label: option.label ? option.label : ((!this.searchTest || !this.labelTemplate) ? this.labelImpl$(option.value) : undefined), disabled: option.disabled, divider: option.divider});
             }
 
         } else if (this.options) {
-            for (let option of this.options) {
-                options.push({value: option, checked: this.isValueSelected(option), label: !this.labelTemplate || !this.searchTest ? this.labelImpl$(option) : undefined});
+            for (const option of this.options) {
+                const valueIndex = this.indexOfValue(option);
+                options.push({value: option, checked: valueIndex > -1, checkedTimestamp: this.orderable && valueIndex, label: !this.labelTemplate || !this.searchTest ? this.labelImpl$(option) : undefined});
             }
 
         } else if (this.optionsComponents) {
-            for (let option of this.optionsComponents.toArray()) {
-                options.push({value: option.value, checked: this.isValueSelected(option.value), label: option.label, divider: !!option.divider});
+            for (const option of this.optionsComponents.toArray()) {
+                const valueIndex = this.indexOfValue(option.value);
+                options.push({value: option.value, checked: valueIndex > -1, checkedTimestamp: this.orderable && valueIndex, label: option.label, divider: !!option.divider});
             }
-
         }
 
         let overlayTitle: string;
@@ -403,10 +432,52 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     }
 
 
+    private initDragula() {
+
+        if (this.orderable && !this.disabled && !this.readonly) {
+
+            if (this.dragula) {
+                return;
+            }
+
+            this.dragula = dragula({
+                containers: [this.textContainer.nativeElement],
+                direction: "horizontal",
+
+                moves: (el, container, handle) => {
+                    return this.values && this.values.length > 1;
+                }
+            });
+
+            this.dragula.on("drop", (el, target, source, sibling) => {
+
+                const startIndex = parseInt(el.getAttribute("ionx--index"), 0);
+                let endIndex = sibling ? parseInt(sibling.getAttribute("ionx--index"), 0) : this.values.length;
+
+                if (endIndex > startIndex) {
+                    endIndex -= 1;
+                }
+
+                const element = this.values[startIndex];
+                this.values.splice(startIndex, 1);
+                this.values.splice(endIndex, 0, element);
+            });
+
+        } else if (this.dragula) {
+            this.dragula.destroy();
+            this.dragula = undefined;
+        }
+    }
+
+
     ngOnChanges(changes: SimpleChanges) {
 
         if (changes.options) {
             this.cachedLabels = undefined;
+        }
+
+        if (changes["orderable"] || changes["readonly"] || changes["disabled"]) {
+            this.initDragula();
         }
     }
 
@@ -416,6 +487,10 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         if (this.listItem) {
             this.listItem.classList.add("item-select", "item-interactive");
             this.element.nativeElement.classList.add("in-item");
+        }
+
+        if (this.orderable) {
+            this.initDragula();
         }
     }
 

@@ -163,6 +163,7 @@ export class SelectOverlayContent {
 
     optionClicked(option: SelectOverlayOption) {
         this.lastClickedOption = option;
+        option.checkedTimestamp = Date.now();
     }
 
     optionChanged(option: SelectOverlayOption) {
@@ -273,7 +274,10 @@ export class SelectOverlayContent {
             }
         }
 
-        //this.checkedOptions.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
+        if (this.orderable) {
+            this.checkedOptions.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
+        }
+
         this.buildVisibleOptions();
 
         if (this.checkedOptions.length > 0) {

@@ -182,7 +182,7 @@ var DateTimePickerInput = /** @class */ (function () {
         }
     };
     DateTimePickerInput.prototype.clicked = function (ev) {
-        if (ev.detail === 0 || this.disabled) {
+        if (ev.detail === 0 || this.disabled || this.readonly) {
             return;
         }
         ev.preventDefault();
@@ -198,7 +198,7 @@ var DateTimePickerInput = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        if (this.disabled || this.opened) {
+                        if (this.disabled || this.opened || this.readonly) {
                             return [2 /*return*/];
                         }
                         formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
@@ -299,16 +299,32 @@ var DateTimePickerInput = /** @class */ (function () {
         if (changes["displayFormat"]) {
             this.updateText();
         }
+        if (changes["readonly"] || changes["disabled"]) {
+            this.setupCss();
+        }
     };
     DateTimePickerInput.prototype.ngOnInit = function () {
         this.updateText();
+        this.setupCss();
+    };
+    DateTimePickerInput.prototype.setupCss = function () {
         if (this.listItem) {
-            this.listItem.classList.add("item-input", "item-interactive");
+            this.listItem.classList.add("item-input");
+            if (this.readonly || this.disabled$) {
+                this.listItem.classList.remove("item-interactive");
+            }
+            else {
+                this.listItem.classList.add("item-interactive");
+            }
         }
     };
     DateTimePickerInput.prototype.ngAfterContentChecked = function () {
         //this.setItemInputControlCss();
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], DateTimePickerInput.prototype, "readonly", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object),

@@ -82,6 +82,7 @@ var SelectOverlayContent = /** @class */ (function () {
     };
     SelectOverlayContent.prototype.optionClicked = function (option) {
         this.lastClickedOption = option;
+        option.checkedTimestamp = Date.now();
     };
     SelectOverlayContent.prototype.optionChanged = function (option) {
         if (!this.lastClickedOption || option !== this.lastClickedOption) {
@@ -181,7 +182,9 @@ var SelectOverlayContent = /** @class */ (function () {
                                 this.checkedOptions.push(option);
                             }
                         }
-                        //this.checkedOptions.sort((a, b) => a.checkedTimestamp - b.checkedTimestamp);
+                        if (this.orderable) {
+                            this.checkedOptions.sort(function (a, b) { return a.checkedTimestamp - b.checkedTimestamp; });
+                        }
                         this.buildVisibleOptions();
                         if (!(this.checkedOptions.length > 0)) return [3 /*break*/, 2];
                         if (!this.modalOverlay) return [3 /*break*/, 2];

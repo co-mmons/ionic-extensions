@@ -8,6 +8,7 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     private modalController;
     protected control: NgControl;
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, modalController: ModalController, control: NgControl);
+    readonly: boolean;
     private _listItem;
     private readonly listItem;
     private _displayFormat;
@@ -52,5 +53,6 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     nativeInputBlured(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;
+    private setupCss;
     ngAfterContentChecked(): void;
 }
