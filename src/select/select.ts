@@ -468,6 +468,12 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
                 const element = this.values[startIndex];
                 this.values.splice(startIndex, 1);
                 this.values.splice(endIndex, 0, element);
+
+                if (this.controlOnChange && !this.muteOnChange) {
+                    this.controlOnChange(this.values.slice());
+                }
+
+                this.ionChange.emit(this.values.slice());
             });
 
         } else if (this.dragula) {

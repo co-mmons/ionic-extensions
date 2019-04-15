@@ -340,6 +340,10 @@ var Select = /** @class */ (function () {
                 var element = _this.values[startIndex];
                 _this.values.splice(startIndex, 1);
                 _this.values.splice(endIndex, 0, element);
+                if (_this.controlOnChange && !_this.muteOnChange) {
+                    _this.controlOnChange(_this.values.slice());
+                }
+                _this.ionChange.emit(_this.values.slice());
             });
         }
         else if (this.dragula) {
