@@ -127,6 +127,9 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     @Input()
     public orderable: boolean;
 
+    @Input()
+    public empty: boolean = true;
+
 
     _readonly: boolean;
 
@@ -412,6 +415,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
             title: overlayTitle,
             label: this.labelTemplate,
             orderable: !!this.orderable,
+            empty: !!this.empty,
             valueValidator: this.checkValidator,
             valueComparator: this.valueComparator,
             width: this.element.nativeElement.getBoundingClientRect().width,

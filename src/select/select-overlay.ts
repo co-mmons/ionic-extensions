@@ -26,47 +26,26 @@ import {SelectOverlayOption} from "./select-overlay-option";
 
             </ion-toolbar>
             <ion-toolbar>
-                <ion-searchbar #searchbar cancelButtonText="{{'@co.mmons/js-intl#Cancel' | intlMessage}}" placeholder="{{'@co.mmons/js-intl#Search' | intlMessage}}" (ionInput)="search($event)"></ion-searchbar>
+                <ion-searchbar #searchbar cancelButtonText="{{'@co.mmons/js-intl#Cancel' | intlMessage}}" placeholder="{{'@co.mmons/js-intl#Search' | intlMessage}}"
+                               (ionInput)="search($event)"></ion-searchbar>
             </ion-toolbar>
         </ion-header>
         <ion-content [scrollY]="false" [scrollX]="false" #content>
-            
+
             <div class="ionx-select-overlay-spinner" slot="fixed" *ngIf="!checkedOptions">
                 <ion-spinner></ion-spinner>
             </div>
-            
+
             <ng-template [ngIf]="!!visibleOptions">
                 <div>
-                
-                <cdk-virtual-scroll-viewport [itemSize]="itemHeight" [style.height.px]="scrollHeight" *ngIf="modalOverlay">
-    
-                    <ion-list lines="full">
-                                
-                        <ion-item detail="false" [button]="!option.divider" [style.fontWeight]="option.divider ? 500 : null" #listItem *cdkVirtualFor="let option of visibleOptions">
-                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)" slot="start" *ngIf="!option.divider"></ion-checkbox>
-                            <ion-label>
-                                <span *ngIf="!label; else customLabel">{{option.label}}</span>
-                                <ng-template #customLabel>
-                                    <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
-                                </ng-template>
-                            </ion-label>
-                        </ion-item>
-                    </ion-list>
-                    
-                </cdk-virtual-scroll-viewport>
-                
-                <ion-list lines="full" *ngIf="popoverOverlay">
-                
-                    <ng-template ngFor [ngForOf]="visibleOptions" let-option>
-                    
-                        <ion-item-divider *ngIf="option.divider; else basicOption">
-                            <ion-label>{{option.label}}</ion-label>
-                        </ion-item-divider>
-                        
-                        <ng-template #basicOption>
-                        
-                            <ion-item detail="false" button="true" #listItem>
-                                <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionClicked(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
+
+                    <cdk-virtual-scroll-viewport [itemSize]="itemHeight" [style.height.px]="scrollHeight" *ngIf="modalOverlay">
+
+                        <ion-list lines="full">
+
+                            <ion-item detail="false" [button]="!option.divider" [style.fontWeight]="option.divider ? 500 : null" #listItem *cdkVirtualFor="let option of visibleOptions">
+                                <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionBeforeChange(option)" (ionChange)="optionChanged(option)" (click)="optionClicked(option, $event)" slot="start"
+                                              *ngIf="!option.divider"></ion-checkbox>
                                 <ion-label>
                                     <span *ngIf="!label; else customLabel">{{option.label}}</span>
                                     <ng-template #customLabel>
@@ -74,11 +53,34 @@ import {SelectOverlayOption} from "./select-overlay-option";
                                     </ng-template>
                                 </ion-label>
                             </ion-item>
-                            
+                        </ion-list>
+
+                    </cdk-virtual-scroll-viewport>
+
+                    <ion-list lines="full" *ngIf="popoverOverlay">
+
+                        <ng-template ngFor [ngForOf]="visibleOptions" let-option>
+
+                            <ion-item-divider *ngIf="option.divider; else basicOption">
+                                <ion-label>{{option.label}}</ion-label>
+                            </ion-item-divider>
+
+                            <ng-template #basicOption>
+
+                                <ion-item detail="false" button="true" #listItem>
+                                    <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionBeforeChange(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
+                                    <ion-label>
+                                        <span *ngIf="!label; else customLabel">{{option.label}}</span>
+                                        <ng-template #customLabel>
+                                            <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
+                                        </ng-template>
+                                    </ion-label>
+                                </ion-item>
+
+                            </ng-template>
+
                         </ng-template>
-                    
-                    </ng-template>
-                </ion-list>
+                    </ion-list>
                 </div>
             </ng-template>
 
@@ -147,6 +149,9 @@ export class SelectOverlayContent {
     @Input()
     options: SelectOverlayOption[];
 
+    @Input()
+    empty: boolean;
+
     visibleOptions: SelectOverlayOption[];
 
     checkedOptions: SelectOverlayOption[];
@@ -161,7 +166,17 @@ export class SelectOverlayContent {
         }
     }
 
-    optionClicked(option: SelectOverlayOption) {
+    optionClicked(option: SelectOverlayOption, ev: Event) {
+
+        if (option.checked && !this.empty) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            ev.stopImmediatePropagation();
+        }
+
+    }
+
+    optionBeforeChange(option: SelectOverlayOption) {
         this.lastClickedOption = option;
         option.checkedTimestamp = Date.now();
     }

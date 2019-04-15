@@ -27,11 +27,13 @@ export declare class SelectOverlayContent {
     valueComparator: (a: any, b: any) => boolean;
     label: SelectLabel;
     options: SelectOverlayOption[];
+    empty: boolean;
     visibleOptions: SelectOverlayOption[];
     checkedOptions: SelectOverlayOption[];
     private lastClickedOption;
     optionDivider(option: SelectOverlayOption, index: number, options: SelectOverlayOption[]): SelectOverlayOption;
-    optionClicked(option: SelectOverlayOption): void;
+    optionClicked(option: SelectOverlayOption, ev: Event): void;
+    optionBeforeChange(option: SelectOverlayOption): void;
     optionChanged(option: SelectOverlayOption): void;
     private buildVisibleOptions;
     private initOptions;
