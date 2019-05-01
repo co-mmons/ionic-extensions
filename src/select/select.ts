@@ -187,7 +187,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
         let changed = false;
 
-        let newValue = Array.isArray(value) ? value : (value ? [value] : []);
+        let newValue = Array.isArray(value) ? value : (value !== undefined && value !== null ? [value] : []);
 
         if (newValue.length != this.values.length) {
             changed = true;

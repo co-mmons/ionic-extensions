@@ -129,7 +129,7 @@ var Select = /** @class */ (function () {
         },
         set: function (value) {
             var changed = false;
-            var newValue = Array.isArray(value) ? value : (value ? [value] : []);
+            var newValue = Array.isArray(value) ? value : (value !== undefined && value !== null ? [value] : []);
             if (newValue.length != this.values.length) {
                 changed = true;
             }
