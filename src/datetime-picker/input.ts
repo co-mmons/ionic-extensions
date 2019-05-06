@@ -24,6 +24,8 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         }
     }
 
+    private muteControlOnChange: boolean;
+
     @Input()
     readonly: boolean;
 
@@ -136,7 +138,13 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
             this.ionChange.emit(this.value);
             this.updateText();
             this.checkListItemHasValue();
+
+            if (this.controlOnChange && !this.muteControlOnChange) {
+                this.controlOnChange(this.value);
+            }
         }
+
+        this.muteControlOnChange = false;
     }
 
     public get value(): Date | number {
@@ -150,6 +158,14 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         }
 
         return new Date(this.dateValue);
+    }
+
+    public clearValue() {
+        this.value = undefined;
+
+        if (this.controlOnTouched) {
+            this.controlOnTouched();
+        }
     }
 
     public hasValue(): boolean {
@@ -249,10 +265,6 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
             }
 
             this.value = value;
-
-            if (this.controlOnChange) {
-                this.controlOnChange(this.value);
-            }
         }
 
         if (this.controlOnTouched) {
@@ -267,6 +279,9 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
 
     public writeValue(value: any): void {
+
+        this.muteControlOnChange = true;
+
         if (value instanceof Date) {
             this.value = value;
         } else if (typeof value == "number") {

@@ -154,11 +154,21 @@ var DateTimePickerInput = /** @class */ (function () {
                 this.ionChange.emit(this.value);
                 this.updateText();
                 this.checkListItemHasValue();
+                if (this.controlOnChange && !this.muteControlOnChange) {
+                    this.controlOnChange(this.value);
+                }
             }
+            this.muteControlOnChange = false;
         },
         enumerable: true,
         configurable: true
     });
+    DateTimePickerInput.prototype.clearValue = function () {
+        this.value = undefined;
+        if (this.controlOnTouched) {
+            this.controlOnTouched();
+        }
+    };
     DateTimePickerInput.prototype.hasValue = function () {
         return !!this.dateValue;
     };
@@ -248,9 +258,6 @@ var DateTimePickerInput = /** @class */ (function () {
                 value = new Date(newValue.getUTCFullYear(), newValue.getUTCMonth(), newValue.getUTCDate(), newValue.getUTCHours(), newValue.getUTCMinutes(), newValue.getUTCSeconds(), 0);
             }
             this.value = value;
-            if (this.controlOnChange) {
-                this.controlOnChange(this.value);
-            }
         }
         if (this.controlOnTouched) {
             this.controlOnTouched();
@@ -261,6 +268,7 @@ var DateTimePickerInput = /** @class */ (function () {
         }
     };
     DateTimePickerInput.prototype.writeValue = function (value) {
+        this.muteControlOnChange = true;
         if (value instanceof Date) {
             this.value = value;
         }

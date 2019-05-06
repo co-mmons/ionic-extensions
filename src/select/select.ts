@@ -397,14 +397,26 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         let overlayTitle: string;
         if (this.title) {
             overlayTitle = this.title;
-        } else if (this.listItem) {
-            let label = this.listItem.querySelector("ion-label");
-            if (label) {
-                overlayTitle = label.innerText;
+        }
+
+        if (!overlayTitle && this.listItem) {
+
+            const title = this.listItem.querySelector("[ionx-select-overlay-title]") as HTMLElement;
+            if (title) {
+                overlayTitle = title.innerText;
+            } else {
+                const label = this.listItem.querySelector("ion-label");
+                if (label) {
+                    overlayTitle = label.innerText;
+                }
             }
-        } else if (this.element.nativeElement.title) {
+        }
+
+        if (!overlayTitle && this.element.nativeElement.title) {
             overlayTitle = this.element.nativeElement.title;
-        } else if (this.placeholder) {
+        }
+
+        if (!overlayTitle && this.placeholder) {
             overlayTitle = this.placeholder;
         }
 

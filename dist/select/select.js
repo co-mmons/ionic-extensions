@@ -238,7 +238,7 @@ var Select = /** @class */ (function () {
     };
     Select.prototype.open = function (event) {
         return __awaiter(this, void 0, void 0, function () {
-            var overlay, options, _i, _a, option, valueIndex, _b, _c, option, valueIndex, _d, _e, option, valueIndex, overlayTitle, label, overlayData, popover, modal;
+            var overlay, options, _i, _a, option, valueIndex, _b, _c, option, valueIndex, _d, _e, option, valueIndex, overlayTitle, title, label, overlayData, popover, modal;
             var _this = this;
             return __generator(this, function (_f) {
                 switch (_f.label) {
@@ -272,16 +272,22 @@ var Select = /** @class */ (function () {
                         if (this.title) {
                             overlayTitle = this.title;
                         }
-                        else if (this.listItem) {
-                            label = this.listItem.querySelector("ion-label");
-                            if (label) {
-                                overlayTitle = label.innerText;
+                        if (!overlayTitle && this.listItem) {
+                            title = this.listItem.querySelector("[ionx-select-overlay-title]");
+                            if (title) {
+                                overlayTitle = title.innerText;
+                            }
+                            else {
+                                label = this.listItem.querySelector("ion-label");
+                                if (label) {
+                                    overlayTitle = label.innerText;
+                                }
                             }
                         }
-                        else if (this.element.nativeElement.title) {
+                        if (!overlayTitle && this.element.nativeElement.title) {
                             overlayTitle = this.element.nativeElement.title;
                         }
-                        else if (this.placeholder) {
+                        if (!overlayTitle && this.placeholder) {
                             overlayTitle = this.placeholder;
                         }
                         overlayData = {
