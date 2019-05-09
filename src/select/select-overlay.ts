@@ -85,6 +85,18 @@ import {SelectOverlayOption} from "./select-overlay-option";
             </ng-template>
 
         </ion-content>
+        
+        <ion-footer *ngIf="multiple && popoverOverlay" style="position: sticky; bottom: 0px">
+            <ion-toolbar>
+                <ion-buttons slot="end">
+                    
+                    <ion-button size="small" (click)="cancelClicked()">{{"@co.mmons/js-intl#Cancel" | intlMessage}}</ion-button>
+                    
+                    <ion-button size="small" (click)="okClicked()">{{"@co.mmons/js-intl#Ok" | intlMessage}}</ion-button>
+                    
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-footer>
     `,
     styles: [
         `:host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }`,
