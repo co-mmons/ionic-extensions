@@ -1,4 +1,5 @@
-import {Directive, Input, ContentChildren, QueryList, ElementRef, Renderer, Optional, Inject, forwardRef} from "@angular/core";
+import {ContentChildren, Directive, ElementRef, forwardRef, Inject, Input, Optional, QueryList, Renderer} from "@angular/core";
+import {sleep} from "@co.mmons/js-utils/core";
 import {LazyLoad} from "./lazy-load";
 import {LazyLoadOptions} from "./lazy-load-options";
 
@@ -58,7 +59,7 @@ export class LazyImage {
 }
 
 @Directive({
-	selector: "ion-content[ionx-lazy-image], ion-scroll[ionx-lazy-image], [ionx-lazy-image-container]"
+	selector: "ion-content[ionx-lazy-image], [ionx-lazy-image-container]"
 })
 export class LazyImageContainer {
 
@@ -68,22 +69,26 @@ export class LazyImageContainer {
 	private lazyLoad: LazyLoad;
 
 	revalidate() {
-		this.lazyLoad.update();
 
-		let rect = this.element.nativeElement.getBoundingClientRect();
-		if (rect.width == 0 || rect.height == 0) {
-			//setTimeout(() => this.revalidate(), 200);
+		if (this.lazyLoad) {
+
+			this.lazyLoad.update();
+
+			let rect = this.element.nativeElement.getBoundingClientRect();
+			if (rect.width == 0 || rect.height == 0) {
+				//setTimeout(() => this.revalidate(), 200);
+			}
+			//console.log(this.children);
+
+			//window.dispatchEvent(new Event("resize"));
 		}
-		//console.log(this.children);
-
-		//window.dispatchEvent(new Event("resize"));   
 	}
 
 	@ContentChildren(LazyImage, {descendants: true})
 	children: QueryList<LazyImage>;
 
 	ngOnInit() {
-		this.lazyLoad = this.newLazyLoad();
+		this.initLazyLoad();
 	}
 
 	ngAfterContentInit() {
@@ -99,14 +104,26 @@ export class LazyImageContainer {
 		}
 	}
 
-	private newLazyLoad(): LazyLoad {
+	private async initLazyLoad() {
 
 		let options: LazyLoadOptions = {};
 		options.selector = ".ionx-lazy-image";
 		options.container = this.element.nativeElement;
-		options.scroll = this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".inner-scroll");
 
-		return new LazyLoad(options);
+		if (this.element.nativeElement.tagName.toLowerCase() === "ion-content") {
+
+			for (let i = 0; i < 40; i++) {
+				options.scroll = this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".inner-scroll");
+
+				if (!options.scroll) {
+					await sleep(50);
+				} else {
+					break;
+				}
+			}
+		}
+
+		this.lazyLoad = new LazyLoad(options);
 	}
 
 }

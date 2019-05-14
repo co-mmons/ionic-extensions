@@ -1,4 +1,4 @@
-import { QueryList, ElementRef, Renderer } from "@angular/core";
+import { ElementRef, QueryList, Renderer } from "@angular/core";
 export declare class LazyImage {
     element: ElementRef;
     private renderer;
@@ -22,5 +22,5 @@ export declare class LazyImageContainer {
     ngOnInit(): void;
     ngAfterContentInit(): void;
     ngOnDestroy(): void;
-    private newLazyLoad;
+    private initLazyLoad;
 }
