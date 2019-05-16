@@ -11,7 +11,7 @@ var FormItem = /** @class */ (function () {
     FormItem = __decorate([
         Component({
             selector: "ionx-form-item",
-            template: "<ng-content selector=\"ion-item\"></ng-content><ng-content selector=\"ionx-form-item-error\"></ng-content><ng-content selector=\"ionx-form-item-hint\"></ng-content><ng-content></ng-content>"
+            template: "<ng-content select=\"ion-item\"></ng-content><ng-content select=\"ionx-form-item-error\"></ng-content><ng-content select=\"ionx-form-item-hint\"></ng-content><ng-content></ng-content>"
         })
     ], FormItem);
     return FormItem;
