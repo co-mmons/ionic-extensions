@@ -1,6 +1,7 @@
 import { ChangeDetectorRef } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController } from "@ionic/angular";
+import { SelectOptions } from "../select";
 export declare class DateTimePickerOverlay {
     private viewController;
     private intl;
@@ -9,6 +10,9 @@ export declare class DateTimePickerOverlay {
     private value;
     private formatOptions;
     title: string;
+    private timezone;
+    timezoneDisabled: boolean;
+    timezones: SelectOptions<String>;
     dateHeader: string;
     dateView: "days" | "months" | "years";
     dateViews: {
@@ -37,5 +41,6 @@ export declare class DateTimePickerOverlay {
     todayClicked(): void;
     cancelClicked(): void;
     doneClicked(): void;
+    loadTimezones(): Promise<void>;
     ngOnInit(): void;
 }

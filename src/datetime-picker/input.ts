@@ -1,23 +1,63 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation} from "@angular/core";
+import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild} from "@angular/core";
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
+import {DateTimezone} from "@co.mmons/js-utils/core";
 import {ModalController} from "@ionic/angular";
 import {defaultDateTimeFormat} from "./default-formats";
 import {DateTimePickerOverlay} from "./overlay";
 
+type Value = Date | DateTimezone | number;
+
 @Component({
     selector: "ionx-datetime",
     template: `
-        <input type="text" #nativeInput class="native-input" readonly [attr.disabled]="disabled || null" (focus)="nativeInputFocused()" (blur)="nativeInputBlured()" [attr.placeholder]="placeholder || null" [attr.value]="text || null"/>
+        <input #nativeInput
+               type="text" 
+               class="native-input" 
+               readonly [attr.disabled]="disabled || null"
+               [attr.placeholder]="placeholder || null"
+               [attr.value]="text || null"
+               (focus)="nativeInputFocused()" 
+               (blur)="nativeInputBlured()"/>
     `,
-    host: {
-        "[class.datetime-disabled]": "disabled"
-    },
-    encapsulation: ViewEncapsulation.None
+    styles: [
+        `
+            :host {
+                position: relative;
+                display: block;
+                flex: 1;
+                width: 100%;
+                --padding-end: 16px;
+                --padding-start: 16px;
+                --padding-top: 10px;
+                --padding-bottom: 10px;
+            }
+            
+            :host-context(.md) {
+                --padding-bottom: 11px;
+            }
+            
+            :host-context(.item-label-stacked) {
+                --padding-end: 0px;
+                --padding-start: 0px;
+                --padding-top: 9px;
+                --padding-bottom: 9px;
+            }
+        `
+    ]
 })
 export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
-    constructor(private element: ElementRef<HTMLElement>, private intl: IntlService, private modalController: ModalController, protected control: NgControl) {
+    private static currentTimezone() {
+        return new Intl.DateTimeFormat().resolvedOptions().timeZone;
+    }
+
+    constructor(
+        private element: ElementRef<HTMLElement>,
+        private intl: IntlService,
+        private modalController: ModalController,
+        protected control: NgControl
+    ) {
 
         if (control) {
             control.valueAccessor = this;
@@ -26,10 +66,69 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
     private muteControlOnChange: boolean;
 
+    private _listItem: HTMLIonItemElement;
+
+    private _displayFormat: Intl.DateTimeFormatOptions;
+
+    private _pickerFormat: Intl.DateTimeFormatOptions;
+
+    @ViewChild("nativeInput", {read: ElementRef})
+    private nativeInput: ElementRef<HTMLElement>;
+
+    private _text: string;
+
+    @HostBinding("class.datetime-disabled")
+    private _disabled: boolean;
+
+    private _value: DateTimezone;
+
+    private opened: boolean;
+
+    private controlOnChange: Function;
+
+    private controlOnTouched: Function;
+
+
     @Input()
     readonly: boolean;
 
-    private _listItem: HTMLIonItemElement;
+    @Input() 
+    overlayTitle: string;
+
+    @Input()
+    placeholder: string;
+
+    @Output()
+    readonly ionChange: EventEmitter<Value> = new EventEmitter();
+
+    /**
+     * Whether timezone cannot be changed.
+     */
+    @Input()
+    timezoneDisabled: boolean;
+
+    /**
+     * Timezone, that will be set, when new value is picked from picker.
+     */
+    @Input()
+    defaultTimezone: string;
+
+
+    get text() {
+        return this._text;
+    }
+
+    /**
+     * Whether or not the datetime-picker component is disabled.
+     */
+    @Input()
+    get disabled() {
+        return this._disabled;
+    }
+
+    set disabled(disabled: boolean | string) {
+        this._disabled = disabled || disabled == "true" ? true : false;
+    }
 
     private get listItem() {
 
@@ -40,8 +139,6 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         return this._listItem = this.element.nativeElement.closest("ion-item");
     }
 
-    private _displayFormat: Intl.DateTimeFormatOptions;
-
     /**
      * The display format of the date and time as text that shows
      * within the item. When the `pickerFormat` input is not used, then the
@@ -49,26 +146,22 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
      * the datetime-picker picker's columns.
      */
     @Input()
-    //@ts-ignore
-    public set displayFormat(format: Intl.DateTimeFormatOptions | string) {
+    set displayFormat(format: Intl.DateTimeFormatOptions) {
 
-        if (typeof format == "string") {
+        if (typeof format === "string") {
             this._displayFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
         } else {
             this._displayFormat = format;
         }
     }
 
-    //@ts-ignore
-    public get displayFormat(): Intl.DateTimeFormatOptions {
+    get displayFormat(): Intl.DateTimeFormatOptions {
         return this._displayFormat;
     }
 
-    private _pickerFormat: Intl.DateTimeFormatOptions;
+    @Input()
+    set pickerFormat(format: Intl.DateTimeFormatOptions) {
 
-    @Input() 
-    //@ts-ignore
-    public set pickerFormat(format: Intl.DateTimeFormatOptions | string) {
         if (typeof format == "string") {
             this._pickerFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
         } else {
@@ -76,63 +169,34 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         }
     }
 
-    //@ts-ignore
-    public get pickerFormat(): Intl.DateTimeFormatOptions {
+    get pickerFormat(): Intl.DateTimeFormatOptions {
         return this._pickerFormat;
     }
 
-    @Input() 
-    public overlayTitle: string;
-
     @Input()
-    public placeholder: string;
-
-    @Output()
-    public ionChange: EventEmitter<Date | number> = new EventEmitter();
-
-    @ViewChild("nativeInput", {read: ElementRef})
-    private nativeInput: ElementRef<HTMLElement>;
-
-    private text$: string;
-
-    get text() {
-        return this.text$;
-    }
-
-    disabled$: boolean;
-
-    /**
-     * Whether or not the datetime-picker component is disabled. Default `false`.
-     */
-    @Input()
-    public get disabled() {
-        return this.disabled$;
-    }
-
-    public set disabled(disabled: boolean | string) {
-        this.disabled$ = disabled || disabled == "true" ? true : false;
-    }
-
-    @Input()
-    public valueType: "Date" | "number" = "Date";
-
-
-    private dateValue: Date;
-
-    @Input()
-    public set value(value: number | Date) {
+    set value(value: Value) {
 
         let changed = false;
 
-        if ((value === undefined || value === null) != (this.dateValue === undefined)) {
+        if ((value === undefined || value === null) != (this._value === undefined)) {
             changed = true;
-        } else if (typeof value === "number" && value != this.dateValue.getTime()) {
+        } else if (typeof value === "number" && (this._value === undefined || value !== this._value.date.getTime())) {
             changed = true;
-        } else if (value instanceof Date && value.getTime() != this.dateValue.getTime()) {
+        } else if (value instanceof Date && (this._value === undefined || value.getTime() !== this._value.date.getTime())) {
+            changed = true;
+        } else if (value instanceof DateTimezone && (this._value === undefined || value.date.getTime() !== this._value.date.getTime() || value.timezone !== this._value.timezone)) {
             changed = true;
         }
 
-        this.dateValue = typeof value == "number" ? new Date(value) : value;
+        if (typeof value === "number") {
+            this._value = new DateTimezone(value);
+        } else if (value instanceof Date) {
+            this._value = new DateTimezone(value.getTime());
+        } else if (value instanceof DateTimezone) {
+            this._value = new DateTimezone(new Date(value.date.getTime()), value.timezone === "current" ? DateTimePickerInput.currentTimezone() : value.timezone);
+        } else {
+            this._value = undefined;
+        }
 
         if (changed) {
             this.ionChange.emit(this.value);
@@ -147,20 +211,16 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         this.muteControlOnChange = false;
     }
 
-    public get value(): Date | number {
+    get value(): Value {
 
-        if (!this.dateValue) {
+        if (!this._value) {
             return undefined;
         }
 
-        if (this.valueType && this.valueType == "number") {
-            return this.dateValue.getTime();
-        }
-
-        return new Date(this.dateValue);
+        return new DateTimezone(new Date(this._value.date.getTime()), this._value.timezone);
     }
 
-    public clearValue() {
+    clearValue() {
         this.value = undefined;
 
         if (this.controlOnTouched) {
@@ -168,8 +228,8 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         }
     }
 
-    public hasValue(): boolean {
-        return !!this.dateValue;
+    hasValue(): boolean {
+        return !!this._value;
     }
 
     private checkListItemHasValue() {
@@ -183,11 +243,27 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     }
 
     private updateText() {
+
         if (this.hasValue()) {
-            let options = this.displayFormat || defaultDateTimeFormat;
-            this.text$ = this.intl.dateTimeFormat(this.dateValue, options);
+            const options = Object.assign({}, this.displayFormat || defaultDateTimeFormat);
+
+            if (!options.timeZone && this._value.timezone) {
+                options.timeZone = this._value.timezone;
+
+                if (!options.timeZoneName) {
+                    options.timeZoneName = "short";
+                }
+            }
+
+            if (!this._value.timezone) {
+                options.timeZone = undefined;
+                options.timeZoneName = undefined;
+            }
+
+            this._text = this.intl.dateTimeFormat(this._value, options);
+
         } else {
-            this.text$ = null;
+            this._text = null;
         }
     }
 
@@ -210,25 +286,19 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         this.open(undefined);
     }
 
-    private opened: boolean;
-
     private async open(event?: Event) {
 
         if (this.disabled || this.opened || this.readonly ) {
             return;
         }
 
-        let formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
+        const formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
 
-        let value: Date; {
-
-            if (formatOptions.timeZone == "UTC") {
-                let v = this.dateValue ? this.dateValue : new Date();
-                value = new Date(Date.UTC(v.getUTCFullYear(), v.getUTCMonth(), v.getUTCDate(), v.getUTCHours(), v.getUTCMinutes(), 0, 0));
-
+        let value: Date = this._value && this._value.date ? this._value.date : new Date(); {
+            if (!this._value || !this._value.timezone || this._value.timezone === "UTC") {
+                value = new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate(), value.getUTCHours(), value.getUTCMinutes(), 0, 0));
             } else {
-                let v = this.dateValue ? this.dateValue : new Date();
-                value = new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), 0, 0));
+                value = new Date(value.getTime() + (DateTimezone.timezoneOffset(this._value.timezone, value) * 60 * 1000 * -1));
             }
         }
 
@@ -240,9 +310,9 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
             }
         }
 
-        let overlay = await this.modalController.create({
+        const overlay = await this.modalController.create({
             component: DateTimePickerOverlay,
-            componentProps: {formatOptions: formatOptions, value: value, title: overlayTitle}, 
+            componentProps: {formatOptions: formatOptions, value: value, timezone: this._value ? this._value.timezone : (this._value === undefined ? this.defaultTimezone : undefined), title: overlayTitle},
             backdropDismiss: true, 
             showBackdrop: true
         });
@@ -252,19 +322,9 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         this.overlayClosed((await overlay.onDidDismiss()).data);
     }
 
-    private overlayClosed(newValue: Date) {
+    private overlayClosed(newValue: DateTimezone) {
         if (newValue) {
-
-            let formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
-
-            let value: Date;
-            if (formatOptions.timeZone && formatOptions.timeZone.toUpperCase() == "UTC") {
-                value = new Date(newValue.getTime());
-            } else {
-                value = new Date(newValue.getUTCFullYear(), newValue.getUTCMonth(), newValue.getUTCDate(), newValue.getUTCHours(), newValue.getUTCMinutes(), newValue.getUTCSeconds(), 0);
-            }
-
-            this.value = value;
+            this.value = newValue;
         }
 
         if (this.controlOnTouched) {
@@ -282,22 +342,16 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
         this.muteControlOnChange = true;
 
-        if (value instanceof Date) {
-            this.value = value;
-        } else if (typeof value == "number") {
+        if (value instanceof Date || value instanceof DateTimezone || typeof value === "number") {
             this.value = value;
         } else {
             this.value = undefined;
         }
     }
 
-    private controlOnChange: Function;
-
     public registerOnChange(fn: Function): void {
         this.controlOnChange = fn;
     }
-
-    private controlOnTouched: Function;
 
     public registerOnTouched(fn: Function): void {
         this.controlOnTouched = fn;
@@ -347,7 +401,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         if (this.listItem) {
             this.listItem.classList.add("item-input");
 
-            if (this.readonly || this.disabled$) {
+            if (this.readonly || this._disabled) {
                 this.listItem.classList.remove("item-interactive");
             } else {
                 this.listItem.classList.add("item-interactive");

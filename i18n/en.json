@@ -1,7 +1,2 @@
 {
-    "AppUpdater/newVersionAvailableMessage/ios": "There is a new version of this application. To update, please visit <b>App Store</b>.",
-    "AppUpdater/newVersionAvailableMessage/android": "There is a new version of this application. To update, please visit <b>Google Play</b>.",
-    "AppUpdater/notNow": "Not now",
-    "AppUpdater/update": "Update",
-    "AppUpdater/applicationUpdate": "Application update"
 }

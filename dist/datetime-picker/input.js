@@ -42,9 +42,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, ViewChild } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
+import { DateTimezone } from "@co.mmons/js-utils/core";
 import { ModalController } from "@ionic/angular";
 import { defaultDateTimeFormat } from "./default-formats";
 import { DateTimePickerOverlay } from "./overlay";
@@ -55,11 +56,34 @@ var DateTimePickerInput = /** @class */ (function () {
         this.modalController = modalController;
         this.control = control;
         this.ionChange = new EventEmitter();
-        this.valueType = "Date";
         if (control) {
             control.valueAccessor = this;
         }
     }
+    DateTimePickerInput_1 = DateTimePickerInput;
+    DateTimePickerInput.currentTimezone = function () {
+        return new Intl.DateTimeFormat().resolvedOptions().timeZone;
+    };
+    Object.defineProperty(DateTimePickerInput.prototype, "text", {
+        get: function () {
+            return this._text;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateTimePickerInput.prototype, "disabled", {
+        /**
+         * Whether or not the datetime-picker component is disabled.
+         */
+        get: function () {
+            return this._disabled;
+        },
+        set: function (disabled) {
+            this._disabled = disabled || disabled == "true" ? true : false;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DateTimePickerInput.prototype, "listItem", {
         get: function () {
             if (this._listItem) {
@@ -71,7 +95,6 @@ var DateTimePickerInput = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(DateTimePickerInput.prototype, "displayFormat", {
-        //@ts-ignore
         get: function () {
             return this._displayFormat;
         },
@@ -82,7 +105,7 @@ var DateTimePickerInput = /** @class */ (function () {
          * the datetime-picker picker's columns.
          */
         set: function (format) {
-            if (typeof format == "string") {
+            if (typeof format === "string") {
                 this._displayFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
             }
             else {
@@ -93,7 +116,6 @@ var DateTimePickerInput = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(DateTimePickerInput.prototype, "pickerFormat", {
-        //@ts-ignore
         get: function () {
             return this._pickerFormat;
         },
@@ -108,48 +130,39 @@ var DateTimePickerInput = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(DateTimePickerInput.prototype, "text", {
-        get: function () {
-            return this.text$;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DateTimePickerInput.prototype, "disabled", {
-        /**
-         * Whether or not the datetime-picker component is disabled. Default `false`.
-         */
-        get: function () {
-            return this.disabled$;
-        },
-        set: function (disabled) {
-            this.disabled$ = disabled || disabled == "true" ? true : false;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(DateTimePickerInput.prototype, "value", {
         get: function () {
-            if (!this.dateValue) {
+            if (!this._value) {
                 return undefined;
             }
-            if (this.valueType && this.valueType == "number") {
-                return this.dateValue.getTime();
-            }
-            return new Date(this.dateValue);
+            return new DateTimezone(new Date(this._value.date.getTime()), this._value.timezone);
         },
         set: function (value) {
             var changed = false;
-            if ((value === undefined || value === null) != (this.dateValue === undefined)) {
+            if ((value === undefined || value === null) != (this._value === undefined)) {
                 changed = true;
             }
-            else if (typeof value === "number" && value != this.dateValue.getTime()) {
+            else if (typeof value === "number" && (this._value === undefined || value !== this._value.date.getTime())) {
                 changed = true;
             }
-            else if (value instanceof Date && value.getTime() != this.dateValue.getTime()) {
+            else if (value instanceof Date && (this._value === undefined || value.getTime() !== this._value.date.getTime())) {
                 changed = true;
             }
-            this.dateValue = typeof value == "number" ? new Date(value) : value;
+            else if (value instanceof DateTimezone && (this._value === undefined || value.date.getTime() !== this._value.date.getTime() || value.timezone !== this._value.timezone)) {
+                changed = true;
+            }
+            if (typeof value === "number") {
+                this._value = new DateTimezone(value);
+            }
+            else if (value instanceof Date) {
+                this._value = new DateTimezone(value.getTime());
+            }
+            else if (value instanceof DateTimezone) {
+                this._value = new DateTimezone(new Date(value.date.getTime()), value.timezone === "current" ? DateTimePickerInput_1.currentTimezone() : value.timezone);
+            }
+            else {
+                this._value = undefined;
+            }
             if (changed) {
                 this.ionChange.emit(this.value);
                 this.updateText();
@@ -170,7 +183,7 @@ var DateTimePickerInput = /** @class */ (function () {
         }
     };
     DateTimePickerInput.prototype.hasValue = function () {
-        return !!this.dateValue;
+        return !!this._value;
     };
     DateTimePickerInput.prototype.checkListItemHasValue = function () {
         if (this.listItem) {
@@ -184,11 +197,21 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     DateTimePickerInput.prototype.updateText = function () {
         if (this.hasValue()) {
-            var options = this.displayFormat || defaultDateTimeFormat;
-            this.text$ = this.intl.dateTimeFormat(this.dateValue, options);
+            var options = Object.assign({}, this.displayFormat || defaultDateTimeFormat);
+            if (!options.timeZone && this._value.timezone) {
+                options.timeZone = this._value.timezone;
+                if (!options.timeZoneName) {
+                    options.timeZoneName = "short";
+                }
+            }
+            if (!this._value.timezone) {
+                options.timeZone = undefined;
+                options.timeZoneName = undefined;
+            }
+            this._text = this.intl.dateTimeFormat(this._value, options);
         }
         else {
-            this.text$ = null;
+            this._text = null;
         }
     };
     DateTimePickerInput.prototype.clicked = function (ev) {
@@ -204,7 +227,7 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     DateTimePickerInput.prototype.open = function (event) {
         return __awaiter(this, void 0, void 0, function () {
-            var formatOptions, value, v, v, overlayTitle, label, overlay, _a;
+            var formatOptions, value, overlayTitle, label, overlay, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -212,14 +235,13 @@ var DateTimePickerInput = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
+                        value = this._value && this._value.date ? this._value.date : new Date();
                         {
-                            if (formatOptions.timeZone == "UTC") {
-                                v = this.dateValue ? this.dateValue : new Date();
-                                value = new Date(Date.UTC(v.getUTCFullYear(), v.getUTCMonth(), v.getUTCDate(), v.getUTCHours(), v.getUTCMinutes(), 0, 0));
+                            if (!this._value || !this._value.timezone || this._value.timezone === "UTC") {
+                                value = new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate(), value.getUTCHours(), value.getUTCMinutes(), 0, 0));
                             }
                             else {
-                                v = this.dateValue ? this.dateValue : new Date();
-                                value = new Date(Date.UTC(v.getFullYear(), v.getMonth(), v.getDate(), v.getHours(), v.getMinutes(), 0, 0));
+                                value = new Date(value.getTime() + (DateTimezone.timezoneOffset(this._value.timezone, value) * 60 * 1000 * -1));
                             }
                         }
                         overlayTitle = this.overlayTitle;
@@ -231,7 +253,7 @@ var DateTimePickerInput = /** @class */ (function () {
                         }
                         return [4 /*yield*/, this.modalController.create({
                                 component: DateTimePickerOverlay,
-                                componentProps: { formatOptions: formatOptions, value: value, title: overlayTitle },
+                                componentProps: { formatOptions: formatOptions, value: value, timezone: this._value ? this._value.timezone : (this._value === undefined ? this.defaultTimezone : undefined), title: overlayTitle },
                                 backdropDismiss: true,
                                 showBackdrop: true
                             })];
@@ -249,15 +271,7 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     DateTimePickerInput.prototype.overlayClosed = function (newValue) {
         if (newValue) {
-            var formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
-            var value = void 0;
-            if (formatOptions.timeZone && formatOptions.timeZone.toUpperCase() == "UTC") {
-                value = new Date(newValue.getTime());
-            }
-            else {
-                value = new Date(newValue.getUTCFullYear(), newValue.getUTCMonth(), newValue.getUTCDate(), newValue.getUTCHours(), newValue.getUTCMinutes(), newValue.getUTCSeconds(), 0);
-            }
-            this.value = value;
+            this.value = newValue;
         }
         if (this.controlOnTouched) {
             this.controlOnTouched();
@@ -269,10 +283,7 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     DateTimePickerInput.prototype.writeValue = function (value) {
         this.muteControlOnChange = true;
-        if (value instanceof Date) {
-            this.value = value;
-        }
-        else if (typeof value == "number") {
+        if (value instanceof Date || value instanceof DateTimezone || typeof value === "number") {
             this.value = value;
         }
         else {
@@ -318,7 +329,7 @@ var DateTimePickerInput = /** @class */ (function () {
     DateTimePickerInput.prototype.setupCss = function () {
         if (this.listItem) {
             this.listItem.classList.add("item-input");
-            if (this.readonly || this.disabled$) {
+            if (this.readonly || this._disabled) {
                 this.listItem.classList.remove("item-interactive");
             }
             else {
@@ -329,20 +340,19 @@ var DateTimePickerInput = /** @class */ (function () {
     DateTimePickerInput.prototype.ngAfterContentChecked = function () {
         //this.setItemInputControlCss();
     };
+    var DateTimePickerInput_1;
+    __decorate([
+        ViewChild("nativeInput", { read: ElementRef }),
+        __metadata("design:type", ElementRef)
+    ], DateTimePickerInput.prototype, "nativeInput", void 0);
+    __decorate([
+        HostBinding("class.datetime-disabled"),
+        __metadata("design:type", Boolean)
+    ], DateTimePickerInput.prototype, "_disabled", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)
     ], DateTimePickerInput.prototype, "readonly", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], DateTimePickerInput.prototype, "displayFormat", null);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], DateTimePickerInput.prototype, "pickerFormat", null);
     __decorate([
         Input(),
         __metadata("design:type", String)
@@ -356,9 +366,13 @@ var DateTimePickerInput = /** @class */ (function () {
         __metadata("design:type", EventEmitter)
     ], DateTimePickerInput.prototype, "ionChange", void 0);
     __decorate([
-        ViewChild("nativeInput", { read: ElementRef }),
-        __metadata("design:type", ElementRef)
-    ], DateTimePickerInput.prototype, "nativeInput", void 0);
+        Input(),
+        __metadata("design:type", Boolean)
+    ], DateTimePickerInput.prototype, "timezoneDisabled", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], DateTimePickerInput.prototype, "defaultTimezone", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Object),
@@ -366,8 +380,14 @@ var DateTimePickerInput = /** @class */ (function () {
     ], DateTimePickerInput.prototype, "disabled", null);
     __decorate([
         Input(),
-        __metadata("design:type", String)
-    ], DateTimePickerInput.prototype, "valueType", void 0);
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], DateTimePickerInput.prototype, "displayFormat", null);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], DateTimePickerInput.prototype, "pickerFormat", null);
     __decorate([
         Input(),
         __metadata("design:type", Object),
@@ -385,16 +405,18 @@ var DateTimePickerInput = /** @class */ (function () {
         __metadata("design:paramtypes", []),
         __metadata("design:returntype", void 0)
     ], DateTimePickerInput.prototype, "keyuped", null);
-    DateTimePickerInput = __decorate([
+    DateTimePickerInput = DateTimePickerInput_1 = __decorate([
         Component({
             selector: "ionx-datetime",
-            template: "\n        <input type=\"text\" #nativeInput class=\"native-input\" readonly [attr.disabled]=\"disabled || null\" (focus)=\"nativeInputFocused()\" (blur)=\"nativeInputBlured()\" [attr.placeholder]=\"placeholder || null\" [attr.value]=\"text || null\"/>\n    ",
-            host: {
-                "[class.datetime-disabled]": "disabled"
-            },
-            encapsulation: ViewEncapsulation.None
+            template: "\n        <input #nativeInput\n               type=\"text\" \n               class=\"native-input\" \n               readonly [attr.disabled]=\"disabled || null\"\n               [attr.placeholder]=\"placeholder || null\"\n               [attr.value]=\"text || null\"\n               (focus)=\"nativeInputFocused()\" \n               (blur)=\"nativeInputBlured()\"/>\n    ",
+            styles: [
+                "\n            :host {\n                position: relative;\n                display: block;\n                flex: 1;\n                width: 100%;\n                --padding-end: 16px;\n                --padding-start: 16px;\n                --padding-top: 10px;\n                --padding-bottom: 10px;\n            }\n            \n            :host-context(.md) {\n                --padding-bottom: 11px;\n            }\n            \n            :host-context(.item-label-stacked) {\n                --padding-end: 0px;\n                --padding-start: 0px;\n                --padding-top: 9px;\n                --padding-bottom: 9px;\n            }\n        "
+            ]
         }),
-        __metadata("design:paramtypes", [ElementRef, IntlService, ModalController, NgControl])
+        __metadata("design:paramtypes", [ElementRef,
+            IntlService,
+            ModalController,
+            NgControl])
     ], DateTimePickerInput);
     return DateTimePickerInput;
 }());

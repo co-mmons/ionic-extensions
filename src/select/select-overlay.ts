@@ -428,7 +428,7 @@ export class SelectOverlayContent {
 
             this.resetScrollHeight();
 
-            if (!window.cordova || window.cordova.platformId == "browser") {
+            if (!window["cordova"] || window["cordova"].platformId === "browser") {
                 await waitTill(() => !!this.searchbar && !!this.searchbar.nativeElement.querySelector("input"));
                 this.searchbar.nativeElement.setFocus();
             }

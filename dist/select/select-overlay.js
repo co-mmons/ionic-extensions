@@ -313,7 +313,7 @@ var SelectOverlayContent = /** @class */ (function () {
                     case 0:
                         if (!this.modalOverlay) return [3 /*break*/, 3];
                         this.resetScrollHeight();
-                        if (!(!window.cordova || window.cordova.platformId == "browser")) return [3 /*break*/, 2];
+                        if (!(!window["cordova"] || window["cordova"].platformId === "browser")) return [3 /*break*/, 2];
                         return [4 /*yield*/, waitTill(function () { return !!_this.searchbar && !!_this.searchbar.nativeElement.querySelector("input"); })];
                     case 1:
                         _a.sent();

@@ -1,6 +1,9 @@
 import {ChangeDetectorRef, Component, Input} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
+import {DateTimezone} from "@co.mmons/js-utils/core";
 import {ModalController} from "@ionic/angular";
+import {SelectOptions} from "../select";
+import {timezoneInfo} from "./timezone-info";
 
 const weekdayNarrowFormat: Intl.DateTimeFormatOptions = {
     weekday: "short"
@@ -40,9 +43,9 @@ const monthFormat: Intl.DateTimeFormatOptions = {
         </ion-header>
         <ion-content>
             
-            <div class="ionx-datetime-overlay-content">
+            <div>
 
-                <ion-row class="ionx-datetime-overlay-date-header">
+                <ion-row ionx--values-header>
                     <ion-col size="3">
                         <ion-button fill="clear" (click)="dateViewMove(-1)">
                             <ion-icon name="arrow-dropleft" slot="icon-only"></ion-icon>
@@ -55,7 +58,8 @@ const monthFormat: Intl.DateTimeFormatOptions = {
                         </ion-button>
                     </ion-col>
                 </ion-row>
-                <ion-row class="ionx-datetime-overlay-date-values">
+                
+                <ion-row ionx--values-grid style="margin: 0px 14px">
                     <ion-col *ngFor="let value of dateValues" [size]="dateView == 'years' ? 3 : (dateView == 'months' ? 6 : 2)" [style.visibility]="value.hidden ? 'hidden' : 'visible'">
                         <ion-button [fill]="!value.checked ? 'outline' : 'solid'" (click)="dateValueClicked(value.id)">
                             <div>
@@ -68,9 +72,11 @@ const monthFormat: Intl.DateTimeFormatOptions = {
                         <ion-button (click)="todayClicked()">{{"@co.mmons/ionic-extensions#Today" | intlMessage}}</ion-button>
                     </ion-col>
                 </ion-row>
+                
             </div>
 
         </ion-content>
+        
         <ion-footer *ngIf="timeVisible">
             <ion-toolbar>
                 <ion-row>
@@ -89,9 +95,110 @@ const monthFormat: Intl.DateTimeFormatOptions = {
                         <ion-range [(ngModel)]="timeMinutes" min="0" max="59" step="1"></ion-range>                
                     </ion-col>
                 </ion-row>
+                <ion-row *ngIf="!timezoneDisabled">
+                    <ion-col size="3"></ion-col>
+                    <ion-col size="9">
+                        <ionx-select [options]="timezones" [(ngModel)]="timezone" overlay="modal" [title]="'@co.mmons/ionic-extensions#Time zone' | intlMessage" [placeholder]="'@co.mmons/ionic-extensions#No time zone' | intlMessage"></ionx-select>
+                    </ion-col>
+                </ion-row>
             </ion-toolbar>
         </ion-footer>
-    `
+    `,
+    styles: [
+        `
+            :host {
+                display: flex;
+            }
+
+            :host [ionx--values-header] {
+                margin: 16px 16px 8px 16px;
+            }
+
+            :host-context(.ios) [ionx--values-header] {
+                margin-top: 0px;
+                margin-bottom: 0px;
+            }
+            
+            :host [ionx--values-header] ion-col {
+                padding: 0px;
+                align-self: center;
+            }
+
+            :host [ionx--values-header] ion-button {
+                max-height: 36px;
+            }
+            
+            :host [ionx--values-grid] ion-col {
+                display: flex;
+                padding: 4px;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            :host [ionx--values-grid] ion-button {
+                --box-shadow: none;
+                padding: 0px;
+                margin: 0px;
+                flex: 1;
+                display: flex;
+                --width: 100%;
+                --padding-start: 2px;
+                --padding-end: 2px;
+                --padding-top: 2px;
+                --padding-bottom: 2px;
+                --margin-start: 0px;
+                --margin-end: 0px;
+                --margin-top: 0px;
+                --margin-bottom: 0px;
+            }
+
+            :host [ionx--values-grid] ion-button div {
+                min-width: 40px;
+                line-height: 0.8;
+            }
+            
+            :host-context(.md) [ionx--values-grid] ion-button.button-outline {
+                --border-width: 1px;
+            }
+            
+            :host-context(.ios) [ionx--values-grid] ion-button {
+                --padding-start: 0px;
+                --padding-end: 0px;
+                --padding-top: 0px;
+                --padding-bottom: 0px;
+                --margin-start: 0px;
+                --margin-end: 0px;
+                --margin-top: 0px;
+                --margin-bottom: 0px;
+            }
+            
+            :host ion-footer ion-toolbar {
+                --padding-start: 16px;
+                --padding-end: 16px;
+                --padding-top: 0px;
+                --padding-bottom: 0px;
+            }
+
+            :host ion-footer ion-range {
+                padding: 0px 8px 0px 0px;
+            }
+            
+            :host ion-footer ion-input {
+                --padding-end: 8px;
+                --padding-start: 0px;
+                text-align: center;
+            }
+            
+            :host ion-footer ion-col {
+                padding: 0px;
+                align-self: center;
+            }
+            
+            :host ion-footer ionx-select {
+                padding-left: 0px;
+            }
+        `
+    ]
 })
 export class DateTimePickerOverlay {
 
@@ -107,11 +214,19 @@ export class DateTimePickerOverlay {
     @Input()
     title: string;
 
+    @Input()
+    private timezone: string;
+
+    @Input()
+    timezoneDisabled: boolean;
+
+    timezones: SelectOptions<String>;
+
     dateHeader: string;
 
     dateView: "days" | "months" | "years" = "days";
 
-    dateViews: {id: string, label: string}[] = [{id: "days", label: "Dzień"}, {id: "months", label: "Miesiąc"}, {id: "years", label: "Rok"}];
+    dateViews: {id: string, label: string}[] = [{id: "days", label: this.intl.message("@co.mmons/ionic-extensions#Day")}, {id: "months", label: this.intl.message("@co.mmons/ionic-extensions#Month")}, {id: "years", label: this.intl.message("@co.mmons/ionic-extensions#Year")}];
 
     private dateViewValue: Date;
 
@@ -378,13 +493,40 @@ export class DateTimePickerOverlay {
     }
 
     doneClicked() {
-        this.viewController.dismiss(this.value, null);
+
+        let value = this.value;
+
+        if (this.timezone && this.timezone !== "UTC") {
+            value = new Date(value.getTime() - (DateTimezone.timezoneOffset(this.timezone, this.value) * 60 * 1000 * -1));
+        }
+
+        this.viewController.dismiss(new DateTimezone(value, this.timezone), null);
+    }
+
+    async loadTimezones() {
+        const timezones = await import("./timezones");
+        this.timezones = new SelectOptions();
+        for (const t of timezones.timezones(this.value)) {
+            this.timezones.pushOption(t.id, t.label);
+        }
     }
 
     ngOnInit() {
         this.dateViewValue = new Date(this.value);
         this.generateDateValues();
         this.generateDateHeader();
+
+        if (this.timezone) {
+
+            try {
+                const info = timezoneInfo(this.timezone);
+                this.timezones = new SelectOptions();
+                this.timezones.pushOption(info.id, info.label);
+            } catch {
+            }
+
+            this.loadTimezones();
+        }
     }
 
 }
