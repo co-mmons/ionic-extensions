@@ -253,7 +253,7 @@ var DateTimePickerInput = /** @class */ (function () {
                         }
                         return [4 /*yield*/, this.modalController.create({
                                 component: DateTimePickerOverlay,
-                                componentProps: { formatOptions: formatOptions, value: value, timezone: this._value ? this._value.timezone : (this._value === undefined ? this.defaultTimezone : undefined), title: overlayTitle },
+                                componentProps: { formatOptions: formatOptions, value: value, timezone: this._value ? this._value.timezone : (this._value === undefined ? (this.defaultTimezone === "current" ? DateTimePickerInput_1.currentTimezone() : this.defaultTimezone) : undefined), title: overlayTitle },
                                 backdropDismiss: true,
                                 showBackdrop: true
                             })];
