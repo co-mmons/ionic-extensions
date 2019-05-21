@@ -294,11 +294,16 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
         const formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
 
+        let timezone = this._value ? this._value.timezone : this.defaultTimezone;
+        if (timezone === "current") {
+            timezone = DateTimePickerInput.currentTimezone();
+        }
+
         let value: Date = this._value && this._value.date ? this._value.date : new Date(); {
-            if (!this._value || !this._value.timezone || this._value.timezone === "UTC") {
+            if (!timezone || timezone === "UTC") {
                 value = new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate(), value.getUTCHours(), value.getUTCMinutes(), 0, 0));
             } else {
-                value = new Date(value.getTime() + (DateTimezone.timezoneOffset(this._value.timezone, value) * 60 * 1000 * -1));
+                value = new Date(value.getTime() + (DateTimezone.timezoneOffset(timezone, value) * 60 * 1000 * -1));
             }
         }
 

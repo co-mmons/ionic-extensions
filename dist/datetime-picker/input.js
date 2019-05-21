@@ -227,7 +227,7 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     DateTimePickerInput.prototype.open = function (event) {
         return __awaiter(this, void 0, void 0, function () {
-            var formatOptions, value, overlayTitle, label, overlay, _a;
+            var formatOptions, timezone, value, overlayTitle, label, overlay, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -235,13 +235,17 @@ var DateTimePickerInput = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
+                        timezone = this._value ? this._value.timezone : this.defaultTimezone;
+                        if (timezone === "current") {
+                            timezone = DateTimePickerInput_1.currentTimezone();
+                        }
                         value = this._value && this._value.date ? this._value.date : new Date();
                         {
-                            if (!this._value || !this._value.timezone || this._value.timezone === "UTC") {
+                            if (!timezone || timezone === "UTC") {
                                 value = new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate(), value.getUTCHours(), value.getUTCMinutes(), 0, 0));
                             }
                             else {
-                                value = new Date(value.getTime() + (DateTimezone.timezoneOffset(this._value.timezone, value) * 60 * 1000 * -1));
+                                value = new Date(value.getTime() + (DateTimezone.timezoneOffset(timezone, value) * 60 * 1000 * -1));
                             }
                         }
                         overlayTitle = this.overlayTitle;
