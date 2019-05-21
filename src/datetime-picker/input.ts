@@ -247,7 +247,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         if (this.hasValue()) {
             const options = Object.assign({}, this.displayFormat || defaultDateTimeFormat);
 
-            if (!options.timeZone && this._value.timezone) {
+            if (this._value.timezone) {
                 options.timeZone = this._value.timezone;
 
                 if (!options.timeZoneName) {
@@ -256,7 +256,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
             }
 
             if (!this._value.timezone) {
-                options.timeZone = undefined;
+                options.timeZone = "UTC";
                 options.timeZoneName = undefined;
             }
 
@@ -312,7 +312,13 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
         const overlay = await this.modalController.create({
             component: DateTimePickerOverlay,
-            componentProps: {formatOptions: formatOptions, value: value, timezone: this._value ? this._value.timezone : (this._value === undefined ? (this.defaultTimezone === "current" ? DateTimePickerInput.currentTimezone() : this.defaultTimezone) : undefined), title: overlayTitle},
+            componentProps: {
+                formatOptions: formatOptions,
+                value: value,
+                timezone: this._value ? this._value.timezone : (this._value === undefined ? (this.defaultTimezone === "current" ? DateTimePickerInput.currentTimezone() : this.defaultTimezone) : undefined),
+                timezoneDisabled: this.timezoneDisabled,
+                title: overlayTitle
+            },
             backdropDismiss: true, 
             showBackdrop: true
         });

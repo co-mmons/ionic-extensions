@@ -198,14 +198,14 @@ var DateTimePickerInput = /** @class */ (function () {
     DateTimePickerInput.prototype.updateText = function () {
         if (this.hasValue()) {
             var options = Object.assign({}, this.displayFormat || defaultDateTimeFormat);
-            if (!options.timeZone && this._value.timezone) {
+            if (this._value.timezone) {
                 options.timeZone = this._value.timezone;
                 if (!options.timeZoneName) {
                     options.timeZoneName = "short";
                 }
             }
             if (!this._value.timezone) {
-                options.timeZone = undefined;
+                options.timeZone = "UTC";
                 options.timeZoneName = undefined;
             }
             this._text = this.intl.dateTimeFormat(this._value, options);
@@ -253,7 +253,13 @@ var DateTimePickerInput = /** @class */ (function () {
                         }
                         return [4 /*yield*/, this.modalController.create({
                                 component: DateTimePickerOverlay,
-                                componentProps: { formatOptions: formatOptions, value: value, timezone: this._value ? this._value.timezone : (this._value === undefined ? (this.defaultTimezone === "current" ? DateTimePickerInput_1.currentTimezone() : this.defaultTimezone) : undefined), title: overlayTitle },
+                                componentProps: {
+                                    formatOptions: formatOptions,
+                                    value: value,
+                                    timezone: this._value ? this._value.timezone : (this._value === undefined ? (this.defaultTimezone === "current" ? DateTimePickerInput_1.currentTimezone() : this.defaultTimezone) : undefined),
+                                    timezoneDisabled: this.timezoneDisabled,
+                                    title: overlayTitle
+                                },
                                 backdropDismiss: true,
                                 showBackdrop: true
                             })];

@@ -344,13 +344,16 @@ var DateTimePickerOverlay = /** @class */ (function () {
         this.dateViewValue = new Date(this.value);
         this.generateDateValues();
         this.generateDateHeader();
-        if (this.timezone) {
-            try {
-                var info = timezoneInfo(this.timezone);
-                this.timezones = new SelectOptions();
-                this.timezones.pushOption(info.id, info.label);
-            }
-            catch (_a) {
+        if (!this.timezoneDisabled) {
+            if (this.timezone) {
+                try {
+                    var info = timezoneInfo(this.timezone);
+                    this.timezones = new SelectOptions();
+                    this.timezones.pushOption(info.id, info.label);
+                }
+                catch (error) {
+                    // console.warn(error);
+                }
             }
             this.loadTimezones();
         }

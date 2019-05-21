@@ -362,7 +362,8 @@ export function timezones(date?: Date) {
     for (const tz of rawTimezones) {
         try {
             unsorted.push(timezoneInfo(tz, date));
-        } catch {
+        } catch (error) {
+            // console.warn(error);
         }
     }
 

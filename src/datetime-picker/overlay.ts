@@ -516,13 +516,16 @@ export class DateTimePickerOverlay {
         this.generateDateValues();
         this.generateDateHeader();
 
-        if (this.timezone) {
+        if (!this.timezoneDisabled) {
 
-            try {
-                const info = timezoneInfo(this.timezone);
-                this.timezones = new SelectOptions();
-                this.timezones.pushOption(info.id, info.label);
-            } catch {
+            if (this.timezone) {
+                try {
+                    const info = timezoneInfo(this.timezone);
+                    this.timezones = new SelectOptions();
+                    this.timezones.pushOption(info.id, info.label);
+                } catch (error) {
+                    // console.warn(error);
+                }
             }
 
             this.loadTimezones();

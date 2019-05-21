@@ -359,7 +359,8 @@ export function timezones(date) {
         try {
             unsorted.push(timezoneInfo(tz, date));
         }
-        catch (_a) {
+        catch (error) {
+            // console.warn(error);
         }
     }
     return unsorted.sort(function (a, b) { return a.date.localeCompare(b.date); });
