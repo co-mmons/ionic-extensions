@@ -59,7 +59,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     value: any | any[];
     private cachedLabels;
     labelImpl$(value: any): string;
-    private muteOnChange;
+    private fireOnChange;
     writeValue(value: any): void;
     hasValue(): boolean;
     private checkListItemHasValue;

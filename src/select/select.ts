@@ -180,7 +180,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         this._disabled = disabled || disabled == "true" ? true : false;
     }
 
-    values: any[] = [];
+    /*private*/values: any[] = [];
 
     @Input()
     public set value(value: any | any[]) {
@@ -208,14 +208,16 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
             let value = this.value;
 
-            if (this.controlOnChange && !this.muteOnChange) {
-                this.controlOnChange(value);
+            if (this.fireOnChange) {
+                if (this.controlOnChange) {
+                    this.controlOnChange(value);
+                }
+
+                this.ionChange.emit(value);
             }
-            
-            this.ionChange.emit(value);
         }
 
-        this.muteOnChange = false;
+        this.fireOnChange = false;
     }
 
     public get value(): any | any[] {
@@ -274,10 +276,9 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         return value;
     }
 
-    private muteOnChange: boolean;
+    private fireOnChange: boolean;
 
     writeValue(value: any): void {
-        this.muteOnChange = true;
         this.value = value;
     }
 
@@ -433,6 +434,8 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
             width: this.element.nativeElement.getBoundingClientRect().width,
 
             updateValues: (value: any[]) => {
+
+                this.fireOnChange = true;
                 this.value = value;
 
                 if (this.controlOnTouched) {
@@ -481,7 +484,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
                 this.values.splice(startIndex, 1);
                 this.values.splice(endIndex, 0, element);
 
-                if (this.controlOnChange && !this.muteOnChange) {
+                if (this.controlOnChange) {
                     this.controlOnChange(this.values.slice());
                 }
 

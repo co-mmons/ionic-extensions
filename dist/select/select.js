@@ -65,7 +65,7 @@ var Select = /** @class */ (function () {
         this.empty = true;
         this.ionChange = new EventEmitter();
         this.change = this.ionChange;
-        this.values = [];
+        /*private*/ this.values = [];
         this.valueComparator = function (a, b) {
             if (_this.compareAsString) {
                 if (a !== undefined && a !== null && b !== undefined && b !== null) {
@@ -145,12 +145,14 @@ var Select = /** @class */ (function () {
             if (changed) {
                 this.checkListItemHasValue();
                 var value_1 = this.value;
-                if (this.controlOnChange && !this.muteOnChange) {
-                    this.controlOnChange(value_1);
+                if (this.fireOnChange) {
+                    if (this.controlOnChange) {
+                        this.controlOnChange(value_1);
+                    }
+                    this.ionChange.emit(value_1);
                 }
-                this.ionChange.emit(value_1);
             }
-            this.muteOnChange = false;
+            this.fireOnChange = false;
         },
         enumerable: true,
         configurable: true
@@ -192,7 +194,6 @@ var Select = /** @class */ (function () {
         return value;
     };
     Select.prototype.writeValue = function (value) {
-        this.muteOnChange = true;
         this.value = value;
     };
     Select.prototype.hasValue = function () {
@@ -302,6 +303,7 @@ var Select = /** @class */ (function () {
                             valueComparator: this.valueComparator,
                             width: this.element.nativeElement.getBoundingClientRect().width,
                             updateValues: function (value) {
+                                _this.fireOnChange = true;
                                 _this.value = value;
                                 if (_this.controlOnTouched) {
                                     _this.controlOnTouched();
@@ -346,7 +348,7 @@ var Select = /** @class */ (function () {
                 var element = _this.values[startIndex];
                 _this.values.splice(startIndex, 1);
                 _this.values.splice(endIndex, 0, element);
-                if (_this.controlOnChange && !_this.muteOnChange) {
+                if (_this.controlOnChange) {
                     _this.controlOnChange(_this.values.slice());
                 }
                 _this.ionChange.emit(_this.values.slice());
