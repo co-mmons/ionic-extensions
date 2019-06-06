@@ -5,19 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from "@angular/core";
-import { IonicBackButtonFix } from "./back-button-fix";
-import { IonicInputFix } from "./input-fix";
-import { IonicItemTargetFix } from "./item-target";
-var IonicFixModule = /** @class */ (function () {
-    function IonicFixModule() {
+import { Buttons } from "./buttons";
+export { Buttons } from "./buttons";
+var ButtonsModule = /** @class */ (function () {
+    function ButtonsModule() {
     }
-    IonicFixModule = __decorate([
+    ButtonsModule = __decorate([
         NgModule({
-            declarations: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix],
-            exports: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix]
+            declarations: [Buttons],
+            exports: [Buttons]
         })
-    ], IonicFixModule);
-    return IonicFixModule;
+    ], ButtonsModule);
+    return ButtonsModule;
 }());
-export { IonicFixModule };
+export { ButtonsModule };
 //# sourceMappingURL=index.js.map
