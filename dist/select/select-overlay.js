@@ -82,7 +82,7 @@ var SelectOverlayContent = /** @class */ (function () {
         }
     };
     SelectOverlayContent.prototype.optionClicked = function (option, ev) {
-        if (option.checked && !this.empty) {
+        if (option.checked && !this.empty && this.checkedOptions.length === 1 && this.checkedOptions[0] === option) {
             ev.preventDefault();
             ev.stopPropagation();
             ev.stopImmediatePropagation();

@@ -183,7 +183,7 @@ export class SelectOverlayContent {
 
     optionClicked(option: SelectOverlayOption, ev: Event) {
 
-        if (option.checked && !this.empty) {
+        if (option.checked && !this.empty && this.checkedOptions.length === 1 && this.checkedOptions[0] === option) {
             ev.preventDefault();
             ev.stopPropagation();
             ev.stopImmediatePropagation();
