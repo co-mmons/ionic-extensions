@@ -62,6 +62,7 @@ var Select = /** @class */ (function () {
         this.popoverController = popoverController;
         this.modalController = modalController;
         this.control = control;
+        this.overlayWhiteSpace = "nowrap";
         this.empty = true;
         this.ionChange = new EventEmitter();
         this.change = this.ionChange;
@@ -299,6 +300,7 @@ var Select = /** @class */ (function () {
                             label: this.labelTemplate,
                             orderable: !!this.orderable,
                             empty: !!this.empty,
+                            whiteSpace: this.overlayWhiteSpace,
                             valueValidator: this.checkValidator,
                             valueComparator: this.valueComparator,
                             width: this.element.nativeElement.getBoundingClientRect().width,
@@ -389,6 +391,10 @@ var Select = /** @class */ (function () {
         Input(),
         __metadata("design:type", String)
     ], Select.prototype, "overlay", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Select.prototype, "overlayWhiteSpace", void 0);
     __decorate([
         Input(),
         __metadata("design:type", Boolean)

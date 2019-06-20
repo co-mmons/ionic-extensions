@@ -28,6 +28,7 @@ export declare class SelectOverlayContent {
     label: SelectLabel;
     options: SelectOverlayOption[];
     empty: boolean;
+    whiteSpace: string;
     visibleOptions: SelectOverlayOption[];
     checkedOptions: SelectOverlayOption[];
     private lastClickedOption;

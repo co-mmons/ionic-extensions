@@ -69,7 +69,7 @@ import {SelectOverlayOption} from "./select-overlay-option";
 
                                 <ion-item detail="false" button="true" #listItem>
                                     <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionBeforeChange(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
-                                    <ion-label>
+                                    <ion-label [style.whiteSpace]="whiteSpace">
                                         <span *ngIf="!label; else customLabel">{{option.label}}</span>
                                         <ng-template #customLabel>
                                             <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
@@ -163,6 +163,9 @@ export class SelectOverlayContent {
 
     @Input()
     empty: boolean;
+
+    @Input()
+    whiteSpace: string = "nowrap";
 
     visibleOptions: SelectOverlayOption[];
 

@@ -94,6 +94,9 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     @Input()
     public overlay: "popover" | "modal";
 
+    @Input()
+    public overlayWhiteSpace: string = "nowrap";
+
     /**
      * Whether value should be always returned as array, no matter if multiple is set to true.
      */
@@ -429,6 +432,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
             label: this.labelTemplate,
             orderable: !!this.orderable,
             empty: !!this.empty,
+            whiteSpace: this.overlayWhiteSpace,
             valueValidator: this.checkValidator,
             valueComparator: this.valueComparator,
             width: this.element.nativeElement.getBoundingClientRect().width,

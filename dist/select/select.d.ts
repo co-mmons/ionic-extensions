@@ -17,6 +17,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     private textContainer;
     placeholder: string;
     overlay: "popover" | "modal";
+    overlayWhiteSpace: string;
     /**
      * Whether value should be always returned as array, no matter if multiple is set to true.
      */
