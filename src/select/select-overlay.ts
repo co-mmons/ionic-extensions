@@ -68,7 +68,7 @@ import {SelectOverlayOption} from "./select-overlay-option";
                             <ng-template #basicOption>
 
                                 <ion-item detail="false" button="true" #listItem>
-                                    <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionBeforeChange(option)" (ionChange)="optionChanged(option)"></ion-checkbox>
+                                    <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionBeforeChange(option)" (ionChange)="optionChanged(option)" (click)="optionClicked(option, $event)"></ion-checkbox>
                                     <ion-label [style.whiteSpace]="whiteSpace">
                                         <span *ngIf="!label; else customLabel">{{option.label}}</span>
                                         <ng-template #customLabel>
