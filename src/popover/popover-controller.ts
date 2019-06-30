@@ -24,7 +24,7 @@ export class PopoverControllerComponent {
     @Input()
     private showBackdrop: boolean;
 
-    @ViewChild("popoverContent")
+    @ViewChild("popoverContent", {static: true})
     private content: TemplateRef<any>;
 
     @Output()

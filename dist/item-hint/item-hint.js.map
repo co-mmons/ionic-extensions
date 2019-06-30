@@ -1,1 +1,0 @@
-{"version":3,"file":"item-hint.js","sourceRoot":"","sources":["../../src/item-hint/item-hint.ts"],"names":[],"mappings":";;;;;;AAAA,OAAO,EAAC,SAAS,EAAC,MAAM,eAAe,CAAC;AAOxC;IAAA;IAEA,CAAC;IAFY,QAAQ;QALpB,SAAS,CAAC;YACV,QAAQ,EAAE,eAAe;YACzB,WAAW,EAAE,gBAAgB;YAC7B,SAAS,EAAE,CAAC,gBAAgB,CAAC;SAC7B,CAAC;OACW,QAAQ,CAEpB;IAAD,eAAC;CAAA,AAFD,IAEC;SAFY,QAAQ"}

@@ -12,17 +12,17 @@ import {SelectOverlayOption} from "./select-overlay-option";
     template: `
         <ion-header *ngIf="modalOverlay">
             <ion-toolbar>
-                <ion-title>{{title}}</ion-title>
+                <ion-title style="padding: 0px">{{title}}</ion-title>
 
-                <ion-buttons slot="start">
-                    <ion-button (click)="cancelClicked()">
+                <ionx-buttons slot="start">
+                    <ion-button fill="clear" color="primary" (click)="cancelClicked()">
                         <ion-icon name="close" slot="icon-only"></ion-icon>
                     </ion-button>
-                </ion-buttons>
+                </ionx-buttons>
 
-                <ion-buttons slot="end">
-                    <ion-button (click)="okClicked()">{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-button>
-                </ion-buttons>
+                <ionx-buttons slot="end">
+                    <ion-button fill="clear" color="primary" (click)="okClicked()">{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-button>
+                </ionx-buttons>
 
             </ion-toolbar>
             <ion-toolbar>
@@ -98,10 +98,11 @@ import {SelectOverlayOption} from "./select-overlay-option";
             </ion-toolbar>
         </ion-footer>
     `,
-    styles: [
-        `:host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }`,
-        `:host ::ng-deep .hydrated { visibility: visible }`
-    ]
+    styles: [`
+        :host ion-list { margin: 4px 0px; padding: 0px; }
+        :host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }
+        :host ::ng-deep .hydrated { visibility: visible }
+    `]
 })
 export class SelectOverlayContent {
 
@@ -124,14 +125,14 @@ export class SelectOverlayContent {
         return this.overlay == "modal";
     }
 
-    @ViewChild(CdkVirtualScrollViewport)
+    @ViewChild(CdkVirtualScrollViewport, {static: false})
     scroll: CdkVirtualScrollViewport;
 
     scrollHeight: number;
 
     itemHeight: number;
 
-    @ViewChild("content", {read: ElementRef})
+    @ViewChild("content", {read: ElementRef, static: false})
     content: ElementRef<HTMLElement & Components.IonContent>;
 
     @Input()
@@ -368,7 +369,7 @@ export class SelectOverlayContent {
         }
     }
 
-    @ViewChild("searchbar", {read: ElementRef})
+    @ViewChild("searchbar", {read: ElementRef, static: false})
     private searchbar: ElementRef<HTMLIonSearchbarElement>;
 
     search(ev: any) {

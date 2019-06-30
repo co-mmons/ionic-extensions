@@ -23,7 +23,7 @@ export class ModalControllerComponent {
     @Input()
     private showBackdrop: boolean;
 
-    @ViewChild("modalContent")
+    @ViewChild("modalContent", {static: true})
     private content: TemplateRef<any>;
 
     @Output()

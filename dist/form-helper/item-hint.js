@@ -24,7 +24,7 @@ var FormItemHint = /** @class */ (function () {
         __metadata("design:type", String)
     ], FormItemHint.prototype, "icon", void 0);
     __decorate([
-        ViewChild("labelComponentContainer", { read: ViewContainerRef }),
+        ViewChild("labelComponentContainer", { read: ViewContainerRef, static: true }),
         __metadata("design:type", ViewContainerRef)
     ], FormItemHint.prototype, "labelComponentContainer", void 0);
     __decorate([

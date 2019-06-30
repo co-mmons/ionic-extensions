@@ -10,6 +10,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { IntlModule } from "@co.mmons/angular-intl";
 import { IonicModule } from "@ionic/angular";
+import { ButtonsModule } from "../buttons";
 import { Select } from "./select";
 import { SelectLabel } from "./select-label";
 import { SelectOption } from "./select-option";
@@ -25,7 +26,7 @@ var SelectModule = /** @class */ (function () {
             declarations: [Select, SelectOption, SelectOverlayContent, SelectLabel],
             entryComponents: [Select, SelectOption, SelectOverlayContent],
             exports: [Select, SelectOption, SelectOverlayContent, SelectLabel],
-            imports: [CommonModule, FormsModule, IonicModule, IntlModule, ScrollingModule]
+            imports: [CommonModule, FormsModule, IonicModule, IntlModule, ScrollingModule, ButtonsModule]
         })
     ], SelectModule);
     return SelectModule;

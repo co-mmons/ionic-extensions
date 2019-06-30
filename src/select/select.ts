@@ -12,17 +12,16 @@ import {SelectOverlayOption} from "./select-overlay-option";
 @Component({
     selector: "ionx-select",
     host: {
-        "class": "select interactive",
         "[attr.ionx--chips-layout]": "!!orderable || null",
         "[attr.ionx--readonly]": "(!!readonly || !!disabled) || null",
         "[attr.ionx--orderable]": "(!!orderable && !readonly && !disabled && values && values.length > 1) || null",
     },
-    styles: [
-        `:host ion-chip { max-width: calc(50% - 4px); margin-inline-start: 0px; margin-bottom: 0px; cursor: default; }`,
-        `:host[ionx--orderable] ion-chip { cursor: move; }`,
-        `:host ion-chip > span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 1.1; }`,
-        `:host[ionx--chips-layout] .select-text { white-space: normal; width: 100%; }`,
-    ],
+    styles: [`
+        :host ion-chip { max-width: calc(50% - 4px); margin-inline-start: 0px; margin-bottom: 0px; cursor: default; }
+        :host[ionx--orderable] ion-chip { cursor: move; }
+        :host ion-chip > span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 1.1; }
+        :host[ionx--chips-layout] .select-text { white-space: normal; width: 100%; }
+    `],
     template: `
         
         <ng-template #optionTemplate let-value="value" let-index="index">
@@ -85,7 +84,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
     private dragula: dragula.Drake;
 
-    @ViewChild("textContainer")
+    @ViewChild("textContainer", {static: true})
     private textContainer: ElementRef<HTMLElement>;
 
     @Input()
@@ -318,7 +317,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     }
 
 
-    @ContentChild(SelectLabel)
+    @ContentChild(SelectLabel, {static: false})
     // @ts-ignore
     private labelTemplate: SelectLabel;
 
@@ -501,6 +500,25 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         }
     }
 
+    private updateCssClasses() {
+
+        if (this.listItem) {
+            this.listItem.classList.add("item-select");
+
+            if (!this.readonly && !this.disabled) {
+                this.listItem.classList.add("item-interactive");
+            } else {
+                this.listItem.classList.remove("item-interactive");
+            }
+
+
+            this.element.nativeElement.classList.add("in-item");
+
+        } else {
+            this.element.nativeElement.classList.remove("in-item");
+        }
+    }
+
 
     ngOnChanges(changes: SimpleChanges) {
 
@@ -510,16 +528,14 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
         if (changes["orderable"] || changes["readonly"] || changes["disabled"]) {
             this.initDragula();
+            this.updateCssClasses();
         }
     }
 
     ngOnInit() {
         //this.updateText();
 
-        if (this.listItem) {
-            this.listItem.classList.add("item-select", "item-interactive");
-            this.element.nativeElement.classList.add("in-item");
-        }
+        this.updateCssClasses();
 
         if (this.orderable) {
             this.initDragula();

@@ -78,6 +78,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     setDisabledState(isDisabled: boolean): void;
     open(event: Event): Promise<void>;
     private initDragula;
+    private updateCssClasses;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;
 }

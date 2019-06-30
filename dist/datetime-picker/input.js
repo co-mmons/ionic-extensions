@@ -352,7 +352,7 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     var DateTimePickerInput_1;
     __decorate([
-        ViewChild("nativeInput", { read: ElementRef }),
+        ViewChild("nativeInput", { read: ElementRef, static: true }),
         __metadata("design:type", ElementRef)
     ], DateTimePickerInput.prototype, "nativeInput", void 0);
     __decorate([
@@ -420,7 +420,7 @@ var DateTimePickerInput = /** @class */ (function () {
             selector: "ionx-datetime",
             template: "\n        <input #nativeInput\n               type=\"text\" \n               class=\"native-input\" \n               readonly [attr.disabled]=\"disabled || null\"\n               [attr.placeholder]=\"placeholder || null\"\n               [attr.value]=\"text || null\"\n               (focus)=\"nativeInputFocused()\" \n               (blur)=\"nativeInputBlured()\"/>\n    ",
             styles: [
-                "\n            :host {\n                position: relative;\n                display: block;\n                flex: 1;\n                width: 100%;\n                --padding-end: 16px;\n                --padding-start: 16px;\n                --padding-top: 10px;\n                --padding-bottom: 10px;\n            }\n            \n            :host-context(.md) {\n                --padding-bottom: 11px;\n            }\n            \n            :host-context(.item-label-stacked) {\n                --padding-end: 0px;\n                --padding-start: 0px;\n                --padding-top: 9px;\n                --padding-bottom: 9px;\n            }\n        "
+                "\n            :host {\n                position: relative;\n                display: block;\n                flex: 1;\n                width: 100%;\n                --padding-end: 16px;\n                --padding-start: 16px;\n                --padding-top: 10px;\n                --padding-bottom: 10px;\n            }\n            \n            :host-context(.md) {\n                --padding-bottom: 11px;\n            }\n            \n            :host-context(.item-label-stacked) {\n                --padding-end: 0px;\n                --padding-start: 0px;\n                --padding-top: 9px;\n                --padding-bottom: 9px;\n            }\n            \n            :host .native-input {\n                padding-top: var(--padding-top, 10px);\n                padding-bottom: var(--padding-bottom, 9px);\n                padding-left: var(--padding-start, 0px);\n                padding-right: var(--padding-end, 0px);\n                display: inline-block;\n\n                flex: 1;\n\n                width: 100%;\n                max-width: 100%;\n                max-height: 100%;\n\n                border: 0;\n\n                outline: none;\n\n                background: transparent;\n\n                box-sizing: border-box;\n                appearance: none;\n            }\n            \n            :host-context(.ios) .native-input {\n                --padding-top: 9px;\n                --padding-bottom: 8px;\n            }\n            \n            :host .native-input::placeholder {\n                opacity: 0.5;\n            }\n\n            :host .native-input:-webkit-autofill {\n                background-color: transparent;\n            }\n        "
             ]
         }),
         __metadata("design:paramtypes", [ElementRef,

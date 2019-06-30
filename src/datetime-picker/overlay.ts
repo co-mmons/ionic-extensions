@@ -109,6 +109,10 @@ const monthFormat: Intl.DateTimeFormatOptions = {
             :host {
                 display: flex;
             }
+            
+            :host-context(.ios) ion-segment {
+                margin-bottom: 4px; 
+            }
 
             :host [ionx--values-header] {
                 margin: 16px 16px 8px 16px;

@@ -43,6 +43,42 @@ type Value = Date | DateTimezone | number;
                 --padding-top: 9px;
                 --padding-bottom: 9px;
             }
+            
+            :host .native-input {
+                padding-top: var(--padding-top, 10px);
+                padding-bottom: var(--padding-bottom, 9px);
+                padding-left: var(--padding-start, 0px);
+                padding-right: var(--padding-end, 0px);
+                display: inline-block;
+
+                flex: 1;
+
+                width: 100%;
+                max-width: 100%;
+                max-height: 100%;
+
+                border: 0;
+
+                outline: none;
+
+                background: transparent;
+
+                box-sizing: border-box;
+                appearance: none;
+            }
+            
+            :host-context(.ios) .native-input {
+                --padding-top: 9px;
+                --padding-bottom: 8px;
+            }
+            
+            :host .native-input::placeholder {
+                opacity: 0.5;
+            }
+
+            :host .native-input:-webkit-autofill {
+                background-color: transparent;
+            }
         `
     ]
 })
@@ -72,7 +108,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
     private _pickerFormat: Intl.DateTimeFormatOptions;
 
-    @ViewChild("nativeInput", {read: ElementRef})
+    @ViewChild("nativeInput", {read: ElementRef, static: true})
     private nativeInput: ElementRef<HTMLElement>;
 
     private _text: string;

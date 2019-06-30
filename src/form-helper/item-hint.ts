@@ -18,7 +18,7 @@ export class FormItemHint {
     @Input()
     icon: string;
 
-    @ViewChild("labelComponentContainer", {read: ViewContainerRef})
+    @ViewChild("labelComponentContainer", {read: ViewContainerRef, static: true})
     private labelComponentContainer: ViewContainerRef;
 
     @Input()

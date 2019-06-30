@@ -30,7 +30,7 @@ export function scrollIntoView(element: HTMLElement, scrollBehavior?: ScrollBeha
 
         if (element.offsetParent) {
             let offsetParent = element.offsetParent as HTMLElement;
-            while (offsetParent != parent && !!offsetParent) {
+            while (offsetParent !== parent && !!offsetParent) {
                 top += offsetParent.offsetTop;
                 offsetParent = offsetParent.offsetParent as HTMLElement;
             }

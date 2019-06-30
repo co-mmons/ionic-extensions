@@ -118,7 +118,7 @@ var ModalControllerComponent = /** @class */ (function () {
         __metadata("design:type", Boolean)
     ], ModalControllerComponent.prototype, "showBackdrop", void 0);
     __decorate([
-        ViewChild("modalContent"),
+        ViewChild("modalContent", { static: true }),
         __metadata("design:type", TemplateRef)
     ], ModalControllerComponent.prototype, "content", void 0);
     __decorate([

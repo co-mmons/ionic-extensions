@@ -128,7 +128,7 @@ var PopoverControllerComponent = /** @class */ (function () {
         __metadata("design:type", Boolean)
     ], PopoverControllerComponent.prototype, "showBackdrop", void 0);
     __decorate([
-        ViewChild("popoverContent"),
+        ViewChild("popoverContent", { static: true }),
         __metadata("design:type", TemplateRef)
     ], PopoverControllerComponent.prototype, "content", void 0);
     __decorate([
