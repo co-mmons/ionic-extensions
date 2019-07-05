@@ -22,7 +22,7 @@ export function scrollIntoView(element, scrollBehavior) {
         var top_1 = element.offsetTop;
         if (element.offsetParent) {
             var offsetParent = element.offsetParent;
-            while (offsetParent != parent && !!offsetParent) {
+            while (offsetParent !== parent && !!offsetParent) {
                 top_1 += offsetParent.offsetTop;
                 offsetParent = offsetParent.offsetParent;
             }
