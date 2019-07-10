@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, OnDestroy, OnInit, Type } from "@angular/core";
+import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, OnDestroy, OnInit, Type } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ModalController } from "@ionic/angular";
 import { DialogButton } from "./dialog-button";
@@ -9,11 +9,13 @@ export declare class Dialog implements OnInit, OnDestroy, DialogOptions {
     elementRef: ElementRef<HTMLElement>;
     private modalController;
     protected resolver: ComponentFactoryResolver;
-    constructor(injector: Injector, sanitizer: DomSanitizer, elementRef: ElementRef<HTMLElement>, modalController: ModalController, resolver: ComponentFactoryResolver);
+    private changeDetectorRef;
+    constructor(injector: Injector, sanitizer: DomSanitizer, elementRef: ElementRef<HTMLElement>, modalController: ModalController, resolver: ComponentFactoryResolver, changeDetectorRef: ChangeDetectorRef);
     messageText: SafeHtml;
     messageComponent: ComponentRef<any>;
     private messageComponentContainer;
     header: string;
+    _buttons: DialogButton[];
     buttons: DialogButton[];
     readonly didLoad: EventEmitter<any>;
     message: string | ComponentRef<any> | Type<any> | [Type<any>, {

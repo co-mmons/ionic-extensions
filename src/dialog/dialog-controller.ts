@@ -21,6 +21,13 @@ export class DialogController {
         }));
     }
 
+    /**
+     * When `id` is not provided, it dismisses the top overlay.
+     */
+    dismiss(data?: any, role?: string, id?: string) {
+        return this.modalController.dismiss(data, role, id);
+    }
+
 }
 
 

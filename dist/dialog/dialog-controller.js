@@ -63,6 +63,12 @@ var DialogController = /** @class */ (function () {
             });
         });
     };
+    /**
+     * When `id` is not provided, it dismisses the top overlay.
+     */
+    DialogController.prototype.dismiss = function (data, role, id) {
+        return this.modalController.dismiss(data, role, id);
+    };
     DialogController = __decorate([
         Injectable(),
         __metadata("design:paramtypes", [ModalController])

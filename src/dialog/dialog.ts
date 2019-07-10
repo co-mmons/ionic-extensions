@@ -1,12 +1,29 @@
-import {Component, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Type, ViewChild, ViewContainerRef} from "@angular/core";
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component,
+    ComponentFactoryResolver,
+    ComponentRef,
+    ElementRef,
+    EventEmitter,
+    Injector,
+    Input,
+    OnDestroy,
+    OnInit,
+    Type,
+    ViewChild,
+    ViewContainerRef
+} from "@angular/core";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {ModalController} from "@ionic/angular";
 import {DialogButton} from "./dialog-button";
+import {dialogData} from "./dialog-data-symbol";
+import {dialogInstance} from "./dialog-instance-symbol";
 import {DialogMessageComponent} from "./dialog-message-component";
 import {DialogOptions} from "./dialog-options";
 
 @Component({
     selector: "ionx-dialog",
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div ionx--content>
             
@@ -22,15 +39,15 @@ import {DialogOptions} from "./dialog-options";
             
         </div>
         
-        <ion-footer *ngIf="buttons && buttons.length > 0">
+        <ion-footer *ngIf="_buttons && _buttons.length > 0">
             <ion-toolbar>
-                <ion-buttons>
+                <ionx-buttons>
                     
-                    <ion-button fill="clear" [color]="button.color || 'primary'" [size]="button.size" (click)="buttonClicked(button)" *ngFor="let button of buttons">
+                    <ion-button fill="clear" [color]="button.color || 'primary'" [size]="button.size" (click)="buttonClicked(button)" *ngFor="let button of _buttons">
                         <span>{{button.text}}</span>
                     </ion-button>
                     
-                </ion-buttons>
+                </ionx-buttons>
             </ion-toolbar>
         </ion-footer>
     `,
@@ -50,7 +67,7 @@ import {DialogOptions} from "./dialog-options";
                 --ionx--header-font-weight: 600;
             }
             
-            :host { 
+            :host {
                 display: flex; 
                 contain: content;
                 position: relative; 
@@ -78,23 +95,19 @@ import {DialogOptions} from "./dialog-options";
             }
 
             :host-context(.md) ion-footer ion-toolbar {
-                --padding-start: 12px;
-                --padding-end: 12px;
-                --padding-bottom: 4px;
+                --padding-bottom: 8px;
             }
             
             :host-context(.md) ion-footer::before {
                 display: none;
             }
 
-            :host ion-footer ion-buttons {
-                z-index: 0;
+            :host ion-footer ionx-buttons {
                 justify-content: var(--ionx--buttons-align, flex-end);
             }
             
             :host ion-footer ion-button {
                 min-height: 44px;
-                margin: 0px;
             }
             
             :host-context(.ios) ion-footer ion-button {
@@ -117,8 +130,14 @@ import {DialogOptions} from "./dialog-options";
 })
 export class Dialog implements OnInit, OnDestroy, DialogOptions {
 
-    constructor(private injector: Injector, private sanitizer: DomSanitizer, public elementRef: ElementRef<HTMLElement>, private modalController: ModalController, protected resolver: ComponentFactoryResolver) {
-    }
+    constructor(
+        private injector: Injector,
+        private sanitizer: DomSanitizer,
+        public elementRef: ElementRef<HTMLElement>,
+        private modalController: ModalController,
+        protected resolver: ComponentFactoryResolver,
+        private changeDetectorRef: ChangeDetectorRef
+    ) {}
 
     messageText: SafeHtml;
 
@@ -130,8 +149,17 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
     @Input()
     header: string;
 
+    _buttons: DialogButton[];
+
     @Input()
-    buttons: DialogButton[];
+    set buttons(buttons: DialogButton[]) {
+        this._buttons = buttons;
+        this.changeDetectorRef.detectChanges();
+    }
+
+    get buttons(): DialogButton[] {
+        return this._buttons;
+    }
 
     readonly didLoad: EventEmitter<any> = new EventEmitter();
 
@@ -174,6 +202,8 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
             }
 
             this.messageComponent = message;
+            this.messageComponent.instance[dialogInstance] = this;
+
             this.messageComponentContainer.insert(this.messageComponent.hostView);
         }
 
@@ -181,7 +211,7 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
 
     /*private*/ buttonClicked(button: DialogButton) {
 
-        const value = this.messageComponent && (<DialogMessageComponent>this.messageComponent.instance).dialogData ? (<DialogMessageComponent>this.messageComponent.instance).dialogData() : undefined;
+        const value = this.messageComponent && this.messageComponent.instance[dialogData] ? (<DialogMessageComponent>this.messageComponent.instance)[dialogData]() : undefined;
 
         if (button.handler) {
             const res = button.handler(value);
@@ -200,12 +230,12 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
     ngOnDestroy(): void {
 
         if (this.messageComponent) {
+            this.messageComponent.instance[dialogInstance] = undefined;
             this.messageComponent.destroy();
         }
     }
 
     ngOnInit(): void {
-
         const modal = this.elementRef.nativeElement.closest("ion-modal");
 
         modal.style.setProperty("--width", "300px");
