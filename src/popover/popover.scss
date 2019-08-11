@@ -1,0 +1,11 @@
+.ionx-list-popover {
+
+    ion-list.list:not(.list-lines-none) {
+        margin: 0px;
+
+        & > ion-item.item:last-child, & > *:last-child > ion-item.item:last-child {
+            --border-width: 0px;
+            --inner-border-width: 0px;
+        }
+    }
+}

@@ -1,7 +1,5 @@
-@import "../node_modules/ionic-angular/components/searchbar/searchbar.ios";
-@import "../node_modules/ionic-angular/components/searchbar/searchbar.md";
 
-.searchbar.ionx-expanding-searchbar {
+ion-searchbar.ionx-expanding-searchbar {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -10,57 +8,120 @@
     padding: 0px;
     margin: 0px;
 
-    &.searchbar-ios {
-        left: $searchbar-ios-padding-horizontal + $toolbar-ios-padding;
-    }
-
-    &.searchbar-md {
-        left: $searchbar-md-padding-start + $toolbar-md-padding;
-        top: $toolbar-md-padding;
-        padding: 0px;
-    }
-
     &.ionx-expanding-searchbar-expanded {
         opacity: 1;
-
-        &.searchbar-ios {
-            width: calc(100% - #{($toolbar-ios-padding + $searchbar-ios-padding-horizontal) * 2});
-        }
-
-        &.searchbar-md {
-            transition: width 250ms ease-in;
-            width: calc(100% - #{($toolbar-md-padding + $searchbar-md-padding-start) * 2});
-        }
+        width: 100%;
     }
 
-    &:not(.searchbar-show-cancel) .searchbar-clear-icon {
+    &:not(.searchbar-show-cancel) .searchbar-clear-button {
         display: block !important;
     }
 
-    &.searchbar-ios.searchbar-show-cancel.searchbar-ios-cancel {
-        display: block !important;
+    // &.searchbar-ios.searchbar-show-cancel.searchbar-ios-cancel {
+    //     display: block !important;
+    // }
+}
+
+ion-toolbar ion-searchbar.ionx-expanding-searchbar-expanded {
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    padding-left: var(--padding-start);
+    padding-right: var(--padding-end);
+}
+
+.ios {
+    
+    ion-toolbar ion-searchbar.ionx-expanding-searchbar {
+        height: 100%;
+
+        &.ionx-expanding-searchbar-expanded {
+            padding-left: 16px;
+            padding-right: 16px;
+
+            &[ionx-flat] {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        }
+    }
+
+    ion-searchbar.ionx-expanding-searchbar {
+        height: 36px;
+    }
+}
+
+.md {
+    
+    ion-toolbar ion-searchbar.ionx-expanding-searchbar {
+        height: 100%;
+
+        &.ionx-expanding-searchbar-expanded {
+            padding-left: 16px;
+            padding-right: 16px;
+
+            &[ionx-flat] {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+        }
     }
 }
 
 .ionx-expanding-searchbar-parent {
-    & > *:not(.toolbar-content):not(.toolbar-background) {
-        visibility: hidden !important;
-    }
 
-    & > .toolbar-content > *:not(.ionx-expanding-searchbar) {
+    & > *:not(.ionx-expanding-searchbar) {
         visibility: hidden !important;
     }
 }
 
-.statusbar-padding {
 
-    &:first-child .searchbar.ionx-expanding-searchbar.searchbar-ios {
-        top: 20px;
-        top: constant(safe-area-inset-top);
-        top: env(safe-area-inset-top);
-    }
 
-    &:not(:first-child) .searchbar.ionx-expanding-searchbar.searchbar-ios {
-        top: 0px;
-    }
-}
+
+
+
+
+
+
+
+
+
+
+    //     &.searchbar-ios {
+//         left: $searchbar-ios-padding-horizontal + $toolbar-ios-padding;
+//     }
+
+//     &.searchbar-md {
+//         left: $searchbar-md-padding-start + $toolbar-md-padding;
+//         top: $toolbar-md-padding;
+//         padding: 0px;
+//     }
+
+
+        // &.searchbar-md {
+        //     transition: width 250ms ease-in;
+        //     width: calc(100% - #{($toolbar-md-padding + $searchbar-md-padding-start) * 2});
+        // }
+
+
+//     &:not(.searchbar-show-cancel) .searchbar-clear-icon {
+//         display: block !important;
+//     }
+
+//     &.searchbar-ios.searchbar-show-cancel.searchbar-ios-cancel {
+//         display: block !important;
+//     }
+// }
+
+
+// .statusbar-padding {
+
+//     &:first-child .searchbar.ionx-expanding-searchbar.searchbar-ios {
+//         top: 20px;
+//         top: constant(safe-area-inset-top);
+//         top: env(safe-area-inset-top);
+//     }
+
+//     &:not(:first-child) .searchbar.ionx-expanding-searchbar.searchbar-ios {
+//         top: 0px;
+//     }
+// }

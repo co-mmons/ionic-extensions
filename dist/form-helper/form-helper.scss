@@ -1,0 +1,44 @@
+ion-grid[ionx-form-grid], form > ion-grid, [ionx-form-helper] > ion-grid {
+    --ion-grid-padding: 8px;
+    --ion-grid-column-padding: 8px;
+}
+
+ionx-form-item {
+    display: flex;
+    flex-direction: column;
+
+    ion-item {
+        --padding-start: 0px;
+        --inner-padding-end: 0px;
+        --inner-padding-start: 0px;
+        --padding-end: 0px;
+        --inner-border-width: 0px;
+        --border-width: 0px 0px 1px 0px;
+    }
+}
+
+ionx-form-item-error, ionx-form-item-hint {
+    display: flex;
+    align-items: center;
+    margin: 8px 0px 0px 0px;
+
+    & > label {
+        flex: 1;
+        font-size: smaller;
+    }
+
+    & > ion-icon {
+        margin-top: 0px !important;
+        margin-right: 8px;
+        min-height: initial;
+        width: 16px;
+    }
+}
+
+ionx-form-item-error {
+    color: var(--ion-color-danger);
+}
+
+ionx-form-item-hint {
+    color: var(--ion-color-medium);
+}

@@ -10,34 +10,34 @@
     "install": "node-utils-npm-install-dist"
   },
   "dependencies": {
+    "@co.mmons/angular-extensions": "git+https://github.com/co-mmons/angular-extensions.git",
     "@co.mmons/angular-intl": "git+https://github.com/co-mmons/angular-intl.git",
     "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
     "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
+    "@co.mmons/rxjs-utils": "git+https://github.com/co-mmons/rxjs-utils.git",
     "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
-    "@ionic-native/app-version": "^4.4.0",
-    "@ionic-native/in-app-browser": "^4.4.0",
-    "trix": "^0.11.4"
+    "trix": "^1.1.1"
   },
   "peerDependencies": {
-    "@angular/common": "^6.0.0",
-    "@angular/compiler": "^6.0.0",
-    "@angular/compiler-cli": "^6.0.0",
-    "@angular/core": "^6.0.0",
-    "@angular/forms": "^6.0.0",
-    "@angular/http": "^6.0.0",
-    "@angular/platform-browser": "^6.0.0",
-    "@angular/platform-browser-dynamic": "^6.0.0",
-    "@angular/platform-server": "^6.0.0",
-    "@ionic-native/core": "^4.4.0",
-    "cordova-plugin-app-version": "^0.1.9",
-    "cordova-plugin-inappbrowser": "^3.0.0",
-    "ionic-angular": "^3.9.2",
-    "rxjs": "^6.2.0",
-    "zone.js": "^0.8.26"
+    "@angular/cdk": "^8.0.1",
+    "@angular/common": "^8.0.3",
+    "@angular/compiler": "^8.0.3",
+    "@angular/compiler-cli": "^8.0.3",
+    "@angular/core": "^8.0.3",
+    "@angular/forms": "^8.0.3",
+    "@angular/platform-browser": "^8.0.3",
+    "@angular/platform-browser-dynamic": "^8.0.3",
+    "@angular/platform-server": "^8.0.3",
+    "@angular/router": "^8.0.3",
+    "@ionic/angular": "^4.6.0",
+    "dragula": "^3.7.2",
+    "rxjs": "^6.5.2",
+    "zone.js": "^0.9.1"
   },
   "devDependencies": {
-    "rxjs-compat": "^6.2.1",
-    "@types/cordova": "0.0.34",
-    "typescript": "~2.7.0"
+    "@capacitor/core": "^1.1.0",
+    "@types/dragula": "^2.1.34",
+    "bignumber.js": "^9.0.0",
+    "typescript": "^3.4.5"
   }
 }

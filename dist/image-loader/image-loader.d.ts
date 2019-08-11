@@ -1,7 +1,12 @@
 import { ElementRef } from "@angular/core";
+export interface ImageLoaderStateCssClasses {
+    loaded?: string;
+    loading?: string;
+    error?: string;
+}
 export declare class ImageLoader {
     private element;
-    constructor(element: ElementRef);
+    constructor(element: ElementRef<HTMLElement>);
     private _src;
     private _alternate;
     loaded: boolean;
@@ -13,8 +18,14 @@ export declare class ImageLoader {
     protected src2: string;
     alternate: string;
     protected alternate2: string;
+    private _cssClasses;
+    cssClasses: ImageLoaderStateCssClasses;
+    protected cssClasses2: ImageLoaderStateCssClasses;
+    private _cssClassesTarget;
+    cssClassesTarget: string;
+    protected cssClassesParent: string;
     reload(): void;
-    private load();
+    private load;
     ngAfterViewInit(): void;
     ngOnDestroy(): void;
 }

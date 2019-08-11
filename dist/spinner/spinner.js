@@ -21,10 +21,18 @@ var Spinner = /** @class */ (function () {
         Input(),
         __metadata("design:type", Boolean)
     ], Spinner.prototype, "fill", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Spinner.prototype, "color", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Spinner.prototype, "name", void 0);
     Spinner = __decorate([
         Component({
             selector: "ionx-spinner",
-            template: "<ion-backdrop *ngIf=\"backdropVisible\"></ion-backdrop><ion-spinner></ion-spinner>"
+            template: "<ion-backdrop *ngIf=\"backdropVisible\"></ion-backdrop><ion-spinner [name]=\"name\" [color]=\"color\"></ion-spinner>"
         })
     ], Spinner);
     return Spinner;

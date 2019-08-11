@@ -1,152 +1,25 @@
-import {NgModule, Directive, ContentChildren, QueryList, ElementRef, Input, Optional} from "@angular/core";
-import {FormGroup, FormControlName, FormGroupDirective, NgForm} from "@angular/forms";
-import {TextInput} from "ionic-angular";
+import {CommonModule} from "@angular/common";
+import {NgModule} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {MatchMediaModule} from "@co.mmons/angular-extensions/browser/match-media";
+import {IntlModule} from "@co.mmons/angular-intl";
+import {IonicModule} from "@ionic/angular";
+import {FormHeading} from "./heading";
+import {FormHelper} from "./helper";
+import {FormItem} from "./item";
+import {FormItemError} from "./item-error";
+import {FormItemHint} from "./item-hint";
 
-@Directive({
-    selector: "[ionx-form-helper],[ionxFormHelper]",
-    exportAs: "ionxFormHelper"
-})
-export class FormHelper {
-
-    constructor(public readonly element: ElementRef, @Optional() public readonly ngForm: NgForm, @Optional() private readonly formGroupDirective: FormGroupDirective) {
-    }
-
-    @Input()
-    public get readonly(): boolean {
-        return this.element.nativeElement.hasAttribute("readonly");
-    }
-
-    public set readonly(readonly: boolean) {
-        if (readonly) {
-            this.element.nativeElement.setAttribute("readonly", "");
-        } else {
-            this.element.nativeElement.removeAttribute("readonly");
-        }
-    }
-
-    public markAsReadonly() {
-        this.readonly = true;
-    }
-
-    @Input()
-    public get busy(): boolean {
-        return this.element.nativeElement.hasAttribute("busy");
-    }
-
-    public set busy(busy: boolean) {
-        if (busy) {
-            this.element.nativeElement.setAttribute("busy", "");
-        } else {
-            this.element.nativeElement.removeAttribute("busy");
-        }
-    }
-
-    public markAsBusy() {
-        this.busy = true;
-    }
-    
-    @ContentChildren(FormControlName, {descendants: true})
-    protected readonly contentControls: QueryList<FormControlName>;
-
-    public formControlName(name: string): FormControlName {
-
-        for (let a of this.contentControls.toArray()) {
-            if (a.name == name) {
-                return a;
-            }
-        }
-    }
-
-    public get formGroup(): FormGroup {
-        return this.formGroupDirective ? this.formGroupDirective.form : undefined;
-    }
-
-    public validateAll() {
-
-        if (!this.formGroupDirective) {
-            return;
-        }
-
-        let invalidControlNames: string[] = [];
-
-        for (let controlName in this.formGroup.controls) {
-            let control = this.formGroup.controls[controlName];
-
-            let wasPristine = control.pristine;
-            let wasUntouched = control.untouched;
-
-            control.markAsDirty();
-            control.markAsTouched();
-            control.updateValueAndValidity();
-
-            if (!control.valid) {
-                invalidControlNames.push(controlName);
-
-            } else if (control.valid) {
-
-                if (wasPristine) {
-                    control.markAsPristine();
-                }
-
-                if (wasUntouched) {
-                    control.markAsUntouched();
-                }
-            }
-        }
-        
-        for (let control of this.formGroupDirective.directives) {
-            for (let invalidControl of invalidControlNames) {
-                if (control.name == invalidControl) {
-                    this.focusImpl(invalidControl);
-                    break;
-                }
-            }
-        }
-    }
-
-    private focusImpl(control: string | any, scrollIntoView: boolean = true) {
-
-        if (typeof control == "string" && this.formGroupDirective) {
-            for (let c of this.formGroupDirective.directives) {
-                if (c.name == control) {
-                    control = c;
-                    break;
-                }
-            }
-        }
-
-        let elementToScroll: HTMLElement;
-
-        if (control instanceof FormControlName) {
-            control = control.valueAccessor;
-        }
-
-        if (control instanceof TextInput) {
-            control.setFocus();
-            elementToScroll = control.getNativeElement().closest(".item");
-        } else if (control && typeof control.focus == "function") {
-            control.focus();
-        }
-
-        if (!elementToScroll && control && control.nativeElement) {
-            elementToScroll = control.nativeElement.closest(".item") || control.nativeElement;            
-        }
-
-        if (scrollIntoView && elementToScroll) {
-            elementToScroll.scrollIntoView();
-        }
-    }
-
-    public focus(formControlName: string, scrollIntoView: boolean = true) {
-        this.focusImpl(formControlName, scrollIntoView);
-    }
-}
+export * from "./heading";
+export * from "./helper";
+export * from "./item";
+export * from "./item-error";
+export * from "./item-hint";
 
 @NgModule({
-    declarations: [FormHelper],
-    bootstrap: [],
-    exports: [FormHelper]
+    declarations: [FormItem, FormHeading, FormItemError, FormItemHint, FormHelper],
+    imports: [CommonModule, FormsModule, IonicModule, IntlModule, MatchMediaModule],
+    exports: [FormItem, FormItemError, FormItemHint, FormHeading, FormHelper]
 })
 export class FormHelperModule {
-
 }

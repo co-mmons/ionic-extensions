@@ -9,12 +9,12 @@ export declare class LazyLoad {
     private _handleScrollFn;
     private _elements;
     readonly container: HTMLElement | Document;
-    private _showOnAppear(element);
-    private _loopThroughElements();
-    private _purgeElements();
+    private _showOnAppear;
+    private _loopThroughElements;
+    private _purgeElements;
     private _isHandlingScroll;
-    private _startScrollHandler();
-    private _stopScrollHandler();
+    private _startScrollHandler;
+    private _stopScrollHandler;
     handleScroll(): void;
     update(options?: {
         retryError?: boolean;

@@ -1,16 +1,14 @@
 import { ElementRef } from "@angular/core";
-import { Searchbar, Navbar, Toolbar } from "ionic-angular";
+import { IonSearchbar } from "@ionic/angular";
 export declare class ExpandingSearchbar {
     private element;
     private searchbar;
-    private navbar;
-    private toolbar;
-    constructor(element: ElementRef, searchbar: Searchbar, navbar: Navbar, toolbar: Toolbar);
+    constructor(element: ElementRef<HTMLIonSearchbarElement>, searchbar: IonSearchbar);
     private subscriptions;
-    private readonly nativeElement;
-    private readonly parentNativeElement;
+    readonly parentElement: HTMLElement;
     expanded: boolean;
     expand(): void;
-    private collapseIfPossible(cleared?);
+    collapseIfPossible(cleared?: boolean): void;
+    ngOnInit(): void;
     ngOnDestroy(): void;
 }

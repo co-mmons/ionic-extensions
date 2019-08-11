@@ -7,55 +7,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-import { Directive, ElementRef, Input, Optional } from "@angular/core";
-import { Searchbar, Navbar, Toolbar } from "ionic-angular";
+import { Directive, ElementRef, Input } from "@angular/core";
+import { unsubscribe } from "@co.mmons/rxjs-utils";
+import { IonSearchbar } from "@ionic/angular";
 var expandedCssClass = "ionx-expanding-searchbar-expanded";
 var parentCssClass = "ionx-expanding-searchbar-parent";
 var ExpandingSearchbar = /** @class */ (function () {
-    function ExpandingSearchbar(element, searchbar, navbar, toolbar) {
-        var _this = this;
+    function ExpandingSearchbar(element, searchbar) {
         this.element = element;
         this.searchbar = searchbar;
-        this.navbar = navbar;
-        this.toolbar = toolbar;
         this.subscriptions = [];
-        this.subscriptions.push(this.searchbar.ionBlur.subscribe(function () { return _this.collapseIfPossible(); }));
-        this.subscriptions.push(this.searchbar.ionClear.subscribe(function () { return _this.collapseIfPossible(true); }));
-        this.nativeElement.classList.add("ionx-expanding-searchbar");
     }
-    Object.defineProperty(ExpandingSearchbar.prototype, "nativeElement", {
+    Object.defineProperty(ExpandingSearchbar.prototype, "parentElement", {
         get: function () {
-            return this.element.nativeElement;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ExpandingSearchbar.prototype, "parentNativeElement", {
-        get: function () {
-            return this.navbar ? this.navbar.getNativeElement() : this.toolbar.getNativeElement();
+            var parent = this.element.nativeElement.parentElement;
+            if (parent) {
+                return parent;
+            }
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(ExpandingSearchbar.prototype, "expanded", {
         get: function () {
-            return this.nativeElement.classList.contains(expandedCssClass);
+            return this.element.nativeElement.classList.contains(expandedCssClass);
         },
         set: function (expanded) {
             var _this = this;
+            this.parentElement;
             if (expanded) {
-                this.nativeElement.classList.add(expandedCssClass);
-                this.parentNativeElement.classList.add(parentCssClass);
+                this.element.nativeElement.classList.add(expandedCssClass);
+                this.parentElement.classList.add(parentCssClass);
                 this.searchbar.setFocus();
             }
             else {
-                this.nativeElement.classList.remove(expandedCssClass);
-                this.parentNativeElement.classList.remove(parentCssClass);
-                this.searchbar.clearInput(undefined);
-                setTimeout(function () { return _this.searchbar._searchbarInput.nativeElement.blur(); }, 50);
+                this.element.nativeElement.classList.remove(expandedCssClass);
+                this.parentElement.classList.remove(parentCssClass);
+                //this.searchbar.value = "";
+                setTimeout(function () { return _this.element.nativeElement.querySelector(".searchbar-input").blur(); }, 50);
             }
         },
         enumerable: true,
@@ -66,17 +55,20 @@ var ExpandingSearchbar = /** @class */ (function () {
     };
     ExpandingSearchbar.prototype.collapseIfPossible = function (cleared) {
         var _this = this;
-        if (this.expanded && (cleared || !this.searchbar.hasValue())) {
+        if (this.expanded && (cleared || !this.searchbar.value)) {
             setTimeout(function () {
                 _this.expanded = false;
             }, cleared ? 250 : 0);
         }
     };
+    ExpandingSearchbar.prototype.ngOnInit = function () {
+        var _this = this;
+        //this.subscriptions.push(this.searchbar.ionBlur.subscribe(() => this.collapseIfPossible()));
+        this.subscriptions.push(this.searchbar.ionClear.subscribe(function () { return _this.collapseIfPossible(true); }));
+        this.element.nativeElement.classList.add("ionx-expanding-searchbar");
+    };
     ExpandingSearchbar.prototype.ngOnDestroy = function () {
-        for (var _i = 0, _a = this.subscriptions; _i < _a.length; _i++) {
-            var s = _a[_i];
-            s.unsubscribe();
-        }
+        unsubscribe(this.subscriptions);
     };
     __decorate([
         Input("ionx-expanded"),
@@ -85,11 +77,10 @@ var ExpandingSearchbar = /** @class */ (function () {
     ], ExpandingSearchbar.prototype, "expanded", null);
     ExpandingSearchbar = __decorate([
         Directive({
-            selector: "ion-searchbar[ionx-expanding-searchbar], ionx-searchbar[ionx-expanding-searchbar]",
+            selector: "ion-searchbar[ionx-expanding-searchbar]",
             exportAs: "ionxExpandingSearchbar"
         }),
-        __param(2, Optional()), __param(3, Optional()),
-        __metadata("design:paramtypes", [ElementRef, Searchbar, Navbar, Toolbar])
+        __metadata("design:paramtypes", [ElementRef, IonSearchbar])
     ], ExpandingSearchbar);
     return ExpandingSearchbar;
 }());

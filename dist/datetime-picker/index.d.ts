@@ -1,3 +1,3 @@
-export { DateTime } from "./input";
+export { DateTimePickerInput } from "./input";
 export declare class DateTimePickerModule {
 }

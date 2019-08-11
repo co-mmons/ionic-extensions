@@ -1,5 +1,5 @@
 import { TemplateRef, EventEmitter } from "@angular/core";
-import { PopoverController, NavParams, NavOptions } from "ionic-angular";
+import { PopoverController } from "@ionic/angular";
 export declare class PopoverControllerComponent {
     private controller;
     constructor(controller: PopoverController);
@@ -12,13 +12,15 @@ export declare class PopoverControllerComponent {
     readonly didDismiss: EventEmitter<any>;
     readonly willDismiss: EventEmitter<any>;
     private popover;
-    present(options?: Event | NavOptions): Promise<void>;
+    present(event?: Event): Promise<void>;
+    private _dismissing;
+    readonly dismissing: boolean;
     private _presented;
     readonly presented: boolean;
-    dismiss(data?: any, role?: any, navOptions?: NavOptions): Promise<any>;
+    dismiss(data?: any, role?: any): Promise<any>;
 }
 export declare class PopoverControllerContentComponent {
-    constructor(params: NavParams);
+    constructor();
     template: TemplateRef<any>;
     ngOnDestroy(): void;
 }

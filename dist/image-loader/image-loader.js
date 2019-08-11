@@ -22,8 +22,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -87,10 +87,47 @@ var ImageLoader = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ImageLoader.prototype, "cssClasses", {
+        set: function (value) {
+            this._cssClasses = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClasses2", {
+        set: function (value) {
+            this._cssClasses = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClassesTarget", {
+        set: function (value) {
+            this._cssClassesTarget = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClassesParent", {
+        set: function (value) {
+            this._cssClassesTarget = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ImageLoader.prototype.reload = function () {
         if (!this.loading && this.initialized) {
             this.loaded = false;
             this.error = false;
+            if (this._cssClasses) {
+                var target = this._cssClassesTarget ? this.element.nativeElement.closest(this._cssClassesTarget) : this.element.nativeElement;
+                if (this._cssClasses.loaded) {
+                    target.classList.remove(this._cssClasses.loaded);
+                }
+                if (this._cssClasses.error) {
+                    target.classList.remove(this._cssClasses.error);
+                }
+            }
             this.load();
         }
     };
@@ -100,6 +137,9 @@ var ImageLoader = /** @class */ (function () {
             return;
         }
         this.loading = true;
+        if (this._cssClasses && this._cssClasses.loading) {
+            this.element.nativeElement.classList.add(this._cssClasses.loading);
+        }
         var element = this.element.nativeElement;
         var img;
         // if host element is not <img>, we need to create tmp 
@@ -119,6 +159,15 @@ var ImageLoader = /** @class */ (function () {
             _this.loaded = true;
             _this.loading = false;
             _this.error = false;
+            if (_this._cssClasses) {
+                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
+                if (_this._cssClasses.loading) {
+                    target.classList.remove(_this._cssClasses.loading);
+                }
+                if (_this._cssClasses.loaded) {
+                    target.classList.add(_this._cssClasses.loaded);
+                }
+            }
         };
         img.onerror = function () {
             if (_this._alternate && _this._alternate != img.src) {
@@ -131,17 +180,26 @@ var ImageLoader = /** @class */ (function () {
             _this.loading = false;
             _this.loaded = false;
             _this.error = true;
+            if (_this._cssClasses) {
+                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
+                if (_this._cssClasses.loading) {
+                    target.classList.remove(_this._cssClasses.loading);
+                }
+                if (_this._cssClasses.error) {
+                    target.classList.add(_this._cssClasses.error);
+                }
+            }
         };
         img.src = this._src;
     };
     ImageLoader.prototype.ngAfterViewInit = function () {
         this.initialized = true;
-        this.element.nativeElement.ionxImageLoader = this;
+        this.element.nativeElement["ionxImageLoader"] = this;
         this.load();
     };
     ImageLoader.prototype.ngOnDestroy = function () {
         if (this.element.nativeElement) {
-            delete this.element.nativeElement.ionxImageLoader;
+            delete this.element.nativeElement["ionxImageLoader"];
         }
     };
     __decorate([
@@ -164,6 +222,26 @@ var ImageLoader = /** @class */ (function () {
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], ImageLoader.prototype, "alternate2", null);
+    __decorate([
+        Input("css-classes"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ImageLoader.prototype, "cssClasses", null);
+    __decorate([
+        Input("ionx-image-loader-css-classes"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ImageLoader.prototype, "cssClasses2", null);
+    __decorate([
+        Input("css-classes-target"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "cssClassesTarget", null);
+    __decorate([
+        Input("ionx-image-loader-css-classes-target"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "cssClassesParent", null);
     ImageLoader = __decorate([
         Directive({
             selector: "[ionx-image-loader]",

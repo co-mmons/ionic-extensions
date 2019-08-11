@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{"SelectOptionOrDivider":{"__symbolic":"interface"},"SelectOptions":{"__symbolic":"class","extends":{"__symbolic":"reference","name":"Array"},"arity":1,"members":{"__ctor__":[{"__symbolic":"constructor"}],"pushOption":[{"__symbolic":"method"}],"pushDivider":[{"__symbolic":"method"}]}}}}]

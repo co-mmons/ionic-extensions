@@ -1,5 +1,6 @@
 export interface LazyLoadOptions {
     selector?: string;
+    scroll?: HTMLElement | null;
     container?: HTMLElement | Window;
     threshold?: number;
     throttle?: number;

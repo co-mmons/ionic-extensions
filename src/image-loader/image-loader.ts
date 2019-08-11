@@ -1,6 +1,12 @@
 import {Directive, Input, ElementRef} from "@angular/core";
 import {ensureLazyImagesLoaded} from "../lazy-image/lazy-load";
 
+export interface ImageLoaderStateCssClasses {
+	loaded?: string;
+	loading?: string;
+	error?: string;
+}
+
 @Directive({
 	selector: "[ionx-image-loader]",
 	host: {
@@ -9,7 +15,7 @@ import {ensureLazyImagesLoaded} from "../lazy-image/lazy-load";
 })
 export class ImageLoader {
 
-	constructor(private element: ElementRef) {
+	constructor(private element: ElementRef<HTMLElement>) {
 	}
 
 	private _src: string;
@@ -22,6 +28,7 @@ export class ImageLoader {
 
 	error: boolean;
 
+	//@ts-ignore
 	private tmpImg: HTMLImageElement;
 
 	private initialized: boolean;
@@ -60,10 +67,48 @@ export class ImageLoader {
 		this.alternate = value;
 	}
 
+	private _cssClasses: ImageLoaderStateCssClasses;
+
+	@Input("css-classes")
+	public set cssClasses(value: ImageLoaderStateCssClasses) {
+		this._cssClasses = value;
+	}
+
+	@Input("ionx-image-loader-css-classes")
+	protected set cssClasses2(value: ImageLoaderStateCssClasses) {
+		this._cssClasses = value;
+	}
+
+	private _cssClassesTarget: string;
+
+	@Input("css-classes-target")
+	public set cssClassesTarget(value: string) {
+		this._cssClassesTarget = value;
+	}
+
+	@Input("ionx-image-loader-css-classes-target")
+	protected set cssClassesParent(value: string) {
+		this._cssClassesTarget = value;
+	}
+
 	reload() {
 		if (!this.loading && this.initialized) {
 			this.loaded = false;
 			this.error = false;
+
+			if (this._cssClasses) {
+
+				let target = this._cssClassesTarget ? this.element.nativeElement.closest(this._cssClassesTarget) : this.element.nativeElement;
+
+				if (this._cssClasses.loaded) {
+					target.classList.remove(this._cssClasses.loaded);
+				}
+
+				if (this._cssClasses.error) {
+					target.classList.remove(this._cssClasses.error);
+				}
+			}
+			
 			this.load();
 		}
 	}
@@ -75,6 +120,9 @@ export class ImageLoader {
 		}
 
 		this.loading = true;
+		if (this._cssClasses && this._cssClasses.loading) {
+			this.element.nativeElement.classList.add(this._cssClasses.loading);
+		}
 
 		let element: HTMLElement = this.element.nativeElement;
 		
@@ -100,6 +148,18 @@ export class ImageLoader {
 			this.loaded = true;
 			this.loading = false;
 			this.error = false;
+
+			if (this._cssClasses) {
+				let target = this._cssClassesTarget ? element.closest(this._cssClassesTarget) : element;
+
+				if (this._cssClasses.loading) {
+					target.classList.remove(this._cssClasses.loading);
+				}
+
+				if (this._cssClasses.loaded) {
+					target.classList.add(this._cssClasses.loaded);
+				}
+			}
 		};
 
 		img.onerror = () => {
@@ -116,6 +176,18 @@ export class ImageLoader {
 			this.loading = false;
 			this.loaded = false;
 			this.error = true;
+
+			if (this._cssClasses) {
+				let target = this._cssClassesTarget ? element.closest(this._cssClassesTarget) : element;
+
+				if (this._cssClasses.loading) {
+					target.classList.remove(this._cssClasses.loading);
+				}
+
+				if (this._cssClasses.error) {
+					target.classList.add(this._cssClasses.error);
+				}
+			}
 		};
 
 		img.src = this._src;
@@ -123,13 +195,13 @@ export class ImageLoader {
 
 	ngAfterViewInit() {
 		this.initialized = true;
-		this.element.nativeElement.ionxImageLoader = this;
+		this.element.nativeElement["ionxImageLoader"] = this;
 		this.load();
 	}
 
 	ngOnDestroy() {
 		if (this.element.nativeElement) {
-			delete this.element.nativeElement.ionxImageLoader;
+			delete this.element.nativeElement["ionxImageLoader"];
 		}
 	}
 

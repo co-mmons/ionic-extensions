@@ -1,8 +1,9 @@
 {
-    "appVersion/newVersionAvailableMessage/ios": "Jest dostępna nowa wersja aplikacji. Aby zaktualizować, przejdź do <b>App Store</b>.",
-    "appVersion/newVersionAvailableMessage/android": "Jest dostępna nowa wersja aplikacji. Aby zaktualizować, przejdź do <b>Google Play</b>.",
-    "appVersion/notNow": "Nie teraz",
-    "appVersion/update": "Aktualizuj",
-    "appVersion/applicationUpdate": "Aktualizacja aplikacji",
-    "Choose...": "Wybierz..."
+    "Choose...": "Wybierz...",
+    "Today": "Dzisiaj",
+    "Time zone": "Strefa czasowa",
+    "No time zone": "Bez strefy czasowej",
+    "Month": "Miesiąc",
+    "Day": "Dzień",
+    "Year": "Rok"
 }

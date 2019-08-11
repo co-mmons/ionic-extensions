@@ -1,10 +1,10 @@
 [ionx-content-block], [content-block], .content-block {
-    padding: $content-margin;
+    padding: var(--ion-content-margin);
     margin: 0px;
 
     &[fill] {
         margin: 0px !important;
-        padding: $content-margin;
+        padding: var(--ion-content-margin);
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -16,7 +16,7 @@
     }
 
     &[inset] {
-        margin: $content-margin;
+        margin: var(--ion-content-margin);
 
         .ios & {
             border-radius: .65rem;
@@ -27,21 +27,21 @@
         }
     }
 
-    @each $color-name, $color-base, $color-contrast in get-colors($colors-ios) {
+    // @each $color-name, $color-base, $color-contrast in get-colors($colors-ios) {
 
-        .ios &[color=#{$color-name}] {
-            color: $color-contrast;
-            background-color: $color-base;
-        }
+    //     .ios &[color=#{$color-name}] {
+    //         color: $color-contrast;
+    //         background-color: $color-base;
+    //     }
 
-    }
+    // }
 
-    @each $color-name, $color-base, $color-contrast in get-colors($colors-md) {
+    // @each $color-name, $color-base, $color-contrast in get-colors($colors-md) {
 
-        .md &[color=#{$color-name}] {
-            color: $color-contrast;
-            background-color: $color-base;
-        }
+    //     .md &[color=#{$color-name}] {
+    //         color: $color-contrast;
+    //         background-color: $color-base;
+    //     }
 
-    }
+    // }
 }

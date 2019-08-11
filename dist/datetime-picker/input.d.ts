@@ -1,54 +1,71 @@
-import { ElementRef, Renderer, OnChanges, SimpleChanges } from "@angular/core";
-import { NgControl, ControlValueAccessor } from "@angular/forms";
-import { Ion, Config, Item, PopoverController } from "ionic-angular";
+import { ElementRef, EventEmitter, OnChanges, SimpleChanges } from "@angular/core";
+import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
-export declare class DateTime extends Ion implements ControlValueAccessor, OnChanges {
+import { DateTimezone } from "@co.mmons/js-utils/core";
+import { ModalController } from "@ionic/angular";
+declare type Value = Date | DateTimezone | number;
+export declare class DateTimePickerInput implements ControlValueAccessor, OnChanges {
+    private element;
     private intl;
-    private popoverController;
-    private item;
-    private control;
-    constructor(config: Config, elementRef: ElementRef, renderer: Renderer, intl: IntlService, popoverController: PopoverController, item: Item, control: NgControl);
+    private modalController;
+    protected control: NgControl;
+    private static currentTimezone;
+    constructor(element: ElementRef<HTMLElement>, intl: IntlService, modalController: ModalController, control: NgControl);
+    private muteControlOnChange;
+    private _listItem;
+    private _displayFormat;
+    private _pickerFormat;
+    private nativeInput;
+    private _text;
+    private _disabled;
+    private _value;
+    private opened;
+    private controlOnChange;
+    private controlOnTouched;
+    readonly: boolean;
+    overlayTitle: string;
+    placeholder: string;
+    readonly ionChange: EventEmitter<Value>;
+    /**
+     * Whether timezone cannot be changed.
+     */
+    timezoneDisabled: boolean;
+    /**
+     * Timezone, that will be set, when new value is picked from picker.
+     */
+    defaultTimezone: string;
+    readonly text: string;
+    /**
+     * Whether or not the datetime-picker component is disabled.
+     */
+    disabled: boolean | string;
+    private readonly listItem;
     /**
      * The display format of the date and time as text that shows
      * within the item. When the `pickerFormat` input is not used, then the
      * `displayFormat` is used for both display the formatted text, and determining
-     * the datetime-picker picker"s columns.
+     * the datetime-picker picker's columns.
      */
     displayFormat: Intl.DateTimeFormatOptions;
-    /**
-     * The format of the date and time picker columns the user selects.
-     * A datetime-picker input can have one or many datetime-picker parts, each getting their
-     * own column which allow individual selection of that particular datetime-picker part. For
-     * example, year and month columns are two individually selectable columns which help
-     * choose an exact date from the datetime-picker picker.
-     */
     pickerFormat: Intl.DateTimeFormatOptions;
-    placeholder: string;
-    _text: string;
-    _disabled: boolean;
-    /**
-     * Whether or not the datetime-picker component is disabled. Default `false`.
-     */
-    disabled: boolean | string;
-    valueType: string;
-    private _value;
-    value: number | Date;
-    private checkHasValue();
-    private updateText();
+    value: Value;
+    clearValue(): void;
+    hasValue(): boolean;
+    private checkListItemHasValue;
+    private updateText;
     protected clicked(ev: UIEvent): void;
     protected keyuped(): void;
-    private opened;
-    private open(event);
-    private overlayClosed(newValue);
+    private open;
+    private overlayClosed;
     writeValue(value: any): void;
-    private controlOnChange;
     registerOnChange(fn: Function): void;
-    private controlOnTouched;
     registerOnTouched(fn: Function): void;
     setDisabledState(isDisabled: boolean): void;
+    nativeInputFocused(): void;
+    nativeInputBlured(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;
+    private setupCss;
     ngAfterContentChecked(): void;
-    private setItemInputControlCss();
-    private setControlCss(element, control);
 }
+export {};

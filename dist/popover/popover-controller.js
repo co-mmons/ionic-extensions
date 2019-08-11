@@ -22,8 +22,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -42,8 +42,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { Component, TemplateRef, Input, ViewChild, EventEmitter, Output } from "@angular/core";
-import { PopoverController, NavParams } from "ionic-angular";
+import { Component, TemplateRef, Input, ViewChild, EventEmitter, Output, ViewEncapsulation } from "@angular/core";
+import { PopoverController } from "@ionic/angular";
 var PopoverControllerComponent = /** @class */ (function () {
     function PopoverControllerComponent(controller) {
         this.controller = controller;
@@ -51,36 +51,55 @@ var PopoverControllerComponent = /** @class */ (function () {
         this.didEnter = new EventEmitter();
         this.didDismiss = new EventEmitter();
         this.willDismiss = new EventEmitter();
+        this._dismissing = false;
         this._presented = false;
     }
-    PopoverControllerComponent.prototype.present = function (options) {
+    PopoverControllerComponent.prototype.present = function (event) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         // already opened - should we close existing and open new?
                         if (this.popover) {
                             return [2 /*return*/];
                         }
-                        this.popover = this.controller.create(PopoverControllerContentComponent, { template: this.content }, { enableBackdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass });
-                        this.popover.onWillDismiss(function (data) { return _this.willDismiss.next(data); });
-                        this.popover.onDidDismiss(function (data) {
-                            _this.didDismiss.next(data);
-                            _this.popover = undefined;
-                            _this._presented = false;
-                        });
-                        this.willEnter.next();
-                        return [4 /*yield*/, this.popover.present({ ev: options })];
+                        _a = this;
+                        return [4 /*yield*/, this.controller.create({ component: PopoverControllerContentComponent, componentProps: { template: this.content }, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass, event: event })];
                     case 1:
-                        _a.sent();
+                        _a.popover = (_b.sent());
+                        this.willEnter.next();
+                        return [4 /*yield*/, this.popover.present()];
+                    case 2:
+                        _b.sent();
                         this.didEnter.next();
                         this._presented = true;
+                        return [4 /*yield*/, this.popover.onWillDismiss()];
+                    case 3:
+                        if (_b.sent()) {
+                            this.willDismiss.next();
+                        }
+                        this._dismissing = true;
+                        return [4 /*yield*/, this.popover.onDidDismiss()];
+                    case 4:
+                        if (_b.sent()) {
+                            this.didDismiss.next();
+                            this.popover = undefined;
+                            this._presented = false;
+                            this._dismissing = false;
+                        }
                         return [2 /*return*/];
                 }
             });
         });
     };
+    Object.defineProperty(PopoverControllerComponent.prototype, "dismissing", {
+        get: function () {
+            return this._dismissing;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PopoverControllerComponent.prototype, "presented", {
         get: function () {
             return this._presented;
@@ -88,9 +107,9 @@ var PopoverControllerComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    PopoverControllerComponent.prototype.dismiss = function (data, role, navOptions) {
+    PopoverControllerComponent.prototype.dismiss = function (data, role) {
         if (this.popover) {
-            return this.popover.dismiss(data, role, navOptions);
+            return this.popover.dismiss(data, role);
         }
         return new Promise(function (resolve, reject) {
             resolve();
@@ -109,7 +128,7 @@ var PopoverControllerComponent = /** @class */ (function () {
         __metadata("design:type", Boolean)
     ], PopoverControllerComponent.prototype, "showBackdrop", void 0);
     __decorate([
-        ViewChild("popoverContent"),
+        ViewChild("popoverContent", { static: true }),
         __metadata("design:type", TemplateRef)
     ], PopoverControllerComponent.prototype, "content", void 0);
     __decorate([
@@ -131,6 +150,7 @@ var PopoverControllerComponent = /** @class */ (function () {
     PopoverControllerComponent = __decorate([
         Component({
             selector: "ionx-popover-controller",
+            encapsulation: ViewEncapsulation.None,
             template: "\n        <ng-template #popoverContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
         }),
         __metadata("design:paramtypes", [PopoverController])
@@ -139,17 +159,22 @@ var PopoverControllerComponent = /** @class */ (function () {
 }());
 export { PopoverControllerComponent };
 var PopoverControllerContentComponent = /** @class */ (function () {
-    function PopoverControllerContentComponent(params) {
-        this.template = params.get("template");
+    function PopoverControllerContentComponent() {
+        //this.template = params.get("template");
     }
     PopoverControllerContentComponent.prototype.ngOnDestroy = function () {
         this.template = undefined;
     };
+    __decorate([
+        Input(),
+        __metadata("design:type", TemplateRef)
+    ], PopoverControllerContentComponent.prototype, "template", void 0);
     PopoverControllerContentComponent = __decorate([
         Component({
+            encapsulation: ViewEncapsulation.None,
             template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
         }),
-        __metadata("design:paramtypes", [NavParams])
+        __metadata("design:paramtypes", [])
     ], PopoverControllerContentComponent);
     return PopoverControllerContentComponent;
 }());
