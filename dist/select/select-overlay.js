@@ -1,50 +1,4 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
+import * as tslib_1 from "tslib";
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { Component, ElementRef, HostListener, Input, Optional, ViewChild } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
@@ -177,10 +131,10 @@ var SelectOverlayContent = /** @class */ (function () {
         }
     };
     SelectOverlayContent.prototype.initOptions = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _i, _a, option, indexToScroll, i;
             var _this = this;
-            return __generator(this, function (_b) {
+            return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         this.checkedOptions = [];
@@ -280,10 +234,10 @@ var SelectOverlayContent = /** @class */ (function () {
         }
     };
     SelectOverlayContent.prototype.resetScrollHeight = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var oldHeight, newHeight;
             var _this = this;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         oldHeight = this.scrollHeight;
@@ -307,9 +261,9 @@ var SelectOverlayContent = /** @class */ (function () {
         });
     };
     SelectOverlayContent.prototype.ionViewDidEnter = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _this = this;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.modalOverlay) return [3 /*break*/, 3];
@@ -328,81 +282,81 @@ var SelectOverlayContent = /** @class */ (function () {
             });
         });
     };
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], SelectOverlayContent.prototype, "overlay", void 0);
-    __decorate([
+    tslib_1.__decorate([
         ViewChild(CdkVirtualScrollViewport, { static: false }),
-        __metadata("design:type", CdkVirtualScrollViewport)
+        tslib_1.__metadata("design:type", CdkVirtualScrollViewport)
     ], SelectOverlayContent.prototype, "scroll", void 0);
-    __decorate([
+    tslib_1.__decorate([
         ViewChild("content", { read: ElementRef, static: false }),
-        __metadata("design:type", ElementRef)
+        tslib_1.__metadata("design:type", ElementRef)
     ], SelectOverlayContent.prototype, "content", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Boolean)
+        tslib_1.__metadata("design:type", Boolean)
     ], SelectOverlayContent.prototype, "multiple", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Boolean)
+        tslib_1.__metadata("design:type", Boolean)
     ], SelectOverlayContent.prototype, "orderable", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Function)
+        tslib_1.__metadata("design:type", Function)
     ], SelectOverlayContent.prototype, "updateValues", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Object)
+        tslib_1.__metadata("design:type", Object)
     ], SelectOverlayContent.prototype, "title", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Function)
+        tslib_1.__metadata("design:type", Function)
     ], SelectOverlayContent.prototype, "searchHandler", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Function)
+        tslib_1.__metadata("design:type", Function)
     ], SelectOverlayContent.prototype, "valueValidator", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Function)
+        tslib_1.__metadata("design:type", Function)
     ], SelectOverlayContent.prototype, "valueComparator", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", SelectLabel)
+        tslib_1.__metadata("design:type", SelectLabel)
     ], SelectOverlayContent.prototype, "label", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Array)
+        tslib_1.__metadata("design:type", Array)
     ], SelectOverlayContent.prototype, "options", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Boolean)
+        tslib_1.__metadata("design:type", Boolean)
     ], SelectOverlayContent.prototype, "empty", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], SelectOverlayContent.prototype, "whiteSpace", void 0);
-    __decorate([
+    tslib_1.__decorate([
         ViewChild("searchbar", { read: ElementRef, static: false }),
-        __metadata("design:type", ElementRef)
+        tslib_1.__metadata("design:type", ElementRef)
     ], SelectOverlayContent.prototype, "searchbar", void 0);
-    __decorate([
+    tslib_1.__decorate([
         HostListener("window:resize"),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", Promise)
+        tslib_1.__metadata("design:type", Function),
+        tslib_1.__metadata("design:paramtypes", []),
+        tslib_1.__metadata("design:returntype", Promise)
     ], SelectOverlayContent.prototype, "resetScrollHeight", null);
-    SelectOverlayContent = __decorate([
+    SelectOverlayContent = tslib_1.__decorate([
         Component({
             selector: "ionx-select-overlay",
             template: "\n        <ion-header *ngIf=\"modalOverlay\">\n            <ion-toolbar>\n                <ion-title style=\"padding: 0px\">{{title}}</ion-title>\n\n                <ionx-buttons slot=\"start\">\n                    <ion-button fill=\"clear\" color=\"primary\" (click)=\"cancelClicked()\">\n                        <ion-icon name=\"close\" slot=\"icon-only\"></ion-icon>\n                    </ion-button>\n                </ionx-buttons>\n\n                <ionx-buttons slot=\"end\">\n                    <ion-button fill=\"clear\" color=\"primary\" (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n                </ionx-buttons>\n\n            </ion-toolbar>\n            <ion-toolbar>\n                <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\"\n                               (ionInput)=\"search($event)\"></ion-searchbar>\n            </ion-toolbar>\n        </ion-header>\n        <ion-content [scrollY]=\"false\" [scrollX]=\"false\" #content>\n\n            <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n                <ion-spinner></ion-spinner>\n            </div>\n\n            <ng-template [ngIf]=\"!!visibleOptions\">\n                <div>\n\n                    <cdk-virtual-scroll-viewport [itemSize]=\"itemHeight\" [style.height.px]=\"scrollHeight\" *ngIf=\"modalOverlay\">\n\n                        <ion-list lines=\"full\">\n\n                            <ion-item detail=\"false\" [button]=\"!option.divider\" [style.fontWeight]=\"option.divider ? 500 : null\" #listItem *cdkVirtualFor=\"let option of visibleOptions\">\n                                <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionBeforeChange(option)\" (ionChange)=\"optionChanged(option)\" (click)=\"optionClicked(option, $event)\" slot=\"start\"\n                                              *ngIf=\"!option.divider\"></ion-checkbox>\n                                <ion-label>\n                                    <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                    <ng-template #customLabel>\n                                        <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                    </ng-template>\n                                </ion-label>\n                            </ion-item>\n                        </ion-list>\n\n                    </cdk-virtual-scroll-viewport>\n\n                    <ion-list lines=\"full\" *ngIf=\"popoverOverlay\">\n\n                        <ng-template ngFor [ngForOf]=\"visibleOptions\" let-option>\n\n                            <ion-item-divider *ngIf=\"option.divider; else basicOption\">\n                                <ion-label>{{option.label}}</ion-label>\n                            </ion-item-divider>\n\n                            <ng-template #basicOption>\n\n                                <ion-item detail=\"false\" button=\"true\" #listItem>\n                                    <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionBeforeChange(option)\" (ionChange)=\"optionChanged(option)\" (click)=\"optionClicked(option, $event)\"></ion-checkbox>\n                                    <ion-label [style.whiteSpace]=\"whiteSpace\">\n                                        <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                        <ng-template #customLabel>\n                                            <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                        </ng-template>\n                                    </ion-label>\n                                </ion-item>\n\n                            </ng-template>\n\n                        </ng-template>\n                    </ion-list>\n                </div>\n            </ng-template>\n\n        </ion-content>\n        \n        <ion-footer *ngIf=\"multiple && popoverOverlay\" style=\"position: sticky; bottom: 0px\">\n            <ion-toolbar>\n                <ion-buttons slot=\"end\">\n                    \n                    <ion-button size=\"small\" (click)=\"cancelClicked()\">{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</ion-button>\n                    \n                    <ion-button size=\"small\" (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Ok\" | intlMessage}}</ion-button>\n                    \n                </ion-buttons>\n            </ion-toolbar>\n        </ion-footer>\n    ",
             styles: ["\n        :host ion-list { margin: 4px 0px; padding: 0px; }\n        :host ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }\n        :host ::ng-deep .hydrated { visibility: visible }\n    "]
         }),
-        __param(2, Optional()),
-        __param(3, Optional()),
-        __metadata("design:paramtypes", [ElementRef,
+        tslib_1.__param(2, Optional()),
+        tslib_1.__param(3, Optional()),
+        tslib_1.__metadata("design:paramtypes", [ElementRef,
             IntlService,
             PopoverController,
             ModalController])

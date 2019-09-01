@@ -1,12 +1,4 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
+import * as tslib_1 from "tslib";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, Input, ViewChild, ViewContainerRef } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { ModalController } from "@ionic/angular";
@@ -110,25 +102,25 @@ var Dialog = /** @class */ (function () {
             input.focus();
         }
     };
-    __decorate([
+    tslib_1.__decorate([
         ViewChild("messageComponentContainer", { read: ViewContainerRef, static: true }),
-        __metadata("design:type", ViewContainerRef)
+        tslib_1.__metadata("design:type", ViewContainerRef)
     ], Dialog.prototype, "messageComponentContainer", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], Dialog.prototype, "header", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Array),
-        __metadata("design:paramtypes", [Array])
+        tslib_1.__metadata("design:type", Array),
+        tslib_1.__metadata("design:paramtypes", [Array])
     ], Dialog.prototype, "buttons", null);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
+        tslib_1.__metadata("design:type", Object),
+        tslib_1.__metadata("design:paramtypes", [Object])
     ], Dialog.prototype, "message", null);
-    Dialog = __decorate([
+    Dialog = tslib_1.__decorate([
         Component({
             selector: "ionx-dialog",
             changeDetection: ChangeDetectionStrategy.OnPush,
@@ -137,7 +129,7 @@ var Dialog = /** @class */ (function () {
                 "\n            :host-context(.md) {\n                --ionx--message-font-size: 16px;\n                --ionx--header-font-size: 20px;\n                --ionx--text-align: left;\n            }\n\n            :host-context(.ios) {\n                --ionx--message-font-size: 15px;\n                --ionx--header-font-size: 18px;\n                --ionx--text-align: center;\n                --ionx--buttons-align: center;\n                --ionx--header-font-weight: 600;\n            }\n            \n            :host {\n                display: flex; \n                contain: content;\n                position: relative; \n            }\n            \n            :host [ionx--message] { \n                font-size: var(--ionx--message-font-size);\n                text-align: var(--ionx--text-align);\n                margin: 16px 16px 24px 16px;\n            }\n            \n            :host [ionx--header] {\n                font-size: var(--ionx--header-font-size);\n                font-weight: var(--ionx--header-font-weight, 500);\n                margin: 16px;\n                text-align: var(--ionx--text-align);\n            }\n            \n            :host ion-footer ion-toolbar {\n                --padding-start: 0px;\n                --padding-end: 0px;\n                --padding-top: 0px;\n                --padding-bottom: 0px;\n                --min-height: none;\n            }\n\n            :host-context(.md) ion-footer ion-toolbar {\n                --padding-bottom: 8px;\n            }\n            \n            :host-context(.md) ion-footer::before {\n                display: none;\n            }\n\n            :host ion-footer ionx-buttons {\n                justify-content: var(--ionx--buttons-align, flex-end);\n            }\n            \n            :host ion-footer ion-button {\n                min-height: 44px;\n            }\n            \n            :host-context(.ios) ion-footer ion-button {\n                flex: 1;\n            }\n\n            :host-context(.ios) ion-footer ion-button:not(:first-child) {\n                border-left: 0.55px solid var(--ion-toolbar-border-color,var(--ion-border-color,var(--ion-color-step-150,rgba(0,0,0,0.2))));;\n            }\n\n            :host-context ion-footer ion-button:not(:last-child) {\n                font-weight: 400;\n            }\n            \n            :host-context ion-footer ion-button:last-child {\n                font-weight: 600;\n            }\n        "
             ]
         }),
-        __metadata("design:paramtypes", [Injector,
+        tslib_1.__metadata("design:paramtypes", [Injector,
             DomSanitizer,
             ElementRef,
             ModalController,

@@ -1,12 +1,4 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
+import * as tslib_1 from "tslib";
 import { Component, ContentChild, Input } from "@angular/core";
 import { IonToggle } from "@ionic/angular";
 var ToggleLabels = /** @class */ (function () {
@@ -18,19 +10,19 @@ var ToggleLabels = /** @class */ (function () {
     ToggleLabels.prototype.switchOff = function () {
         this.toggle.checked = false;
     };
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], ToggleLabels.prototype, "on", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], ToggleLabels.prototype, "off", void 0);
-    __decorate([
+    tslib_1.__decorate([
         ContentChild(IonToggle, { static: false }),
-        __metadata("design:type", IonToggle)
+        tslib_1.__metadata("design:type", IonToggle)
     ], ToggleLabels.prototype, "toggle", void 0);
-    ToggleLabels = __decorate([
+    ToggleLabels = tslib_1.__decorate([
         Component({
             selector: "ionx-toggle-labels",
             template: "\n        <span ionx--off (click)=\"switchOff()\">\n            <ng-template [ngIf]=\"!!off\">{{off}}</ng-template>\n            <ng-content select=\"[slot=off]\"></ng-content>\n        </span>\n        \n        <ng-content select=\"ion-toggle\"></ng-content>\n\n        <span ionx--on (click)=\"switchOn()\">\n            <ng-template [ngIf]=\"!!on\">{{on}}</ng-template>\n            <ng-content select=\"[slot=on]\"></ng-content>\n        </span>\n    ",
@@ -43,7 +35,7 @@ var ToggleLabels = /** @class */ (function () {
                 ":host-context(.ios .item-label-stacked) { margin-top: 2px; margin-bottom: 2px; }"
             ]
         }),
-        __metadata("design:paramtypes", [])
+        tslib_1.__metadata("design:paramtypes", [])
     ], ToggleLabels);
     return ToggleLabels;
 }());

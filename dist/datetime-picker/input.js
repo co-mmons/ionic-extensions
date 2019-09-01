@@ -1,47 +1,4 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
+import * as tslib_1 from "tslib";
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, ViewChild } from "@angular/core";
 import { NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
@@ -226,9 +183,9 @@ var DateTimePickerInput = /** @class */ (function () {
         this.open(undefined);
     };
     DateTimePickerInput.prototype.open = function (event) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var formatOptions, timezone, value, overlayTitle, label, overlay, _a;
-            return __generator(this, function (_b) {
+            return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         if (this.disabled || this.opened || this.readonly) {
@@ -351,71 +308,71 @@ var DateTimePickerInput = /** @class */ (function () {
         //this.setItemInputControlCss();
     };
     var DateTimePickerInput_1;
-    __decorate([
+    tslib_1.__decorate([
         ViewChild("nativeInput", { read: ElementRef, static: true }),
-        __metadata("design:type", ElementRef)
+        tslib_1.__metadata("design:type", ElementRef)
     ], DateTimePickerInput.prototype, "nativeInput", void 0);
-    __decorate([
+    tslib_1.__decorate([
         HostBinding("class.datetime-disabled"),
-        __metadata("design:type", Boolean)
+        tslib_1.__metadata("design:type", Boolean)
     ], DateTimePickerInput.prototype, "_disabled", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Boolean)
+        tslib_1.__metadata("design:type", Boolean)
     ], DateTimePickerInput.prototype, "readonly", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], DateTimePickerInput.prototype, "overlayTitle", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], DateTimePickerInput.prototype, "placeholder", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Output(),
-        __metadata("design:type", EventEmitter)
+        tslib_1.__metadata("design:type", EventEmitter)
     ], DateTimePickerInput.prototype, "ionChange", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Boolean)
+        tslib_1.__metadata("design:type", Boolean)
     ], DateTimePickerInput.prototype, "timezoneDisabled", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String)
+        tslib_1.__metadata("design:type", String)
     ], DateTimePickerInput.prototype, "defaultTimezone", void 0);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
+        tslib_1.__metadata("design:type", Object),
+        tslib_1.__metadata("design:paramtypes", [Object])
     ], DateTimePickerInput.prototype, "disabled", null);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
+        tslib_1.__metadata("design:type", Object),
+        tslib_1.__metadata("design:paramtypes", [Object])
     ], DateTimePickerInput.prototype, "displayFormat", null);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
+        tslib_1.__metadata("design:type", Object),
+        tslib_1.__metadata("design:paramtypes", [Object])
     ], DateTimePickerInput.prototype, "pickerFormat", null);
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
+        tslib_1.__metadata("design:type", Object),
+        tslib_1.__metadata("design:paramtypes", [Object])
     ], DateTimePickerInput.prototype, "value", null);
-    __decorate([
+    tslib_1.__decorate([
         HostListener("click", ["$event"]),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [UIEvent]),
-        __metadata("design:returntype", void 0)
+        tslib_1.__metadata("design:type", Function),
+        tslib_1.__metadata("design:paramtypes", [UIEvent]),
+        tslib_1.__metadata("design:returntype", void 0)
     ], DateTimePickerInput.prototype, "clicked", null);
-    __decorate([
+    tslib_1.__decorate([
         HostListener("keyup.space"),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", void 0)
+        tslib_1.__metadata("design:type", Function),
+        tslib_1.__metadata("design:paramtypes", []),
+        tslib_1.__metadata("design:returntype", void 0)
     ], DateTimePickerInput.prototype, "keyuped", null);
-    DateTimePickerInput = DateTimePickerInput_1 = __decorate([
+    DateTimePickerInput = DateTimePickerInput_1 = tslib_1.__decorate([
         Component({
             selector: "ionx-datetime",
             template: "\n        <input #nativeInput\n               type=\"text\" \n               class=\"native-input\" \n               readonly [attr.disabled]=\"disabled || null\"\n               [attr.placeholder]=\"placeholder || null\"\n               [attr.value]=\"text || null\"\n               (focus)=\"nativeInputFocused()\" \n               (blur)=\"nativeInputBlured()\"/>\n    ",
@@ -423,7 +380,7 @@ var DateTimePickerInput = /** @class */ (function () {
                 "\n            :host {\n                position: relative;\n                display: block;\n                flex: 1;\n                width: 100%;\n                --padding-end: 16px;\n                --padding-start: 16px;\n                --padding-top: 10px;\n                --padding-bottom: 10px;\n            }\n            \n            :host-context(.md) {\n                --padding-bottom: 11px;\n            }\n            \n            :host-context(.item-label-stacked) {\n                --padding-end: 0px;\n                --padding-start: 0px;\n                --padding-top: 9px;\n                --padding-bottom: 9px;\n            }\n            \n            :host .native-input {\n                padding-top: var(--padding-top, 10px);\n                padding-bottom: var(--padding-bottom, 9px);\n                padding-left: var(--padding-start, 0px);\n                padding-right: var(--padding-end, 0px);\n                display: inline-block;\n\n                flex: 1;\n\n                width: 100%;\n                max-width: 100%;\n                max-height: 100%;\n\n                border: 0;\n\n                outline: none;\n\n                background: transparent;\n\n                box-sizing: border-box;\n                appearance: none;\n            }\n            \n            :host-context(.ios) .native-input {\n                --padding-top: 9px;\n                --padding-bottom: 8px;\n            }\n            \n            :host .native-input::placeholder {\n                opacity: 0.5;\n            }\n\n            :host .native-input:-webkit-autofill {\n                background-color: transparent;\n            }\n        "
             ]
         }),
-        __metadata("design:paramtypes", [ElementRef,
+        tslib_1.__metadata("design:paramtypes", [ElementRef,
             IntlService,
             ModalController,
             NgControl])

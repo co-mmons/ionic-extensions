@@ -1,12 +1,4 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
+import * as tslib_1 from "tslib";
 import { Directive, ElementRef, HostListener, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonRouterOutlet, NavController, IonBackButtonDelegate } from "@ionic/angular";
@@ -38,22 +30,22 @@ var IonicBackButtonFix = /** @class */ (function () {
             ev.preventDefault();
         }
     };
-    __decorate([
+    tslib_1.__decorate([
         Input(),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
+        tslib_1.__metadata("design:type", String),
+        tslib_1.__metadata("design:paramtypes", [String])
     ], IonicBackButtonFix.prototype, "defaultHref", null);
-    __decorate([
+    tslib_1.__decorate([
         HostListener("click", ["$event"]),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Event]),
-        __metadata("design:returntype", void 0)
+        tslib_1.__metadata("design:type", Function),
+        tslib_1.__metadata("design:paramtypes", [Event]),
+        tslib_1.__metadata("design:returntype", void 0)
     ], IonicBackButtonFix.prototype, "onClick", null);
-    IonicBackButtonFix = __decorate([
+    IonicBackButtonFix = tslib_1.__decorate([
         Directive({
             selector: "ion-back-button"
         }),
-        __metadata("design:paramtypes", [Router, IonRouterOutlet, NavController, ElementRef])
+        tslib_1.__metadata("design:paramtypes", [Router, IonRouterOutlet, NavController, ElementRef])
     ], IonicBackButtonFix);
     return IonicBackButtonFix;
 }());
