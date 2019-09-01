@@ -1,6 +1,6 @@
 {
   "name": "@co.mmons/ionic-extensions",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "co.mmons",
   "private": false,
   "license": "MIT",
@@ -15,8 +15,7 @@
     "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
     "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
     "@co.mmons/rxjs-utils": "git+https://github.com/co-mmons/rxjs-utils.git",
-    "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
-    "trix": "^1.1.1"
+    "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git"
   },
   "peerDependencies": {
     "@angular/cdk": "^8.0.1",
