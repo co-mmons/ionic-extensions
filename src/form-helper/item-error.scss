@@ -1,0 +1,8 @@
+:host {
+    color: var(--ion-color-danger);
+    display: none;
+
+    &.ionx--visible {
+        display: flex;
+    }
+}

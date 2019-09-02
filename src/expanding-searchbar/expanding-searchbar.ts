@@ -1,10 +1,13 @@
-import {Directive, ElementRef, Input} from "@angular/core";
+import {ApplicationRef, ComponentFactoryResolver, Directive, ElementRef, Injector, Input} from "@angular/core";
 import {unsubscribe} from "@co.mmons/rxjs-utils";
 import {IonSearchbar} from "@ionic/angular";
 import {Subscription} from "rxjs";
+import {ExpandingSearchbarStyles} from "./expanding-searchbar-styles";
 
 const expandedCssClass = "ionx-expanding-searchbar-expanded";
 const parentCssClass = "ionx-expanding-searchbar-parent";
+
+let stylesInjected = false;
 
 @Directive({
     selector: "ion-searchbar[ionx-expanding-searchbar]",
@@ -12,7 +15,17 @@ const parentCssClass = "ionx-expanding-searchbar-parent";
 })
 export class ExpandingSearchbar {
 
-    constructor(private element: ElementRef<HTMLIonSearchbarElement>, private searchbar: IonSearchbar) {
+    constructor(
+        injector: Injector,
+        resolver: ComponentFactoryResolver,
+        private appRef: ApplicationRef,
+        private element: ElementRef<HTMLIonSearchbarElement>,
+        private searchbar: IonSearchbar) {
+
+        if (!stylesInjected) {
+            let styles = resolver.resolveComponentFactory(ExpandingSearchbarStyles).create(injector);
+            this.appRef.attachView(styles.hostView);
+        }
     }
 
     private subscriptions: Subscription[] = [];

@@ -17,7 +17,7 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     private _pickerFormat;
     private nativeInput;
     private _text;
-    private _disabled;
+    _disabled: boolean;
     private _value;
     private opened;
     private controlOnChange;
@@ -53,8 +53,8 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     hasValue(): boolean;
     private checkListItemHasValue;
     private updateText;
-    protected clicked(ev: UIEvent): void;
-    protected keyuped(): void;
+    clicked(ev: UIEvent): void;
+    keyuped(): void;
     private open;
     private overlayClosed;
     writeValue(value: any): void;

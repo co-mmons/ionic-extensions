@@ -1,0 +1,108 @@
+:host {
+    display: flex;
+
+    [ionx--values-header] {
+        margin: 16px 16px 8px 16px;
+
+        ion-col {
+            padding: 0px;
+            align-self: center;
+        }
+
+        ion-button {
+            max-height: 36px;
+        }
+    }
+
+
+    [ionx--values-grid] {
+
+        ion-col {
+            display: flex;
+            padding: 4px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        ion-button {
+            --box-shadow: none;
+            padding: 0px;
+            margin: 0px;
+            flex: 1;
+            display: flex;
+            --width: 100%;
+            --padding-start: 2px;
+            --padding-end: 2px;
+            --padding-top: 2px;
+            --padding-bottom: 2px;
+            --margin-start: 0px;
+            --margin-end: 0px;
+            --margin-top: 0px;
+            --margin-bottom: 0px;
+
+            div {
+                min-width: 40px;
+                line-height: 0.8;
+            }
+        }
+    }
+
+    ion-footer {
+
+        ion-toolbar {
+            --padding-start: 16px;
+            --padding-end: 16px;
+            --padding-top: 0px;
+            --padding-bottom: 0px;
+        }
+
+        ion-range {
+            padding: 0px 8px 0px 0px;
+        }
+
+        ion-input {
+            --padding-end: 8px;
+            --padding-start: 0px;
+            text-align: center;
+        }
+
+        ion-col {
+            padding: 0px;
+            align-self: center;
+        }
+
+        ionx-select {
+            padding-left: 0px;
+        }
+    }
+}
+
+:host-context(.ios) {
+
+    ion-segment {
+        margin-bottom: 4px;
+    }
+
+    [ionx--values-header] {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    [ionx--values-grid] ion-button {
+        --padding-start: 0px;
+        --padding-end: 0px;
+        --padding-top: 0px;
+        --padding-bottom: 0px;
+        --margin-start: 0px;
+        --margin-end: 0px;
+        --margin-top: 0px;
+        --margin-bottom: 0px;
+    }
+}
+
+:host-context(.md) {
+
+    [ionx--values-grid] ion-button.button-outline {
+        --border-width: 1px;
+    }
+}

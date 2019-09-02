@@ -20,67 +20,7 @@ type Value = Date | DateTimezone | number;
                (focus)="nativeInputFocused()" 
                (blur)="nativeInputBlured()"/>
     `,
-    styles: [
-        `
-            :host {
-                position: relative;
-                display: block;
-                flex: 1;
-                width: 100%;
-                --padding-end: 16px;
-                --padding-start: 16px;
-                --padding-top: 10px;
-                --padding-bottom: 10px;
-            }
-            
-            :host-context(.md) {
-                --padding-bottom: 11px;
-            }
-            
-            :host-context(.item-label-stacked) {
-                --padding-end: 0px;
-                --padding-start: 0px;
-                --padding-top: 9px;
-                --padding-bottom: 9px;
-            }
-            
-            :host .native-input {
-                padding-top: var(--padding-top, 10px);
-                padding-bottom: var(--padding-bottom, 9px);
-                padding-left: var(--padding-start, 0px);
-                padding-right: var(--padding-end, 0px);
-                display: inline-block;
-
-                flex: 1;
-
-                width: 100%;
-                max-width: 100%;
-                max-height: 100%;
-
-                border: 0;
-
-                outline: none;
-
-                background: transparent;
-
-                box-sizing: border-box;
-                appearance: none;
-            }
-            
-            :host-context(.ios) .native-input {
-                --padding-top: 9px;
-                --padding-bottom: 8px;
-            }
-            
-            :host .native-input::placeholder {
-                opacity: 0.5;
-            }
-
-            :host .native-input:-webkit-autofill {
-                background-color: transparent;
-            }
-        `
-    ]
+    styleUrls: ["input.scss"]
 })
 export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
@@ -114,7 +54,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     private _text: string;
 
     @HostBinding("class.datetime-disabled")
-    private _disabled: boolean;
+    /*private*/ _disabled: boolean;
 
     private _value: DateTimezone;
 
@@ -305,7 +245,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
 
     @HostListener("click", ["$event"])
-    protected clicked(ev: UIEvent) {
+    /*protected*/ clicked(ev: UIEvent) {
 
         if (ev.detail === 0 || this.disabled || this.readonly) {
             return;
@@ -318,7 +258,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     }
 
     @HostListener("keyup.space")
-    protected keyuped() {
+    /*protected*/ keyuped() {
         this.open(undefined);
     }
 

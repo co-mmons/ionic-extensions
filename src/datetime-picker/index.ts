@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {IonicModule} from "@ionic/angular";
-import {SelectModule} from "../select";
+import {SelectModule} from "../select/index";
 import {DateTimePickerInput} from "./input";
 import {DateTimePickerOverlay} from "./overlay";
 import {CommonModule} from "@angular/common";

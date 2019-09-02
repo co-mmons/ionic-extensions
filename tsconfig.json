@@ -22,18 +22,5 @@
         "tmp",
         "i18n",
         "node_modules"
-    ],
-
-    "angularCompilerOptions": {
-        "skipTemplateCodegen": true,
-        "skipMetadataEmit": false,
-        "strictMetadataEmit": true,
-        "annotationsAs": "decorators"
-    },
-
-    "compileOnSave": false,
-
-    "atom": {
-        "rewriteTsconfig": false
-    }
+    ]
 }

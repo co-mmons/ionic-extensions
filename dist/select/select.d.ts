@@ -2,6 +2,7 @@ import { ElementRef, EventEmitter, OnChanges, OnInit, QueryList, SimpleChanges }
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
 import { ModalController, PopoverController } from "@ionic/angular";
+import { SelectLabel } from "./select-label";
 import { SelectOption } from "./select-option";
 import { SelectOptions } from "./select-options";
 export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
@@ -13,8 +14,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, popoverController: PopoverController, modalController: ModalController, control: NgControl);
     private _listItem;
     private readonly listItem;
-    private dragula;
-    private textContainer;
+    textContainer: ElementRef<HTMLElement>;
     placeholder: string;
     overlay: "popover" | "modal";
     overlayWhiteSpace: string;
@@ -65,7 +65,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     hasValue(): boolean;
     private checkListItemHasValue;
     private valueComparator;
-    private labelTemplate;
+    labelTemplate: SelectLabel;
     label: (value: any) => string;
     options: any[] | SelectOptions;
     private optionsComponents;
@@ -77,7 +77,6 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     registerOnTouched(fn: Function): void;
     setDisabledState(isDisabled: boolean): void;
     open(event: Event): Promise<void>;
-    private initDragula;
     private updateCssClasses;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;

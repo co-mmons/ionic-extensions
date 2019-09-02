@@ -2,7 +2,6 @@ import {Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Inpu
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
 import {ModalController, PopoverController} from "@ionic/angular";
-import * as dragula from "dragula";
 import {SelectLabel} from "./select-label";
 import {SelectOption} from "./select-option";
 import {SelectOptions} from "./select-options";
@@ -16,49 +15,8 @@ import {SelectOverlayOption} from "./select-overlay-option";
         "[attr.ionx--readonly]": "(!!readonly || !!disabled) || null",
         "[attr.ionx--orderable]": "(!!orderable && !readonly && !disabled && values && values.length > 1) || null",
     },
-    styles: [`
-        :host ion-chip { max-width: calc(50% - 4px); margin-inline-start: 0px; margin-bottom: 0px; cursor: default; }
-        :host[ionx--orderable] ion-chip { cursor: move; }
-        :host ion-chip > span { text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 1.1; }
-        :host[ionx--chips-layout] .select-text { white-space: normal; width: 100%; }
-    `],
-    template: `
-        
-        <ng-template #optionTemplate let-value="value" let-index="index">
-            <span *ngIf="!labelTemplate; else hasLabelTemplate">{{labelImpl$(value)}}</span>
-            <ng-template #hasLabelTemplate>
-                <ng-container *ngTemplateOutlet="labelTemplate.templateRef; context: {$implicit: value, index: index}"></ng-container>
-            </ng-template>
-        </ng-template>
-        
-        <div class="select-inner">
-            <div class="select-text" #textContainer [class.select-placeholder]="values.length == 0">
-                <span *ngIf="values.length == 0; else showValues">{{placeholder}}</span>
-                <ng-template #showValues>
-                    <ng-template ngFor [ngForOf]="values" let-value let-index="index">
-                        <span *ngIf="index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable">{{!labelTemplate ? ", " : labelTemplate.separator}}</span>
-                        
-                        <ion-chip *ngIf="orderable else simpleText" outline="true" [attr.ionx--index]="index">
-                            <ng-template *ngTemplateOutlet="optionTemplate; context: {value: value, index: index}"></ng-template>
-                        </ion-chip>
-                        
-                        <ng-template #simpleText>
-                            <ng-template *ngTemplateOutlet="optionTemplate; context: {value: value, index: index}"></ng-template>
-                        </ng-template>
-                        
-                    </ng-template>
-                </ng-template>
-            </div>
-            
-            <ng-container  *ngIf="!_readonly && !_disabled">
-                <div class="select-icon" role="presentation" *ngIf="!orderable">
-                    <div class="select-icon-inner"></div>
-                </div>
-                <button type="button" role="combobox" aria-haspopup="dialog" class="select-cover" (click)="open($event)" *ngIf="!orderable || !values || values.length === 0"></button>
-            </ng-container>
-            
-        </div>
-    `
+    styleUrls: ["select.scss"],
+    templateUrl: "select.html"
 })
 export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
@@ -82,10 +40,10 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         return this._listItem = this.element.nativeElement.closest("ion-item");
     }
 
-    private dragula: dragula.Drake;
+    // private dragula: dragula.Drake;
 
     @ViewChild("textContainer", {static: true})
-    private textContainer: ElementRef<HTMLElement>;
+    textContainer: ElementRef<HTMLElement>;
 
     @Input()
     public placeholder: string;
@@ -318,8 +276,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
 
     @ContentChild(SelectLabel, {static: false})
-    // @ts-ignore
-    private labelTemplate: SelectLabel;
+    /*private*/ labelTemplate: SelectLabel;
 
     @Input()
     label: (value: any) => string;
@@ -457,48 +414,48 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     }
 
 
-    private initDragula() {
-
-        if (this.orderable && !this.disabled && !this.readonly) {
-
-            if (this.dragula) {
-                return;
-            }
-
-            this.dragula = dragula({
-                containers: [this.textContainer.nativeElement],
-                direction: "horizontal",
-
-                moves: (el, container, handle) => {
-                    return this.values && this.values.length > 1;
-                }
-            });
-
-            this.dragula.on("drop", (el, target, source, sibling) => {
-
-                const startIndex = parseInt(el.getAttribute("ionx--index"), 0);
-                let endIndex = sibling ? parseInt(sibling.getAttribute("ionx--index"), 0) : this.values.length;
-
-                if (endIndex > startIndex) {
-                    endIndex -= 1;
-                }
-
-                const element = this.values[startIndex];
-                this.values.splice(startIndex, 1);
-                this.values.splice(endIndex, 0, element);
-
-                if (this.controlOnChange) {
-                    this.controlOnChange(this.values.slice());
-                }
-
-                this.ionChange.emit(this.values.slice());
-            });
-
-        } else if (this.dragula) {
-            this.dragula.destroy();
-            this.dragula = undefined;
-        }
-    }
+    // private initDragula() {
+    //
+    //     if (this.orderable && !this.disabled && !this.readonly) {
+    //
+    //         if (this.dragula) {
+    //             return;
+    //         }
+    //
+    //         this.dragula = (dragula as any)({
+    //             containers: [this.textContainer.nativeElement],
+    //             direction: "horizontal",
+    //
+    //             moves: (el, container, handle) => {
+    //                 return this.values && this.values.length > 1;
+    //             }
+    //         });
+    //
+    //         this.dragula.on("drop", (el, target, source, sibling) => {
+    //
+    //             const startIndex = parseInt(el.getAttribute("ionx--index"), 0);
+    //             let endIndex = sibling ? parseInt(sibling.getAttribute("ionx--index"), 0) : this.values.length;
+    //
+    //             if (endIndex > startIndex) {
+    //                 endIndex -= 1;
+    //             }
+    //
+    //             const element = this.values[startIndex];
+    //             this.values.splice(startIndex, 1);
+    //             this.values.splice(endIndex, 0, element);
+    //
+    //             if (this.controlOnChange) {
+    //                 this.controlOnChange(this.values.slice());
+    //             }
+    //
+    //             this.ionChange.emit(this.values.slice());
+    //         });
+    //
+    //     } else if (this.dragula) {
+    //         this.dragula.destroy();
+    //         this.dragula = undefined;
+    //     }
+    // }
 
     private updateCssClasses() {
 
@@ -527,7 +484,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         }
 
         if (changes["orderable"] || changes["readonly"] || changes["disabled"]) {
-            this.initDragula();
+            // this.initDragula();
             this.updateCssClasses();
         }
     }
@@ -538,7 +495,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         this.updateCssClasses();
 
         if (this.orderable) {
-            this.initDragula();
+            // this.initDragula();
         }
     }
 

@@ -3,27 +3,7 @@ import {LoaderOptions} from "./loader-options";
 
 @Component({
     selector: "ionx-loader",
-    template: `
-        <div style="display: flex; align-items: center">
-            
-            <div *ngIf="spinnerMode" style="padding: 16px; padding-right: 0px;">
-                <ion-spinner></ion-spinner>
-            </div>
-            
-            <div style="padding: 16px; flex: 1; display: flex; flex-direction: column; justify-items: center;">
-                <h5 style="margin: 0px" *ngIf="header">{{header}}</h5>
-                <ion-text [innerHTML]="message" *ngIf="!!message"></ion-text>
-            </div>
-            
-        </div>
-        
-        <ion-progress-bar style="margin: 16px 0px" [value]="progressValue" [type]="progressType" [buffer]="progressBuffer" *ngIf="progressMode"></ion-progress-bar>
-        
-        <div style="display: flex; margin: 0px 16px 16px 16px" *ngIf="!!progressMessage || progressPercentVisible">
-            <ion-text [innerHTML]="progressMessage" style="flex: 1"></ion-text>
-            <span style="width: 60px; text-align: right" *ngIf="progressPercentVisible">{{(progressPercent | intlPercentFormat: {maximumFractionDigits: 0})}}</span>
-        </div>
-    `,
+    templateUrl: "loader.html",
     styles: [
         `:host { display: block }`
     ]

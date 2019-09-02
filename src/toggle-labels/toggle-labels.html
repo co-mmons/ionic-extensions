@@ -1,0 +1,11 @@
+<span ionx--off (click)="switchOff()">
+    <ng-template [ngIf]="!!off">{{off}}</ng-template>
+    <ng-content select="[slot=off]"></ng-content>
+    </span>
+
+<ng-content select="ion-toggle"></ng-content>
+
+<span ionx--on (click)="switchOn()">
+    <ng-template [ngIf]="!!on">{{on}}</ng-template>
+    <ng-content select="[slot=on]"></ng-content>
+</span>

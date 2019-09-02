@@ -1,0 +1,87 @@
+<ion-header *ngIf="modalOverlay">
+    <ion-toolbar>
+        <ion-title style="padding: 0px">{{title}}</ion-title>
+
+        <ionx-buttons slot="start">
+            <ion-button fill="clear" color="primary" (click)="cancelClicked()">
+                <ion-icon name="close" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ionx-buttons>
+
+        <ionx-buttons slot="end">
+            <ion-button fill="clear" color="primary" (click)="okClicked()">{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-button>
+        </ionx-buttons>
+
+    </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar #searchbar cancelButtonText="{{'@co.mmons/js-intl#Cancel' | intlMessage}}" placeholder="{{'@co.mmons/js-intl#Search' | intlMessage}}"
+                       (ionInput)="search($event)"></ion-searchbar>
+    </ion-toolbar>
+</ion-header>
+<ion-content [scrollY]="false" [scrollX]="false" #content>
+
+    <div class="ionx-select-overlay-spinner" slot="fixed" *ngIf="!checkedOptions">
+        <ion-spinner></ion-spinner>
+    </div>
+
+    <ng-template [ngIf]="!!visibleOptions">
+        <div>
+
+            <cdk-virtual-scroll-viewport [itemSize]="itemHeight" [style.height.px]="scrollHeight" *ngIf="modalOverlay">
+
+                <ion-list lines="full">
+
+                    <ion-item detail="false" [button]="!option.divider" [style.fontWeight]="option.divider ? 500 : null" #listItem *cdkVirtualFor="let option of visibleOptions">
+                        <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionBeforeChange(option)" (ionChange)="optionChanged(option)" (click)="optionClicked(option, $event)" slot="start"
+                                      *ngIf="!option.divider"></ion-checkbox>
+                        <ion-label>
+                            <span *ngIf="!label; else customLabel">{{option.label}}</span>
+                            <ng-template #customLabel>
+                                <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
+                            </ng-template>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+
+            </cdk-virtual-scroll-viewport>
+
+            <ion-list lines="full" *ngIf="popoverOverlay">
+
+                <ng-template ngFor [ngForOf]="visibleOptions" let-option>
+
+                    <ion-item-divider *ngIf="option.divider; else basicOption">
+                        <ion-label>{{option.label}}</ion-label>
+                    </ion-item-divider>
+
+                    <ng-template #basicOption>
+
+                        <ion-item detail="false" button="true" #listItem>
+                            <ion-checkbox [(ngModel)]="option.checked" (ngModelChange)="optionBeforeChange(option)" (ionChange)="optionChanged(option)" (click)="optionClicked(option, $event)"></ion-checkbox>
+                            <ion-label [style.whiteSpace]="whiteSpace">
+                                <span *ngIf="!label; else customLabel">{{option.label}}</span>
+                                <ng-template #customLabel>
+                                    <ng-container *ngTemplateOutlet="label.templateRef; context: {$implicit: option.value}"></ng-container>
+                                </ng-template>
+                            </ion-label>
+                        </ion-item>
+
+                    </ng-template>
+
+                </ng-template>
+            </ion-list>
+        </div>
+    </ng-template>
+
+</ion-content>
+
+<ion-footer *ngIf="multiple && popoverOverlay" style="position: sticky; bottom: 0px">
+    <ion-toolbar>
+        <ion-buttons slot="end">
+
+            <ion-button size="small" (click)="cancelClicked()">{{"@co.mmons/js-intl#Cancel" | intlMessage}}</ion-button>
+
+            <ion-button size="small" (click)="okClicked()">{{"@co.mmons/js-intl#Ok" | intlMessage}}</ion-button>
+
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

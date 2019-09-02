@@ -2,6 +2,7 @@ import {Component, ComponentRef, Input, ViewChild, ViewContainerRef} from "@angu
 
 @Component({
     selector: "ionx-form-item-hint",
+    styleUrls: ["item-error-item-hint.scss", "item-hint.scss"],
     template: `
         <ion-icon [name]="icon" *ngIf="icon"></ion-icon>
         <label>

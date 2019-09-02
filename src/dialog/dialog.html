@@ -1,0 +1,25 @@
+<div ionx--content>
+
+    <div ionx--header *ngIf="!!header">{{header}}</div>
+
+    <div ionx--message>
+
+        <div [innerHTML]="messageText" *ngIf="!!messageText"></div>
+
+        <ng-template #messageComponentContainer></ng-template>
+
+    </div>
+
+</div>
+
+<ion-footer *ngIf="_buttons && _buttons.length > 0">
+    <ion-toolbar>
+        <ionx-buttons>
+
+            <ion-button fill="clear" [color]="button.color || 'primary'" [size]="button.size" (click)="buttonClicked(button)" *ngFor="let button of _buttons">
+                <span>{{button.text}}</span>
+            </ion-button>
+
+        </ionx-buttons>
+    </ion-toolbar>
+</ion-footer>

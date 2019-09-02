@@ -1,9 +1,10 @@
-import { ElementRef } from "@angular/core";
+import { ApplicationRef, ComponentFactoryResolver, ElementRef, Injector } from "@angular/core";
 import { IonSearchbar } from "@ionic/angular";
 export declare class ExpandingSearchbar {
+    private appRef;
     private element;
     private searchbar;
-    constructor(element: ElementRef<HTMLIonSearchbarElement>, searchbar: IonSearchbar);
+    constructor(injector: Injector, resolver: ComponentFactoryResolver, appRef: ApplicationRef, element: ElementRef<HTMLIonSearchbarElement>, searchbar: IonSearchbar);
     private subscriptions;
     readonly parentElement: HTMLElement;
     expanded: boolean;

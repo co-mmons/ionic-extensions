@@ -1,0 +1,17 @@
+:host {
+    display: flex;
+    align-items: center;
+    margin: 8px 0px 0px 0px;
+
+    & > label {
+        flex: 1;
+        font-size: smaller;
+    }
+
+    & > ion-icon {
+        margin-top: 0px !important;
+        margin-right: 8px;
+        min-height: initial;
+        width: 16px;
+    }
+}

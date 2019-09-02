@@ -1,3 +1,4 @@
+import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 import {IonicModule} from "@ionic/angular";
 
@@ -8,7 +9,7 @@ export {ModalControllerComponent} from "./modal-controller";
 @NgModule({
     declarations: [ModalControllerComponent, ModalControllerContentComponent],
     exports: [ModalControllerComponent],
-    imports: [IonicModule],
+    imports: [CommonModule, IonicModule],
     entryComponents: [ModalControllerComponent, ModalControllerContentComponent]
 })
 export class ModalModule {

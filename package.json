@@ -4,20 +4,19 @@
   "author": "co.mmons",
   "private": false,
   "license": "MIT",
+  "$schema": "./node_modules/ng-packagr/package.schema.json",
   "scripts": {
     "build": "rm -Rf dist/**/* && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
     "build-copy": "node-utils-file-system-glob-copy src dist '**/*.scss'",
     "install": "node-utils-npm-install-dist"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@co.mmons/angular-extensions": "git+https://github.com/co-mmons/angular-extensions.git",
     "@co.mmons/angular-intl": "git+https://github.com/co-mmons/angular-intl.git",
     "@co.mmons/js-utils": "git+https://github.com/co-mmons/js-utils.git",
     "@co.mmons/node-utils": "git+https://github.com/co-mmons/node-utils.git",
     "@co.mmons/rxjs-utils": "git+https://github.com/co-mmons/rxjs-utils.git",
-    "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git"
-  },
-  "peerDependencies": {
+    "@co.mmons/web-utils": "git+https://github.com/co-mmons/web-utils.git",
     "@angular/cdk": "^8.0.1",
     "@angular/common": "^8.0.3",
     "@angular/compiler": "^8.0.3",
@@ -37,6 +36,21 @@
     "@capacitor/core": "^1.1.0",
     "@types/dragula": "^2.1.34",
     "bignumber.js": "^9.0.0",
+    "ng-packagr": "^5.5.0",
     "typescript": "~3.4.5"
+  },
+  "main": "bundles/co.mmons-ionic-extensions.umd.js",
+  "module": "fesm5/co.mmons-ionic-extensions.js",
+  "es2015": "fesm2015/co.mmons-ionic-extensions.js",
+  "esm5": "esm5/co.mmons-ionic-extensions.js",
+  "esm2015": "esm2015/co.mmons-ionic-extensions.js",
+  "fesm5": "fesm5/co.mmons-ionic-extensions.js",
+  "fesm2015": "fesm2015/co.mmons-ionic-extensions.js",
+  "typings": "co.mmons-ionic-extensions.d.ts",
+  "metadata": "co.mmons-ionic-extensions.metadata.json",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "src/index.ts"
+    }
   }
 }

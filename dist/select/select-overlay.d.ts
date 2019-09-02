@@ -43,6 +43,6 @@ export declare class SelectOverlayContent {
     private searchbar;
     search(ev: any): void;
     ngOnInit(): void;
-    private resetScrollHeight;
+    resetScrollHeight(): Promise<void>;
     ionViewDidEnter(): Promise<void>;
 }

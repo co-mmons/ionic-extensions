@@ -10,7 +10,7 @@ export declare class DateTimePickerOverlay {
     private value;
     private formatOptions;
     title: string;
-    private timezone;
+    timezone: string;
     timezoneDisabled: boolean;
     timezones: SelectOptions<String>;
     dateHeader: string;

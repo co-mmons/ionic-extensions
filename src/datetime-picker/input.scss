@@ -1,0 +1,57 @@
+:host {
+    position: relative;
+    display: block;
+    flex: 1;
+    width: 100%;
+    --padding-end: 16px;
+    --padding-start: 16px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+
+    .native-input {
+        padding-top: var(--padding-top, 10px);
+        padding-bottom: var(--padding-bottom, 9px);
+        padding-left: var(--padding-start, 0px);
+        padding-right: var(--padding-end, 0px);
+        display: inline-block;
+
+        flex: 1;
+
+        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+
+        border: 0;
+
+        outline: none;
+
+        background: transparent;
+
+        box-sizing: border-box;
+        appearance: none;
+    }
+
+    .native-input::placeholder {
+        opacity: 0.5;
+    }
+
+    .native-input:-webkit-autofill {
+        background-color: transparent;
+    }
+}
+
+:host-context(.md) {
+    --padding-bottom: 11px;
+}
+
+:host-context(.item-label-stacked) {
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --padding-top: 9px;
+    --padding-bottom: 9px;
+}
+
+:host-context(.ios) .native-input {
+    --padding-top: 9px;
+    --padding-bottom: 8px;
+}

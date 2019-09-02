@@ -2,7 +2,7 @@ import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 import {IntlModule} from "@co.mmons/angular-intl";
 import {IonicModule} from "@ionic/angular";
-import {ButtonsModule} from "../buttons";
+import {ButtonsModule} from "../buttons/index";
 import {Dialog} from "./dialog";
 import {DialogController} from "./dialog-controller";
 

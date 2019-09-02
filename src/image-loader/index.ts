@@ -5,9 +5,7 @@ export {ImageLoader, ensureImagesLoaded} from "./image-loader";
 
 @NgModule({
     declarations: [ImageLoader],
-    imports: [],
-    exports: [ImageLoader],
-    providers: []
+    exports: [ImageLoader]
 })
 export class ImageLoaderModule {
 }

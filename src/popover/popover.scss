@@ -9,3 +9,26 @@
         }
     }
 }
+
+ion-list[ionx-context-menu-list] {
+    margin: 0px;
+    padding: 4px 0px;
+
+    & > ion-item.item:last-child, & > *:last-child > ion-item.item:last-child {
+        --border-width: 0px;
+        --inner-border-width: 0px;
+    }
+}
+
+.ionx-popover-centered .popover-content {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    transform-origin: unset;
+}
+
+.ionx-popover-auto-width .popover-content {
+    max-width: 85%;
+    width: auto;
+}
+

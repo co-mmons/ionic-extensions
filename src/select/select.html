@@ -1,0 +1,34 @@
+<ng-template #optionTemplate let-value="value" let-index="index">
+    <span *ngIf="!labelTemplate; else hasLabelTemplate">{{labelImpl$(value)}}</span>
+    <ng-template #hasLabelTemplate>
+        <ng-container *ngTemplateOutlet="labelTemplate.templateRef; context: {$implicit: value, index: index}"></ng-container>
+    </ng-template>
+</ng-template>
+
+<div class="select-inner">
+    <div class="select-text" #textContainer [class.select-placeholder]="values.length == 0">
+        <span *ngIf="values.length == 0; else showValues">{{placeholder}}</span>
+        <ng-template #showValues>
+            <ng-template ngFor [ngForOf]="values" let-value let-index="index">
+                <span *ngIf="index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable">{{!labelTemplate ? ", " : labelTemplate.separator}}</span>
+
+                <ion-chip *ngIf="orderable else simpleText" outline="true" [attr.ionx--index]="index">
+                    <ng-template *ngTemplateOutlet="optionTemplate; context: {value: value, index: index}"></ng-template>
+                </ion-chip>
+
+                <ng-template #simpleText>
+                    <ng-template *ngTemplateOutlet="optionTemplate; context: {value: value, index: index}"></ng-template>
+                </ng-template>
+
+            </ng-template>
+        </ng-template>
+    </div>
+
+    <ng-container  *ngIf="!_readonly && !_disabled">
+        <div class="select-icon" role="presentation" *ngIf="!orderable">
+            <div class="select-icon-inner"></div>
+        </div>
+        <button type="button" role="combobox" aria-haspopup="dialog" class="select-cover" (click)="open($event)" *ngIf="!orderable || !values || values.length === 0"></button>
+    </ng-container>
+
+</div>

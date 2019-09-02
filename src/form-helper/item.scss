@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    ion-item {
+        --padding-start: 0px;
+        --inner-padding-end: 0px;
+        --inner-padding-start: 0px;
+        --padding-end: 0px;
+        --inner-border-width: 0px;
+        --border-width: 0px 0px 1px 0px;
+    }
+}

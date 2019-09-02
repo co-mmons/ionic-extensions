@@ -1,0 +1,75 @@
+::ng-deep .ionx-select-overlay-width {
+
+    @media (min-width: 768px) {
+
+        .popover-content {
+            --width: 300px;
+            --max-width: 90%;
+        }
+    }
+    @media (max-width: 767px) {
+
+        .popover-content {
+            left: calc(16px + var(--ion-safe-area-left, 0px)) !important;
+            width: calc(100% - (32px + var(--ion-safe-area-right, 0px) + var(--ion-safe-area-left, 0px)));
+        }
+    }
+}
+
+:host {
+
+    .ionx-select-overlay-spinner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+
+        ion-spinner {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    ion-checkbox {
+        margin-right: 16px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    ion-list {
+        margin: 4px 0px;
+        padding: 0px;
+    }
+
+    ::ng-deep .cdk-virtual-scroll-content-wrapper { max-width: 100% }
+
+    ::ng-deep .hydrated { visibility: visible }
+}
+
+:host-context(ion-popover) {
+    ion-content {
+        --overflow: initial !important;
+
+        ion-item ion-label {
+            white-space: normal;
+        }
+
+        ion-item.item:last-child {
+            --border-width: 0px;
+        }
+    }
+}
+
+
+:host-context(.ios) {
+    ion-item-divider {
+        --background: transparent;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+    }
+}

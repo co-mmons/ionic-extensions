@@ -89,12 +89,12 @@ export class ModalControllerComponent {
 
 @Component({
     template: `
-        <ng-template [ngTemplateOutlet]="template"></ng-template>
+        <ng-container *ngTemplateOutlet="template"></ng-container>
     `
 })
 export class ModalControllerContentComponent {
 
-    constructor(params: any) {
+    constructor() {
         //this.template = params.get("template");
     }
 

@@ -1,12 +1,8 @@
-ionx-spinner {
+:host {
     position: relative;
-
-    ion-spinner {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     ion-backdrop {
         opacity: 0.1;

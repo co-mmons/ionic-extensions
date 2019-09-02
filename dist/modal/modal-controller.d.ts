@@ -18,7 +18,7 @@ export declare class ModalControllerComponent {
     dismiss(data?: any, role?: any): Promise<any>;
 }
 export declare class ModalControllerContentComponent {
-    constructor(params: any);
+    constructor();
     template: TemplateRef<any>;
     ngOnDestroy(): void;
 }
