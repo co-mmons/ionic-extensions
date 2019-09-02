@@ -6,7 +6,7 @@
   "license": "MIT",
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "scripts": {
-    "build": "npx ng-packagr -p package.json && node-utils-file-system-glob-copy src dist '**/package.json' && rm -R dist/bundles dist/esm5 dist/fesm5 dist/fesm2015 > /dev/null",
+    "build": "npx ng-packagr -p package.json -c tsconfig.ngpackagr.json && node-utils-file-system-glob-copy src dist '**/package.json' && rm -R dist/esm5",
     "build:select": "npx ng-packagr -p package.select.json",
     "install": "node-utils-npm-install-dist"
   },
