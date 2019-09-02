@@ -7,9 +7,8 @@ export { ExpandingSearchbarStyles as ɵf } from './expanding-searchbar/expanding
 export { IonicBackButtonFix as ɵh } from './ionic-fix/back-button-fix';
 export { IonicInputFix as ɵg } from './ionic-fix/input-fix';
 export { IonicItemTargetFix as ɵi } from './ionic-fix/item-target';
-export { LoaderController as ɵj } from './loader/loader-controller';
 export { ModalControllerContentComponent as ɵa } from './modal/modal-controller';
 export { PopoverControllerContentComponent as ɵb } from './popover/popover-controller';
 export { SelectLabel as ɵd } from './select/select-label';
 export { SelectOverlayContent as ɵe } from './select/select-overlay';
-export { TextareaAutosize as ɵk } from './textarea-autosize/textarea-autosize';
+export { TextareaAutosize as ɵj } from './textarea-autosize/textarea-autosize';

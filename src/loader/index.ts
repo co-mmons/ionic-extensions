@@ -6,6 +6,8 @@ import {LoaderController} from "./loader-controller";
 import {Loader} from "./loader";
 
 export {Loader} from "./loader";
+export {LoaderController} from "./loader-controller";
+export {LoaderOptions} from "./loader-options";
 
 @NgModule({
     declarations: [Loader],
