@@ -1,5 +1,13 @@
 {
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
     "name": "@co.mmons/ionic-extensions/modal",
-    "main": "../esm2015/modal/index.js",
-    "sideEffects": false
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/modal",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "modal-module"
+        }
+    }
 }

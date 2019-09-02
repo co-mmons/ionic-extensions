@@ -1,5 +1,13 @@
 {
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
     "name": "@co.mmons/ionic-extensions/image-loader",
-    "main": "../esm2015/image-loader/index.js",
-    "sideEffects": false
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/image-loader",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "image-loader-module"
+        }
+    }
 }

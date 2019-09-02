@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, Input} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
 import {DateTimezone} from "@co.mmons/js-utils/core";
 import {ModalController} from "@ionic/angular";
-import {SelectOptions} from "../select";
+import {SelectOptions} from "@co.mmons/ionic-extensions/select";
 import {timezoneInfo} from "./timezone-info";
 
 const weekdayNarrowFormat: Intl.DateTimeFormatOptions = {

@@ -1,5 +1,1 @@
-{
-    "name": "@co.mmons/ionic-extensions/textarea-autosize",
-    "main": "../esm2015/textarea-autosize/index.js",
-    "sideEffects": false
-}
+{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/textarea-autosize","sideEffects":false,"typings":"textarea-autosize-module.d.ts","metadata":"textarea-autosize-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/textarea-autosize-module.js"}

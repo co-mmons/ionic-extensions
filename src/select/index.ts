@@ -4,7 +4,7 @@ import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {IntlModule} from "@co.mmons/angular-intl";
 import {IonicModule} from "@ionic/angular";
-import {ButtonsModule} from "../buttons/index";
+import {ButtonsModule} from "@co.mmons/ionic-extensions/buttons";
 import {Select} from "./select";
 import {SelectLabel} from "./select-label";
 import {SelectOption} from "./select-option";

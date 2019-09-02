@@ -1,5 +1,13 @@
 {
-    "name": "@co.mmons/ionic-extensions/ionix-fix",
-    "main": "../esm2015/ionic-fix/index.js",
-    "sideEffects": false
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
+    "name": "@co.mmons/ionic-extensions/ionic-fix",
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/ionic-fix",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "ionic-fix-module"
+        }
+    }
 }

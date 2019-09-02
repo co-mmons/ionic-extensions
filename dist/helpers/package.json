@@ -1,5 +1,1 @@
-{
-    "name": "@co.mmons/ionic-extensions/helpers",
-    "main": "../esm2015/helpers/index.js",
-    "sideEffects": false
-}
+{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/helpers","sideEffects":false,"typings":"helpers-module.d.ts","metadata":"helpers-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/helpers-module.js"}

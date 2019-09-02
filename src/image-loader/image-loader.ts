@@ -1,5 +1,5 @@
 import {Directive, Input, ElementRef} from "@angular/core";
-import {ensureLazyImagesLoaded} from "../lazy-image/lazy-load";
+import {ensureLazyImagesLoaded} from "@co.mmons/ionic-extensions/lazy-image";
 
 export interface ImageLoaderStateCssClasses {
 	loaded?: string;

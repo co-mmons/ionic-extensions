@@ -1,5 +1,13 @@
 {
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
     "name": "@co.mmons/ionic-extensions/scroll",
-    "main": "../esm2015/scroll/index.js",
-    "sideEffects": false
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/scroll",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "scroll-module"
+        }
+    }
 }

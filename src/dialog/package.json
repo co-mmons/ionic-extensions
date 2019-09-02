@@ -1,5 +1,13 @@
 {
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
     "name": "@co.mmons/ionic-extensions/dialog",
-    "main": "../esm2015/dialog/index.js",
-    "sideEffects": false
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/dialog",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "dialog-module"
+        }
+    }
 }

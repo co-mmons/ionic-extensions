@@ -4,10 +4,8 @@
   "author": "co.mmons",
   "private": false,
   "license": "MIT",
-  "$schema": "./node_modules/ng-packagr/package.schema.json",
   "scripts": {
-    "build": "npx ng-packagr -p package.json -c tsconfig.ngpackagr.json && node-utils-file-system-glob-copy src dist '**/package.json' && rm -R dist/esm5",
-    "build:select": "npx ng-packagr -p package.select.json",
+    "build": "rm -Rf dist/**/* && npx ts-node --project tsconfig.build.json build.ts",
     "install": "node-utils-npm-install-dist"
   },
   "peerDependencies": {
@@ -35,17 +33,12 @@
   "devDependencies": {
     "@capacitor/core": "^1.1.0",
     "@types/dragula": "^2.1.34",
+    "@types/fs-extra": "^8.0.0",
     "bignumber.js": "^9.0.0",
+    "fs-extra": "^8.1.0",
     "ng-packagr": "^5.5.0",
+    "ts-node": "^8.3.0",
     "typescript": "~3.4.5"
   },
-  "main": "esm2015/co.mmons-ionic-extensions.js",
-  "typings": "co.mmons-ionic-extensions.d.ts",
-  "metadata": "co.mmons-ionic-extensions.metadata.json",
-  "sideEffects": false,
-  "ngPackage": {
-    "lib": {
-      "entryFile": "src/modules.ts"
-    }
-  }
+  "sideEffects": false
 }

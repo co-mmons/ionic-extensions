@@ -1,6 +1,0 @@
-{
-    "extends": "./node_modules/ng-packagr/lib/ts/conf/tsconfig.ngc.json",
-    "compilerOptions": {
-        "module": "esnext"
-    }
-}

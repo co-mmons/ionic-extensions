@@ -1,5 +1,13 @@
 {
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
     "name": "@co.mmons/ionic-extensions/select",
-    "main": "../esm2015/select/index.js",
-    "sideEffects": false
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/select",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "select-module"
+        }
+    }
 }

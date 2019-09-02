@@ -1,5 +1,1 @@
-{
-    "name": "@co.mmons/ionic-extensions/spinner",
-    "main": "../esm2015/spinner/index.js",
-    "sideEffects": false
-}
+{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/spinner","sideEffects":false,"typings":"spinner-module.d.ts","metadata":"spinner-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/spinner-module.js"}

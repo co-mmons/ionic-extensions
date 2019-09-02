@@ -13,7 +13,11 @@
         "outDir": "dist",
         "rootDir": "src",
         "sourceMap": true,
-        "importHelpers": true
+        "importHelpers": true,
+        "baseUrl": "./",
+        "paths": {
+            "@co.mmons/ionic-extensions/*": ["src/*"]
+        }
     },
 
     "exclude": [

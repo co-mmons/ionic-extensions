@@ -1,5 +1,1 @@
-{
-    "name": "@co.mmons/ionic-extensions/ionix-fix",
-    "main": "../esm2015/ionic-fix/index.js",
-    "sideEffects": false
-}
+{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/ionic-fix","sideEffects":false,"typings":"ionic-fix-module.d.ts","metadata":"ionic-fix-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/ionic-fix-module.js"}

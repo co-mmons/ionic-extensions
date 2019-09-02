@@ -1,5 +1,1 @@
-{
-    "name": "@co.mmons/ionic-extensions/loader",
-    "main": "../esm2015/loader/index.js",
-    "sideEffects": false
-}
+{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/loader","sideEffects":false,"typings":"loader-module.d.ts","metadata":"loader-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/loader-module.js"}

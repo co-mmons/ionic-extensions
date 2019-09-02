@@ -1,5 +1,14 @@
 {
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
     "name": "@co.mmons/ionic-extensions/buttons",
-    "main": "../esm2015/buttons/index.js",
-    "sideEffects": false
+    "sideEffects": false,
+    "main": "esm2015/buttons-module.js",
+    "ngPackage": {
+        "dest": "../../dist/buttons",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "buttons-module"
+        }
+    }
 }

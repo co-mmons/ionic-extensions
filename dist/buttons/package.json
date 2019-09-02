@@ -1,5 +1,1 @@
-{
-    "name": "@co.mmons/ionic-extensions/buttons",
-    "main": "../esm2015/buttons/index.js",
-    "sideEffects": false
-}
+{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/buttons","sideEffects":false,"typings":"buttons-module.d.ts","metadata":"buttons-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/buttons-module.js"}

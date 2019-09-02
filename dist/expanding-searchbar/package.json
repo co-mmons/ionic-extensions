@@ -1,5 +1,1 @@
-{
-    "name": "@co.mmons/ionic-extensions/expanding-searchbar",
-    "main": "../esm2015/expanding-searchbar/index.js",
-    "sideEffects": false
-}
+{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/expanding-searchbar","sideEffects":false,"typings":"expanding-searchbar-module.d.ts","metadata":"expanding-searchbar-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/expanding-searchbar-module.js"}
