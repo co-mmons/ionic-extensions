@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/expanding-searchbar",
+    "main": "../esm2015/expanding-searchbar/index.js",
+    "sideEffects": false
+}

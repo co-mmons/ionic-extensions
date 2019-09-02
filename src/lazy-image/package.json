@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/lazy-image",
+    "main": "../esm2015/lazy-image/index.js",
+    "sideEffects": false
+}

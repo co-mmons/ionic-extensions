@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/ionix-fix",
+    "main": "../esm2015/ionic-fix/index.js",
+    "sideEffects": false
+}

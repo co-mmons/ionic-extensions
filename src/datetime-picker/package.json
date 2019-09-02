@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/datetime-picker",
+    "main": "../esm2015/datetime-picker/index.js",
+    "sideEffects": false
+}

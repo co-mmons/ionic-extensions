@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/form-helper",
+    "main": "../esm2015/form-helper/index.js",
+    "sideEffects": false
+}

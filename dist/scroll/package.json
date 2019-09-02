@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/scroll",
+    "main": "../esm2015/scroll/index.js",
+    "sideEffects": false
+}

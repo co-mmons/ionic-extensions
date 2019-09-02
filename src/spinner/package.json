@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/spinner",
+    "main": "../esm2015/spinner/index.js",
+    "sideEffects": false
+}

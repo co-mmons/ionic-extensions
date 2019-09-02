@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/dialog",
+    "main": "../esm2015/dialog/index.js",
+    "sideEffects": false
+}

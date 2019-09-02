@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/toggle-labels",
+    "main": "../esm2015/toggle-labels/index.js",
+    "sideEffects": false
+}

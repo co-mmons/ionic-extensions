@@ -6,7 +6,9 @@
   "license": "MIT",
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "scripts": {
-    "build": "rm -Rf dist/**/* && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
+    "build": "npx ng-packagr -p package.json && node-utils-file-system-glob-copy src dist '**/package.json'",
+    "build:select": "npx ng-packagr -p package.select.json",
+    "build-old": "rm -Rf dist/**/* && ngc && node-utils-file-system-glob-copy src dist '**/*.scss'",
     "build-copy": "node-utils-file-system-glob-copy src dist '**/*.scss'",
     "install": "node-utils-npm-install-dist"
   },
@@ -39,18 +41,13 @@
     "ng-packagr": "^5.5.0",
     "typescript": "~3.4.5"
   },
-  "main": "bundles/co.mmons-ionic-extensions.umd.js",
-  "module": "fesm5/co.mmons-ionic-extensions.js",
-  "es2015": "fesm2015/co.mmons-ionic-extensions.js",
-  "esm5": "esm5/co.mmons-ionic-extensions.js",
-  "esm2015": "esm2015/co.mmons-ionic-extensions.js",
-  "fesm5": "fesm5/co.mmons-ionic-extensions.js",
-  "fesm2015": "fesm2015/co.mmons-ionic-extensions.js",
+  "main": "esm2015/co.mmons-ionic-extensions.js",
   "typings": "co.mmons-ionic-extensions.d.ts",
   "metadata": "co.mmons-ionic-extensions.metadata.json",
+  "sideEffects": false,
   "ngPackage": {
     "lib": {
-      "entryFile": "src/index.ts"
+      "entryFile": "src/modules.ts"
     }
   }
 }

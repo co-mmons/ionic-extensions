@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/modal",
+    "main": "../esm2015/modal/index.js",
+    "sideEffects": false
+}

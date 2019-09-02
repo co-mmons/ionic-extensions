@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/select",
+    "main": "../esm2015/select/index.js",
+    "sideEffects": false
+}

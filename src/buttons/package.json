@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/buttons",
+    "main": "../esm2015/buttons/index.js",
+    "sideEffects": false
+}

@@ -1,15 +1,15 @@
-import { __decorate, __metadata, __values, __param, __awaiter, __generator, __extends } from 'tslib';
-import { Component, NgModule, Input, Directive, Injector, ComponentFactoryResolver, ApplicationRef, ElementRef, HostBinding, ContentChildren, QueryList, Optional, ViewChild, ViewContainerRef, ComponentRef, HostListener, Inject, forwardRef, Renderer, Injectable, EventEmitter, TemplateRef, Output, ViewEncapsulation, ContentChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { IonSearchbar, IonicModule, IonBackButtonDelegate, IonRouterOutlet, NavController, PopoverController, ModalController, IonToggle } from '@ionic/angular';
-import { unsubscribe } from '@co.mmons/rxjs-utils';
-import { CommonModule } from '@angular/common';
-import { FormControlName, NgForm, FormGroupDirective, AbstractControl, FormsModule, NgControl } from '@angular/forms';
-import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
-import { IntlModule, IntlService } from '@co.mmons/angular-intl';
-import { Router } from '@angular/router';
-import { waitTill, sleep, DateTimezone } from '@co.mmons/js-utils/core';
+import { __decorate, __metadata, __extends, __values, __awaiter, __generator, __param } from 'tslib';
+import { Component, NgModule, Input, Directive, TemplateRef, ViewContainerRef, ChangeDetectionStrategy, ElementRef, ViewChild, HostListener, Optional, EventEmitter, Output, ContentChild, ContentChildren, QueryList, ChangeDetectorRef, HostBinding, ComponentRef, Injector, ComponentFactoryResolver, Injectable, ApplicationRef, Inject, forwardRef, Renderer, ViewEncapsulation } from '@angular/core';
+import { PopoverController, ModalController, IonicModule, IonSearchbar, IonBackButtonDelegate, IonRouterOutlet, NavController, IonToggle } from '@ionic/angular';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
+import { NgControl, FormsModule, FormControlName, NgForm, FormGroupDirective, AbstractControl } from '@angular/forms';
+import { IntlService, IntlModule } from '@co.mmons/angular-intl';
+import { waitTill, DateTimezone, sleep } from '@co.mmons/js-utils/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { unsubscribe } from '@co.mmons/rxjs-utils';
+import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
+import { Router } from '@angular/router';
 
 var Buttons = /** @class */ (function () {
     function Buttons() {
@@ -35,1984 +35,6 @@ var ButtonsModule = /** @class */ (function () {
         })
     ], ButtonsModule);
     return ButtonsModule;
-}());
-
-var ExpandingSearchbarStyles = /** @class */ (function () {
-    function ExpandingSearchbarStyles() {
-    }
-    ExpandingSearchbarStyles = __decorate([
-        Component({
-            template: "",
-            styles: [":host{display:none}::ng-deep ion-searchbar.ionx-expanding-searchbar{position:absolute;top:0;left:0;width:0;overflow:hidden;padding:0;margin:0}::ng-deep ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{opacity:1;width:100%}::ng-deep ion-searchbar.ionx-expanding-searchbar:not(.searchbar-show-cancel) .searchbar-clear-button{display:block!important}::ng-deep ion-toolbar ion-searchbar.ionx-expanding-searchbar-expanded{padding-top:var(--padding-top);padding-bottom:var(--padding-bottom);padding-left:var(--padding-start);padding-right:var(--padding-end)}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:8px;padding-right:8px}::ng-deep .ios ion-searchbar.ionx-expanding-searchbar{height:36px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:0;padding-right:0}::ng-deep .ionx-expanding-searchbar-parent>:not(.ionx-expanding-searchbar){visibility:hidden!important}"]
-        })
-    ], ExpandingSearchbarStyles);
-    return ExpandingSearchbarStyles;
-}());
-
-var expandedCssClass = "ionx-expanding-searchbar-expanded";
-var parentCssClass = "ionx-expanding-searchbar-parent";
-var stylesInjected = false;
-var ExpandingSearchbar = /** @class */ (function () {
-    function ExpandingSearchbar(injector, resolver, appRef, element, searchbar) {
-        this.appRef = appRef;
-        this.element = element;
-        this.searchbar = searchbar;
-        this.subscriptions = [];
-        if (!stylesInjected) {
-            var styles = resolver.resolveComponentFactory(ExpandingSearchbarStyles).create(injector);
-            this.appRef.attachView(styles.hostView);
-        }
-    }
-    Object.defineProperty(ExpandingSearchbar.prototype, "parentElement", {
-        get: function () {
-            var parent = this.element.nativeElement.parentElement;
-            if (parent) {
-                return parent;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ExpandingSearchbar.prototype, "expanded", {
-        get: function () {
-            return this.element.nativeElement.classList.contains(expandedCssClass);
-        },
-        set: function (expanded) {
-            var _this = this;
-            this.parentElement;
-            if (expanded) {
-                this.element.nativeElement.classList.add(expandedCssClass);
-                this.parentElement.classList.add(parentCssClass);
-                this.searchbar.setFocus();
-            }
-            else {
-                this.element.nativeElement.classList.remove(expandedCssClass);
-                this.parentElement.classList.remove(parentCssClass);
-                //this.searchbar.value = "";
-                setTimeout(function () { return _this.element.nativeElement.querySelector(".searchbar-input").blur(); }, 50);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ExpandingSearchbar.prototype.expand = function () {
-        this.expanded = true;
-    };
-    ExpandingSearchbar.prototype.collapseIfPossible = function (cleared) {
-        var _this = this;
-        if (this.expanded && (cleared || !this.searchbar.value)) {
-            setTimeout(function () {
-                _this.expanded = false;
-            }, cleared ? 250 : 0);
-        }
-    };
-    ExpandingSearchbar.prototype.ngOnInit = function () {
-        var _this = this;
-        //this.subscriptions.push(this.searchbar.ionBlur.subscribe(() => this.collapseIfPossible()));
-        this.subscriptions.push(this.searchbar.ionClear.subscribe(function () { return _this.collapseIfPossible(true); }));
-        this.element.nativeElement.classList.add("ionx-expanding-searchbar");
-    };
-    ExpandingSearchbar.prototype.ngOnDestroy = function () {
-        unsubscribe(this.subscriptions);
-    };
-    __decorate([
-        Input("ionx-expanded"),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], ExpandingSearchbar.prototype, "expanded", null);
-    ExpandingSearchbar = __decorate([
-        Directive({
-            selector: "ion-searchbar[ionx-expanding-searchbar]",
-            exportAs: "ionxExpandingSearchbar"
-        }),
-        __metadata("design:paramtypes", [Injector,
-            ComponentFactoryResolver,
-            ApplicationRef,
-            ElementRef,
-            IonSearchbar])
-    ], ExpandingSearchbar);
-    return ExpandingSearchbar;
-}());
-
-var ExpandingSearchbarModule = /** @class */ (function () {
-    function ExpandingSearchbarModule() {
-    }
-    ExpandingSearchbarModule = __decorate([
-        NgModule({
-            declarations: [ExpandingSearchbar, ExpandingSearchbarStyles],
-            exports: [ExpandingSearchbar],
-            imports: [IonicModule]
-        })
-    ], ExpandingSearchbarModule);
-    return ExpandingSearchbarModule;
-}());
-
-var FormHeading = /** @class */ (function () {
-    function FormHeading() {
-    }
-    __decorate([
-        HostBinding("attr.sticky"),
-        Input(),
-        __metadata("design:type", Boolean)
-    ], FormHeading.prototype, "sticky", void 0);
-    FormHeading = __decorate([
-        Component({
-            selector: "ionx-form-heading",
-            template: "\n        <ng-content select=\"ion-item\"></ng-content>\n        <div ionx--under>\n            <ng-content></ng-content>\n        </div>\n    ",
-            styles: [":host{display:block;margin-top:16px}:host ::ng-deep ion-item{--padding-start:0px;--padding-end:0px;--inner-padding-end:16px;--inner-padding-start:16px}:host ::ng-deep ion-item>ion-label{font-size:.9rem;font-weight:500}:host [ionx--under]:not(:empty){padding:8px 16px}:host[sticky]:not([sticky=false]){position:-webkit-sticky;position:sticky;top:0;z-index:3}:host-context(ion-grid) ::ng-deep ion-item{--padding-start:8px;--padding-end:8px;--inner-padding-end:0px;--inner-padding-start:0px}:host-context(ion-grid) [ionx--under]:not(:empty){padding:8px}:host-context(.ios) ::ng-deep ion-item.item-label>ion-label{font-size:.8rem;letter-spacing:1px;text-transform:uppercase}"]
-        }),
-        __metadata("design:paramtypes", [])
-    ], FormHeading);
-    return FormHeading;
-}());
-
-function findParentImpl(element) {
-    if (!element) {
-        return;
-    }
-    if (element.scrollHeight >= element.clientHeight) {
-        var overflowY = window.getComputedStyle(element).overflowY;
-        if (overflowY !== "visible" && overflowY !== "hidden") {
-            return element;
-        }
-    }
-    if (element.assignedSlot) {
-        var p = findParentImpl(element.assignedSlot.parentElement);
-        if (p) {
-            return p;
-        }
-    }
-    return findParentImpl(element.parentElement);
-}
-function scrollIntoView(element, scrollBehavior) {
-    var parent = findParentImpl(element);
-    if (parent) {
-        var top_1 = element.offsetTop;
-        if (element.offsetParent) {
-            var offsetParent = element.offsetParent;
-            while (offsetParent !== parent && !!offsetParent) {
-                top_1 += offsetParent.offsetTop;
-                offsetParent = offsetParent.offsetParent;
-            }
-        }
-        parent.scrollTo({ top: top_1, behavior: scrollBehavior });
-        return;
-    }
-    element.scrollIntoView();
-}
-
-var FormHelper = /** @class */ (function () {
-    function FormHelper(element, ngForm, formGroupDirective) {
-        this.element = element;
-        this.ngForm = ngForm;
-        this.formGroupDirective = formGroupDirective;
-    }
-    Object.defineProperty(FormHelper.prototype, "readonly", {
-        get: function () {
-            return this.element.nativeElement.hasAttribute("readonly");
-        },
-        set: function (readonly) {
-            if (readonly) {
-                this.element.nativeElement.setAttribute("readonly", "");
-            }
-            else {
-                this.element.nativeElement.removeAttribute("readonly");
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    FormHelper.prototype.markAsReadonly = function () {
-        this.readonly = true;
-    };
-    Object.defineProperty(FormHelper.prototype, "busy", {
-        get: function () {
-            return this.element.nativeElement.hasAttribute("busy");
-        },
-        set: function (busy) {
-            if (busy) {
-                this.element.nativeElement.setAttribute("busy", "");
-            }
-            else {
-                this.element.nativeElement.removeAttribute("busy");
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    FormHelper.prototype.markAsBusy = function () {
-        this.busy = true;
-    };
-    FormHelper.prototype.formControlName = function (name) {
-        var e_1, _a;
-        try {
-            for (var _b = __values(this.contentControls.toArray()), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var a = _c.value;
-                if (a.name == name) {
-                    return a;
-                }
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-            }
-            finally { if (e_1) throw e_1.error; }
-        }
-    };
-    Object.defineProperty(FormHelper.prototype, "formGroup", {
-        get: function () {
-            return this.formGroupDirective ? this.formGroupDirective.form : undefined;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    FormHelper.prototype.validateAll = function (markAs) {
-        var e_2, _a;
-        if (markAs === void 0) { markAs = "touched"; }
-        if (!this.formGroupDirective) {
-            return;
-        }
-        for (var controlName in this.formGroup.controls) {
-            var control = this.formGroup.controls[controlName];
-            if (markAs == "touched") {
-                control.markAsTouched();
-            }
-            if (markAs == "dirty") {
-                control.markAsDirty();
-            }
-            control.updateValueAndValidity();
-        }
-        try {
-            for (var _b = __values(this.contentControls.toArray()), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var control = _c.value;
-                if (!control.valid) {
-                    this.focusImpl(control);
-                    break;
-                }
-            }
-        }
-        catch (e_2_1) { e_2 = { error: e_2_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-            }
-            finally { if (e_2) throw e_2.error; }
-        }
-    };
-    FormHelper.prototype.focusImpl = function (control, scroll) {
-        var e_3, _a;
-        if (scroll === void 0) { scroll = true; }
-        if (typeof control == "string" && this.formGroupDirective) {
-            try {
-                for (var _b = __values(this.formGroupDirective.directives), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var c = _c.value;
-                    if (c.name == control) {
-                        control = c;
-                        break;
-                    }
-                }
-            }
-            catch (e_3_1) { e_3 = { error: e_3_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_3) throw e_3.error; }
-            }
-        }
-        var element;
-        if (control instanceof FormControlName) {
-            control = control.valueAccessor;
-        }
-        if (control["el"] instanceof ElementRef) {
-            element = control["el"].nativeElement;
-        }
-        if (control["_elementRef"] instanceof ElementRef) {
-            element = control["_elementRef"].nativeElement;
-        }
-        // element to focus
-        if (element) {
-            if (element["setFocus"]) {
-                element["setFocus"]();
-            }
-            else {
-                var focusable = element;
-                var realInput = (element.shadowRoot && element.shadowRoot.querySelector(".native-input")) || element.querySelector(".native-input");
-                if (realInput) {
-                    focusable = realInput;
-                }
-                focusable.focus();
-            }
-        }
-        if (scroll && element) {
-            scrollIntoView(element.closest("ion-item") || element);
-        }
-    };
-    FormHelper.prototype.focus = function (formControlName, scrollIntoView) {
-        if (scrollIntoView === void 0) { scrollIntoView = true; }
-        this.focusImpl(formControlName, scrollIntoView);
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], FormHelper.prototype, "readonly", null);
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], FormHelper.prototype, "busy", null);
-    __decorate([
-        ContentChildren(FormControlName, { descendants: true }),
-        __metadata("design:type", QueryList)
-    ], FormHelper.prototype, "contentControls", void 0);
-    FormHelper = __decorate([
-        Directive({
-            selector: "[ionx-form-helper], [ionxFormHelper]",
-            exportAs: "ionxFormHelper"
-        }),
-        __param(1, Optional()), __param(2, Optional()),
-        __metadata("design:paramtypes", [ElementRef, NgForm, FormGroupDirective])
-    ], FormHelper);
-    return FormHelper;
-}());
-
-var FormItem = /** @class */ (function () {
-    function FormItem() {
-    }
-    FormItem = __decorate([
-        Component({
-            selector: "ionx-form-item",
-            template: "<ng-content select=\"ion-item\"></ng-content><ng-content select=\"ionx-form-item-error\"></ng-content><ng-content select=\"ionx-form-item-hint\"></ng-content><ng-content></ng-content>"
-        })
-    ], FormItem);
-    return FormItem;
-}());
-
-var FormItemError = /** @class */ (function () {
-    function FormItemError(formGroup) {
-        this.formGroup = formGroup;
-        this.markedAs = "touched";
-    }
-    Object.defineProperty(FormItemError.prototype, "control", {
-        set: function (control) {
-            if (control instanceof AbstractControl) {
-                this._control = control;
-            }
-            else if (control) {
-                this._control = this.formGroup.form.controls[control];
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], FormItemError.prototype, "icon", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], FormItemError.prototype, "markedAs", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], FormItemError.prototype, "control", null);
-    FormItemError = __decorate([
-        Component({
-            selector: "ionx-form-item-error",
-            template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"!!icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"_control\">{{_control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",
-            host: {
-                "[class.ionx--visible]": "!_control || !!(_control.invalid && _control[markedAs])"
-            },
-            styles: [":host{display:flex;align-items:center;margin:8px 0 0}:host>label{flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}", ":host{color:var(--ion-color-danger);display:none}:host.ionx--visible{display:flex}"]
-        }),
-        __metadata("design:paramtypes", [FormGroupDirective])
-    ], FormItemError);
-    return FormItemError;
-}());
-
-var FormItemHint = /** @class */ (function () {
-    function FormItemHint() {
-    }
-    Object.defineProperty(FormItemHint.prototype, "label", {
-        set: function (label) {
-            this.labelComponentContainer.clear();
-            this.labelComponentContainer.insert(label.hostView);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], FormItemHint.prototype, "icon", void 0);
-    __decorate([
-        ViewChild("labelComponentContainer", { read: ViewContainerRef, static: true }),
-        __metadata("design:type", ViewContainerRef)
-    ], FormItemHint.prototype, "labelComponentContainer", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", ComponentRef),
-        __metadata("design:paramtypes", [ComponentRef])
-    ], FormItemHint.prototype, "label", null);
-    FormItemHint = __decorate([
-        Component({
-            selector: "ionx-form-item-hint",
-            template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"icon\"></ion-icon>\n        <label>\n            <template #labelComponentContainer></template>\n            <ng-content></ng-content>\n        </label>\n    ",
-            styles: [":host{display:flex;align-items:center;margin:8px 0 0}:host>label{flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}", ":host{color:var(--ion-color-medium)}"]
-        }),
-        __metadata("design:paramtypes", [])
-    ], FormItemHint);
-    return FormItemHint;
-}());
-
-var FormHelperModule = /** @class */ (function () {
-    function FormHelperModule() {
-    }
-    FormHelperModule = __decorate([
-        NgModule({
-            declarations: [FormItem, FormHeading, FormItemError, FormItemHint, FormHelper],
-            imports: [CommonModule, FormsModule, IonicModule, IntlModule, MatchMediaModule],
-            exports: [FormItem, FormItemError, FormItemHint, FormHeading, FormHelper]
-        })
-    ], FormHelperModule);
-    return FormHelperModule;
-}());
-
-var defaultOptions = {
-    selector: "img",
-    container: window,
-    scroll: null,
-    threshold: 300,
-    throttle: 150,
-    dataSrc: "original",
-    dataSrcSet: "original-set",
-    dataAlternate: "alternate",
-    classLoading: "ionx-lazy-image-loading",
-    classLoaded: "ionx-lazy-image-loaded",
-    skipInvisible: true,
-    callbackLoad: null,
-    callbackError: null,
-    callbackSet: null,
-    callbackProcessed: null
-};
-function _isInsideViewport(element, container, threshold) {
-    var ownerDocument, documentTop, documentLeft;
-    function _getDocumentWidth() {
-        return window.innerWidth || (ownerDocument.documentElement.clientWidth || document.body.clientWidth);
-    }
-    function _getDocumentHeight() {
-        return window.innerHeight || (ownerDocument.documentElement.clientHeight || document.body.clientHeight);
-    }
-    function _getTopOffset(element) {
-        return element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
-    }
-    function _getLeftOffset(element) {
-        return element.getBoundingClientRect().left + documentLeft - ownerDocument.documentElement.clientLeft;
-    }
-    function _isBelowViewport() {
-        var fold;
-        if (container === window) {
-            fold = _getDocumentHeight() + documentTop;
-        }
-        else {
-            fold = _getTopOffset(container) + container.offsetHeight;
-        }
-        return fold <= _getTopOffset(element) - threshold;
-    }
-    function _isAtRightOfViewport() {
-        var fold;
-        if (container === window) {
-            fold = _getDocumentWidth() + window.pageXOffset;
-        }
-        else {
-            fold = _getLeftOffset(container) + _getDocumentWidth();
-        }
-        return fold <= _getLeftOffset(element) - threshold;
-    }
-    function _isAboveViewport() {
-        var fold;
-        if (container === window) {
-            fold = documentTop;
-        }
-        else {
-            fold = _getTopOffset(container);
-        }
-        return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
-    }
-    function _isAtLeftOfViewport() {
-        var fold;
-        if (container === window) {
-            fold = documentLeft;
-        }
-        else {
-            fold = _getLeftOffset(container);
-        }
-        return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
-    }
-    ownerDocument = element.ownerDocument;
-    documentTop = window.pageYOffset || ownerDocument.body.scrollTop;
-    documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
-    return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
-}
-function _now() {
-    var d = new Date();
-    return d.getTime();
-}
-function _convertToArray(nodeSet) {
-    return Array.prototype.slice.call(nodeSet);
-}
-function setSourcesForPicture(element, srcsetDataAttribute) {
-    var parent = element.parentElement;
-    if (parent.tagName !== 'PICTURE') {
-        return;
-    }
-    for (var i = 0; i < parent.children.length; i++) {
-        var pictureChild = parent.children[i];
-        if (pictureChild.tagName === 'SOURCE') {
-            var sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
-            if (sourceSrcset) {
-                pictureChild.setAttribute('srcset', sourceSrcset);
-            }
-        }
-    }
-}
-/**
- * Sets sources (e.g. src) for lazy load element.
- * @param element Element, whose image to be loaded.
- * @param srcsetDataAttribute
- * @param srcDataAttribute
- */
-function setSources(element, srcsetDataAttribute, srcDataAttribute) {
-    var tagName = element.tagName.toUpperCase();
-    var elementSrc = element.getAttribute("data-" + srcDataAttribute);
-    if (tagName === "IFRAME") {
-        if (elementSrc) {
-            element.setAttribute("src", elementSrc);
-        }
-        return;
-    }
-    else {
-        if (tagName === "IMG") {
-            setSourcesForPicture(element, srcsetDataAttribute);
-        }
-        var dataTarget = element;
-        if (element["__ionxLazyImageTmpImg"]) {
-            dataTarget = element["__ionxLazyImageTmpImg"];
-        }
-        var imgSrcSet = element.getAttribute("data-" + srcsetDataAttribute);
-        if (imgSrcSet) {
-            dataTarget.setAttribute("srcset", imgSrcSet);
-        }
-        if (elementSrc) {
-            dataTarget.setAttribute("src", elementSrc);
-        }
-        return;
-    }
-    //if (elementSrc) element.style.backgroundImage = "url(" + elementSrc + ")";
-}
-function _bind(fn, obj) {
-    return function () {
-        return fn.apply(obj, arguments);
-    };
-}
-var instanceCounter = 0;
-var instances = {};
-var LazyLoad = /** @class */ (function () {
-    function LazyLoad(options) {
-        this.id = (++instanceCounter) + "";
-        instances[this.id] = this;
-        this._options = Object.assign({}, defaultOptions, options);
-        this._queryOriginNode = this._options.container === window ? document : this._options.container;
-        this._previousLoopTime = 0;
-        this._loopTimeout = null;
-        this._handleScrollFn = _bind(this.handleScroll, this);
-        window.addEventListener("resize", this._handleScrollFn);
-        this.update();
-    }
-    Object.defineProperty(LazyLoad.prototype, "container", {
-        get: function () {
-            return this._queryOriginNode;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    LazyLoad.prototype._showOnAppear = function (element) {
-        var _this = this;
-        var errorCallback = function () {
-            var eventTarget = element;
-            if (element["__ionxLazyImageTmpImg"]) {
-                eventTarget = element["__ionxLazyImageTmpImg"];
-            }
-            var alternate = _this._options.dataAlternate && element.getAttribute("data-" + _this._options.dataAlternate);
-            if (alternate && eventTarget["src"] != alternate) {
-                eventTarget["src"] = alternate;
-                return;
-            }
-            delete element["__ionxLazyImageTmpImg"];
-            eventTarget.removeEventListener("load", loadCallback);
-            eventTarget.removeEventListener("error", errorCallback);
-            element.classList.remove(_this._options.classLoading);
-            element.lazyLoadError = true;
-            if (_this._options.callbackError) {
-                _this._options.callbackError.callback_error(element);
-            }
-        };
-        var loadCallback = function () {
-            /* As this method is asynchronous, it must be protected against external destroy() calls */
-            if (_this._options === null) {
-                return;
-            }
-            var eventTarget = element;
-            // if target element is not <img>, the real target of onload callback is temporary image
-            if (element["__ionxLazyImageTmpImg"]) {
-                eventTarget = element["__ionxLazyImageTmpImg"];
-                element.style.backgroundImage = "url(" + eventTarget.src + ")";
-                delete element["__ionxLazyImageTmpImg"];
-            }
-            element.lazyLoadError = false;
-            if (_this._options.callbackLoad) {
-                _this._options.callbackLoad(element);
-            }
-            element.classList.remove(_this._options.classLoading);
-            element.classList.add(_this._options.classLoaded);
-            eventTarget.removeEventListener("load", loadCallback);
-            eventTarget.removeEventListener("error", errorCallback);
-        };
-        element.classList.add(this._options.classLoading);
-        if (element.tagName.toUpperCase() === "IMG" || element.tagName.toUpperCase() === "IFRAME") {
-            element.addEventListener("load", loadCallback);
-            element.addEventListener("error", errorCallback);
-        }
-        else {
-            var tmpImg = new Image();
-            tmpImg.addEventListener("load", loadCallback);
-            tmpImg.addEventListener("error", errorCallback);
-            element["__ionxLazyImageTmpImg"] = tmpImg;
-        }
-        setSources(element, this._options.dataSrcSet, this._options.dataSrc);
-        if (this._options.callbackSet) {
-            this._options.callbackSet(element);
-        }
-    };
-    LazyLoad.prototype._loopThroughElements = function () {
-        var elementsLength = (!this._elements) ? 0 : this._elements.length;
-        var processedIndexes = [];
-        for (var i = 0; i < elementsLength; i++) {
-            var element = this._elements[i];
-            /* If must skip_invisible and element is invisible, skip it */
-            if (this._options.skipInvisible && (element.offsetParent === null)) {
-                continue;
-            }
-            if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
-                this._showOnAppear(element);
-                /* Marking the element as processed. */
-                processedIndexes.push(i);
-                element.lazyLoadProcessed = true;
-            }
-        }
-        /* Removing processed elements from this._elements. */
-        while (processedIndexes.length > 0) {
-            this._elements.splice(processedIndexes.pop(), 1);
-            if (this._options.callbackProcessed) {
-                this._options.callbackProcessed(this._elements.length);
-            }
-        }
-        /* Stop listening to scroll event when 0 elements remains */
-        if (elementsLength === 0) {
-            this._stopScrollHandler();
-        }
-    };
-    ;
-    LazyLoad.prototype._purgeElements = function () {
-        var elementsToPurge = [];
-        for (var i = 0; i < this._elements.length; i++) {
-            var element = this._elements[i];
-            /* If the element has already been processed, skip it */
-            if (element.lazyLoadProcessed) {
-                elementsToPurge.push(i);
-            }
-        }
-        /* Removing elements to purge from this._elements. */
-        while (elementsToPurge.length > 0) {
-            this._elements.splice(elementsToPurge.pop(), 1);
-        }
-    };
-    ;
-    LazyLoad.prototype._startScrollHandler = function () {
-        if (!this._isHandlingScroll) {
-            this._isHandlingScroll = true;
-            this._options.container.addEventListener("scroll", this._handleScrollFn);
-            if (this._options.scroll) {
-                this._options.scroll.addEventListener("scroll", this._handleScrollFn);
-            }
-        }
-    };
-    ;
-    LazyLoad.prototype._stopScrollHandler = function () {
-        if (this._isHandlingScroll) {
-            this._isHandlingScroll = false;
-            this._options.container.removeEventListener("scroll", this._handleScrollFn);
-            if (this._options.scroll) {
-                this._options.scroll.removeEventListener("scroll", this._handleScrollFn);
-            }
-        }
-    };
-    ;
-    LazyLoad.prototype.handleScroll = function () {
-        var remainingTime, now, throttle;
-        // IE8 fix for destroy() malfunctioning
-        if (!this._options) {
-            return;
-        }
-        now = _now();
-        throttle = this._options.throttle;
-        if (throttle !== 0) {
-            remainingTime = throttle - (now - this._previousLoopTime);
-            if (remainingTime <= 0 || remainingTime > throttle) {
-                if (this._loopTimeout) {
-                    clearTimeout(this._loopTimeout);
-                    this._loopTimeout = null;
-                }
-                this._previousLoopTime = now;
-                this._loopThroughElements();
-            }
-            else if (!this._loopTimeout) {
-                this._loopTimeout = setTimeout(_bind(function () {
-                    this._previousLoopTime = _now();
-                    this._loopTimeout = null;
-                    this._loopThroughElements();
-                }, this), remainingTime);
-            }
-        }
-        else {
-            this._loopThroughElements();
-        }
-    };
-    ;
-    LazyLoad.prototype.update = function (options) {
-        var e_1, _a;
-        this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._options.selector));
-        if (options && options.retryError) {
-            try {
-                for (var _b = __values(this._elements), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var element = _c.value;
-                    if (element.lazyLoadProcessed && element.lazyLoadError) {
-                        element.lazyLoadProcessed = false;
-                    }
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-        }
-        this._purgeElements();
-        this._loopThroughElements();
-        this._startScrollHandler();
-    };
-    LazyLoad.prototype.destroy = function () {
-        window.removeEventListener("resize", this._handleScrollFn);
-        if (this._loopTimeout) {
-            clearTimeout(this._loopTimeout);
-            this._loopTimeout = null;
-        }
-        this._stopScrollHandler();
-        this._elements = null;
-        this._queryOriginNode = null;
-        this._options = null;
-        delete instances[this.id];
-    };
-    return LazyLoad;
-}());
-function ensureLazyImagesLoaded(root, options) {
-    return __awaiter(this, void 0, void 0, function () {
-        var instanceId, loader, container, parent_1;
-        return __generator(this, function (_a) {
-            for (instanceId in instances) {
-                loader = instances[instanceId];
-                container = loader.container;
-                if (root === container) {
-                    loader.update({ retryError: options && options.retryError });
-                }
-                else {
-                    parent_1 = container.parentElement;
-                    while (parent_1 && parent_1 !== root) {
-                        parent_1 = parent_1.parentElement;
-                    }
-                    if (parent_1) {
-                        loader.update({ retryError: options && options.retryError });
-                    }
-                }
-            }
-            return [2 /*return*/];
-        });
-    });
-}
-
-var ImageLoader = /** @class */ (function () {
-    function ImageLoader(element) {
-        this.element = element;
-    }
-    Object.defineProperty(ImageLoader.prototype, "src", {
-        get: function () {
-            return this._src;
-        },
-        set: function (value) {
-            var old = this._src;
-            this._src = value;
-            if (old != this._src) {
-                this.reload();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoader.prototype, "src2", {
-        set: function (value) {
-            this.src = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoader.prototype, "alternate", {
-        set: function (value) {
-            var old = this._alternate;
-            this._alternate = value;
-            if (old != this._alternate) {
-                this.reload();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoader.prototype, "alternate2", {
-        set: function (value) {
-            this.alternate = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoader.prototype, "cssClasses", {
-        set: function (value) {
-            this._cssClasses = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoader.prototype, "cssClasses2", {
-        set: function (value) {
-            this._cssClasses = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoader.prototype, "cssClassesTarget", {
-        set: function (value) {
-            this._cssClassesTarget = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ImageLoader.prototype, "cssClassesParent", {
-        set: function (value) {
-            this._cssClassesTarget = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ImageLoader.prototype.reload = function () {
-        if (!this.loading && this.initialized) {
-            this.loaded = false;
-            this.error = false;
-            if (this._cssClasses) {
-                var target = this._cssClassesTarget ? this.element.nativeElement.closest(this._cssClassesTarget) : this.element.nativeElement;
-                if (this._cssClasses.loaded) {
-                    target.classList.remove(this._cssClasses.loaded);
-                }
-                if (this._cssClasses.error) {
-                    target.classList.remove(this._cssClasses.error);
-                }
-            }
-            this.load();
-        }
-    };
-    ImageLoader.prototype.load = function () {
-        var _this = this;
-        if (this.loaded || this.error || !this._src || this.loading) {
-            return;
-        }
-        this.loading = true;
-        if (this._cssClasses && this._cssClasses.loading) {
-            this.element.nativeElement.classList.add(this._cssClasses.loading);
-        }
-        var element = this.element.nativeElement;
-        var img;
-        // if host element is not <img>, we need to create tmp 
-        if (element.tagName.toLowerCase() != "img") {
-            img = this.tmpImg = new Image();
-        }
-        else {
-            img = element;
-        }
-        img.onload = function () {
-            if (img !== element) {
-                element.style.backgroundImage = "url(" + img.src + ")";
-            }
-            img.onerror = undefined;
-            img.onload = undefined;
-            _this.tmpImg = undefined;
-            _this.loaded = true;
-            _this.loading = false;
-            _this.error = false;
-            if (_this._cssClasses) {
-                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
-                if (_this._cssClasses.loading) {
-                    target.classList.remove(_this._cssClasses.loading);
-                }
-                if (_this._cssClasses.loaded) {
-                    target.classList.add(_this._cssClasses.loaded);
-                }
-            }
-        };
-        img.onerror = function () {
-            if (_this._alternate && _this._alternate != img.src) {
-                img.src = _this._alternate;
-                return;
-            }
-            img.onerror = undefined;
-            img.onload = undefined;
-            _this.tmpImg = undefined;
-            _this.loading = false;
-            _this.loaded = false;
-            _this.error = true;
-            if (_this._cssClasses) {
-                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
-                if (_this._cssClasses.loading) {
-                    target.classList.remove(_this._cssClasses.loading);
-                }
-                if (_this._cssClasses.error) {
-                    target.classList.add(_this._cssClasses.error);
-                }
-            }
-        };
-        img.src = this._src;
-    };
-    ImageLoader.prototype.ngAfterViewInit = function () {
-        this.initialized = true;
-        this.element.nativeElement["ionxImageLoader"] = this;
-        this.load();
-    };
-    ImageLoader.prototype.ngOnDestroy = function () {
-        if (this.element.nativeElement) {
-            delete this.element.nativeElement["ionxImageLoader"];
-        }
-    };
-    __decorate([
-        Input("src"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], ImageLoader.prototype, "src", null);
-    __decorate([
-        Input("ionx-image-loader"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], ImageLoader.prototype, "src2", null);
-    __decorate([
-        Input("alternate"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], ImageLoader.prototype, "alternate", null);
-    __decorate([
-        Input("ionx-image-loader-alternate"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], ImageLoader.prototype, "alternate2", null);
-    __decorate([
-        Input("css-classes"),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], ImageLoader.prototype, "cssClasses", null);
-    __decorate([
-        Input("ionx-image-loader-css-classes"),
-        __metadata("design:type", Object),
-        __metadata("design:paramtypes", [Object])
-    ], ImageLoader.prototype, "cssClasses2", null);
-    __decorate([
-        Input("css-classes-target"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], ImageLoader.prototype, "cssClassesTarget", null);
-    __decorate([
-        Input("ionx-image-loader-css-classes-target"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], ImageLoader.prototype, "cssClassesParent", null);
-    ImageLoader = __decorate([
-        Directive({
-            selector: "[ionx-image-loader]",
-            host: {
-                "[attr.ionx-image-loader]": "true"
-            }
-        }),
-        __metadata("design:paramtypes", [ElementRef])
-    ], ImageLoader);
-    return ImageLoader;
-}());
-function ensureImagesLoaded(root, options) {
-    return __awaiter(this, void 0, void 0, function () {
-        var images, i, image;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    images = root.querySelectorAll("[ionx-image-loader]");
-                    for (i = 0; i < images.length; i++) {
-                        image = images.item(i);
-                        if (!image.ionxImageLoader || !image.ionxImageLoader.src || image.ionxImageLoader.loaded || (image.ionxImageLoader.error && (!options || !options.retryError))) {
-                            continue;
-                        }
-                        image.ionxImageLoader.reload();
-                    }
-                    if (!(options && options.lazy)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, ensureLazyImagesLoaded(root, { retryError: options && options.retryError })];
-                case 1:
-                    _a.sent();
-                    _a.label = 2;
-                case 2: return [2 /*return*/];
-            }
-        });
-    });
-}
-
-var ImageLoaderModule = /** @class */ (function () {
-    function ImageLoaderModule() {
-    }
-    ImageLoaderModule = __decorate([
-        NgModule({
-            declarations: [ImageLoader],
-            exports: [ImageLoader]
-        })
-    ], ImageLoaderModule);
-    return ImageLoaderModule;
-}());
-
-IonBackButtonDelegate.prototype.onClick = function () { return null; };
-var IonicBackButtonFix = /** @class */ (function () {
-    function IonicBackButtonFix(router, routerOutlet, navCtrl, elementRef) {
-        this.router = router;
-        this.routerOutlet = routerOutlet;
-        this.navCtrl = navCtrl;
-        this.elementRef = elementRef;
-    }
-    Object.defineProperty(IonicBackButtonFix.prototype, "defaultHref", {
-        get: function () {
-            return this.elementRef.nativeElement.defaultHref;
-        },
-        set: function (value) {
-            this.elementRef.nativeElement.defaultHref = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    IonicBackButtonFix.prototype.onClick = function (ev) {
-        if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-            this.navCtrl.back({ animated: true });
-            ev.preventDefault();
-        }
-        else if (this.router && this.defaultHref != null) {
-            this.navCtrl.navigateBack(this.defaultHref);
-            ev.preventDefault();
-        }
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], IonicBackButtonFix.prototype, "defaultHref", null);
-    __decorate([
-        HostListener("click", ["$event"]),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Event]),
-        __metadata("design:returntype", void 0)
-    ], IonicBackButtonFix.prototype, "onClick", null);
-    IonicBackButtonFix = __decorate([
-        Directive({
-            selector: "ion-back-button"
-        }),
-        __metadata("design:paramtypes", [Router, IonRouterOutlet, NavController, ElementRef])
-    ], IonicBackButtonFix);
-    return IonicBackButtonFix;
-}());
-
-var IonicInputFix = /** @class */ (function () {
-    function IonicInputFix(element) {
-        this.element = element;
-    }
-    IonicInputFix.prototype.ngAfterViewInit = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var realInput;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.tabIndex) return [3 /*break*/, 2];
-                        this.element.nativeElement.removeAttribute("tabIndex");
-                        return [4 /*yield*/, waitTill(function () { return !!_this.element.nativeElement.shadowRoot && !!_this.element.nativeElement.shadowRoot.querySelector(".native-input"); })];
-                    case 1:
-                        _a.sent();
-                        realInput = this.element.nativeElement.shadowRoot.querySelector(".native-input");
-                        realInput.setAttribute("tabIndex", this.tabIndex);
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    __decorate([
-        Input("tabIndex"),
-        __metadata("design:type", String)
-    ], IonicInputFix.prototype, "tabIndex", void 0);
-    IonicInputFix = __decorate([
-        Directive({
-            selector: "ion-input[ionfix-input]"
-        }),
-        __metadata("design:paramtypes", [ElementRef])
-    ], IonicInputFix);
-    return IonicInputFix;
-}());
-
-var IonicItemTargetFix = /** @class */ (function () {
-    function IonicItemTargetFix(element) {
-        this.element = element;
-    }
-    IonicItemTargetFix.prototype.ngAfterViewInit = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var i, a;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.target) return [3 /*break*/, 5];
-                        i = 1;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < 20)) return [3 /*break*/, 5];
-                        a = (this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".item-native")) || undefined;
-                        if (!!a) return [3 /*break*/, 3];
-                        return [4 /*yield*/, sleep(i * 100)];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        a.setAttribute("target", this.target);
-                        _a.label = 4;
-                    case 4:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 5: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], IonicItemTargetFix.prototype, "target", void 0);
-    IonicItemTargetFix = __decorate([
-        Directive({
-            selector: "ion-item[target]"
-        }),
-        __metadata("design:paramtypes", [ElementRef])
-    ], IonicItemTargetFix);
-    return IonicItemTargetFix;
-}());
-
-var IonicFixModule = /** @class */ (function () {
-    function IonicFixModule() {
-    }
-    IonicFixModule = __decorate([
-        NgModule({
-            declarations: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix],
-            exports: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix]
-        })
-    ], IonicFixModule);
-    return IonicFixModule;
-}());
-
-var LazyImage = /** @class */ (function () {
-    function LazyImage(element, renderer, container) {
-        this.element = element;
-        this.renderer = renderer;
-        this.container = container;
-    }
-    LazyImage_1 = LazyImage;
-    Object.defineProperty(LazyImage.prototype, "src", {
-        set: function (value) {
-            this._src = value;
-            this.reset();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(LazyImage.prototype, "alternate", {
-        set: function (value) {
-            this._alternate = value;
-            this.reset();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    LazyImage.prototype.reset = function () {
-        if (this._src) {
-            this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
-            this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
-        }
-        if (this._alternate) {
-            this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
-        }
-    };
-    LazyImage.prototype.revalidate = function () {
-        // children.length > 1 because this is also included in children query
-        if (this.container && this.children.length > 1) {
-            this.container.revalidate();
-        }
-    };
-    LazyImage.prototype.ngAfterContentInit = function () {
-        var _this = this;
-        this.children.changes.subscribe(function () { return _this.revalidate(); });
-        this.revalidate();
-    };
-    var LazyImage_1;
-    __decorate([
-        ContentChildren(LazyImage_1, { descendants: true }),
-        __metadata("design:type", QueryList)
-    ], LazyImage.prototype, "children", void 0);
-    __decorate([
-        Input("ionx-lazy-image"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], LazyImage.prototype, "src", null);
-    __decorate([
-        Input("ionx-lazy-image-alternate"),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], LazyImage.prototype, "alternate", null);
-    LazyImage = LazyImage_1 = __decorate([
-        Directive({
-            selector: "[ionx-lazy-image]"
-        }),
-        __param(2, Optional()), __param(2, Inject(forwardRef(function () { return LazyImageContainer; }))),
-        __metadata("design:paramtypes", [ElementRef, Renderer, LazyImageContainer])
-    ], LazyImage);
-    return LazyImage;
-}());
-var LazyImageContainer = /** @class */ (function () {
-    function LazyImageContainer(element) {
-        this.element = element;
-    }
-    LazyImageContainer.prototype.revalidate = function () {
-        if (this.lazyLoad) {
-            this.lazyLoad.update();
-            var rect = this.element.nativeElement.getBoundingClientRect();
-            if (rect.width == 0 || rect.height == 0) {
-                //setTimeout(() => this.revalidate(), 200);
-            }
-            //console.log(this.children);
-            //window.dispatchEvent(new Event("resize"));
-        }
-    };
-    LazyImageContainer.prototype.ngOnInit = function () {
-        this.initLazyLoad();
-    };
-    LazyImageContainer.prototype.ngAfterContentInit = function () {
-        var _this = this;
-        this.children.changes.subscribe(function () { return _this.revalidate(); });
-        if (this.children.length > 0) {
-            this.revalidate();
-        }
-    };
-    LazyImageContainer.prototype.ngOnDestroy = function () {
-        if (this.lazyLoad) {
-            this.lazyLoad.destroy();
-        }
-    };
-    LazyImageContainer.prototype.initLazyLoad = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var options, i;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        options = {};
-                        options.selector = ".ionx-lazy-image";
-                        options.container = this.element.nativeElement;
-                        if (!(this.element.nativeElement.tagName.toLowerCase() === "ion-content")) return [3 /*break*/, 5];
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < 40)) return [3 /*break*/, 5];
-                        options.scroll = this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".inner-scroll");
-                        if (!!options.scroll) return [3 /*break*/, 3];
-                        return [4 /*yield*/, sleep(50)];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3: return [3 /*break*/, 5];
-                    case 4:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 5:
-                        this.lazyLoad = new LazyLoad(options);
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    __decorate([
-        ContentChildren(LazyImage, { descendants: true }),
-        __metadata("design:type", QueryList)
-    ], LazyImageContainer.prototype, "children", void 0);
-    LazyImageContainer = __decorate([
-        Directive({
-            selector: "ion-content[ionx-lazy-image], [ionx-lazy-image-container]"
-        }),
-        __metadata("design:paramtypes", [ElementRef])
-    ], LazyImageContainer);
-    return LazyImageContainer;
-}());
-
-var LazyImageModule = /** @class */ (function () {
-    function LazyImageModule() {
-    }
-    LazyImageModule = __decorate([
-        NgModule({
-            declarations: [LazyImage, LazyImageContainer],
-            exports: [LazyImage, LazyImageContainer]
-        })
-    ], LazyImageModule);
-    return LazyImageModule;
-}());
-
-var Loader = /** @class */ (function () {
-    function Loader(elementRef) {
-        this.elementRef = elementRef;
-        this.progressType = "determinate";
-        this.progressValue = 0;
-        this.progressBuffer = 0;
-    }
-    Object.defineProperty(Loader.prototype, "progressPercentVisible", {
-        get: function () {
-            return typeof this.progressPercent === "number";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Loader.prototype, "spinnerMode", {
-        get: function () {
-            return this.mode === "spinner";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Loader.prototype, "progressMode", {
-        get: function () {
-            return this.mode === "progress";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Loader.prototype.dismiss = function () {
-        return this.popover.dismiss();
-    };
-    Loader.prototype.ngOnInit = function () {
-        this.popover = this.elementRef.nativeElement.closest("ion-popover");
-        if (this.instanceCallback) {
-            this.instanceCallback(this);
-        }
-    };
-    Loader.prototype.ngOnDestroy = function () {
-        this.popover = undefined;
-        this.instanceCallback = undefined;
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", Function)
-    ], Loader.prototype, "instanceCallback", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], Loader.prototype, "header", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], Loader.prototype, "message", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], Loader.prototype, "mode", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], Loader.prototype, "progressMessage", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], Loader.prototype, "progressType", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Number)
-    ], Loader.prototype, "progressValue", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Number)
-    ], Loader.prototype, "progressBuffer", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Number)
-    ], Loader.prototype, "progressPercent", void 0);
-    Loader = __decorate([
-        Component({
-            selector: "ionx-loader",
-            template: "<div style=\"display: flex; align-items: center\">\n\n    <div *ngIf=\"spinnerMode\" style=\"padding: 16px; padding-right: 0px;\">\n        <ion-spinner></ion-spinner>\n    </div>\n\n    <div style=\"padding: 16px; flex: 1; display: flex; flex-direction: column; justify-items: center;\">\n        <h5 style=\"margin: 0px\" *ngIf=\"header\">{{header}}</h5>\n        <ion-text [innerHTML]=\"message\" *ngIf=\"!!message\"></ion-text>\n    </div>\n\n</div>\n\n<ion-progress-bar style=\"margin: 16px 0px\" [value]=\"progressValue\" [type]=\"progressType\" [buffer]=\"progressBuffer\" *ngIf=\"progressMode\"></ion-progress-bar>\n\n<div style=\"display: flex; margin: 0px 16px 16px 16px\" *ngIf=\"!!progressMessage || progressPercentVisible\">\n    <ion-text [innerHTML]=\"progressMessage\" style=\"flex: 1\"></ion-text>\n    <span style=\"width: 60px; text-align: right\" *ngIf=\"progressPercentVisible\">{{(progressPercent | intlPercentFormat: {maximumFractionDigits: 0})}}</span>\n</div>\n",
-            styles: [":host { display: block }"]
-        }),
-        __metadata("design:paramtypes", [ElementRef])
-    ], Loader);
-    return Loader;
-}());
-
-var LoaderController = /** @class */ (function () {
-    function LoaderController(popoverController) {
-        this.popoverController = popoverController;
-    }
-    LoaderController.prototype.present = function (options) {
-        return __awaiter(this, void 0, void 0, function () {
-            var loader, loaderInstance, popover;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        loaderInstance = function (instance) { return loader = instance; };
-                        return [4 /*yield*/, this.popoverController.create({
-                                animated: false,
-                                cssClass: "ionx-popover-flex",
-                                backdropDismiss: false,
-                                keyboardClose: false,
-                                component: Loader,
-                                componentProps: {
-                                    instanceCallback: function (loader) { return loaderInstance(loader); },
-                                    header: options.header,
-                                    message: options.message,
-                                    mode: options.mode || "spinner"
-                                }
-                            })];
-                    case 1:
-                        popover = _a.sent();
-                        // popover.style.setProperty("--width", "100%");
-                        // popover.style.setProperty("--maxHeight", "100%");
-                        // const content = popover.querySelector(".popover-content") as HTMLElement;
-                        // content.style.background = "transparent";
-                        // content.style.borderRadius = "0px";
-                        // content.style.left = "0px !important";
-                        // content.style.top = "0px !important";
-                        // content.style.height = "100%";
-                        // content.style.width = "100%";
-                        // content.style.maxWidth = "none";
-                        // content.style.maxHeight = "none";
-                        // content.style.boxShadow = "none";
-                        popover.present();
-                        return [4 /*yield*/, waitTill(function () { return !!loader; })];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/, loader];
-                }
-            });
-        });
-    };
-    LoaderController = __decorate([
-        Injectable(),
-        __metadata("design:paramtypes", [PopoverController])
-    ], LoaderController);
-    return LoaderController;
-}());
-
-var LoaderModule = /** @class */ (function () {
-    function LoaderModule() {
-    }
-    LoaderModule = __decorate([
-        NgModule({
-            declarations: [Loader],
-            imports: [IntlModule, IonicModule, CommonModule],
-            entryComponents: [Loader],
-            providers: [LoaderController]
-        })
-    ], LoaderModule);
-    return LoaderModule;
-}());
-
-var ModalControllerComponent = /** @class */ (function () {
-    function ModalControllerComponent(controller) {
-        this.controller = controller;
-        this.willEnter = new EventEmitter();
-        this.didEnter = new EventEmitter();
-        this.didDismiss = new EventEmitter();
-        this.willDismiss = new EventEmitter();
-        this._presented = false;
-    }
-    ModalControllerComponent.prototype.present = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        // already opened - should we close existing and open new?
-                        if (this.modal) {
-                            return [2 /*return*/];
-                        }
-                        _a = this;
-                        return [4 /*yield*/, this.controller.create({ component: ModalControllerContentComponent, componentProps: { template: this.content }, backdropDismiss: this.backdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass })];
-                    case 1:
-                        _a.modal = (_b.sent());
-                        this.willEnter.next();
-                        return [4 /*yield*/, this.modal.present()];
-                    case 2:
-                        _b.sent();
-                        this.didEnter.next();
-                        this._presented = true;
-                        return [4 /*yield*/, this.modal.onWillDismiss()];
-                    case 3:
-                        if (_b.sent()) {
-                            this.willDismiss.next();
-                        }
-                        return [4 /*yield*/, this.modal.onDidDismiss()];
-                    case 4:
-                        if (_b.sent()) {
-                            this.didDismiss.next();
-                            this.modal = undefined;
-                            this._presented = false;
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Object.defineProperty(ModalControllerComponent.prototype, "presented", {
-        get: function () {
-            return this._presented;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ModalControllerComponent.prototype.dismiss = function (data, role) {
-        if (this.modal) {
-            return this.modal.dismiss(data, role);
-        }
-        return new Promise(function (resolve, reject) {
-            resolve();
-        });
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], ModalControllerComponent.prototype, "cssClass", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean)
-    ], ModalControllerComponent.prototype, "backdropDismiss", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean)
-    ], ModalControllerComponent.prototype, "showBackdrop", void 0);
-    __decorate([
-        ViewChild("modalContent", { static: true }),
-        __metadata("design:type", TemplateRef)
-    ], ModalControllerComponent.prototype, "content", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], ModalControllerComponent.prototype, "willEnter", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], ModalControllerComponent.prototype, "didEnter", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], ModalControllerComponent.prototype, "didDismiss", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], ModalControllerComponent.prototype, "willDismiss", void 0);
-    ModalControllerComponent = __decorate([
-        Component({
-            selector: "ionx-modal-controller",
-            template: "\n        <ng-template #modalContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
-        }),
-        __metadata("design:paramtypes", [ModalController])
-    ], ModalControllerComponent);
-    return ModalControllerComponent;
-}());
-var ModalControllerContentComponent = /** @class */ (function () {
-    function ModalControllerContentComponent() {
-        //this.template = params.get("template");
-    }
-    ModalControllerContentComponent.prototype.ngOnDestroy = function () {
-        this.template = undefined;
-    };
-    ModalControllerContentComponent = __decorate([
-        Component({
-            template: "\n        <ng-container *ngTemplateOutlet=\"template\"></ng-container>\n    "
-        }),
-        __metadata("design:paramtypes", [])
-    ], ModalControllerContentComponent);
-    return ModalControllerContentComponent;
-}());
-
-var ModalModule = /** @class */ (function () {
-    function ModalModule() {
-    }
-    ModalModule = __decorate([
-        NgModule({
-            declarations: [ModalControllerComponent, ModalControllerContentComponent],
-            exports: [ModalControllerComponent],
-            imports: [CommonModule, IonicModule],
-            entryComponents: [ModalControllerComponent, ModalControllerContentComponent]
-        })
-    ], ModalModule);
-    return ModalModule;
-}());
-
-var PopoverControllerComponent = /** @class */ (function () {
-    function PopoverControllerComponent(controller) {
-        this.controller = controller;
-        this.willEnter = new EventEmitter();
-        this.didEnter = new EventEmitter();
-        this.didDismiss = new EventEmitter();
-        this.willDismiss = new EventEmitter();
-        this._dismissing = false;
-        this._presented = false;
-    }
-    PopoverControllerComponent.prototype.present = function (event) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        // already opened - should we close existing and open new?
-                        if (this.popover) {
-                            return [2 /*return*/];
-                        }
-                        _a = this;
-                        return [4 /*yield*/, this.controller.create({ component: PopoverControllerContentComponent, componentProps: { template: this.content }, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass, event: event })];
-                    case 1:
-                        _a.popover = (_b.sent());
-                        this.willEnter.next();
-                        return [4 /*yield*/, this.popover.present()];
-                    case 2:
-                        _b.sent();
-                        this.didEnter.next();
-                        this._presented = true;
-                        return [4 /*yield*/, this.popover.onWillDismiss()];
-                    case 3:
-                        if (_b.sent()) {
-                            this.willDismiss.next();
-                        }
-                        this._dismissing = true;
-                        return [4 /*yield*/, this.popover.onDidDismiss()];
-                    case 4:
-                        if (_b.sent()) {
-                            this.didDismiss.next();
-                            this.popover = undefined;
-                            this._presented = false;
-                            this._dismissing = false;
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Object.defineProperty(PopoverControllerComponent.prototype, "dismissing", {
-        get: function () {
-            return this._dismissing;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PopoverControllerComponent.prototype, "presented", {
-        get: function () {
-            return this._presented;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    PopoverControllerComponent.prototype.dismiss = function (data, role) {
-        if (this.popover) {
-            return this.popover.dismiss(data, role);
-        }
-        return new Promise(function (resolve, reject) {
-            resolve();
-        });
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], PopoverControllerComponent.prototype, "cssClass", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean)
-    ], PopoverControllerComponent.prototype, "enableBackdropDismiss", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean)
-    ], PopoverControllerComponent.prototype, "showBackdrop", void 0);
-    __decorate([
-        ViewChild("popoverContent", { static: true }),
-        __metadata("design:type", TemplateRef)
-    ], PopoverControllerComponent.prototype, "content", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], PopoverControllerComponent.prototype, "willEnter", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], PopoverControllerComponent.prototype, "didEnter", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], PopoverControllerComponent.prototype, "didDismiss", void 0);
-    __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
-    ], PopoverControllerComponent.prototype, "willDismiss", void 0);
-    PopoverControllerComponent = __decorate([
-        Component({
-            selector: "ionx-popover-controller",
-            encapsulation: ViewEncapsulation.None,
-            template: "\n        <ng-template #popoverContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
-        }),
-        __metadata("design:paramtypes", [PopoverController])
-    ], PopoverControllerComponent);
-    return PopoverControllerComponent;
-}());
-var PopoverControllerContentComponent = /** @class */ (function () {
-    function PopoverControllerContentComponent() {
-        //this.template = params.get("template");
-    }
-    PopoverControllerContentComponent.prototype.ngOnDestroy = function () {
-        this.template = undefined;
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", TemplateRef)
-    ], PopoverControllerContentComponent.prototype, "template", void 0);
-    PopoverControllerContentComponent = __decorate([
-        Component({
-            encapsulation: ViewEncapsulation.None,
-            template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
-        }),
-        __metadata("design:paramtypes", [])
-    ], PopoverControllerContentComponent);
-    return PopoverControllerContentComponent;
-}());
-
-var PopoverModule = /** @class */ (function () {
-    function PopoverModule() {
-    }
-    PopoverModule = __decorate([
-        NgModule({
-            declarations: [PopoverControllerComponent, PopoverControllerContentComponent],
-            exports: [PopoverControllerComponent],
-            imports: [IonicModule, CommonModule],
-            entryComponents: [PopoverControllerComponent, PopoverControllerContentComponent]
-        })
-    ], PopoverModule);
-    return PopoverModule;
-}());
-
-var PseudoInput = /** @class */ (function () {
-    function PseudoInput(element) {
-        this.element = element;
-    }
-    PseudoInput = __decorate([
-        Component({
-            selector: "ionx-pseudo-input",
-            exportAs: "ionxPseudoInput",
-            template: "<ng-content></ng-content>",
-            styles: [":host{padding:var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);display:block;overflow:hidden;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host-context(.item-label-stacked) ionx-pseudo-input{align-self:flex-start;--padding-start:0}:host-context(.md.item-label-stacked) ionx-pseudo-input{--padding-top:10px;--padding-bottom:9px}:host-context(.ios.item-label-stacked) ionx-pseudo-input{--padding-top:9px;--padding-bottom:8px}"]
-        }),
-        __metadata("design:paramtypes", [ElementRef])
-    ], PseudoInput);
-    return PseudoInput;
-}());
-
-var PseudoInputModule = /** @class */ (function () {
-    function PseudoInputModule() {
-    }
-    PseudoInputModule = __decorate([
-        NgModule({
-            declarations: [PseudoInput],
-            exports: [PseudoInput]
-        })
-    ], PseudoInputModule);
-    return PseudoInputModule;
-}());
-
-var Spinner = /** @class */ (function () {
-    function Spinner() {
-        this.backdropVisible = false;
-        this.fill = false;
-    }
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean)
-    ], Spinner.prototype, "backdropVisible", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", Boolean)
-    ], Spinner.prototype, "fill", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], Spinner.prototype, "color", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], Spinner.prototype, "name", void 0);
-    Spinner = __decorate([
-        Component({
-            selector: "ionx-spinner",
-            template: "<ion-backdrop *ngIf=\"backdropVisible\"></ion-backdrop><ion-spinner [name]=\"name\" [color]=\"color\"></ion-spinner>",
-            styles: [":host{position:relative;display:flex;align-items:center;justify-content:center}:host ion-backdrop{opacity:.1}:host[fill]{position:absolute;width:100%;height:100%;left:0;top:0}:host[always-on-top]{z-index:100000}"]
-        })
-    ], Spinner);
-    return Spinner;
-}());
-
-var SpinnerModule = /** @class */ (function () {
-    function SpinnerModule() {
-    }
-    SpinnerModule = __decorate([
-        NgModule({
-            declarations: [Spinner],
-            exports: [Spinner],
-            imports: [CommonModule, IonicModule]
-        })
-    ], SpinnerModule);
-    return SpinnerModule;
-}());
-
-var TextareaAutosize = /** @class */ (function () {
-    function TextareaAutosize(element) {
-        this.element = element;
-    }
-    TextareaAutosize.prototype.onChange = function () {
-        this.adjust();
-    };
-    Object.defineProperty(TextareaAutosize.prototype, "textarea", {
-        get: function () {
-            return this.element.nativeElement.querySelector("textarea");
-        },
-        enumerable: true,
-        configurable: true
-    });
-    TextareaAutosize.prototype.adjust = function () {
-        var input = this.textarea;
-        if (input) {
-            input.style.overflow = "hidden";
-            input.style.height = "auto";
-            input.style.height = input.scrollHeight + "px";
-        }
-    };
-    TextareaAutosize.prototype.ngOnInit = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, waitTill(function () { return !!_this.textarea; })];
-                    case 1:
-                        _a.sent();
-                        this.adjust();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    __decorate([
-        HostListener("ionChange"),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", void 0)
-    ], TextareaAutosize.prototype, "onChange", null);
-    TextareaAutosize = __decorate([
-        Directive({
-            selector: "ion-textarea[ionx-autosize]"
-        }),
-        __metadata("design:paramtypes", [ElementRef])
-    ], TextareaAutosize);
-    return TextareaAutosize;
-}());
-
-var TextareaAutosizeModule = /** @class */ (function () {
-    function TextareaAutosizeModule() {
-    }
-    TextareaAutosizeModule = __decorate([
-        NgModule({
-            declarations: [TextareaAutosize],
-            exports: [TextareaAutosize],
-            imports: [IonicModule]
-        })
-    ], TextareaAutosizeModule);
-    return TextareaAutosizeModule;
-}());
-
-var ToggleLabels = /** @class */ (function () {
-    function ToggleLabels() {
-    }
-    ToggleLabels.prototype.switchOn = function () {
-        this.toggle.checked = true;
-    };
-    ToggleLabels.prototype.switchOff = function () {
-        this.toggle.checked = false;
-    };
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], ToggleLabels.prototype, "on", void 0);
-    __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], ToggleLabels.prototype, "off", void 0);
-    __decorate([
-        ContentChild(IonToggle, { static: false }),
-        __metadata("design:type", IonToggle)
-    ], ToggleLabels.prototype, "toggle", void 0);
-    ToggleLabels = __decorate([
-        Component({
-            selector: "ionx-toggle-labels",
-            template: "<span ionx--off (click)=\"switchOff()\">\n    <ng-template [ngIf]=\"!!off\">{{off}}</ng-template>\n    <ng-content select=\"[slot=off]\"></ng-content>\n    </span>\n\n<ng-content select=\"ion-toggle\"></ng-content>\n\n<span ionx--on (click)=\"switchOn()\">\n    <ng-template [ngIf]=\"!!on\">{{on}}</ng-template>\n    <ng-content select=\"[slot=on]\"></ng-content>\n</span>\n",
-            styles: [":host{display:flex;align-items:center}:host ::ng-deep ion-toggle{-webkit-padding-start:2px;padding-inline-start:2px;-webkit-padding-end:2px;padding-inline-end:2px}:host [ionx--on]{cursor:pointer;margin-left:4px}:host [ionx--off]{cursor:pointer;margin-right:4px}:host-context(.item-label-stacked){align-self:flex-start}:host-context(.ios.item-label-stacked){margin-top:2px;margin-bottom:2px}"]
-        }),
-        __metadata("design:paramtypes", [])
-    ], ToggleLabels);
-    return ToggleLabels;
-}());
-
-var ToggleLabelsModule = /** @class */ (function () {
-    function ToggleLabelsModule() {
-    }
-    ToggleLabelsModule = __decorate([
-        NgModule({
-            declarations: [ToggleLabels],
-            exports: [ToggleLabels],
-            imports: [CommonModule, IonicModule]
-        })
-    ], ToggleLabelsModule);
-    return ToggleLabelsModule;
 }());
 
 var SelectLabel = /** @class */ (function () {
@@ -4386,9 +2408,1987 @@ var DialogModule = /** @class */ (function () {
     return DialogModule;
 }());
 
+var ExpandingSearchbarStyles = /** @class */ (function () {
+    function ExpandingSearchbarStyles() {
+    }
+    ExpandingSearchbarStyles = __decorate([
+        Component({
+            template: "",
+            styles: [":host{display:none}::ng-deep ion-searchbar.ionx-expanding-searchbar{position:absolute;top:0;left:0;width:0;overflow:hidden;padding:0;margin:0}::ng-deep ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{opacity:1;width:100%}::ng-deep ion-searchbar.ionx-expanding-searchbar:not(.searchbar-show-cancel) .searchbar-clear-button{display:block!important}::ng-deep ion-toolbar ion-searchbar.ionx-expanding-searchbar-expanded{padding-top:var(--padding-top);padding-bottom:var(--padding-bottom);padding-left:var(--padding-start);padding-right:var(--padding-end)}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:8px;padding-right:8px}::ng-deep .ios ion-searchbar.ionx-expanding-searchbar{height:36px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:0;padding-right:0}::ng-deep .ionx-expanding-searchbar-parent>:not(.ionx-expanding-searchbar){visibility:hidden!important}"]
+        })
+    ], ExpandingSearchbarStyles);
+    return ExpandingSearchbarStyles;
+}());
+
+var expandedCssClass = "ionx-expanding-searchbar-expanded";
+var parentCssClass = "ionx-expanding-searchbar-parent";
+var stylesInjected = false;
+var ExpandingSearchbar = /** @class */ (function () {
+    function ExpandingSearchbar(injector, resolver, appRef, element, searchbar) {
+        this.appRef = appRef;
+        this.element = element;
+        this.searchbar = searchbar;
+        this.subscriptions = [];
+        if (!stylesInjected) {
+            var styles = resolver.resolveComponentFactory(ExpandingSearchbarStyles).create(injector);
+            this.appRef.attachView(styles.hostView);
+        }
+    }
+    Object.defineProperty(ExpandingSearchbar.prototype, "parentElement", {
+        get: function () {
+            var parent = this.element.nativeElement.parentElement;
+            if (parent) {
+                return parent;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ExpandingSearchbar.prototype, "expanded", {
+        get: function () {
+            return this.element.nativeElement.classList.contains(expandedCssClass);
+        },
+        set: function (expanded) {
+            var _this = this;
+            this.parentElement;
+            if (expanded) {
+                this.element.nativeElement.classList.add(expandedCssClass);
+                this.parentElement.classList.add(parentCssClass);
+                this.searchbar.setFocus();
+            }
+            else {
+                this.element.nativeElement.classList.remove(expandedCssClass);
+                this.parentElement.classList.remove(parentCssClass);
+                //this.searchbar.value = "";
+                setTimeout(function () { return _this.element.nativeElement.querySelector(".searchbar-input").blur(); }, 50);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ExpandingSearchbar.prototype.expand = function () {
+        this.expanded = true;
+    };
+    ExpandingSearchbar.prototype.collapseIfPossible = function (cleared) {
+        var _this = this;
+        if (this.expanded && (cleared || !this.searchbar.value)) {
+            setTimeout(function () {
+                _this.expanded = false;
+            }, cleared ? 250 : 0);
+        }
+    };
+    ExpandingSearchbar.prototype.ngOnInit = function () {
+        var _this = this;
+        //this.subscriptions.push(this.searchbar.ionBlur.subscribe(() => this.collapseIfPossible()));
+        this.subscriptions.push(this.searchbar.ionClear.subscribe(function () { return _this.collapseIfPossible(true); }));
+        this.element.nativeElement.classList.add("ionx-expanding-searchbar");
+    };
+    ExpandingSearchbar.prototype.ngOnDestroy = function () {
+        unsubscribe(this.subscriptions);
+    };
+    __decorate([
+        Input("ionx-expanded"),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], ExpandingSearchbar.prototype, "expanded", null);
+    ExpandingSearchbar = __decorate([
+        Directive({
+            selector: "ion-searchbar[ionx-expanding-searchbar]",
+            exportAs: "ionxExpandingSearchbar"
+        }),
+        __metadata("design:paramtypes", [Injector,
+            ComponentFactoryResolver,
+            ApplicationRef,
+            ElementRef,
+            IonSearchbar])
+    ], ExpandingSearchbar);
+    return ExpandingSearchbar;
+}());
+
+var ExpandingSearchbarModule = /** @class */ (function () {
+    function ExpandingSearchbarModule() {
+    }
+    ExpandingSearchbarModule = __decorate([
+        NgModule({
+            declarations: [ExpandingSearchbar, ExpandingSearchbarStyles],
+            exports: [ExpandingSearchbar],
+            imports: [IonicModule]
+        })
+    ], ExpandingSearchbarModule);
+    return ExpandingSearchbarModule;
+}());
+
+var FormHeading = /** @class */ (function () {
+    function FormHeading() {
+    }
+    __decorate([
+        HostBinding("attr.sticky"),
+        Input(),
+        __metadata("design:type", Boolean)
+    ], FormHeading.prototype, "sticky", void 0);
+    FormHeading = __decorate([
+        Component({
+            selector: "ionx-form-heading",
+            template: "\n        <ng-content select=\"ion-item\"></ng-content>\n        <div ionx--under>\n            <ng-content></ng-content>\n        </div>\n    ",
+            styles: [":host{display:block;margin-top:16px}:host ::ng-deep ion-item{--padding-start:0px;--padding-end:0px;--inner-padding-end:16px;--inner-padding-start:16px}:host ::ng-deep ion-item>ion-label{font-size:.9rem;font-weight:500}:host [ionx--under]:not(:empty){padding:8px 16px}:host[sticky]:not([sticky=false]){position:-webkit-sticky;position:sticky;top:0;z-index:3}:host-context(ion-grid) ::ng-deep ion-item{--padding-start:8px;--padding-end:8px;--inner-padding-end:0px;--inner-padding-start:0px}:host-context(ion-grid) [ionx--under]:not(:empty){padding:8px}:host-context(.ios) ::ng-deep ion-item.item-label>ion-label{font-size:.8rem;letter-spacing:1px;text-transform:uppercase}"]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FormHeading);
+    return FormHeading;
+}());
+
+function findParentImpl(element) {
+    if (!element) {
+        return;
+    }
+    if (element.scrollHeight >= element.clientHeight) {
+        var overflowY = window.getComputedStyle(element).overflowY;
+        if (overflowY !== "visible" && overflowY !== "hidden") {
+            return element;
+        }
+    }
+    if (element.assignedSlot) {
+        var p = findParentImpl(element.assignedSlot.parentElement);
+        if (p) {
+            return p;
+        }
+    }
+    return findParentImpl(element.parentElement);
+}
+function scrollIntoView(element, scrollBehavior) {
+    var parent = findParentImpl(element);
+    if (parent) {
+        var top_1 = element.offsetTop;
+        if (element.offsetParent) {
+            var offsetParent = element.offsetParent;
+            while (offsetParent !== parent && !!offsetParent) {
+                top_1 += offsetParent.offsetTop;
+                offsetParent = offsetParent.offsetParent;
+            }
+        }
+        parent.scrollTo({ top: top_1, behavior: scrollBehavior });
+        return;
+    }
+    element.scrollIntoView();
+}
+
+var FormHelper = /** @class */ (function () {
+    function FormHelper(element, ngForm, formGroupDirective) {
+        this.element = element;
+        this.ngForm = ngForm;
+        this.formGroupDirective = formGroupDirective;
+    }
+    Object.defineProperty(FormHelper.prototype, "readonly", {
+        get: function () {
+            return this.element.nativeElement.hasAttribute("readonly");
+        },
+        set: function (readonly) {
+            if (readonly) {
+                this.element.nativeElement.setAttribute("readonly", "");
+            }
+            else {
+                this.element.nativeElement.removeAttribute("readonly");
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FormHelper.prototype.markAsReadonly = function () {
+        this.readonly = true;
+    };
+    Object.defineProperty(FormHelper.prototype, "busy", {
+        get: function () {
+            return this.element.nativeElement.hasAttribute("busy");
+        },
+        set: function (busy) {
+            if (busy) {
+                this.element.nativeElement.setAttribute("busy", "");
+            }
+            else {
+                this.element.nativeElement.removeAttribute("busy");
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FormHelper.prototype.markAsBusy = function () {
+        this.busy = true;
+    };
+    FormHelper.prototype.formControlName = function (name) {
+        var e_1, _a;
+        try {
+            for (var _b = __values(this.contentControls.toArray()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var a = _c.value;
+                if (a.name == name) {
+                    return a;
+                }
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+    };
+    Object.defineProperty(FormHelper.prototype, "formGroup", {
+        get: function () {
+            return this.formGroupDirective ? this.formGroupDirective.form : undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FormHelper.prototype.validateAll = function (markAs) {
+        var e_2, _a;
+        if (markAs === void 0) { markAs = "touched"; }
+        if (!this.formGroupDirective) {
+            return;
+        }
+        for (var controlName in this.formGroup.controls) {
+            var control = this.formGroup.controls[controlName];
+            if (markAs == "touched") {
+                control.markAsTouched();
+            }
+            if (markAs == "dirty") {
+                control.markAsDirty();
+            }
+            control.updateValueAndValidity();
+        }
+        try {
+            for (var _b = __values(this.contentControls.toArray()), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var control = _c.value;
+                if (!control.valid) {
+                    this.focusImpl(control);
+                    break;
+                }
+            }
+        }
+        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_2) throw e_2.error; }
+        }
+    };
+    FormHelper.prototype.focusImpl = function (control, scroll) {
+        var e_3, _a;
+        if (scroll === void 0) { scroll = true; }
+        if (typeof control == "string" && this.formGroupDirective) {
+            try {
+                for (var _b = __values(this.formGroupDirective.directives), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var c = _c.value;
+                    if (c.name == control) {
+                        control = c;
+                        break;
+                    }
+                }
+            }
+            catch (e_3_1) { e_3 = { error: e_3_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_3) throw e_3.error; }
+            }
+        }
+        var element;
+        if (control instanceof FormControlName) {
+            control = control.valueAccessor;
+        }
+        if (control["el"] instanceof ElementRef) {
+            element = control["el"].nativeElement;
+        }
+        if (control["_elementRef"] instanceof ElementRef) {
+            element = control["_elementRef"].nativeElement;
+        }
+        // element to focus
+        if (element) {
+            if (element["setFocus"]) {
+                element["setFocus"]();
+            }
+            else {
+                var focusable = element;
+                var realInput = (element.shadowRoot && element.shadowRoot.querySelector(".native-input")) || element.querySelector(".native-input");
+                if (realInput) {
+                    focusable = realInput;
+                }
+                focusable.focus();
+            }
+        }
+        if (scroll && element) {
+            scrollIntoView(element.closest("ion-item") || element);
+        }
+    };
+    FormHelper.prototype.focus = function (formControlName, scrollIntoView) {
+        if (scrollIntoView === void 0) { scrollIntoView = true; }
+        this.focusImpl(formControlName, scrollIntoView);
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], FormHelper.prototype, "readonly", null);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], FormHelper.prototype, "busy", null);
+    __decorate([
+        ContentChildren(FormControlName, { descendants: true }),
+        __metadata("design:type", QueryList)
+    ], FormHelper.prototype, "contentControls", void 0);
+    FormHelper = __decorate([
+        Directive({
+            selector: "[ionx-form-helper], [ionxFormHelper]",
+            exportAs: "ionxFormHelper"
+        }),
+        __param(1, Optional()), __param(2, Optional()),
+        __metadata("design:paramtypes", [ElementRef, NgForm, FormGroupDirective])
+    ], FormHelper);
+    return FormHelper;
+}());
+
+var FormItem = /** @class */ (function () {
+    function FormItem() {
+    }
+    FormItem = __decorate([
+        Component({
+            selector: "ionx-form-item",
+            template: "<ng-content select=\"ion-item\"></ng-content><ng-content select=\"ionx-form-item-error\"></ng-content><ng-content select=\"ionx-form-item-hint\"></ng-content><ng-content></ng-content>"
+        })
+    ], FormItem);
+    return FormItem;
+}());
+
+var FormItemError = /** @class */ (function () {
+    function FormItemError(formGroup) {
+        this.formGroup = formGroup;
+        this.markedAs = "touched";
+    }
+    Object.defineProperty(FormItemError.prototype, "control", {
+        set: function (control) {
+            if (control instanceof AbstractControl) {
+                this._control = control;
+            }
+            else if (control) {
+                this._control = this.formGroup.form.controls[control];
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], FormItemError.prototype, "icon", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], FormItemError.prototype, "markedAs", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], FormItemError.prototype, "control", null);
+    FormItemError = __decorate([
+        Component({
+            selector: "ionx-form-item-error",
+            template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"!!icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"_control\">{{_control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",
+            host: {
+                "[class.ionx--visible]": "!_control || !!(_control.invalid && _control[markedAs])"
+            },
+            styles: [":host{display:flex;align-items:center;margin:8px 0 0}:host>label{flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}", ":host{color:var(--ion-color-danger);display:none}:host.ionx--visible{display:flex}"]
+        }),
+        __metadata("design:paramtypes", [FormGroupDirective])
+    ], FormItemError);
+    return FormItemError;
+}());
+
+var FormItemHint = /** @class */ (function () {
+    function FormItemHint() {
+    }
+    Object.defineProperty(FormItemHint.prototype, "label", {
+        set: function (label) {
+            this.labelComponentContainer.clear();
+            this.labelComponentContainer.insert(label.hostView);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], FormItemHint.prototype, "icon", void 0);
+    __decorate([
+        ViewChild("labelComponentContainer", { read: ViewContainerRef, static: true }),
+        __metadata("design:type", ViewContainerRef)
+    ], FormItemHint.prototype, "labelComponentContainer", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", ComponentRef),
+        __metadata("design:paramtypes", [ComponentRef])
+    ], FormItemHint.prototype, "label", null);
+    FormItemHint = __decorate([
+        Component({
+            selector: "ionx-form-item-hint",
+            template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"icon\"></ion-icon>\n        <label>\n            <template #labelComponentContainer></template>\n            <ng-content></ng-content>\n        </label>\n    ",
+            styles: [":host{display:flex;align-items:center;margin:8px 0 0}:host>label{flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}", ":host{color:var(--ion-color-medium)}"]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FormItemHint);
+    return FormItemHint;
+}());
+
+var FormHelperModule = /** @class */ (function () {
+    function FormHelperModule() {
+    }
+    FormHelperModule = __decorate([
+        NgModule({
+            declarations: [FormItem, FormHeading, FormItemError, FormItemHint, FormHelper],
+            imports: [CommonModule, FormsModule, IonicModule, IntlModule, MatchMediaModule],
+            exports: [FormItem, FormItemError, FormItemHint, FormHeading, FormHelper]
+        })
+    ], FormHelperModule);
+    return FormHelperModule;
+}());
+
+var defaultOptions = {
+    selector: "img",
+    container: window,
+    scroll: null,
+    threshold: 300,
+    throttle: 150,
+    dataSrc: "original",
+    dataSrcSet: "original-set",
+    dataAlternate: "alternate",
+    classLoading: "ionx-lazy-image-loading",
+    classLoaded: "ionx-lazy-image-loaded",
+    skipInvisible: true,
+    callbackLoad: null,
+    callbackError: null,
+    callbackSet: null,
+    callbackProcessed: null
+};
+function _isInsideViewport(element, container, threshold) {
+    var ownerDocument, documentTop, documentLeft;
+    function _getDocumentWidth() {
+        return window.innerWidth || (ownerDocument.documentElement.clientWidth || document.body.clientWidth);
+    }
+    function _getDocumentHeight() {
+        return window.innerHeight || (ownerDocument.documentElement.clientHeight || document.body.clientHeight);
+    }
+    function _getTopOffset(element) {
+        return element.getBoundingClientRect().top + documentTop - ownerDocument.documentElement.clientTop;
+    }
+    function _getLeftOffset(element) {
+        return element.getBoundingClientRect().left + documentLeft - ownerDocument.documentElement.clientLeft;
+    }
+    function _isBelowViewport() {
+        var fold;
+        if (container === window) {
+            fold = _getDocumentHeight() + documentTop;
+        }
+        else {
+            fold = _getTopOffset(container) + container.offsetHeight;
+        }
+        return fold <= _getTopOffset(element) - threshold;
+    }
+    function _isAtRightOfViewport() {
+        var fold;
+        if (container === window) {
+            fold = _getDocumentWidth() + window.pageXOffset;
+        }
+        else {
+            fold = _getLeftOffset(container) + _getDocumentWidth();
+        }
+        return fold <= _getLeftOffset(element) - threshold;
+    }
+    function _isAboveViewport() {
+        var fold;
+        if (container === window) {
+            fold = documentTop;
+        }
+        else {
+            fold = _getTopOffset(container);
+        }
+        return fold >= _getTopOffset(element) + threshold + element.offsetHeight;
+    }
+    function _isAtLeftOfViewport() {
+        var fold;
+        if (container === window) {
+            fold = documentLeft;
+        }
+        else {
+            fold = _getLeftOffset(container);
+        }
+        return fold >= _getLeftOffset(element) + threshold + element.offsetWidth;
+    }
+    ownerDocument = element.ownerDocument;
+    documentTop = window.pageYOffset || ownerDocument.body.scrollTop;
+    documentLeft = window.pageXOffset || ownerDocument.body.scrollLeft;
+    return !_isBelowViewport() && !_isAboveViewport() && !_isAtRightOfViewport() && !_isAtLeftOfViewport();
+}
+function _now() {
+    var d = new Date();
+    return d.getTime();
+}
+function _convertToArray(nodeSet) {
+    return Array.prototype.slice.call(nodeSet);
+}
+function setSourcesForPicture(element, srcsetDataAttribute) {
+    var parent = element.parentElement;
+    if (parent.tagName !== 'PICTURE') {
+        return;
+    }
+    for (var i = 0; i < parent.children.length; i++) {
+        var pictureChild = parent.children[i];
+        if (pictureChild.tagName === 'SOURCE') {
+            var sourceSrcset = pictureChild.getAttribute('data-' + srcsetDataAttribute);
+            if (sourceSrcset) {
+                pictureChild.setAttribute('srcset', sourceSrcset);
+            }
+        }
+    }
+}
+/**
+ * Sets sources (e.g. src) for lazy load element.
+ * @param element Element, whose image to be loaded.
+ * @param srcsetDataAttribute
+ * @param srcDataAttribute
+ */
+function setSources(element, srcsetDataAttribute, srcDataAttribute) {
+    var tagName = element.tagName.toUpperCase();
+    var elementSrc = element.getAttribute("data-" + srcDataAttribute);
+    if (tagName === "IFRAME") {
+        if (elementSrc) {
+            element.setAttribute("src", elementSrc);
+        }
+        return;
+    }
+    else {
+        if (tagName === "IMG") {
+            setSourcesForPicture(element, srcsetDataAttribute);
+        }
+        var dataTarget = element;
+        if (element["__ionxLazyImageTmpImg"]) {
+            dataTarget = element["__ionxLazyImageTmpImg"];
+        }
+        var imgSrcSet = element.getAttribute("data-" + srcsetDataAttribute);
+        if (imgSrcSet) {
+            dataTarget.setAttribute("srcset", imgSrcSet);
+        }
+        if (elementSrc) {
+            dataTarget.setAttribute("src", elementSrc);
+        }
+        return;
+    }
+    //if (elementSrc) element.style.backgroundImage = "url(" + elementSrc + ")";
+}
+function _bind(fn, obj) {
+    return function () {
+        return fn.apply(obj, arguments);
+    };
+}
+var instanceCounter = 0;
+var instances = {};
+var LazyLoad = /** @class */ (function () {
+    function LazyLoad(options) {
+        this.id = (++instanceCounter) + "";
+        instances[this.id] = this;
+        this._options = Object.assign({}, defaultOptions, options);
+        this._queryOriginNode = this._options.container === window ? document : this._options.container;
+        this._previousLoopTime = 0;
+        this._loopTimeout = null;
+        this._handleScrollFn = _bind(this.handleScroll, this);
+        window.addEventListener("resize", this._handleScrollFn);
+        this.update();
+    }
+    Object.defineProperty(LazyLoad.prototype, "container", {
+        get: function () {
+            return this._queryOriginNode;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    LazyLoad.prototype._showOnAppear = function (element) {
+        var _this = this;
+        var errorCallback = function () {
+            var eventTarget = element;
+            if (element["__ionxLazyImageTmpImg"]) {
+                eventTarget = element["__ionxLazyImageTmpImg"];
+            }
+            var alternate = _this._options.dataAlternate && element.getAttribute("data-" + _this._options.dataAlternate);
+            if (alternate && eventTarget["src"] != alternate) {
+                eventTarget["src"] = alternate;
+                return;
+            }
+            delete element["__ionxLazyImageTmpImg"];
+            eventTarget.removeEventListener("load", loadCallback);
+            eventTarget.removeEventListener("error", errorCallback);
+            element.classList.remove(_this._options.classLoading);
+            element.lazyLoadError = true;
+            if (_this._options.callbackError) {
+                _this._options.callbackError.callback_error(element);
+            }
+        };
+        var loadCallback = function () {
+            /* As this method is asynchronous, it must be protected against external destroy() calls */
+            if (_this._options === null) {
+                return;
+            }
+            var eventTarget = element;
+            // if target element is not <img>, the real target of onload callback is temporary image
+            if (element["__ionxLazyImageTmpImg"]) {
+                eventTarget = element["__ionxLazyImageTmpImg"];
+                element.style.backgroundImage = "url(" + eventTarget.src + ")";
+                delete element["__ionxLazyImageTmpImg"];
+            }
+            element.lazyLoadError = false;
+            if (_this._options.callbackLoad) {
+                _this._options.callbackLoad(element);
+            }
+            element.classList.remove(_this._options.classLoading);
+            element.classList.add(_this._options.classLoaded);
+            eventTarget.removeEventListener("load", loadCallback);
+            eventTarget.removeEventListener("error", errorCallback);
+        };
+        element.classList.add(this._options.classLoading);
+        if (element.tagName.toUpperCase() === "IMG" || element.tagName.toUpperCase() === "IFRAME") {
+            element.addEventListener("load", loadCallback);
+            element.addEventListener("error", errorCallback);
+        }
+        else {
+            var tmpImg = new Image();
+            tmpImg.addEventListener("load", loadCallback);
+            tmpImg.addEventListener("error", errorCallback);
+            element["__ionxLazyImageTmpImg"] = tmpImg;
+        }
+        setSources(element, this._options.dataSrcSet, this._options.dataSrc);
+        if (this._options.callbackSet) {
+            this._options.callbackSet(element);
+        }
+    };
+    LazyLoad.prototype._loopThroughElements = function () {
+        var elementsLength = (!this._elements) ? 0 : this._elements.length;
+        var processedIndexes = [];
+        for (var i = 0; i < elementsLength; i++) {
+            var element = this._elements[i];
+            /* If must skip_invisible and element is invisible, skip it */
+            if (this._options.skipInvisible && (element.offsetParent === null)) {
+                continue;
+            }
+            if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
+                this._showOnAppear(element);
+                /* Marking the element as processed. */
+                processedIndexes.push(i);
+                element.lazyLoadProcessed = true;
+            }
+        }
+        /* Removing processed elements from this._elements. */
+        while (processedIndexes.length > 0) {
+            this._elements.splice(processedIndexes.pop(), 1);
+            if (this._options.callbackProcessed) {
+                this._options.callbackProcessed(this._elements.length);
+            }
+        }
+        /* Stop listening to scroll event when 0 elements remains */
+        if (elementsLength === 0) {
+            this._stopScrollHandler();
+        }
+    };
+    ;
+    LazyLoad.prototype._purgeElements = function () {
+        var elementsToPurge = [];
+        for (var i = 0; i < this._elements.length; i++) {
+            var element = this._elements[i];
+            /* If the element has already been processed, skip it */
+            if (element.lazyLoadProcessed) {
+                elementsToPurge.push(i);
+            }
+        }
+        /* Removing elements to purge from this._elements. */
+        while (elementsToPurge.length > 0) {
+            this._elements.splice(elementsToPurge.pop(), 1);
+        }
+    };
+    ;
+    LazyLoad.prototype._startScrollHandler = function () {
+        if (!this._isHandlingScroll) {
+            this._isHandlingScroll = true;
+            this._options.container.addEventListener("scroll", this._handleScrollFn);
+            if (this._options.scroll) {
+                this._options.scroll.addEventListener("scroll", this._handleScrollFn);
+            }
+        }
+    };
+    ;
+    LazyLoad.prototype._stopScrollHandler = function () {
+        if (this._isHandlingScroll) {
+            this._isHandlingScroll = false;
+            this._options.container.removeEventListener("scroll", this._handleScrollFn);
+            if (this._options.scroll) {
+                this._options.scroll.removeEventListener("scroll", this._handleScrollFn);
+            }
+        }
+    };
+    ;
+    LazyLoad.prototype.handleScroll = function () {
+        var remainingTime, now, throttle;
+        // IE8 fix for destroy() malfunctioning
+        if (!this._options) {
+            return;
+        }
+        now = _now();
+        throttle = this._options.throttle;
+        if (throttle !== 0) {
+            remainingTime = throttle - (now - this._previousLoopTime);
+            if (remainingTime <= 0 || remainingTime > throttle) {
+                if (this._loopTimeout) {
+                    clearTimeout(this._loopTimeout);
+                    this._loopTimeout = null;
+                }
+                this._previousLoopTime = now;
+                this._loopThroughElements();
+            }
+            else if (!this._loopTimeout) {
+                this._loopTimeout = setTimeout(_bind(function () {
+                    this._previousLoopTime = _now();
+                    this._loopTimeout = null;
+                    this._loopThroughElements();
+                }, this), remainingTime);
+            }
+        }
+        else {
+            this._loopThroughElements();
+        }
+    };
+    ;
+    LazyLoad.prototype.update = function (options) {
+        var e_1, _a;
+        this._elements = _convertToArray(this._queryOriginNode.querySelectorAll(this._options.selector));
+        if (options && options.retryError) {
+            try {
+                for (var _b = __values(this._elements), _c = _b.next(); !_c.done; _c = _b.next()) {
+                    var element = _c.value;
+                    if (element.lazyLoadProcessed && element.lazyLoadError) {
+                        element.lazyLoadProcessed = false;
+                    }
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+        }
+        this._purgeElements();
+        this._loopThroughElements();
+        this._startScrollHandler();
+    };
+    LazyLoad.prototype.destroy = function () {
+        window.removeEventListener("resize", this._handleScrollFn);
+        if (this._loopTimeout) {
+            clearTimeout(this._loopTimeout);
+            this._loopTimeout = null;
+        }
+        this._stopScrollHandler();
+        this._elements = null;
+        this._queryOriginNode = null;
+        this._options = null;
+        delete instances[this.id];
+    };
+    return LazyLoad;
+}());
+function ensureLazyImagesLoaded(root, options) {
+    return __awaiter(this, void 0, void 0, function () {
+        var instanceId, loader, container, parent_1;
+        return __generator(this, function (_a) {
+            for (instanceId in instances) {
+                loader = instances[instanceId];
+                container = loader.container;
+                if (root === container) {
+                    loader.update({ retryError: options && options.retryError });
+                }
+                else {
+                    parent_1 = container.parentElement;
+                    while (parent_1 && parent_1 !== root) {
+                        parent_1 = parent_1.parentElement;
+                    }
+                    if (parent_1) {
+                        loader.update({ retryError: options && options.retryError });
+                    }
+                }
+            }
+            return [2 /*return*/];
+        });
+    });
+}
+
+var ImageLoader = /** @class */ (function () {
+    function ImageLoader(element) {
+        this.element = element;
+    }
+    Object.defineProperty(ImageLoader.prototype, "src", {
+        get: function () {
+            return this._src;
+        },
+        set: function (value) {
+            var old = this._src;
+            this._src = value;
+            if (old != this._src) {
+                this.reload();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "src2", {
+        set: function (value) {
+            this.src = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "alternate", {
+        set: function (value) {
+            var old = this._alternate;
+            this._alternate = value;
+            if (old != this._alternate) {
+                this.reload();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "alternate2", {
+        set: function (value) {
+            this.alternate = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClasses", {
+        set: function (value) {
+            this._cssClasses = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClasses2", {
+        set: function (value) {
+            this._cssClasses = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClassesTarget", {
+        set: function (value) {
+            this._cssClassesTarget = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageLoader.prototype, "cssClassesParent", {
+        set: function (value) {
+            this._cssClassesTarget = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ImageLoader.prototype.reload = function () {
+        if (!this.loading && this.initialized) {
+            this.loaded = false;
+            this.error = false;
+            if (this._cssClasses) {
+                var target = this._cssClassesTarget ? this.element.nativeElement.closest(this._cssClassesTarget) : this.element.nativeElement;
+                if (this._cssClasses.loaded) {
+                    target.classList.remove(this._cssClasses.loaded);
+                }
+                if (this._cssClasses.error) {
+                    target.classList.remove(this._cssClasses.error);
+                }
+            }
+            this.load();
+        }
+    };
+    ImageLoader.prototype.load = function () {
+        var _this = this;
+        if (this.loaded || this.error || !this._src || this.loading) {
+            return;
+        }
+        this.loading = true;
+        if (this._cssClasses && this._cssClasses.loading) {
+            this.element.nativeElement.classList.add(this._cssClasses.loading);
+        }
+        var element = this.element.nativeElement;
+        var img;
+        // if host element is not <img>, we need to create tmp 
+        if (element.tagName.toLowerCase() != "img") {
+            img = this.tmpImg = new Image();
+        }
+        else {
+            img = element;
+        }
+        img.onload = function () {
+            if (img !== element) {
+                element.style.backgroundImage = "url(" + img.src + ")";
+            }
+            img.onerror = undefined;
+            img.onload = undefined;
+            _this.tmpImg = undefined;
+            _this.loaded = true;
+            _this.loading = false;
+            _this.error = false;
+            if (_this._cssClasses) {
+                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
+                if (_this._cssClasses.loading) {
+                    target.classList.remove(_this._cssClasses.loading);
+                }
+                if (_this._cssClasses.loaded) {
+                    target.classList.add(_this._cssClasses.loaded);
+                }
+            }
+        };
+        img.onerror = function () {
+            if (_this._alternate && _this._alternate != img.src) {
+                img.src = _this._alternate;
+                return;
+            }
+            img.onerror = undefined;
+            img.onload = undefined;
+            _this.tmpImg = undefined;
+            _this.loading = false;
+            _this.loaded = false;
+            _this.error = true;
+            if (_this._cssClasses) {
+                var target = _this._cssClassesTarget ? element.closest(_this._cssClassesTarget) : element;
+                if (_this._cssClasses.loading) {
+                    target.classList.remove(_this._cssClasses.loading);
+                }
+                if (_this._cssClasses.error) {
+                    target.classList.add(_this._cssClasses.error);
+                }
+            }
+        };
+        img.src = this._src;
+    };
+    ImageLoader.prototype.ngAfterViewInit = function () {
+        this.initialized = true;
+        this.element.nativeElement["ionxImageLoader"] = this;
+        this.load();
+    };
+    ImageLoader.prototype.ngOnDestroy = function () {
+        if (this.element.nativeElement) {
+            delete this.element.nativeElement["ionxImageLoader"];
+        }
+    };
+    __decorate([
+        Input("src"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "src", null);
+    __decorate([
+        Input("ionx-image-loader"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "src2", null);
+    __decorate([
+        Input("alternate"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "alternate", null);
+    __decorate([
+        Input("ionx-image-loader-alternate"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "alternate2", null);
+    __decorate([
+        Input("css-classes"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ImageLoader.prototype, "cssClasses", null);
+    __decorate([
+        Input("ionx-image-loader-css-classes"),
+        __metadata("design:type", Object),
+        __metadata("design:paramtypes", [Object])
+    ], ImageLoader.prototype, "cssClasses2", null);
+    __decorate([
+        Input("css-classes-target"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "cssClassesTarget", null);
+    __decorate([
+        Input("ionx-image-loader-css-classes-target"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], ImageLoader.prototype, "cssClassesParent", null);
+    ImageLoader = __decorate([
+        Directive({
+            selector: "[ionx-image-loader]",
+            host: {
+                "[attr.ionx-image-loader]": "true"
+            }
+        }),
+        __metadata("design:paramtypes", [ElementRef])
+    ], ImageLoader);
+    return ImageLoader;
+}());
+function ensureImagesLoaded(root, options) {
+    return __awaiter(this, void 0, void 0, function () {
+        var images, i, image;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    images = root.querySelectorAll("[ionx-image-loader]");
+                    for (i = 0; i < images.length; i++) {
+                        image = images.item(i);
+                        if (!image.ionxImageLoader || !image.ionxImageLoader.src || image.ionxImageLoader.loaded || (image.ionxImageLoader.error && (!options || !options.retryError))) {
+                            continue;
+                        }
+                        image.ionxImageLoader.reload();
+                    }
+                    if (!(options && options.lazy)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, ensureLazyImagesLoaded(root, { retryError: options && options.retryError })];
+                case 1:
+                    _a.sent();
+                    _a.label = 2;
+                case 2: return [2 /*return*/];
+            }
+        });
+    });
+}
+
+var ImageLoaderModule = /** @class */ (function () {
+    function ImageLoaderModule() {
+    }
+    ImageLoaderModule = __decorate([
+        NgModule({
+            declarations: [ImageLoader],
+            exports: [ImageLoader]
+        })
+    ], ImageLoaderModule);
+    return ImageLoaderModule;
+}());
+
+IonBackButtonDelegate.prototype.onClick = function () { return null; };
+var IonicBackButtonFix = /** @class */ (function () {
+    function IonicBackButtonFix(router, routerOutlet, navCtrl, elementRef) {
+        this.router = router;
+        this.routerOutlet = routerOutlet;
+        this.navCtrl = navCtrl;
+        this.elementRef = elementRef;
+    }
+    Object.defineProperty(IonicBackButtonFix.prototype, "defaultHref", {
+        get: function () {
+            return this.elementRef.nativeElement.defaultHref;
+        },
+        set: function (value) {
+            this.elementRef.nativeElement.defaultHref = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    IonicBackButtonFix.prototype.onClick = function (ev) {
+        if (this.routerOutlet && this.routerOutlet.canGoBack()) {
+            this.navCtrl.back({ animated: true });
+            ev.preventDefault();
+        }
+        else if (this.router && this.defaultHref != null) {
+            this.navCtrl.navigateBack(this.defaultHref);
+            ev.preventDefault();
+        }
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], IonicBackButtonFix.prototype, "defaultHref", null);
+    __decorate([
+        HostListener("click", ["$event"]),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Event]),
+        __metadata("design:returntype", void 0)
+    ], IonicBackButtonFix.prototype, "onClick", null);
+    IonicBackButtonFix = __decorate([
+        Directive({
+            selector: "ion-back-button"
+        }),
+        __metadata("design:paramtypes", [Router, IonRouterOutlet, NavController, ElementRef])
+    ], IonicBackButtonFix);
+    return IonicBackButtonFix;
+}());
+
+var IonicInputFix = /** @class */ (function () {
+    function IonicInputFix(element) {
+        this.element = element;
+    }
+    IonicInputFix.prototype.ngAfterViewInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var realInput;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.tabIndex) return [3 /*break*/, 2];
+                        this.element.nativeElement.removeAttribute("tabIndex");
+                        return [4 /*yield*/, waitTill(function () { return !!_this.element.nativeElement.shadowRoot && !!_this.element.nativeElement.shadowRoot.querySelector(".native-input"); })];
+                    case 1:
+                        _a.sent();
+                        realInput = this.element.nativeElement.shadowRoot.querySelector(".native-input");
+                        realInput.setAttribute("tabIndex", this.tabIndex);
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    __decorate([
+        Input("tabIndex"),
+        __metadata("design:type", String)
+    ], IonicInputFix.prototype, "tabIndex", void 0);
+    IonicInputFix = __decorate([
+        Directive({
+            selector: "ion-input[ionfix-input]"
+        }),
+        __metadata("design:paramtypes", [ElementRef])
+    ], IonicInputFix);
+    return IonicInputFix;
+}());
+
+var IonicItemTargetFix = /** @class */ (function () {
+    function IonicItemTargetFix(element) {
+        this.element = element;
+    }
+    IonicItemTargetFix.prototype.ngAfterViewInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var i, a;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.target) return [3 /*break*/, 5];
+                        i = 1;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < 20)) return [3 /*break*/, 5];
+                        a = (this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".item-native")) || undefined;
+                        if (!!a) return [3 /*break*/, 3];
+                        return [4 /*yield*/, sleep(i * 100)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        a.setAttribute("target", this.target);
+                        _a.label = 4;
+                    case 4:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], IonicItemTargetFix.prototype, "target", void 0);
+    IonicItemTargetFix = __decorate([
+        Directive({
+            selector: "ion-item[target]"
+        }),
+        __metadata("design:paramtypes", [ElementRef])
+    ], IonicItemTargetFix);
+    return IonicItemTargetFix;
+}());
+
+var IonicFixModule = /** @class */ (function () {
+    function IonicFixModule() {
+    }
+    IonicFixModule = __decorate([
+        NgModule({
+            declarations: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix],
+            exports: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix]
+        })
+    ], IonicFixModule);
+    return IonicFixModule;
+}());
+
+var LazyImage = /** @class */ (function () {
+    function LazyImage(element, renderer, container) {
+        this.element = element;
+        this.renderer = renderer;
+        this.container = container;
+    }
+    LazyImage_1 = LazyImage;
+    Object.defineProperty(LazyImage.prototype, "src", {
+        set: function (value) {
+            this._src = value;
+            this.reset();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LazyImage.prototype, "alternate", {
+        set: function (value) {
+            this._alternate = value;
+            this.reset();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    LazyImage.prototype.reset = function () {
+        if (this._src) {
+            this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
+            this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
+        }
+        if (this._alternate) {
+            this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
+        }
+    };
+    LazyImage.prototype.revalidate = function () {
+        // children.length > 1 because this is also included in children query
+        if (this.container && this.children.length > 1) {
+            this.container.revalidate();
+        }
+    };
+    LazyImage.prototype.ngAfterContentInit = function () {
+        var _this = this;
+        this.children.changes.subscribe(function () { return _this.revalidate(); });
+        this.revalidate();
+    };
+    var LazyImage_1;
+    __decorate([
+        ContentChildren(LazyImage_1, { descendants: true }),
+        __metadata("design:type", QueryList)
+    ], LazyImage.prototype, "children", void 0);
+    __decorate([
+        Input("ionx-lazy-image"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], LazyImage.prototype, "src", null);
+    __decorate([
+        Input("ionx-lazy-image-alternate"),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], LazyImage.prototype, "alternate", null);
+    LazyImage = LazyImage_1 = __decorate([
+        Directive({
+            selector: "[ionx-lazy-image]"
+        }),
+        __param(2, Optional()), __param(2, Inject(forwardRef(function () { return LazyImageContainer; }))),
+        __metadata("design:paramtypes", [ElementRef, Renderer, LazyImageContainer])
+    ], LazyImage);
+    return LazyImage;
+}());
+var LazyImageContainer = /** @class */ (function () {
+    function LazyImageContainer(element) {
+        this.element = element;
+    }
+    LazyImageContainer.prototype.revalidate = function () {
+        if (this.lazyLoad) {
+            this.lazyLoad.update();
+            var rect = this.element.nativeElement.getBoundingClientRect();
+            if (rect.width == 0 || rect.height == 0) {
+                //setTimeout(() => this.revalidate(), 200);
+            }
+            //console.log(this.children);
+            //window.dispatchEvent(new Event("resize"));
+        }
+    };
+    LazyImageContainer.prototype.ngOnInit = function () {
+        this.initLazyLoad();
+    };
+    LazyImageContainer.prototype.ngAfterContentInit = function () {
+        var _this = this;
+        this.children.changes.subscribe(function () { return _this.revalidate(); });
+        if (this.children.length > 0) {
+            this.revalidate();
+        }
+    };
+    LazyImageContainer.prototype.ngOnDestroy = function () {
+        if (this.lazyLoad) {
+            this.lazyLoad.destroy();
+        }
+    };
+    LazyImageContainer.prototype.initLazyLoad = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var options, i;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        options = {};
+                        options.selector = ".ionx-lazy-image";
+                        options.container = this.element.nativeElement;
+                        if (!(this.element.nativeElement.tagName.toLowerCase() === "ion-content")) return [3 /*break*/, 5];
+                        i = 0;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < 40)) return [3 /*break*/, 5];
+                        options.scroll = this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".inner-scroll");
+                        if (!!options.scroll) return [3 /*break*/, 3];
+                        return [4 /*yield*/, sleep(50)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3: return [3 /*break*/, 5];
+                    case 4:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 5:
+                        this.lazyLoad = new LazyLoad(options);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    __decorate([
+        ContentChildren(LazyImage, { descendants: true }),
+        __metadata("design:type", QueryList)
+    ], LazyImageContainer.prototype, "children", void 0);
+    LazyImageContainer = __decorate([
+        Directive({
+            selector: "ion-content[ionx-lazy-image], [ionx-lazy-image-container]"
+        }),
+        __metadata("design:paramtypes", [ElementRef])
+    ], LazyImageContainer);
+    return LazyImageContainer;
+}());
+
+var LazyImageModule = /** @class */ (function () {
+    function LazyImageModule() {
+    }
+    LazyImageModule = __decorate([
+        NgModule({
+            declarations: [LazyImage, LazyImageContainer],
+            exports: [LazyImage, LazyImageContainer]
+        })
+    ], LazyImageModule);
+    return LazyImageModule;
+}());
+
+var Loader = /** @class */ (function () {
+    function Loader(elementRef) {
+        this.elementRef = elementRef;
+        this.progressType = "determinate";
+        this.progressValue = 0;
+        this.progressBuffer = 0;
+    }
+    Object.defineProperty(Loader.prototype, "progressPercentVisible", {
+        get: function () {
+            return typeof this.progressPercent === "number";
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Loader.prototype, "spinnerMode", {
+        get: function () {
+            return this.mode === "spinner";
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Loader.prototype, "progressMode", {
+        get: function () {
+            return this.mode === "progress";
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Loader.prototype.dismiss = function () {
+        return this.popover.dismiss();
+    };
+    Loader.prototype.ngOnInit = function () {
+        this.popover = this.elementRef.nativeElement.closest("ion-popover");
+        if (this.instanceCallback) {
+            this.instanceCallback(this);
+        }
+    };
+    Loader.prototype.ngOnDestroy = function () {
+        this.popover = undefined;
+        this.instanceCallback = undefined;
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", Function)
+    ], Loader.prototype, "instanceCallback", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Loader.prototype, "header", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Loader.prototype, "message", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Loader.prototype, "mode", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Loader.prototype, "progressMessage", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Loader.prototype, "progressType", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], Loader.prototype, "progressValue", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], Loader.prototype, "progressBuffer", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], Loader.prototype, "progressPercent", void 0);
+    Loader = __decorate([
+        Component({
+            selector: "ionx-loader",
+            template: "<div style=\"display: flex; align-items: center\">\n\n    <div *ngIf=\"spinnerMode\" style=\"padding: 16px; padding-right: 0px;\">\n        <ion-spinner></ion-spinner>\n    </div>\n\n    <div style=\"padding: 16px; flex: 1; display: flex; flex-direction: column; justify-items: center;\">\n        <h5 style=\"margin: 0px\" *ngIf=\"header\">{{header}}</h5>\n        <ion-text [innerHTML]=\"message\" *ngIf=\"!!message\"></ion-text>\n    </div>\n\n</div>\n\n<ion-progress-bar style=\"margin: 16px 0px\" [value]=\"progressValue\" [type]=\"progressType\" [buffer]=\"progressBuffer\" *ngIf=\"progressMode\"></ion-progress-bar>\n\n<div style=\"display: flex; margin: 0px 16px 16px 16px\" *ngIf=\"!!progressMessage || progressPercentVisible\">\n    <ion-text [innerHTML]=\"progressMessage\" style=\"flex: 1\"></ion-text>\n    <span style=\"width: 60px; text-align: right\" *ngIf=\"progressPercentVisible\">{{(progressPercent | intlPercentFormat: {maximumFractionDigits: 0})}}</span>\n</div>\n",
+            styles: [":host { display: block }"]
+        }),
+        __metadata("design:paramtypes", [ElementRef])
+    ], Loader);
+    return Loader;
+}());
+
+var LoaderController = /** @class */ (function () {
+    function LoaderController(popoverController) {
+        this.popoverController = popoverController;
+    }
+    LoaderController.prototype.present = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var loader, loaderInstance, popover;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        loaderInstance = function (instance) { return loader = instance; };
+                        return [4 /*yield*/, this.popoverController.create({
+                                animated: false,
+                                cssClass: "ionx-popover-flex",
+                                backdropDismiss: false,
+                                keyboardClose: false,
+                                component: Loader,
+                                componentProps: {
+                                    instanceCallback: function (loader) { return loaderInstance(loader); },
+                                    header: options.header,
+                                    message: options.message,
+                                    mode: options.mode || "spinner"
+                                }
+                            })];
+                    case 1:
+                        popover = _a.sent();
+                        // popover.style.setProperty("--width", "100%");
+                        // popover.style.setProperty("--maxHeight", "100%");
+                        // const content = popover.querySelector(".popover-content") as HTMLElement;
+                        // content.style.background = "transparent";
+                        // content.style.borderRadius = "0px";
+                        // content.style.left = "0px !important";
+                        // content.style.top = "0px !important";
+                        // content.style.height = "100%";
+                        // content.style.width = "100%";
+                        // content.style.maxWidth = "none";
+                        // content.style.maxHeight = "none";
+                        // content.style.boxShadow = "none";
+                        popover.present();
+                        return [4 /*yield*/, waitTill(function () { return !!loader; })];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/, loader];
+                }
+            });
+        });
+    };
+    LoaderController = __decorate([
+        Injectable(),
+        __metadata("design:paramtypes", [PopoverController])
+    ], LoaderController);
+    return LoaderController;
+}());
+
+var LoaderModule = /** @class */ (function () {
+    function LoaderModule() {
+    }
+    LoaderModule = __decorate([
+        NgModule({
+            declarations: [Loader],
+            imports: [IntlModule, IonicModule, CommonModule],
+            entryComponents: [Loader],
+            providers: [LoaderController]
+        })
+    ], LoaderModule);
+    return LoaderModule;
+}());
+
+var ModalControllerComponent = /** @class */ (function () {
+    function ModalControllerComponent(controller) {
+        this.controller = controller;
+        this.willEnter = new EventEmitter();
+        this.didEnter = new EventEmitter();
+        this.didDismiss = new EventEmitter();
+        this.willDismiss = new EventEmitter();
+        this._presented = false;
+    }
+    ModalControllerComponent.prototype.present = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        // already opened - should we close existing and open new?
+                        if (this.modal) {
+                            return [2 /*return*/];
+                        }
+                        _a = this;
+                        return [4 /*yield*/, this.controller.create({ component: ModalControllerContentComponent, componentProps: { template: this.content }, backdropDismiss: this.backdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass })];
+                    case 1:
+                        _a.modal = (_b.sent());
+                        this.willEnter.next();
+                        return [4 /*yield*/, this.modal.present()];
+                    case 2:
+                        _b.sent();
+                        this.didEnter.next();
+                        this._presented = true;
+                        return [4 /*yield*/, this.modal.onWillDismiss()];
+                    case 3:
+                        if (_b.sent()) {
+                            this.willDismiss.next();
+                        }
+                        return [4 /*yield*/, this.modal.onDidDismiss()];
+                    case 4:
+                        if (_b.sent()) {
+                            this.didDismiss.next();
+                            this.modal = undefined;
+                            this._presented = false;
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Object.defineProperty(ModalControllerComponent.prototype, "presented", {
+        get: function () {
+            return this._presented;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ModalControllerComponent.prototype.dismiss = function (data, role) {
+        if (this.modal) {
+            return this.modal.dismiss(data, role);
+        }
+        return new Promise(function (resolve, reject) {
+            resolve();
+        });
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], ModalControllerComponent.prototype, "cssClass", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], ModalControllerComponent.prototype, "backdropDismiss", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], ModalControllerComponent.prototype, "showBackdrop", void 0);
+    __decorate([
+        ViewChild("modalContent", { static: true }),
+        __metadata("design:type", TemplateRef)
+    ], ModalControllerComponent.prototype, "content", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], ModalControllerComponent.prototype, "willEnter", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], ModalControllerComponent.prototype, "didEnter", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], ModalControllerComponent.prototype, "didDismiss", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], ModalControllerComponent.prototype, "willDismiss", void 0);
+    ModalControllerComponent = __decorate([
+        Component({
+            selector: "ionx-modal-controller",
+            template: "\n        <ng-template #modalContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
+        }),
+        __metadata("design:paramtypes", [ModalController])
+    ], ModalControllerComponent);
+    return ModalControllerComponent;
+}());
+var ModalControllerContentComponent = /** @class */ (function () {
+    function ModalControllerContentComponent() {
+        //this.template = params.get("template");
+    }
+    ModalControllerContentComponent.prototype.ngOnDestroy = function () {
+        this.template = undefined;
+    };
+    ModalControllerContentComponent = __decorate([
+        Component({
+            template: "\n        <ng-container *ngTemplateOutlet=\"template\"></ng-container>\n    "
+        }),
+        __metadata("design:paramtypes", [])
+    ], ModalControllerContentComponent);
+    return ModalControllerContentComponent;
+}());
+
+var ModalModule = /** @class */ (function () {
+    function ModalModule() {
+    }
+    ModalModule = __decorate([
+        NgModule({
+            declarations: [ModalControllerComponent, ModalControllerContentComponent],
+            exports: [ModalControllerComponent],
+            imports: [CommonModule, IonicModule],
+            entryComponents: [ModalControllerComponent, ModalControllerContentComponent]
+        })
+    ], ModalModule);
+    return ModalModule;
+}());
+
+var PopoverControllerComponent = /** @class */ (function () {
+    function PopoverControllerComponent(controller) {
+        this.controller = controller;
+        this.willEnter = new EventEmitter();
+        this.didEnter = new EventEmitter();
+        this.didDismiss = new EventEmitter();
+        this.willDismiss = new EventEmitter();
+        this._dismissing = false;
+        this._presented = false;
+    }
+    PopoverControllerComponent.prototype.present = function (event) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        // already opened - should we close existing and open new?
+                        if (this.popover) {
+                            return [2 /*return*/];
+                        }
+                        _a = this;
+                        return [4 /*yield*/, this.controller.create({ component: PopoverControllerContentComponent, componentProps: { template: this.content }, backdropDismiss: this.enableBackdropDismiss, showBackdrop: this.showBackdrop, cssClass: this.cssClass, event: event })];
+                    case 1:
+                        _a.popover = (_b.sent());
+                        this.willEnter.next();
+                        return [4 /*yield*/, this.popover.present()];
+                    case 2:
+                        _b.sent();
+                        this.didEnter.next();
+                        this._presented = true;
+                        return [4 /*yield*/, this.popover.onWillDismiss()];
+                    case 3:
+                        if (_b.sent()) {
+                            this.willDismiss.next();
+                        }
+                        this._dismissing = true;
+                        return [4 /*yield*/, this.popover.onDidDismiss()];
+                    case 4:
+                        if (_b.sent()) {
+                            this.didDismiss.next();
+                            this.popover = undefined;
+                            this._presented = false;
+                            this._dismissing = false;
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Object.defineProperty(PopoverControllerComponent.prototype, "dismissing", {
+        get: function () {
+            return this._dismissing;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PopoverControllerComponent.prototype, "presented", {
+        get: function () {
+            return this._presented;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    PopoverControllerComponent.prototype.dismiss = function (data, role) {
+        if (this.popover) {
+            return this.popover.dismiss(data, role);
+        }
+        return new Promise(function (resolve, reject) {
+            resolve();
+        });
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], PopoverControllerComponent.prototype, "cssClass", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], PopoverControllerComponent.prototype, "enableBackdropDismiss", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], PopoverControllerComponent.prototype, "showBackdrop", void 0);
+    __decorate([
+        ViewChild("popoverContent", { static: true }),
+        __metadata("design:type", TemplateRef)
+    ], PopoverControllerComponent.prototype, "content", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "willEnter", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "didEnter", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "didDismiss", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", EventEmitter)
+    ], PopoverControllerComponent.prototype, "willDismiss", void 0);
+    PopoverControllerComponent = __decorate([
+        Component({
+            selector: "ionx-popover-controller",
+            encapsulation: ViewEncapsulation.None,
+            template: "\n        <ng-template #popoverContent>\n            <ng-content></ng-content>\n        </ng-template>\n    "
+        }),
+        __metadata("design:paramtypes", [PopoverController])
+    ], PopoverControllerComponent);
+    return PopoverControllerComponent;
+}());
+var PopoverControllerContentComponent = /** @class */ (function () {
+    function PopoverControllerContentComponent() {
+        //this.template = params.get("template");
+    }
+    PopoverControllerContentComponent.prototype.ngOnDestroy = function () {
+        this.template = undefined;
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", TemplateRef)
+    ], PopoverControllerContentComponent.prototype, "template", void 0);
+    PopoverControllerContentComponent = __decorate([
+        Component({
+            encapsulation: ViewEncapsulation.None,
+            template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "
+        }),
+        __metadata("design:paramtypes", [])
+    ], PopoverControllerContentComponent);
+    return PopoverControllerContentComponent;
+}());
+
+var PopoverModule = /** @class */ (function () {
+    function PopoverModule() {
+    }
+    PopoverModule = __decorate([
+        NgModule({
+            declarations: [PopoverControllerComponent, PopoverControllerContentComponent],
+            exports: [PopoverControllerComponent],
+            imports: [IonicModule, CommonModule],
+            entryComponents: [PopoverControllerComponent, PopoverControllerContentComponent]
+        })
+    ], PopoverModule);
+    return PopoverModule;
+}());
+
+var PseudoInput = /** @class */ (function () {
+    function PseudoInput(element) {
+        this.element = element;
+    }
+    PseudoInput = __decorate([
+        Component({
+            selector: "ionx-pseudo-input",
+            exportAs: "ionxPseudoInput",
+            template: "<ng-content></ng-content>",
+            styles: [":host{padding:var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);display:block;overflow:hidden;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host-context(.item-label-stacked) ionx-pseudo-input{align-self:flex-start;--padding-start:0}:host-context(.md.item-label-stacked) ionx-pseudo-input{--padding-top:10px;--padding-bottom:9px}:host-context(.ios.item-label-stacked) ionx-pseudo-input{--padding-top:9px;--padding-bottom:8px}"]
+        }),
+        __metadata("design:paramtypes", [ElementRef])
+    ], PseudoInput);
+    return PseudoInput;
+}());
+
+var PseudoInputModule = /** @class */ (function () {
+    function PseudoInputModule() {
+    }
+    PseudoInputModule = __decorate([
+        NgModule({
+            declarations: [PseudoInput],
+            exports: [PseudoInput]
+        })
+    ], PseudoInputModule);
+    return PseudoInputModule;
+}());
+
+var Spinner = /** @class */ (function () {
+    function Spinner() {
+        this.backdropVisible = false;
+        this.fill = false;
+    }
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], Spinner.prototype, "backdropVisible", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Boolean)
+    ], Spinner.prototype, "fill", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Spinner.prototype, "color", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], Spinner.prototype, "name", void 0);
+    Spinner = __decorate([
+        Component({
+            selector: "ionx-spinner",
+            template: "<ion-backdrop *ngIf=\"backdropVisible\"></ion-backdrop><ion-spinner [name]=\"name\" [color]=\"color\"></ion-spinner>",
+            styles: [":host{position:relative;display:flex;align-items:center;justify-content:center}:host ion-backdrop{opacity:.1}:host[fill]{position:absolute;width:100%;height:100%;left:0;top:0}:host[always-on-top]{z-index:100000}"]
+        })
+    ], Spinner);
+    return Spinner;
+}());
+
+var SpinnerModule = /** @class */ (function () {
+    function SpinnerModule() {
+    }
+    SpinnerModule = __decorate([
+        NgModule({
+            declarations: [Spinner],
+            exports: [Spinner],
+            imports: [CommonModule, IonicModule]
+        })
+    ], SpinnerModule);
+    return SpinnerModule;
+}());
+
+var TextareaAutosize = /** @class */ (function () {
+    function TextareaAutosize(element) {
+        this.element = element;
+    }
+    TextareaAutosize.prototype.onChange = function () {
+        this.adjust();
+    };
+    Object.defineProperty(TextareaAutosize.prototype, "textarea", {
+        get: function () {
+            return this.element.nativeElement.querySelector("textarea");
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TextareaAutosize.prototype.adjust = function () {
+        var input = this.textarea;
+        if (input) {
+            input.style.overflow = "hidden";
+            input.style.height = "auto";
+            input.style.height = input.scrollHeight + "px";
+        }
+    };
+    TextareaAutosize.prototype.ngOnInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, waitTill(function () { return !!_this.textarea; })];
+                    case 1:
+                        _a.sent();
+                        this.adjust();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    __decorate([
+        HostListener("ionChange"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], TextareaAutosize.prototype, "onChange", null);
+    TextareaAutosize = __decorate([
+        Directive({
+            selector: "ion-textarea[ionx-autosize]"
+        }),
+        __metadata("design:paramtypes", [ElementRef])
+    ], TextareaAutosize);
+    return TextareaAutosize;
+}());
+
+var TextareaAutosizeModule = /** @class */ (function () {
+    function TextareaAutosizeModule() {
+    }
+    TextareaAutosizeModule = __decorate([
+        NgModule({
+            declarations: [TextareaAutosize],
+            exports: [TextareaAutosize],
+            imports: [IonicModule]
+        })
+    ], TextareaAutosizeModule);
+    return TextareaAutosizeModule;
+}());
+
+var ToggleLabels = /** @class */ (function () {
+    function ToggleLabels() {
+    }
+    ToggleLabels.prototype.switchOn = function () {
+        this.toggle.checked = true;
+    };
+    ToggleLabels.prototype.switchOff = function () {
+        this.toggle.checked = false;
+    };
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], ToggleLabels.prototype, "on", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], ToggleLabels.prototype, "off", void 0);
+    __decorate([
+        ContentChild(IonToggle, { static: false }),
+        __metadata("design:type", IonToggle)
+    ], ToggleLabels.prototype, "toggle", void 0);
+    ToggleLabels = __decorate([
+        Component({
+            selector: "ionx-toggle-labels",
+            template: "<span ionx--off (click)=\"switchOff()\">\n    <ng-template [ngIf]=\"!!off\">{{off}}</ng-template>\n    <ng-content select=\"[slot=off]\"></ng-content>\n    </span>\n\n<ng-content select=\"ion-toggle\"></ng-content>\n\n<span ionx--on (click)=\"switchOn()\">\n    <ng-template [ngIf]=\"!!on\">{{on}}</ng-template>\n    <ng-content select=\"[slot=on]\"></ng-content>\n</span>\n",
+            styles: [":host{display:flex;align-items:center}:host ::ng-deep ion-toggle{-webkit-padding-start:2px;padding-inline-start:2px;-webkit-padding-end:2px;padding-inline-end:2px}:host [ionx--on]{cursor:pointer;margin-left:4px}:host [ionx--off]{cursor:pointer;margin-right:4px}:host-context(.item-label-stacked){align-self:flex-start}:host-context(.ios.item-label-stacked){margin-top:2px;margin-bottom:2px}"]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ToggleLabels);
+    return ToggleLabels;
+}());
+
+var ToggleLabelsModule = /** @class */ (function () {
+    function ToggleLabelsModule() {
+    }
+    ToggleLabelsModule = __decorate([
+        NgModule({
+            declarations: [ToggleLabels],
+            exports: [ToggleLabels],
+            imports: [CommonModule, IonicModule]
+        })
+    ], ToggleLabelsModule);
+    return ToggleLabelsModule;
+}());
+
 /**
  * Generated bundle index. Do not edit.
  */
 
-export { Buttons, ButtonsModule, DateTimePickerInput, DateTimePickerModule, Dialog, DialogController, DialogModule, ExpandingSearchbar, ExpandingSearchbarModule, FormHeading, FormHelper, FormHelperModule, FormItem, FormItemError, FormItemHint, ImageLoader, ImageLoaderModule, IonicFixModule, LazyImage, LazyImageContainer, LazyImageModule, Loader, LoaderModule, ModalControllerComponent, ModalModule, PopoverControllerComponent, PopoverModule, PseudoInput, PseudoInputModule, Select, SelectModule, SelectOption, SelectOptions, Spinner, SpinnerModule, TextareaAutosizeModule, ToggleLabels, ToggleLabelsModule, dialogData, dialogInstance, ensureImagesLoaded, ensureLazyImagesLoaded, ModalControllerContentComponent as ɵa, PopoverControllerContentComponent as ɵb, ExpandingSearchbarStyles as ɵc, IonicInputFix as ɵd, IonicBackButtonFix as ɵe, IonicItemTargetFix as ɵf, LoaderController as ɵg, TextareaAutosize as ɵh, DateTimePickerOverlay as ɵi, SelectLabel as ɵj, SelectOverlayContent as ɵk };
+export { Buttons, ButtonsModule, DateTimePickerInput, DateTimePickerModule, Dialog, DialogController, DialogModule, ExpandingSearchbar, ExpandingSearchbarModule, FormHeading, FormHelper, FormHelperModule, FormItem, FormItemError, FormItemHint, ImageLoader, ImageLoaderModule, IonicFixModule, LazyImage, LazyImageContainer, LazyImageModule, Loader, LoaderModule, ModalControllerComponent, ModalModule, PopoverControllerComponent, PopoverModule, PseudoInput, PseudoInputModule, Select, SelectModule, SelectOption, SelectOptions, Spinner, SpinnerModule, TextareaAutosizeModule, ToggleLabels, ToggleLabelsModule, dialogData, dialogInstance, ensureImagesLoaded, ensureLazyImagesLoaded, ModalControllerContentComponent as ɵa, PopoverControllerContentComponent as ɵb, DateTimePickerOverlay as ɵc, SelectLabel as ɵd, SelectOverlayContent as ɵe, ExpandingSearchbarStyles as ɵf, IonicInputFix as ɵg, IonicBackButtonFix as ɵh, IonicItemTargetFix as ɵi, LoaderController as ɵj, TextareaAutosize as ɵk };
 //# sourceMappingURL=co.mmons-ionic-extensions.js.map

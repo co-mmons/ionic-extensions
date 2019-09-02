@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/pseudo-input",
+    "main": "../esm2015/pseudo-input/index.js",
+    "sideEffects": false
+}

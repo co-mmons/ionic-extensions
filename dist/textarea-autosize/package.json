@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/textarea-autosize",
+    "main": "../esm2015/textarea-autosize/index.js",
+    "sideEffects": false
+}

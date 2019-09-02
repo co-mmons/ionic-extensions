@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/loader",
+    "main": "../esm2015/loader/index.js",
+    "sideEffects": false
+}

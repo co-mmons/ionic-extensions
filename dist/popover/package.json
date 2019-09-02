@@ -1,0 +1,5 @@
+{
+    "name": "@co.mmons/ionic-extensions/popover",
+    "main": "../esm2015/popover/index.js",
+    "sideEffects": false
+}
