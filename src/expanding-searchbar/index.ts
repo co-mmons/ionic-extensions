@@ -8,6 +8,7 @@ export {ExpandingSearchbar} from "./expanding-searchbar";
 @NgModule({
     declarations: [ExpandingSearchbar, ExpandingSearchbarStyles],
     exports: [ExpandingSearchbar],
+    entryComponents: [ExpandingSearchbarStyles],
     imports: [IonicModule]
 })
 export class ExpandingSearchbarModule {
