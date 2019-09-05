@@ -26,13 +26,11 @@
     "@angular/platform-server": "^8.0.3",
     "@angular/router": "^8.0.3",
     "@ionic/angular": "^4.6.0",
-    "dragula": "^3.7.2",
     "rxjs": "^6.5.2",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
     "@capacitor/core": "^1.1.0",
-    "@types/dragula": "^2.1.34",
     "@types/fs-extra": "^8.0.0",
     "bignumber.js": "^9.0.0",
     "fs-extra": "^8.1.0",
