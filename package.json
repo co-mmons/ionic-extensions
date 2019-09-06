@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -Rf dist/**/* && npx ts-node --project tsconfig.build.json build.ts",
+    "intl": "js-intl-google-sheet-importer --output-path i18n --output-type json --document 1lTpcwU0ubFX7bJFCt8zeHYrwbDaoxNcjzpjUVdmiY_w --worksheet 1 --filterTags ionic-extensions",
     "install": "node-utils-npm-install-dist"
   },
   "peerDependencies": {

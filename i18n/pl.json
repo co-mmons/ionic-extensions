@@ -1,9 +1,9 @@
 {
     "Choose...": "Wybierz...",
-    "Today": "Dzisiaj",
-    "Time zone": "Strefa czasowa",
-    "No time zone": "Bez strefy czasowej",
-    "Month": "Miesiąc",
     "Day": "Dzień",
+    "Month": "Miesiąc",
+    "No time zone": "Brak strefy czasowej",
+    "Time zone": "Strefa czasowa",
+    "Today": "Dzisiaj",
     "Year": "Rok"
 }
