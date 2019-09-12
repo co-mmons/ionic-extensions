@@ -5,17 +5,17 @@
     user-select: text;
 }
 
-:host-context(.item-label-stacked) ionx-pseudo-input {
+:host-context(.item-label-stacked) {
     align-self: flex-start;
     --padding-start: 0;
 }
 
-:host-context(.md .item-label-stacked) ionx-pseudo-input {
+:host-context(.md .item-label-stacked) {
     --padding-top: 10px;
     --padding-bottom: 9px;
 }
 
-:host-context(.ios .item-label-stacked) ionx-pseudo-input {
+:host-context(.ios .item-label-stacked) {
     --padding-top: 9px;
     --padding-bottom: 8px;
 }

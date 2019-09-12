@@ -10,7 +10,7 @@ PseudoInput = tslib_1.__decorate([
         selector: "ionx-pseudo-input",
         exportAs: "ionxPseudoInput",
         template: "<ng-content></ng-content>",
-        styles: [":host{padding:var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);display:block;overflow:hidden;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host-context(.item-label-stacked) ionx-pseudo-input{align-self:flex-start;--padding-start:0}:host-context(.md.item-label-stacked) ionx-pseudo-input{--padding-top:10px;--padding-bottom:9px}:host-context(.ios.item-label-stacked) ionx-pseudo-input{--padding-top:9px;--padding-bottom:8px}"]
+        styles: [":host{padding:var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);display:block;overflow:hidden;-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text}:host-context(.item-label-stacked){align-self:flex-start;--padding-start:0}:host-context(.md.item-label-stacked){--padding-top:10px;--padding-bottom:9px}:host-context(.ios.item-label-stacked){--padding-top:9px;--padding-bottom:8px}"]
     }),
     tslib_1.__metadata("design:paramtypes", [ElementRef])
 ], PseudoInput);
