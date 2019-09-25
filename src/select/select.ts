@@ -2,6 +2,7 @@ import {Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Inpu
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
 import {ModalController, PopoverController} from "@ionic/angular";
+import * as dragula from "dragula";
 import {SelectLabel} from "./select-label";
 import {SelectOption} from "./select-option";
 import {SelectOptions} from "./select-options";
@@ -40,7 +41,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         return this._listItem = this.element.nativeElement.closest("ion-item");
     }
 
-    // private dragula: dragula.Drake;
+    private dragula: dragula.Drake;
 
     @ViewChild("textContainer", {static: true})
     textContainer: ElementRef<HTMLElement>;
@@ -414,48 +415,49 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     }
 
 
-    // private initDragula() {
-    //
-    //     if (this.orderable && !this.disabled && !this.readonly) {
-    //
-    //         if (this.dragula) {
-    //             return;
-    //         }
-    //
-    //         this.dragula = (dragula as any)({
-    //             containers: [this.textContainer.nativeElement],
-    //             direction: "horizontal",
-    //
-    //             moves: (el, container, handle) => {
-    //                 return this.values && this.values.length > 1;
-    //             }
-    //         });
-    //
-    //         this.dragula.on("drop", (el, target, source, sibling) => {
-    //
-    //             const startIndex = parseInt(el.getAttribute("ionx--index"), 0);
-    //             let endIndex = sibling ? parseInt(sibling.getAttribute("ionx--index"), 0) : this.values.length;
-    //
-    //             if (endIndex > startIndex) {
-    //                 endIndex -= 1;
-    //             }
-    //
-    //             const element = this.values[startIndex];
-    //             this.values.splice(startIndex, 1);
-    //             this.values.splice(endIndex, 0, element);
-    //
-    //             if (this.controlOnChange) {
-    //                 this.controlOnChange(this.values.slice());
-    //             }
-    //
-    //             this.ionChange.emit(this.values.slice());
-    //         });
-    //
-    //     } else if (this.dragula) {
-    //         this.dragula.destroy();
-    //         this.dragula = undefined;
-    //     }
-    // }
+    private initDragula() {
+
+        if (this.orderable && !this.disabled && !this.readonly) {
+
+            if (this.dragula) {
+                return;
+            }
+
+            this.dragula = dragula({
+                containers: [this.textContainer.nativeElement],
+                mirrorContainer: document.querySelector("ion-app"),
+                direction: "horizontal",
+
+                moves: (el, container, handle) => {
+                    return this.values && this.values.length > 1;
+                }
+            });
+
+            this.dragula.on("drop", (el, target, source, sibling) => {
+
+                const startIndex = parseInt(el.getAttribute("ionx--index"), 0);
+                let endIndex = sibling ? parseInt(sibling.getAttribute("ionx--index"), 0) : this.values.length;
+
+                if (endIndex > startIndex) {
+                    endIndex -= 1;
+                }
+
+                const element = this.values[startIndex];
+                this.values.splice(startIndex, 1);
+                this.values.splice(endIndex, 0, element);
+
+                if (this.controlOnChange) {
+                    this.controlOnChange(this.values.slice());
+                }
+
+                this.ionChange.emit(this.values.slice());
+            });
+
+        } else if (this.dragula) {
+            this.dragula.destroy();
+            this.dragula = undefined;
+        }
+    }
 
     private updateCssClasses() {
 
@@ -484,7 +486,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         }
 
         if (changes["orderable"] || changes["readonly"] || changes["disabled"]) {
-            // this.initDragula();
+            this.initDragula();
             this.updateCssClasses();
         }
     }
@@ -495,7 +497,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
         this.updateCssClasses();
 
         if (this.orderable) {
-            // this.initDragula();
+            this.initDragula();
         }
     }
 

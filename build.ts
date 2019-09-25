@@ -1,5 +1,6 @@
+import {readJsonSync, removeSync, writeJsonSync} from "fs-extra";
 import * as packager from "ng-packagr";
-import {readJsonSync, writeJsonSync, removeSync} from "fs-extra";
+import * as yargs from "yargs";
 
 const modules = [
     "buttons",
@@ -23,11 +24,19 @@ const modules = [
     "toggle-labels"
 ];
 
+const argv = yargs
+    .option("module", {description: "Extension module to be build"})
+    .argv;
+
 (async () => {
 
     try {
 
         for (const module of modules) {
+
+            if (argv.module && argv.module !== module) {
+                continue;
+            }
 
             try {
                 await packager

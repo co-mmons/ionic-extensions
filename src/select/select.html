@@ -8,6 +8,7 @@
 <div class="select-inner">
     <div class="select-text" #textContainer [class.select-placeholder]="values.length == 0">
         <span *ngIf="values.length == 0; else showValues">{{placeholder}}</span>
+
         <ng-template #showValues>
             <ng-template ngFor [ngForOf]="values" let-value let-index="index">
                 <span *ngIf="index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable">{{!labelTemplate ? ", " : labelTemplate.separator}}</span>

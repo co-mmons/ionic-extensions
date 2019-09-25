@@ -25,6 +25,7 @@
         "test",
         "tmp",
         "i18n",
-        "node_modules"
+        "node_modules",
+        "build.ts"
     ]
 }

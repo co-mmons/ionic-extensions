@@ -14,6 +14,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, popoverController: PopoverController, modalController: ModalController, control: NgControl);
     private _listItem;
     private readonly listItem;
+    private dragula;
     textContainer: ElementRef<HTMLElement>;
     placeholder: string;
     overlay: "popover" | "modal";
@@ -77,6 +78,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     registerOnTouched(fn: Function): void;
     setDisabledState(isDisabled: boolean): void;
     open(event: Event): Promise<void>;
+    private initDragula;
     private updateCssClasses;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;

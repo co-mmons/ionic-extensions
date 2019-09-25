@@ -33,11 +33,13 @@
   "devDependencies": {
     "@capacitor/core": "^1.1.0",
     "@types/fs-extra": "^8.0.0",
+    "@types/yargs": "^13.0.2",
     "bignumber.js": "^9.0.0",
     "fs-extra": "^8.1.0",
     "ng-packagr": "^5.5.0",
     "ts-node": "^8.3.0",
-    "typescript": "~3.4.5"
+    "typescript": "~3.4.5",
+    "yargs": "^14.0.0"
   },
   "sideEffects": false
 }
