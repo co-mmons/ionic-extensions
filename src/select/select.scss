@@ -93,7 +93,8 @@
     }
 
     [ionx--chips-layout] .select-text {
-        white-space: normal; width: 100%;
+        white-space: normal;
+        width: 100%;
     }
 }
 
@@ -114,5 +115,9 @@
     .select-text {
         max-width: calc(100% - 16px);
         flex: initial;
+    }
+
+    &[ionx--chips-layout] .select-text {
+        flex: 1;
     }
 }
