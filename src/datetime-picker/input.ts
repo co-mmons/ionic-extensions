@@ -351,7 +351,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     nativeInputFocused() {
 
         if (this.listItem) {
-            if (!this.listItem.classList.contains("item-has-focus")) {
+            if (!this._disabled && !this.readonly && !this.listItem.classList.contains("item-has-focus")) {
                 this.listItem.classList.add("item-has-focus");
 
                 // if (!this.hasValue()) {
