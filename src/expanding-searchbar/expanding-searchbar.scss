@@ -12,9 +12,10 @@
         overflow: hidden;
         padding: 0px;
         margin: 0px;
+        display: none;
 
         &.ionx-expanding-searchbar-expanded {
-            opacity: 1;
+            display: block;
             width: 100%;
         }
 
