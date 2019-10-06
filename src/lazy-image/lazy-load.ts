@@ -216,7 +216,7 @@ export class LazyLoad {
                 eventTarget = element["__ionxLazyImageTmpImg"];
             }
 
-            let alternate = this._options.dataAlternate && element.getAttribute("data-" + this._options.dataAlternate);
+            let alternate = this._options && this._options.dataAlternate && element.getAttribute("data-" + this._options.dataAlternate);
             if (alternate && eventTarget["src"] != alternate) {
                 eventTarget["src"] = alternate;
                 return;
@@ -226,18 +226,22 @@ export class LazyLoad {
 
             eventTarget.removeEventListener("load", loadCallback);
             eventTarget.removeEventListener("error", errorCallback);
-            element.classList.remove(this._options.classLoading);
+
             element.lazyLoadError = true;
 
-            if (this._options.callbackError) {
-                this._options.callbackError.callback_error(element);
+            if (this._options) {
+                element.classList.remove(this._options.classLoading);
+
+                if (this._options.callbackError) {
+                    this._options.callbackError.callback_error(element);
+                }
             }
         }
 
         let loadCallback = () => {
 
             /* As this method is asynchronous, it must be protected against external destroy() calls */
-            if (this._options === null) {
+            if (this._options === null || this._options === undefined) {
                 return;
             }
             
@@ -252,17 +256,22 @@ export class LazyLoad {
 
             element.lazyLoadError = false;
 
-            if (this._options.callbackLoad) {
-                this._options.callbackLoad(element);
+            if (this._options) {
+                if (this._options.callbackLoad) {
+                    this._options.callbackLoad(element);
+                }
+
+                element.classList.remove(this._options.classLoading);
+                element.classList.add(this._options.classLoaded);
             }
 
-            element.classList.remove(this._options.classLoading);
-            element.classList.add(this._options.classLoaded);
             eventTarget.removeEventListener("load", loadCallback);
             eventTarget.removeEventListener("error", errorCallback);
         }
 
-        element.classList.add(this._options.classLoading);
+        if (this._options) {
+            element.classList.add(this._options.classLoading);
+        }
 
         if (element.tagName.toUpperCase() === "IMG" || element.tagName.toUpperCase() === "IFRAME") {
             element.addEventListener("load", loadCallback);
@@ -274,15 +283,17 @@ export class LazyLoad {
             element["__ionxLazyImageTmpImg"] = tmpImg;
         }
 
-        setSources(element, this._options.dataSrcSet, this._options.dataSrc);
+        if (this._options) {
+            setSources(element, this._options.dataSrcSet, this._options.dataSrc);
 
-        if (this._options.callbackSet) {
-            this._options.callbackSet(element);
+            if (this._options.callbackSet) {
+                this._options.callbackSet(element);
+            }
         }
     }
 
     private _loopThroughElements() {
-        
+
         let elementsLength = (!this._elements) ? 0 : this._elements.length;
         let processedIndexes = [];
 
