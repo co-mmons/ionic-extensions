@@ -8,5 +8,5 @@ export {ensureLazyLoad} from "./lazy-load";
     declarations: [LazyDirectives, LazyLoadContainer],
     exports: [LazyDirectives, LazyLoadContainer]
 })
-export class LazyLoaderModule {
+export class LazyLoadModule {
 }
