@@ -14,6 +14,7 @@ const modules = [
     "helpers",
     "lazy-image",
     "image-loader",
+    "lazy-load",
     "ionic-fix",
     "loader",
     "modal",

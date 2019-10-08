@@ -1,0 +1,13 @@
+{
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
+    "name": "@co.mmons/ionic-extensions/lazy-load",
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/lazy-load",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "lazy-load-module"
+        }
+    }
+}
