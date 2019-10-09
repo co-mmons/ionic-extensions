@@ -152,12 +152,14 @@ export class ImageLoader {
 			if (this._cssClasses) {
 				let target = this._cssClassesTarget ? element.closest(this._cssClassesTarget) : element;
 
-				if (this._cssClasses.loading) {
-					target.classList.remove(this._cssClasses.loading);
-				}
+				if (target) {
+					if (this._cssClasses.loading) {
+						target.classList.remove(this._cssClasses.loading);
+					}
 
-				if (this._cssClasses.loaded) {
-					target.classList.add(this._cssClasses.loaded);
+					if (this._cssClasses.loaded) {
+						target.classList.add(this._cssClasses.loaded);
+					}
 				}
 			}
 		};
@@ -180,12 +182,14 @@ export class ImageLoader {
 			if (this._cssClasses) {
 				let target = this._cssClassesTarget ? element.closest(this._cssClassesTarget) : element;
 
-				if (this._cssClasses.loading) {
-					target.classList.remove(this._cssClasses.loading);
-				}
+				if (target) {
+					if (this._cssClasses.loading) {
+						target.classList.remove(this._cssClasses.loading);
+					}
 
-				if (this._cssClasses.error) {
-					target.classList.add(this._cssClasses.error);
+					if (this._cssClasses.error) {
+						target.classList.add(this._cssClasses.error);
+					}
 				}
 			}
 		};
