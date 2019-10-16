@@ -3,13 +3,13 @@
         <ion-title style="padding: 0px">{{title}}</ion-title>
 
         <ionx-buttons slot="start">
-            <ion-button fill="clear" color="primary" (click)="cancelClicked()">
+            <ion-button fill="clear" (click)="cancelClicked()">
                 <ion-icon name="close" slot="icon-only"></ion-icon>
             </ion-button>
         </ionx-buttons>
 
         <ionx-buttons slot="end">
-            <ion-button fill="clear" color="primary" (click)="okClicked()">{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-button>
+            <ion-button fill="clear" (click)="okClicked()">{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-button>
         </ionx-buttons>
 
     </ion-toolbar>
