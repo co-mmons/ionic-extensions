@@ -1,16 +1,16 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons slot="start">
+        <ionx-buttons slot="start">
             <ion-button (click)="cancelClicked()" fill="clear">
                 <ion-icon name="close" slot="icon-only"></ion-icon>
             </ion-button>
-        </ion-buttons>
+        </ionx-buttons>
 
         <ion-title>{{title}}</ion-title>
 
-        <ion-buttons slot="end">
+        <ionx-buttons slot="end">
             <ion-button (click)="doneClicked()">{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-button>
-        </ion-buttons>
+        </ionx-buttons>
     </ion-toolbar>
     <ion-toolbar>
         <ion-segment [(ngModel)]="dateView" (ionChange)="dateViewChanged()">

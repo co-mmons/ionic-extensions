@@ -2,6 +2,7 @@ import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {IntlModule} from "@co.mmons/angular-intl";
+import {ButtonsModule} from "@co.mmons/ionic-extensions/buttons";
 import {SelectModule} from "@co.mmons/ionic-extensions/select";
 import {IonicModule} from "@ionic/angular";
 import {DateTimePickerInput} from "./input";
@@ -13,7 +14,7 @@ export {DateTimePickerInput} from "./input";
     declarations: [DateTimePickerInput, DateTimePickerOverlay],
     entryComponents: [DateTimePickerOverlay],
     exports: [DateTimePickerInput],
-    imports: [CommonModule, FormsModule, IonicModule, IntlModule, SelectModule]
+    imports: [CommonModule, FormsModule, IonicModule, IntlModule, SelectModule, ButtonsModule]
 })
 export class DateTimePickerModule {
 }
