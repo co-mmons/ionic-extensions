@@ -304,9 +304,9 @@ export class Loader {
             let element = this._elements[i];
 
             /* If must skip_invisible and element is invisible, skip it */
-            if (this._options.skipInvisible && (element.offsetParent === null)) {
-                continue;
-            }
+            // if (this._options.skipInvisible && (element.offsetParent === null)) {
+            //     continue;
+            // }
 
             if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
                 this._showOnAppear(element);
