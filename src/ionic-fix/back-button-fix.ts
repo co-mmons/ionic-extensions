@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, Input} from "@angular/core";
+import {Directive, ElementRef, HostListener, Input, Optional} from "@angular/core";
 import {Router} from "@angular/router";
 import {IonRouterOutlet, NavController, IonBackButtonDelegate} from "@ionic/angular";
 
@@ -9,7 +9,7 @@ IonBackButtonDelegate.prototype.onClick = () => null;
 })
 export class IonicBackButtonFix {
 
-    constructor(private router: Router, private routerOutlet: IonRouterOutlet, private navCtrl: NavController, private elementRef: ElementRef) {
+    constructor(private router: Router, @Optional() private routerOutlet: IonRouterOutlet, private navCtrl: NavController, private elementRef: ElementRef) {
     }
 
     @Input()
