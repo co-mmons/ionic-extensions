@@ -19,11 +19,7 @@ import {findNodeStartEnd} from "./prosemirror/utils/find-node-start-end";
             <ion-toolbar>
 
                 <ionx-buttons slot="start">
-
-                    <ion-button fill="clear" color="primary" (click)="close()">
-                        <ion-icon name="close" slot="icon-only"></ion-icon>
-                    </ion-button>
-
+                    <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'" (click)="$event.preventDefault(); close()"></ion-back-button>
                 </ionx-buttons>
                 
                 <ion-title style="margin: 0; padding: 0;">{{"@co.mmons/ionic-extensions/html-editor#link/Link" | intlMessage}}</ion-title>

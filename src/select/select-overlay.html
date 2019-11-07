@@ -3,9 +3,7 @@
         <ion-title style="padding: 0px">{{title}}</ion-title>
 
         <ionx-buttons slot="start">
-            <ion-button fill="clear" (click)="cancelClicked()">
-                <ion-icon name="close" slot="icon-only"></ion-icon>
-            </ion-button>
+            <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'" (click)="$event.preventDefault(); cancelClicked()"></ion-back-button>
         </ionx-buttons>
 
         <ionx-buttons slot="end">

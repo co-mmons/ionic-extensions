@@ -1,6 +1,7 @@
 import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatchMediaModule} from "@co.mmons/angular-extensions/browser/match-media";
 import {IntlModule} from "@co.mmons/angular-intl";
 import {FormHelperModule} from "@co.mmons/ionic-extensions/form-helper";
 import {SelectModule} from "@co.mmons/ionic-extensions/select";
@@ -19,7 +20,7 @@ export {HtmlEditor} from "./editor";
 export {HtmlEditorFeatures} from "./editor-features";
 
 @NgModule({
-    imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule],
+    imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule, MatchMediaModule],
     declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],
     exports: [HtmlEditor, IntlModule],
     entryComponents: [AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu]

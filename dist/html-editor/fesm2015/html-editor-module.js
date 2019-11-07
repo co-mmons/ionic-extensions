@@ -2,6 +2,7 @@ import { __decorate, __awaiter, __param } from 'tslib';
 import { CommonModule } from '@angular/common';
 import { Input, Component, EventEmitter, ElementRef, Optional, HostBinding, Output, ViewChild, NgModule } from '@angular/core';
 import { NgControl, Validators, FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { FormHelper, FormHelperModule } from '@co.mmons/ionic-extensions/form-helper';
 import { SelectModule } from '@co.mmons/ionic-extensions/select';
@@ -1143,11 +1144,7 @@ LinkModal = LinkModal_1 = __decorate([
             <ion-toolbar>
 
                 <ionx-buttons slot="start">
-
-                    <ion-button fill="clear" color="primary" (click)="close()">
-                        <ion-icon name="close" slot="icon-only"></ion-icon>
-                    </ion-button>
-
+                    <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'" (click)="$event.preventDefault(); close()"></ion-back-button>
                 </ionx-buttons>
                 
                 <ion-title style="margin: 0; padding: 0;">{{"@co.mmons/ionic-extensions/html-editor#link/Link" | intlMessage}}</ion-title>
@@ -3128,7 +3125,7 @@ let HtmlEditorModule = class HtmlEditorModule {
 };
 HtmlEditorModule = __decorate([
     NgModule({
-        imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule],
+        imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule, MatchMediaModule],
         declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],
         exports: [HtmlEditor, IntlModule],
         entryComponents: [AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu]

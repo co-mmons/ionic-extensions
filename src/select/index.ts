@@ -2,6 +2,7 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
 import {CommonModule} from "@angular/common";
 import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
+import {MatchMediaModule} from "@co.mmons/angular-extensions/browser/match-media";
 import {IntlModule} from "@co.mmons/angular-intl";
 import {ButtonsModule} from "@co.mmons/ionic-extensions/buttons";
 import {IonicModule} from "@ionic/angular";
@@ -18,7 +19,7 @@ export * from "./select-options";
     declarations: [Select, SelectOption, SelectOverlayContent, SelectLabel],
     entryComponents: [Select, SelectOption, SelectOverlayContent],
     exports: [Select, SelectOption, SelectOverlayContent, SelectLabel],
-    imports: [CommonModule, FormsModule, IonicModule, IntlModule, ScrollingModule, ButtonsModule]
+    imports: [CommonModule, FormsModule, IonicModule, IntlModule, ScrollingModule, ButtonsModule, MatchMediaModule]
 })
 export class SelectModule {
 }
