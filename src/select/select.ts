@@ -9,6 +9,8 @@ import {SelectOptions} from "./select-options";
 import {SelectOverlayContent} from "./select-overlay";
 import {SelectOverlayOption} from "./select-overlay-option";
 
+const createDragula = dragula;
+
 @Component({
     selector: "ionx-select",
     host: {
@@ -423,7 +425,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
                 return;
             }
 
-            this.dragula = dragula({
+            this.dragula = createDragula({
                 containers: [this.textContainer.nativeElement],
                 mirrorContainer: document.querySelector("ion-app"),
                 direction: "horizontal",

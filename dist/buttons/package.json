@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/buttons","sideEffects":false,"typings":"buttons-module.d.ts","metadata":"buttons-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/buttons-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/buttons",
+  "sideEffects": false,
+  "main": "bundles/buttons-module.umd.js",
+  "module": "fesm5/buttons-module.js",
+  "es2015": "fesm2015/buttons-module.js",
+  "esm5": "esm5/buttons-module.js",
+  "esm2015": "esm2015/buttons-module.js",
+  "fesm5": "fesm5/buttons-module.js",
+  "fesm2015": "fesm2015/buttons-module.js",
+  "typings": "buttons-module.d.ts",
+  "metadata": "buttons-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

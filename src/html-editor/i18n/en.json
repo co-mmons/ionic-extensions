@@ -1,0 +1,13 @@
+{
+    "alignmentMenu/center": "Center",
+    "alignmentMenu/justify": "Justified",
+    "alignmentMenu/left": "Left",
+    "alignmentMenu/right": "Right",
+    "link/invalidUrlError": "Provided url is incorrect. Remember that url must be complete and contain http:// or https://.",
+    "link/phoneNumberHint": "Remember to enter the national prefix (e.g., +48) so that you can make a call from any country.",
+    "link/type/email": "E-mail",
+    "link/type/other": "Other",
+    "link/type/sms": "SMS",
+    "link/type/tel": "Phone call",
+    "link/type/www": "Web page"
+}

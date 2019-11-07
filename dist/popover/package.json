@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/popover","sideEffects":false,"typings":"popover-module.d.ts","metadata":"popover-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/popover-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/popover",
+  "sideEffects": false,
+  "main": "bundles/popover-module.umd.js",
+  "module": "fesm5/popover-module.js",
+  "es2015": "fesm2015/popover-module.js",
+  "esm5": "esm5/popover-module.js",
+  "esm2015": "esm2015/popover-module.js",
+  "fesm5": "fesm5/popover-module.js",
+  "fesm2015": "fesm2015/popover-module.js",
+  "typings": "popover-module.d.ts",
+  "metadata": "popover-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

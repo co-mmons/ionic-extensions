@@ -1,0 +1,13 @@
+{
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
+    "name": "@co.mmons/ionic-extensions/html-editor",
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/html-editor",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "html-editor-module"
+        }
+    }
+}

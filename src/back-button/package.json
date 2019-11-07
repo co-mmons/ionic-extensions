@@ -1,0 +1,13 @@
+{
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
+    "name": "@co.mmons/ionic-extensions/back-button",
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/back-button",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "back-button-module"
+        }
+    }
+}

@@ -1,9 +1,10 @@
 import {ChangeDetectorRef, Component, Input} from "@angular/core";
 import {IntlService} from "@co.mmons/angular-intl";
+import {SelectOptions} from "@co.mmons/ionic-extensions/select";
 import {DateTimezone} from "@co.mmons/js-utils/core";
 import {ModalController} from "@ionic/angular";
-import {SelectOptions} from "@co.mmons/ionic-extensions/select";
 import {timezoneInfo} from "./timezone-info";
+import {timezones} from "./timezones";
 
 const weekdayNarrowFormat: Intl.DateTimeFormatOptions = {
     weekday: "short"
@@ -327,9 +328,8 @@ export class DateTimePickerOverlay {
     }
 
     async loadTimezones() {
-        const timezones = await import("./timezones");
         this.timezones = new SelectOptions();
-        for (const t of timezones.timezones(this.value)) {
+        for (const t of timezones(this.value)) {
             this.timezones.pushOption(t.id, t.label);
         }
     }

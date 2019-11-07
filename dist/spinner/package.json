@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/spinner","sideEffects":false,"typings":"spinner-module.d.ts","metadata":"spinner-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/spinner-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/spinner",
+  "sideEffects": false,
+  "main": "bundles/spinner-module.umd.js",
+  "module": "fesm5/spinner-module.js",
+  "es2015": "fesm2015/spinner-module.js",
+  "esm5": "esm5/spinner-module.js",
+  "esm2015": "esm2015/spinner-module.js",
+  "fesm5": "fesm5/spinner-module.js",
+  "fesm2015": "fesm2015/spinner-module.js",
+  "typings": "spinner-module.d.ts",
+  "metadata": "spinner-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

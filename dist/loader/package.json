@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/loader","sideEffects":false,"typings":"loader-module.d.ts","metadata":"loader-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/loader-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/loader",
+  "sideEffects": false,
+  "main": "bundles/loader-module.umd.js",
+  "module": "fesm5/loader-module.js",
+  "es2015": "fesm2015/loader-module.js",
+  "esm5": "esm5/loader-module.js",
+  "esm2015": "esm2015/loader-module.js",
+  "fesm5": "fesm5/loader-module.js",
+  "fesm2015": "fesm2015/loader-module.js",
+  "typings": "loader-module.d.ts",
+  "metadata": "loader-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

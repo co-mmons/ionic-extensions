@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/html-editor",
+  "sideEffects": false,
+  "main": "bundles/html-editor-module.umd.js",
+  "module": "fesm5/html-editor-module.js",
+  "es2015": "fesm2015/html-editor-module.js",
+  "esm5": "esm5/html-editor-module.js",
+  "esm2015": "esm2015/html-editor-module.js",
+  "fesm5": "fesm5/html-editor-module.js",
+  "fesm2015": "fesm2015/html-editor-module.js",
+  "typings": "html-editor-module.d.ts",
+  "metadata": "html-editor-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

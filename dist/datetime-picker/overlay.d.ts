@@ -1,7 +1,7 @@
 import { ChangeDetectorRef } from "@angular/core";
 import { IntlService } from "@co.mmons/angular-intl";
-import { ModalController } from "@ionic/angular";
 import { SelectOptions } from "@co.mmons/ionic-extensions/select";
+import { ModalController } from "@ionic/angular";
 export declare class DateTimePickerOverlay {
     private viewController;
     private intl;

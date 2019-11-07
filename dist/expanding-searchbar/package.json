@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/expanding-searchbar","sideEffects":false,"typings":"expanding-searchbar-module.d.ts","metadata":"expanding-searchbar-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/expanding-searchbar-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/expanding-searchbar",
+  "sideEffects": false,
+  "main": "bundles/expanding-searchbar-module.umd.js",
+  "module": "fesm5/expanding-searchbar-module.js",
+  "es2015": "fesm2015/expanding-searchbar-module.js",
+  "esm5": "esm5/expanding-searchbar-module.js",
+  "esm2015": "esm2015/expanding-searchbar-module.js",
+  "fesm5": "fesm5/expanding-searchbar-module.js",
+  "fesm2015": "fesm2015/expanding-searchbar-module.js",
+  "typings": "expanding-searchbar-module.d.ts",
+  "metadata": "expanding-searchbar-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/dialog","sideEffects":false,"typings":"dialog-module.d.ts","metadata":"dialog-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/dialog-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/dialog",
+  "sideEffects": false,
+  "main": "bundles/dialog-module.umd.js",
+  "module": "fesm5/dialog-module.js",
+  "es2015": "fesm2015/dialog-module.js",
+  "esm5": "esm5/dialog-module.js",
+  "esm2015": "esm2015/dialog-module.js",
+  "fesm5": "fesm5/dialog-module.js",
+  "fesm2015": "fesm2015/dialog-module.js",
+  "typings": "dialog-module.d.ts",
+  "metadata": "dialog-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

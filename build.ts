@@ -1,4 +1,3 @@
-import {readJsonSync, removeSync, writeJsonSync} from "fs-extra";
 import * as packager from "ng-packagr";
 import * as yargs from "yargs";
 
@@ -6,7 +5,9 @@ const modules = [
     "buttons",
     "select",
     "scroll",
+    "ionic-fix",
 
+    "back-button",
     "datetime-picker",
     "dialog",
     "expanding-searchbar",
@@ -15,14 +16,14 @@ const modules = [
     "lazy-image",
     "image-loader",
     "lazy-load",
-    "ionic-fix",
     "loader",
     "modal",
     "popover",
     "pseudo-input",
     "spinner",
     "textarea-autosize",
-    "toggle-labels"
+    "toggle-labels",
+    "html-editor"
 ];
 
 const argv = yargs
@@ -49,16 +50,6 @@ const argv = yargs
                 console.error(error);
                 process.exit(0);
             }
-
-            const json = readJsonSync(`dist/${module}/package.json`);
-            for (const prop of ["main", "module", "es2015", "esm5", "esm2015", "fesm5", "fesm2015"]) {
-                delete json[prop];
-            }
-
-            json["main"] = `esm2015/${module}-module.js`;
-
-            writeJsonSync(`dist/${module}/package.json`, json);
-            removeSync(`dist/${module}/esm5`);
         }
 
     } catch (error) {

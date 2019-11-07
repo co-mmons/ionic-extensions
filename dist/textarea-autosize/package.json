@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/textarea-autosize","sideEffects":false,"typings":"textarea-autosize-module.d.ts","metadata":"textarea-autosize-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/textarea-autosize-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/textarea-autosize",
+  "sideEffects": false,
+  "main": "bundles/textarea-autosize-module.umd.js",
+  "module": "fesm5/textarea-autosize-module.js",
+  "es2015": "fesm2015/textarea-autosize-module.js",
+  "esm5": "esm5/textarea-autosize-module.js",
+  "esm2015": "esm2015/textarea-autosize-module.js",
+  "fesm5": "fesm5/textarea-autosize-module.js",
+  "fesm2015": "fesm2015/textarea-autosize-module.js",
+  "typings": "textarea-autosize-module.d.ts",
+  "metadata": "textarea-autosize-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

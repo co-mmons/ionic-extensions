@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/select","sideEffects":false,"typings":"select-module.d.ts","metadata":"select-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/select-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/select",
+  "sideEffects": false,
+  "main": "bundles/select-module.umd.js",
+  "module": "fesm5/select-module.js",
+  "es2015": "fesm2015/select-module.js",
+  "esm5": "esm5/select-module.js",
+  "esm2015": "esm2015/select-module.js",
+  "fesm5": "fesm5/select-module.js",
+  "fesm2015": "fesm2015/select-module.js",
+  "typings": "select-module.d.ts",
+  "metadata": "select-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

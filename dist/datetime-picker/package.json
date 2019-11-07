@@ -1,1 +1,17 @@
-{"$schema":"../../node_modules/ng-packagr/package.schema.json","name":"@co.mmons/ionic-extensions/datetime-picker","sideEffects":false,"typings":"datetime-picker-module.d.ts","metadata":"datetime-picker-module.metadata.json","dependencies":{"tslib":"^1.9.0"},"main":"esm2015/datetime-picker-module.js"}
+{
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/datetime-picker",
+  "sideEffects": false,
+  "main": "bundles/datetime-picker-module.umd.js",
+  "module": "fesm5/datetime-picker-module.js",
+  "es2015": "fesm2015/datetime-picker-module.js",
+  "esm5": "esm5/datetime-picker-module.js",
+  "esm2015": "esm2015/datetime-picker-module.js",
+  "fesm5": "fesm5/datetime-picker-module.js",
+  "fesm2015": "fesm2015/datetime-picker-module.js",
+  "typings": "datetime-picker-module.d.ts",
+  "metadata": "datetime-picker-module.metadata.json",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

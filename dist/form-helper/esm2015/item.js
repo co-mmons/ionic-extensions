@@ -6,7 +6,7 @@ FormItem = tslib_1.__decorate([
     Component({
         selector: "ionx-form-item",
         template: `<ng-content select="ion-item"></ng-content><ng-content select="ionx-form-item-error"></ng-content><ng-content select="ionx-form-item-hint"></ng-content><ng-content></ng-content>`,
-        styles: [":host{display:flex;flex-direction:column}:host ::ng-deep ion-item{--padding-start:0px;--inner-padding-end:0px;--inner-padding-start:0px;--padding-end:0px;--inner-border-width:0px;--border-width:0px 0px 1px 0px}"]
+        styles: [":host{display:-webkit-box;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column}:host ::ng-deep ion-item{--padding-start:0px;--inner-padding-end:0px;--inner-padding-start:0px;--padding-end:0px;--inner-border-width:0px;--border-width:0px 0px 1px 0px}"]
     })
 ], FormItem);
 export { FormItem };
