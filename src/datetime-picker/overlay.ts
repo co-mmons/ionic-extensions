@@ -50,7 +50,7 @@ export class DateTimePickerOverlay {
 
     dateView: "days" | "months" | "years" = "days";
 
-    dateViews: {id: string, label: string}[] = [{id: "days", label: this.intl.message("@co.mmons/ionic-extensions#Day")}, {id: "months", label: this.intl.message("@co.mmons/ionic-extensions#Month")}, {id: "years", label: this.intl.message("@co.mmons/ionic-extensions#Year")}];
+    dateViews: {id: string, label: string}[] = [{id: "days", label: this.intl.message("@co.mmons/ionic-extensions/datetime#Day")}, {id: "months", label: this.intl.message("@co.mmons/ionic-extensions/datetime#Month")}, {id: "years", label: this.intl.message("@co.mmons/ionic-extensions/datetime#Year")}];
 
     private dateViewValue: Date;
 

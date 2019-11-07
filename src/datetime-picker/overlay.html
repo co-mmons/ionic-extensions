@@ -46,7 +46,7 @@
                 </ion-button>
             </ion-col>
             <ion-col size="6" *ngIf="dateView == 'days'">
-                <ion-button fill="outline" (click)="todayClicked()">{{"@co.mmons/ionic-extensions#Today" | intlMessage}}</ion-button>
+                <ion-button fill="outline" (click)="todayClicked()">{{"@co.mmons/ionic-extensions/datetime#Today" | intlMessage}}</ion-button>
             </ion-col>
         </ion-row>
 
@@ -75,7 +75,7 @@
         <ion-row *ngIf="!timezoneDisabled">
             <ion-col size="3"></ion-col>
             <ion-col size="9">
-                <ionx-select [options]="timezones" [(ngModel)]="timezone" overlay="modal" [title]="'@co.mmons/ionic-extensions#Time zone' | intlMessage" [placeholder]="'@co.mmons/ionic-extensions#No time zone' | intlMessage"></ionx-select>
+                <ionx-select [options]="timezones" [(ngModel)]="timezone" overlay="modal" [title]="'@co.mmons/ionic-extensions/datetime#Time zone' | intlMessage" [placeholder]="'@co.mmons/ionic-extensions/datetime#No time zone' | intlMessage"></ionx-select>
             </ion-col>
         </ion-row>
     </ion-toolbar>
