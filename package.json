@@ -72,5 +72,10 @@
     "prosemirror-utils": "^0.9.2",
     "prosemirror-view": "^1.9.10"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "intlBundleItems": [
+    {"type": "message", "path": "./src/datetime-picker/i18n/{{LOCALE}}.json", "module": "@co.mmons/ionic-extensions/datetime-picker", "namespace": "@co.mmons/ionic-extensions/datetime"},
+    {"type": "message", "path": "./src/datetime-picker/i18n/{{LOCALE}}.json", "module": "@co.mmons/ionic-extensions/datetime"},
+    {"type": "message", "path": "./src/html-editor/i18n/{{LOCALE}}.json", "module": "@co.mmons/ionic-extensions/html-editor"}
+  ]
 }
