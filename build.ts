@@ -26,17 +26,13 @@ const modules = [
     "html-editor"
 ];
 
-const argv = yargs
-    .option("module", {description: "Extension module to be build"})
-    .argv;
-
 (async () => {
 
     try {
 
         for (const module of modules) {
 
-            if (argv.module && argv.module !== module) {
+            if (yargs.argv._.length > 0 && yargs.argv._[0] !== module) {
                 continue;
             }
 
