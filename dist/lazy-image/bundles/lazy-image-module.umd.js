@@ -682,11 +682,11 @@
         });
         LazyImage.prototype.reset = function () {
             if (this._src) {
-                this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
-                this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
+                this.renderer.addClass(this.element.nativeElement, "ionx-lazy-image");
+                this.renderer.setAttribute(this.element.nativeElement, "data-original", this._src);
             }
             if (this._alternate) {
-                this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
+                this.renderer.setAttribute(this.element.nativeElement, "data-alternate", this._alternate);
             }
         };
         LazyImage.prototype.revalidate = function () {
@@ -703,7 +703,7 @@
         var LazyImage_1;
         LazyImage.ctorParameters = function () { return [
             { type: core.ElementRef },
-            { type: core.Renderer },
+            { type: core.Renderer2 },
             { type: LazyImageContainer, decorators: [{ type: core.Optional }, { type: core.Inject, args: [core.forwardRef(function () { return LazyImageContainer; }),] }] }
         ]; };
         __decorate([

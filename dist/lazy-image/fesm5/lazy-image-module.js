@@ -1,5 +1,5 @@
 import { __values, __awaiter, __generator, __decorate, __param } from 'tslib';
-import { ElementRef, ContentChildren, forwardRef, Directive, Renderer, Optional, Inject, Input, NgModule } from '@angular/core';
+import { ElementRef, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, Input, NgModule } from '@angular/core';
 import { sleep } from '@co.mmons/js-utils/core';
 
 var defaultOptions = {
@@ -483,11 +483,11 @@ var LazyImage = /** @class */ (function () {
     });
     LazyImage.prototype.reset = function () {
         if (this._src) {
-            this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
-            this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
+            this.renderer.addClass(this.element.nativeElement, "ionx-lazy-image");
+            this.renderer.setAttribute(this.element.nativeElement, "data-original", this._src);
         }
         if (this._alternate) {
-            this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
+            this.renderer.setAttribute(this.element.nativeElement, "data-alternate", this._alternate);
         }
     };
     LazyImage.prototype.revalidate = function () {
@@ -504,7 +504,7 @@ var LazyImage = /** @class */ (function () {
     var LazyImage_1;
     LazyImage.ctorParameters = function () { return [
         { type: ElementRef },
-        { type: Renderer },
+        { type: Renderer2 },
         { type: LazyImageContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(function () { return LazyImageContainer; }),] }] }
     ]; };
     __decorate([

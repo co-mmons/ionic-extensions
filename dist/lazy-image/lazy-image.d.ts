@@ -1,4 +1,4 @@
-import { ElementRef, QueryList, Renderer } from "@angular/core";
+import { ElementRef, QueryList, Renderer2 } from "@angular/core";
 export declare class LazyImageContainer {
     private element;
     constructor(element: ElementRef<HTMLElement>);
@@ -14,7 +14,7 @@ export declare class LazyImage {
     element: ElementRef;
     private renderer;
     private container?;
-    constructor(element: ElementRef, renderer: Renderer, container?: LazyImageContainer);
+    constructor(element: ElementRef, renderer: Renderer2, container?: LazyImageContainer);
     children: QueryList<LazyImage>;
     private _src;
     private _alternate;

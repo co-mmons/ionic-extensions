@@ -1,4 +1,4 @@
-import {ContentChildren, Directive, ElementRef, forwardRef, Inject, Input, Optional, QueryList, Renderer} from "@angular/core";
+import {ContentChildren, Directive, ElementRef, forwardRef, Inject, Input, Optional, QueryList, Renderer2} from "@angular/core";
 import {sleep} from "@co.mmons/js-utils/core";
 import {LazyLoad} from "./lazy-load";
 import {LazyLoadOptions} from "./lazy-load-options";
@@ -78,7 +78,7 @@ export class LazyImageContainer {
 })
 export class LazyImage {
 
-	constructor(public element: ElementRef, private renderer: Renderer, @Optional() @Inject(forwardRef(() => LazyImageContainer)) private container?: LazyImageContainer) {
+	constructor(public element: ElementRef, private renderer: Renderer2, @Optional() @Inject(forwardRef(() => LazyImageContainer)) private container?: LazyImageContainer) {
 	}
 
 	@ContentChildren(LazyImage, {descendants: true})
@@ -103,12 +103,12 @@ export class LazyImage {
 	private reset() {
 
 		if (this._src) {
-			this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
-			this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
+			this.renderer.addClass(this.element.nativeElement, "ionx-lazy-image");
+			this.renderer.setAttribute(this.element.nativeElement, "data-original", this._src);
 		}
 
 		if (this._alternate) {
-			this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
+			this.renderer.setAttribute(this.element.nativeElement, "data-alternate", this._alternate);
 		}
 	}
 

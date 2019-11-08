@@ -1,5 +1,5 @@
 import { __awaiter, __decorate, __param } from 'tslib';
-import { ElementRef, ContentChildren, forwardRef, Directive, Renderer, Optional, Inject, Input, NgModule } from '@angular/core';
+import { ElementRef, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, Input, NgModule } from '@angular/core';
 import { sleep } from '@co.mmons/js-utils/core';
 
 const defaultOptions = {
@@ -440,11 +440,11 @@ let LazyImage = LazyImage_1 = class LazyImage {
     }
     reset() {
         if (this._src) {
-            this.renderer.setElementClass(this.element.nativeElement, "ionx-lazy-image", true);
-            this.renderer.setElementAttribute(this.element.nativeElement, "data-original", this._src);
+            this.renderer.addClass(this.element.nativeElement, "ionx-lazy-image");
+            this.renderer.setAttribute(this.element.nativeElement, "data-original", this._src);
         }
         if (this._alternate) {
-            this.renderer.setElementAttribute(this.element.nativeElement, "data-alternate", this._alternate);
+            this.renderer.setAttribute(this.element.nativeElement, "data-alternate", this._alternate);
         }
     }
     revalidate() {
@@ -460,7 +460,7 @@ let LazyImage = LazyImage_1 = class LazyImage {
 };
 LazyImage.ctorParameters = () => [
     { type: ElementRef },
-    { type: Renderer },
+    { type: Renderer2 },
     { type: LazyImageContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(() => LazyImageContainer),] }] }
 ];
 __decorate([
