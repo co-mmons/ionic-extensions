@@ -6,13 +6,13 @@ import {AbstractControl, FormGroupDirective} from "@angular/forms";
     template: `
         <ion-icon [name]="icon" *ngIf="!!icon"></ion-icon>
         <label>
-            <ng-template [ngIf]="_control">{{_control | intlValidationErrorMessage}}</ng-template>
+            <ng-template [ngIf]="control">{{control | intlValidationErrorMessage}}</ng-template>
             <ng-content></ng-content>
         </label>
     `,
     styleUrls: ["item-error-item-hint.scss", "item-error.scss"],
     host: {
-        "[class.ionx--visible]": "!_control || !!(_control.invalid && _control[markedAs])"
+        "[class.ionx--visible]": "!control || !!(control.invalid && control[markedAs])"
     }
 })
 export class FormItemError {
@@ -26,15 +26,19 @@ export class FormItemError {
     @Input()
     markedAs: "touched" | "dirty" = "touched";
 
-    _control: AbstractControl;
+    private _control: AbstractControl | string;
 
-    @Input()
-    set control(control: AbstractControl | string) {
-        if (control instanceof AbstractControl) {
-            this._control = control;
-        } else if (control) {
-            this._control = this.formGroup.form.controls[control];
+    get control() {
+        if (typeof this._control === "string") {
+            return this.formGroup.form && this.formGroup.form.controls[this._control];
+        } else {
+            return this._control;
         }
+    }
+
+    @Input("control")
+    set controlOrName(control: AbstractControl | string) {
+        this._control = control;
     }
 
 }

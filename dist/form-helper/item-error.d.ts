@@ -4,6 +4,7 @@ export declare class FormItemError {
     constructor(formGroup: FormGroupDirective);
     icon: string;
     markedAs: "touched" | "dirty";
-    _control: AbstractControl;
-    control: AbstractControl | string;
+    private _control;
+    readonly control: AbstractControl;
+    controlOrName: AbstractControl | string;
 }

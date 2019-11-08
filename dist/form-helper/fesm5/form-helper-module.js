@@ -1,7 +1,7 @@
 import { __decorate, __values, __param } from 'tslib';
 import { CommonModule } from '@angular/common';
 import { HostBinding, Input, Component, ElementRef, Optional, ContentChildren, Directive, ViewChild, ViewContainerRef, NgModule } from '@angular/core';
-import { FormControlName, NgForm, FormGroupDirective, AbstractControl, FormsModule } from '@angular/forms';
+import { FormControlName, NgForm, FormGroupDirective, FormsModule } from '@angular/forms';
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { IonicModule } from '@ionic/angular';
@@ -220,13 +220,20 @@ var FormItemError = /** @class */ (function () {
         this.markedAs = "touched";
     }
     Object.defineProperty(FormItemError.prototype, "control", {
+        get: function () {
+            if (typeof this._control === "string") {
+                return this.formGroup.form && this.formGroup.form.controls[this._control];
+            }
+            else {
+                return this._control;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FormItemError.prototype, "controlOrName", {
         set: function (control) {
-            if (control instanceof AbstractControl) {
-                this._control = control;
-            }
-            else if (control) {
-                this._control = this.formGroup.form.controls[control];
-            }
+            this._control = control;
         },
         enumerable: true,
         configurable: true
@@ -241,14 +248,14 @@ var FormItemError = /** @class */ (function () {
         Input()
     ], FormItemError.prototype, "markedAs", void 0);
     __decorate([
-        Input()
-    ], FormItemError.prototype, "control", null);
+        Input("control")
+    ], FormItemError.prototype, "controlOrName", null);
     FormItemError = __decorate([
         Component({
             selector: "ionx-form-item-error",
-            template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"!!icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"_control\">{{_control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",
+            template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"!!icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"control\">{{control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",
             host: {
-                "[class.ionx--visible]": "!_control || !!(_control.invalid && _control[markedAs])"
+                "[class.ionx--visible]": "!control || !!(control.invalid && control[markedAs])"
             },
             styles: [":host{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;margin:8px 0 0}:host>label{-webkit-box-flex:1;flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}", ":host{color:var(--ion-color-danger);display:none}:host.ionx--visible{display:-webkit-box;display:flex}"]
         })
