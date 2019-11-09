@@ -1152,7 +1152,7 @@
             core.Input()
         ], Select.prototype, "options", void 0);
         __decorate([
-            core.ContentChildren(SelectOption)
+            core.ContentChildren(SelectOption, { descendants: true })
         ], Select.prototype, "_optionsComponents", null);
         Select = __decorate([
             core.Component({

@@ -290,7 +290,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
     private optionsComponents: QueryList<SelectOption>;
 
-    @ContentChildren(SelectOption)
+    @ContentChildren(SelectOption, {descendants: true})
     protected set _optionsComponents(val: QueryList<SelectOption>) {
         this.optionsComponents = val;
         //this.optionsComponents.changes.subscribe(() => this.updateText());

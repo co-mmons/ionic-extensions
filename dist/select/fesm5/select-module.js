@@ -961,7 +961,7 @@ var Select = /** @class */ (function () {
         Input()
     ], Select.prototype, "options", void 0);
     __decorate([
-        ContentChildren(SelectOption)
+        ContentChildren(SelectOption, { descendants: true })
     ], Select.prototype, "_optionsComponents", null);
     Select = __decorate([
         Component({
