@@ -1,16 +1,19 @@
 import { __decorate } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { ElementRef, Input, Component, NgModule } from '@angular/core';
+import { ElementRef, Input, Directive, NgModule } from '@angular/core';
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IonicFixModule } from '@co.mmons/ionic-extensions/ionic-fix';
 import { IonicModule } from '@ionic/angular';
 
 let BackButton = class BackButton {
+    // template: `<ion-back-button [style.display]="modal ? 'inline-block' : null" [disabled]="disabled" [defaultHref]="defaultHref" [icon]="icon ? icon : (modal && ('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back')"></ion-back-button>`
     constructor(elementRef) {
         this.elementRef = elementRef;
     }
     ngOnInit() {
-        this.modal = !!this.elementRef.nativeElement.closest("ion-modal");
+        if (!!this.elementRef.nativeElement.closest("ion-modal")) {
+            this.elementRef.nativeElement.style.setProperty("display", "inline-block");
+        }
     }
 };
 BackButton.ctorParameters = () => [
@@ -18,18 +21,10 @@ BackButton.ctorParameters = () => [
 ];
 __decorate([
     Input()
-], BackButton.prototype, "defaultHref", void 0);
-__decorate([
-    Input()
 ], BackButton.prototype, "icon", void 0);
-__decorate([
-    Input()
-], BackButton.prototype, "disabled", void 0);
 BackButton = __decorate([
-    Component({
-        selector: "ionx-back-button",
-        template: `<ion-back-button [style.display]="modal ? 'inline-block' : null" [disabled]="disabled" [defaultHref]="defaultHref" [icon]="icon ? icon : (modal && ('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back')"></ion-back-button>`,
-        styles: [":host{display:inline-block}"]
+    Directive({
+        selector: "ion-back-button[ionx-back-button]",
     })
 ], BackButton);
 

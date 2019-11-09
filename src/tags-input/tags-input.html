@@ -1,0 +1,16 @@
+<div class="ionx-tags-input-wrapper">
+    <ion-chip *ngFor="let tag of _tags; let $index = index;" outline="true" [class.ion-activatable]="false">
+        <div>{{tag}}</div>
+        <ion-icon name="close" *ngIf="!hideRemove && !readonly" (click)="btnRemoveTag($index)" [class.ion-activatable]="!readonly"></ion-icon>
+    </ion-chip>
+</div>
+
+<ion-input *ngIf="!readonly"
+           [disabled]="readonly"
+           class="ionx-tags-input-input"
+           [type]="type"
+           [placeholder]="placeholder"
+           [(ngModel)]="_editTag"
+           (ionBlur)="blur()"
+           (keyup.backspace)="keyRemoveTag($event); false"
+           (keyup)="separatorStrAddTag()" (keyup.enter)="keyAddTag()"></ion-input>

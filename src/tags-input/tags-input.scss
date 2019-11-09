@@ -1,0 +1,11 @@
+:host {
+    display: block;
+
+    ion-chip {
+        margin-left: 0px;
+    }
+}
+
+:host-context(.item-label-stacked) {
+    width: 100%;
+}

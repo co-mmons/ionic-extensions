@@ -202,29 +202,24 @@
     }
 
     var BackButton = /** @class */ (function () {
+        // template: `<ion-back-button [style.display]="modal ? 'inline-block' : null" [disabled]="disabled" [defaultHref]="defaultHref" [icon]="icon ? icon : (modal && ('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back')"></ion-back-button>`
         function BackButton(elementRef) {
             this.elementRef = elementRef;
         }
         BackButton.prototype.ngOnInit = function () {
-            this.modal = !!this.elementRef.nativeElement.closest("ion-modal");
+            if (!!this.elementRef.nativeElement.closest("ion-modal")) {
+                this.elementRef.nativeElement.style.setProperty("display", "inline-block");
+            }
         };
         BackButton.ctorParameters = function () { return [
             { type: core.ElementRef }
         ]; };
         __decorate([
             core.Input()
-        ], BackButton.prototype, "defaultHref", void 0);
-        __decorate([
-            core.Input()
         ], BackButton.prototype, "icon", void 0);
-        __decorate([
-            core.Input()
-        ], BackButton.prototype, "disabled", void 0);
         BackButton = __decorate([
-            core.Component({
-                selector: "ionx-back-button",
-                template: "<ion-back-button [style.display]=\"modal ? 'inline-block' : null\" [disabled]=\"disabled\" [defaultHref]=\"defaultHref\" [icon]=\"icon ? icon : (modal && ('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back')\"></ion-back-button>",
-                styles: [":host{display:inline-block}"]
+            core.Directive({
+                selector: "ion-back-button[ionx-back-button]",
             })
         ], BackButton);
         return BackButton;

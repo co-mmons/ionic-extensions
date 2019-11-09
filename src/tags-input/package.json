@@ -1,0 +1,13 @@
+{
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
+    "name": "@co.mmons/ionic-extensions/tags-input",
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/tags-input",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "tags-input-module"
+        }
+    }
+}

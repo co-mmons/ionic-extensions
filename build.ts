@@ -23,6 +23,7 @@ const modules = [
     "spinner",
     "textarea-autosize",
     "toggle-labels",
+    "tags-input",
     "html-editor"
 ];
 
