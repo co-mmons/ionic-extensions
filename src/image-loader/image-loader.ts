@@ -1,5 +1,5 @@
-import {Directive, Input, ElementRef} from "@angular/core";
-import {ensureLazyImagesLoaded} from "@co.mmons/ionic-extensions/lazy-image";
+import {Directive, ElementRef, Input} from "@angular/core";
+import {ensureLazyLoad} from "@co.mmons/ionic-extensions/lazy-load";
 
 export interface ImageLoaderStateCssClasses {
 	loaded?: string;
@@ -225,7 +225,7 @@ export async function ensureImagesLoaded(root: HTMLElement, options?: {retryErro
 	}
 
 	if (options && options.lazy) {
-		await ensureLazyImagesLoaded(root, {retryError: options && options.retryError});
+		await ensureLazyLoad(root, {retryError: options && options.retryError});
 	}
 }
 

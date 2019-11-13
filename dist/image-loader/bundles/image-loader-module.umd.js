@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@co.mmons/ionic-extensions/lazy-image')) :
-    typeof define === 'function' && define.amd ? define('@co.mmons/ionic-extensions/image-loader', ['exports', '@angular/core', '@co.mmons/ionic-extensions/lazy-image'], factory) :
-    (global = global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons['ionic-extensions'] = global.co.mmons['ionic-extensions'] || {}, global.co.mmons['ionic-extensions']['image-loader'] = {}), global.ng.core, global.lazyImage));
-}(this, (function (exports, core, lazyImage) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@co.mmons/ionic-extensions/lazy-load')) :
+    typeof define === 'function' && define.amd ? define('@co.mmons/ionic-extensions/image-loader', ['exports', '@angular/core', '@co.mmons/ionic-extensions/lazy-load'], factory) :
+    (global = global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons['ionic-extensions'] = global.co.mmons['ionic-extensions'] || {}, global.co.mmons['ionic-extensions']['image-loader'] = {}), global.ng.core, global.lazyLoad));
+}(this, (function (exports, core, lazyLoad) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -415,7 +415,7 @@
                             image.ionxImageLoader.reload();
                         }
                         if (!(options && options.lazy)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, lazyImage.ensureLazyImagesLoaded(root, { retryError: options && options.retryError })];
+                        return [4 /*yield*/, lazyLoad.ensureLazyLoad(root, { retryError: options && options.retryError })];
                     case 1:
                         _a.sent();
                         _a.label = 2;

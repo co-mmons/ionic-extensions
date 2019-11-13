@@ -1,6 +1,6 @@
 import { __decorate, __awaiter } from 'tslib';
 import { ElementRef, Input, Directive, NgModule } from '@angular/core';
-import { ensureLazyImagesLoaded } from '@co.mmons/ionic-extensions/lazy-image';
+import { ensureLazyLoad } from '@co.mmons/ionic-extensions/lazy-load';
 
 let ImageLoader = class ImageLoader {
     constructor(element) {
@@ -178,7 +178,7 @@ function ensureImagesLoaded(root, options) {
             image.ionxImageLoader.reload();
         }
         if (options && options.lazy) {
-            yield ensureLazyImagesLoaded(root, { retryError: options && options.retryError });
+            yield ensureLazyLoad(root, { retryError: options && options.retryError });
         }
     });
 }

@@ -1,6 +1,6 @@
 import { __decorate, __awaiter, __generator } from 'tslib';
 import { ElementRef, Input, Directive, NgModule } from '@angular/core';
-import { ensureLazyImagesLoaded } from '@co.mmons/ionic-extensions/lazy-image';
+import { ensureLazyLoad } from '@co.mmons/ionic-extensions/lazy-load';
 
 var ImageLoader = /** @class */ (function () {
     function ImageLoader(element) {
@@ -216,7 +216,7 @@ function ensureImagesLoaded(root, options) {
                         image.ionxImageLoader.reload();
                     }
                     if (!(options && options.lazy)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, ensureLazyImagesLoaded(root, { retryError: options && options.retryError })];
+                    return [4 /*yield*/, ensureLazyLoad(root, { retryError: options && options.retryError })];
                 case 1:
                     _a.sent();
                     _a.label = 2;
