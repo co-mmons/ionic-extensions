@@ -535,6 +535,7 @@ var HtmlEditor = /** @class */ (function () {
             else {
                 this.uninitializedValue = html;
             }
+            this.silentChanges = false;
         },
         enumerable: true,
         configurable: true

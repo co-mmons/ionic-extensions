@@ -500,6 +500,7 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
         else {
             this.uninitializedValue = html;
         }
+        this.silentChanges = false;
     }
     get value() {
         if (this.view) {

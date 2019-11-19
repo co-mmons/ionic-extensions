@@ -168,6 +168,8 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
         } else {
             this.uninitializedValue = html;
         }
+
+        this.silentChanges = false;
     }
 
     public get value(): string {
