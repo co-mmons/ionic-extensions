@@ -87,12 +87,9 @@ let LoaderController = class LoaderController {
                 backdropDismiss: false,
                 keyboardClose: false,
                 component: Loader,
-                componentProps: {
-                    instanceCallback: (loader) => loaderInstance(loader),
-                    header: options.header,
-                    message: options.message,
-                    mode: options.mode || "spinner"
-                }
+                componentProps: Object.assign({}, options, {
+                    instanceCallback: (loader) => loaderInstance(loader)
+                })
             });
             // popover.style.setProperty("--width", "100%");
             // popover.style.setProperty("--maxHeight", "100%");

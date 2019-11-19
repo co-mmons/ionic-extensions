@@ -22,12 +22,9 @@ export class LoaderController {
             backdropDismiss: false,
             keyboardClose: false,
             component: Loader,
-            componentProps: {
-                instanceCallback: (loader: Loader) => loaderInstance(loader),
-                header: options.header,
-                message: options.message,
-                mode: options.mode || "spinner"
-            }
+            componentProps: Object.assign({}, options, {
+                instanceCallback: (loader: Loader) => loaderInstance(loader)
+            })
         });
 
         // popover.style.setProperty("--width", "100%");

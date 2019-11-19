@@ -299,12 +299,9 @@
                                     backdropDismiss: false,
                                     keyboardClose: false,
                                     component: Loader,
-                                    componentProps: {
-                                        instanceCallback: function (loader) { return loaderInstance(loader); },
-                                        header: options.header,
-                                        message: options.message,
-                                        mode: options.mode || "spinner"
-                                    }
+                                    componentProps: Object.assign({}, options, {
+                                        instanceCallback: function (loader) { return loaderInstance(loader); }
+                                    })
                                 })];
                         case 1:
                             popover = _a.sent();
