@@ -299,7 +299,7 @@
                                     backdropDismiss: false,
                                     keyboardClose: false,
                                     component: Loader,
-                                    componentProps: Object.assign({}, options, {
+                                    componentProps: Object.assign({ mode: "spinner" }, options, {
                                         instanceCallback: function (loader) { return loaderInstance(loader); }
                                     })
                                 })];
