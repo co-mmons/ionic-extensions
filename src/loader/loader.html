@@ -11,7 +11,7 @@
 
 </div>
 
-<ion-progress-bar style="margin: 16px 0px" [value]="progressValue" [type]="progressType" [buffer]="progressBuffer" *ngIf="progressMode"></ion-progress-bar>
+<ion-progress-bar style="margin: 8px 0px 16px 0px" [value]="progressValue" [type]="progressType" [buffer]="progressBuffer" *ngIf="progressMode"></ion-progress-bar>
 
 <div style="display: flex; margin: 0px 16px 16px 16px" *ngIf="!!progressMessage || progressPercentVisible">
     <ion-text [innerHTML]="progressMessage" style="flex: 1"></ion-text>
