@@ -21,70 +21,7 @@ import {findScrollParent, scrollIntoView} from "./scroll";
     template: `
         <ionx-html-editor-toolbar [style.display]="readonly ? 'none' : ''"></ionx-html-editor-toolbar>
     `,
-    styles: [`
-        :host ::ng-deep .ProseMirror {
-            outline: none; 
-        }
-
-        :host ::ng-deep .ProseMirror[contenteditable=true] {
-            min-height: 60px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        
-        :host ::ng-deep .ProseMirror p {
-            margin: 16px 0px 0px 0px;
-        }
-        
-        :host ::ng-deep .ProseMirror p:first-child {
-            margin-top: 0px;
-        }
-
-        :host ::ng-deep .ProseMirror h1 {
-            font-size: 130%;
-        }
-
-        :host ::ng-deep .ProseMirror h2 {
-            font-size: 125%;
-        }
-
-        :host ::ng-deep .ProseMirror h3 {
-            font-size: 120%;
-        }
-
-        :host ::ng-deep .ProseMirror h4 {
-            font-size: 115%;
-        }
-
-        :host ::ng-deep .ProseMirror h5 {
-            font-size: 110%;
-        }
-
-        :host ::ng-deep .ProseMirror h6 {
-            font-size: 105%;
-        }
-
-        :host ::ng-deep .ProseMirror h1, :host ::ng-deep .ProseMirror h2, :host ::ng-deep .ProseMirror h3, :host ::ng-deep .ProseMirror h4, :host ::ng-deep .ProseMirror h5, :host ::ng-deep .ProseMirror h6 {
-            margin-top: 16px;
-            margin-bottom: 8px;
-        }
-        
-        :host ::ng-deep .ProseMirror h1:first-child, :host ::ng-deep .ProseMirror h2:first-child, :host ::ng-deep .ProseMirror h3:first-child, :host ::ng-deep .ProseMirror h4:first-child, :host ::ng-deep .ProseMirror h5:first-child, :host ::ng-deep .ProseMirror h6:first-child {
-            margin-top: 0px;
-        }
-
-        :host ::ng-deep .ProseMirror ul:first-child {
-            margin-top: 0px;
-        }
-        
-        :host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected {
-            border: 4px solid var(--ion-color-primary);
-        }
-        
-        :host ::ng-deep .ProseMirror[contenteditable=false] .ionx--interactive {
-            display: none;
-        }
-    `]
+    styleUrls: ["editor.scss"]
 })
 export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, AfterContentChecked, OnDestroy, OnChanges {
 
