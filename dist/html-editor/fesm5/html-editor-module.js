@@ -1061,7 +1061,9 @@ var LinkModal = /** @class */ (function () {
                         return [4 /*yield*/, sleep(50)];
                     case 1:
                         _a.sent(); // we must wait for closing type selector
-                        this.formHelper.focus("link", false);
+                        if (this.formHelper) {
+                            this.formHelper.focus("link", false);
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -1127,46 +1129,9 @@ var LinkModal = /** @class */ (function () {
     };
     LinkModal.prototype.ionViewDidEnter = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var e_3, _a, _b, _c, mark, parsed;
-            var _this = this;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
-                    case 0:
-                        if (!!this.form) return [3 /*break*/, 2];
-                        this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
-                        this.form = new FormGroup({
-                            type: new FormControl(DefaultLinkType.www),
-                            link: new FormControl()
-                        });
-                        this.form.controls.link.setValidators(function (control) { return _this.linkValidator(control); });
-                        this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(function () { return _this.typeChanged(); });
-                        this.typeChanged();
-                        this.existing = undefined;
-                        try {
-                             for (_b = __values(findMarksInSelection(this.editor.state, schema.marks.link)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                                mark = _c.value;
-                                parsed = this.parseLink(mark.attrs.href);
-                                if (parsed) {
-                                    this.form.controls["type"].setValue(parsed.type);
-                                    this.form.controls["link"].setValue(parsed.link);
-                                    this.existing = true;
-                                }
-                            }
-                        }
-                        catch (e_3_1) { e_3 = { error: e_3_1 }; }
-                        finally {
-                            try {
-                                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-                            }
-                            finally { if (e_3) throw e_3.error; }
-                        }
-                        return [4 /*yield*/, waitTill(function () { return !!_this.formHelper; })];
-                    case 1:
-                        _d.sent();
-                        this.formHelper.focus("link", false);
-                        _d.label = 2;
-                    case 2: return [2 /*return*/];
-                }
+            return __generator(this, function (_a) {
+                this.formHelper.focus("link", false);
+                return [2 /*return*/];
             });
         });
     };
@@ -1177,6 +1142,37 @@ var LinkModal = /** @class */ (function () {
                 return [2 /*return*/];
             });
         });
+    };
+    LinkModal.prototype.ngOnInit = function () {
+        var _this = this;
+        var e_3, _a;
+        this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
+        this.form = new FormGroup({
+            type: new FormControl(DefaultLinkType.www),
+            link: new FormControl()
+        });
+        this.form.controls.link.setValidators(function (control) { return _this.linkValidator(control); });
+        this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(function () { return _this.typeChanged(); });
+        this.typeChanged();
+        this.existing = undefined;
+        try {
+             for (var _b = __values(findMarksInSelection(this.editor.state, schema.marks.link)), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var mark = _c.value;
+                var parsed = this.parseLink(mark.attrs.href);
+                if (parsed) {
+                    this.form.controls["type"].setValue(parsed.type);
+                    this.form.controls["link"].setValue(parsed.link);
+                    this.existing = true;
+                }
+            }
+        }
+        catch (e_3_1) { e_3 = { error: e_3_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_3) throw e_3.error; }
+        }
     };
     LinkModal.prototype.ngOnDestroy = function () {
         unsubscribe(this.typeChangesSubscription);

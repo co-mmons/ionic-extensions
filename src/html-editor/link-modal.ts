@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, ViewChild} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {FormHelper} from "@co.mmons/ionic-extensions/form-helper";
-import {sleep, waitTill} from "@co.mmons/js-utils/core";
+import {sleep} from "@co.mmons/js-utils/core";
 import {unsubscribe} from "@co.mmons/rxjs-utils";
 import {ModalController} from "@ionic/angular";
 import {toggleMark} from "prosemirror-commands";
@@ -18,7 +18,7 @@ import {findNodeStartEnd} from "./prosemirror/utils/find-node-start-end";
         `:host ion-item:not(.ion-dirty) { --highlight-height: 0px; }`
     ]
 })
-export class LinkModal implements OnDestroy {
+export class LinkModal implements OnDestroy, OnInit {
 
     static async present(modalController: ModalController, editor: HtmlEditor) {
 
@@ -122,7 +122,9 @@ export class LinkModal implements OnDestroy {
 
         await sleep(50); // we must wait for closing type selector
 
-        this.formHelper.focus("link", false);
+        if (this.formHelper) {
+            this.formHelper.focus("link", false);
+        }
     }
 
     private parseLink(uri: string): {type: LinkType, link: string} {
@@ -174,39 +176,36 @@ export class LinkModal implements OnDestroy {
     }
 
     async ionViewDidEnter() {
-
-        if (!this.form) {
-
-            this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
-
-            this.form = new FormGroup({
-                type: new FormControl(DefaultLinkType.www),
-                link: new FormControl()
-            });
-
-            this.form.controls.link.setValidators(control => this.linkValidator(control));
-
-            this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(() => this.typeChanged());
-            this.typeChanged();
-
-            this.existing = undefined;
-            MARKS: for (const mark of findMarksInSelection(this.editor.state, schema.marks.link)) {
-                const parsed = this.parseLink(mark.attrs.href);
-                if (parsed) {
-                    this.form.controls["type"].setValue(parsed.type);
-                    this.form.controls["link"].setValue(parsed.link);
-                    this.existing = true;
-                }
-            }
-
-            await waitTill(() => !!this.formHelper);
-
-            this.formHelper.focus("link", false);
-        }
+        this.formHelper.focus("link", false);
     }
 
     async ionViewWillLeave() {
         this.editor.focus();
+    }
+
+    ngOnInit() {
+
+        this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
+
+        this.form = new FormGroup({
+            type: new FormControl(DefaultLinkType.www),
+            link: new FormControl()
+        });
+
+        this.form.controls.link.setValidators(control => this.linkValidator(control));
+
+        this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(() => this.typeChanged());
+        this.typeChanged();
+
+        this.existing = undefined;
+        MARKS: for (const mark of findMarksInSelection(this.editor.state, schema.marks.link)) {
+            const parsed = this.parseLink(mark.attrs.href);
+            if (parsed) {
+                this.form.controls["type"].setValue(parsed.type);
+                this.form.controls["link"].setValue(parsed.link);
+                this.existing = true;
+            }
+        }
     }
 
     private typeChangesSubscription: Subscription;

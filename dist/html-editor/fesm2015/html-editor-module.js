@@ -994,7 +994,9 @@ let LinkModal = LinkModal_1 = class LinkModal {
                 this.form.controls.link.updateValueAndValidity();
             }
             yield sleep(50); // we must wait for closing type selector
-            this.formHelper.focus("link", false);
+            if (this.formHelper) {
+                this.formHelper.focus("link", false);
+            }
         });
     }
     parseLink(uri) {
@@ -1035,33 +1037,32 @@ let LinkModal = LinkModal_1 = class LinkModal {
     }
     ionViewDidEnter() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.form) {
-                this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
-                this.form = new FormGroup({
-                    type: new FormControl(DefaultLinkType.www),
-                    link: new FormControl()
-                });
-                this.form.controls.link.setValidators(control => this.linkValidator(control));
-                this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(() => this.typeChanged());
-                this.typeChanged();
-                this.existing = undefined;
-                 for (const mark of findMarksInSelection(this.editor.state, schema.marks.link)) {
-                    const parsed = this.parseLink(mark.attrs.href);
-                    if (parsed) {
-                        this.form.controls["type"].setValue(parsed.type);
-                        this.form.controls["link"].setValue(parsed.link);
-                        this.existing = true;
-                    }
-                }
-                yield waitTill(() => !!this.formHelper);
-                this.formHelper.focus("link", false);
-            }
+            this.formHelper.focus("link", false);
         });
     }
     ionViewWillLeave() {
         return __awaiter(this, void 0, void 0, function* () {
             this.editor.focus();
         });
+    }
+    ngOnInit() {
+        this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
+        this.form = new FormGroup({
+            type: new FormControl(DefaultLinkType.www),
+            link: new FormControl()
+        });
+        this.form.controls.link.setValidators(control => this.linkValidator(control));
+        this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(() => this.typeChanged());
+        this.typeChanged();
+        this.existing = undefined;
+         for (const mark of findMarksInSelection(this.editor.state, schema.marks.link)) {
+            const parsed = this.parseLink(mark.attrs.href);
+            if (parsed) {
+                this.form.controls["type"].setValue(parsed.type);
+                this.form.controls["link"].setValue(parsed.link);
+                this.existing = true;
+            }
+        }
     }
     ngOnDestroy() {
         unsubscribe(this.typeChangesSubscription);
