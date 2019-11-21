@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Component, Input, OnDestroy, ViewChild} from "@angular/core";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {FormHelper} from "@co.mmons/ionic-extensions/form-helper";
-import {sleep} from "@co.mmons/js-utils/core";
+import {sleep, waitTill} from "@co.mmons/js-utils/core";
 import {unsubscribe} from "@co.mmons/rxjs-utils";
 import {ModalController} from "@ionic/angular";
 import {toggleMark} from "prosemirror-commands";
@@ -13,90 +13,12 @@ import {findMarksInSelection} from "./prosemirror/utils/find-marks-in-selection"
 import {findNodeStartEnd} from "./prosemirror/utils/find-node-start-end";
 
 @Component({
-    template: `
-        <ion-header>
-            
-            <ion-toolbar>
-
-                <ionx-buttons slot="start">
-                    <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'" (click)="$event.preventDefault(); close()"></ion-back-button>
-                </ionx-buttons>
-                
-                <ion-title style="margin: 0; padding: 0;">{{"@co.mmons/ionic-extensions/html-editor#link/Link" | intlMessage}}</ion-title>
-
-                <ionx-buttons slot="end">
-
-                    <ion-button fill="clear" color="dark" (click)="unlink()" *ngIf="existing">
-                        <ion-icon name="trash" slot="start"></ion-icon>
-                        <ion-label>{{"@co.mmons/ionic-extensions/html-editor#link/Unlink" | intlMessage}}</ion-label>
-                    </ion-button>
-
-                    <ion-button fill="clear" color="primary" (click)="ok()">
-                        <ion-icon name="checkmark" slot="start"></ion-icon>
-                        <ion-label>{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-label>
-                    </ion-button>
-                    
-                </ionx-buttons>
-                
-            </ion-toolbar>
-            
-        </ion-header>
-        <ion-content>
-            
-            <form ionx-form-helper [formGroup]="form">
-                
-                <ion-grid>
-                    
-                    <ion-row>
-                        
-                        <ion-col [sizeXs]="12">
-                            
-                            <ionx-form-item>
-
-                                <ion-item>
-                                    <ion-label position="stacked">{{"@co.mmons/ionic-extensions/html-editor#link/Link type" | intlMessage}}</ion-label>
-                                    <ionx-select required [compareAsString]="true" formControlName="type">
-                                        <ionx-select-option *ngFor="let type of types" [value]="type">{{type.label | intlMessage}}</ionx-select-option>
-                                    </ionx-select>
-                                </ion-item>
-    
-                            </ionx-form-item>
-                            
-                        </ion-col>
-
-                        <ion-col [sizeXs]="12">
-                            
-                            <ionx-form-item>
-    
-                                <ion-item>
-                                    <ion-label position="stacked">{{(form.controls['type'].value.inputLabel || "@co.mmons/ionic-extensions/html-editor#link/Link") | intlMessage}}</ion-label>
-                                    <ion-input formControlName="link" type="form.controls['type'].value.inputType"></ion-input>
-                                </ion-item>
-                                
-                                <ionx-form-item-error control="link" markedAs="dirty"></ionx-form-item-error>
-                                
-                                <ionx-form-item-hint *ngIf="form.controls['type'].value.inputHint">
-                                    <span [innerHTML]="form.controls['type'].value.inputHint | intlMessage"></span>
-                                </ionx-form-item-hint>
-
-                            </ionx-form-item>
-
-                        </ion-col>
-                        
-                    </ion-row>
-                    
-                    
-                </ion-grid>
-                
-            </form>
-            
-        </ion-content>
-    `,
+    templateUrl: "link-modal.html",
     styles: [
         `:host ion-item:not(.ion-dirty) { --highlight-height: 0px; }`
     ]
 })
-export class LinkModal implements OnInit, OnDestroy {
+export class LinkModal implements OnDestroy {
 
     static async present(modalController: ModalController, editor: HtmlEditor) {
 
@@ -252,7 +174,35 @@ export class LinkModal implements OnInit, OnDestroy {
     }
 
     async ionViewDidEnter() {
-        this.formHelper.focus("link", false);
+
+        if (!this.form) {
+
+            this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
+
+            this.form = new FormGroup({
+                type: new FormControl(DefaultLinkType.www),
+                link: new FormControl()
+            });
+
+            this.form.controls.link.setValidators(control => this.linkValidator(control));
+
+            this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(() => this.typeChanged());
+            this.typeChanged();
+
+            this.existing = undefined;
+            MARKS: for (const mark of findMarksInSelection(this.editor.state, schema.marks.link)) {
+                const parsed = this.parseLink(mark.attrs.href);
+                if (parsed) {
+                    this.form.controls["type"].setValue(parsed.type);
+                    this.form.controls["link"].setValue(parsed.link);
+                    this.existing = true;
+                }
+            }
+
+            await waitTill(() => !!this.formHelper);
+
+            this.formHelper.focus("link", false);
+        }
     }
 
     async ionViewWillLeave() {
@@ -260,30 +210,6 @@ export class LinkModal implements OnInit, OnDestroy {
     }
 
     private typeChangesSubscription: Subscription;
-
-    ngOnInit() {
-        this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
-
-        this.form = new FormGroup({
-            type: new FormControl(DefaultLinkType.www),
-            link: new FormControl()
-        });
-
-        this.form.controls.link.setValidators(control => this.linkValidator(control));
-
-        this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(() => this.typeChanged());
-        this.typeChanged();
-
-        this.existing = undefined;
-        MARKS: for (const mark of findMarksInSelection(this.editor.state, schema.marks.link)) {
-            const parsed = this.parseLink(mark.attrs.href);
-            if (parsed) {
-                this.form.controls["type"].setValue(parsed.type);
-                this.form.controls["link"].setValue(parsed.link);
-                this.existing = true;
-            }
-        }
-    }
 
     ngOnDestroy() {
         unsubscribe(this.typeChangesSubscription);

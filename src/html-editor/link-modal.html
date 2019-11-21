@@ -1,0 +1,80 @@
+<ion-header>
+
+    <ion-toolbar>
+
+        <ionx-buttons slot="start">
+            <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'" (click)="$event.preventDefault(); close()"></ion-back-button>
+        </ionx-buttons>
+
+        <ion-title style="margin: 0; padding: 0;">{{"@co.mmons/ionic-extensions/html-editor#link/Link" | intlMessage}}</ion-title>
+
+        <ionx-buttons slot="end">
+
+            <ion-button fill="clear" color="dark" (click)="unlink()" *ngIf="existing">
+                <ion-icon name="trash" slot="start"></ion-icon>
+                <ion-label>{{"@co.mmons/ionic-extensions/html-editor#link/Unlink" | intlMessage}}</ion-label>
+            </ion-button>
+
+            <ion-button fill="clear" color="primary" (click)="ok()">
+                <ion-icon name="checkmark" slot="start"></ion-icon>
+                <ion-label>{{"@co.mmons/js-intl#Done" | intlMessage}}</ion-label>
+            </ion-button>
+
+        </ionx-buttons>
+
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content [forceOverscroll]="false">
+
+    <ionx-spinner slot="fixed" fill *ngIf="!form"></ionx-spinner>
+
+    <form ionx-form-helper [formGroup]="form" *ngIf="form">
+
+        <ion-grid>
+
+            <ion-row>
+
+                <ion-col [sizeXs]="12">
+
+                    <ionx-form-item>
+
+                        <ion-item>
+                            <ion-label position="stacked">{{"@co.mmons/ionic-extensions/html-editor#link/Link type" | intlMessage}}</ion-label>
+                            <ionx-select required [compareAsString]="true" formControlName="type">
+                                <ionx-select-option *ngFor="let type of types" [value]="type">{{type.label | intlMessage}}</ionx-select-option>
+                            </ionx-select>
+                        </ion-item>
+
+                    </ionx-form-item>
+
+                </ion-col>
+
+                <ion-col [sizeXs]="12">
+
+                    <ionx-form-item>
+
+                        <ion-item>
+                            <ion-label position="stacked">{{(form.controls['type'].value.inputLabel || "@co.mmons/ionic-extensions/html-editor#link/Link") | intlMessage}}</ion-label>
+                            <ion-input formControlName="link" type="form.controls['type'].value.inputType"></ion-input>
+                        </ion-item>
+
+                        <ionx-form-item-error control="link" markedAs="dirty"></ionx-form-item-error>
+
+                        <ionx-form-item-hint *ngIf="form.controls['type'].value.inputHint">
+                            <span [innerHTML]="form.controls['type'].value.inputHint | intlMessage"></span>
+                        </ionx-form-item-hint>
+
+                    </ionx-form-item>
+
+                </ion-col>
+
+            </ion-row>
+
+
+        </ion-grid>
+
+    </form>
+
+</ion-content>

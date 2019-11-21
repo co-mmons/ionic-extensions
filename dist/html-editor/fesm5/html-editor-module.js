@@ -6,6 +6,7 @@ import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-med
 import { IntlModule } from '@co.mmons/angular-intl';
 import { FormHelper, FormHelperModule } from '@co.mmons/ionic-extensions/form-helper';
 import { SelectModule } from '@co.mmons/ionic-extensions/select';
+import { SpinnerModule } from '@co.mmons/ionic-extensions/spinner';
 import { PopoverController, IonItem, ModalController, Platform, IonicModule } from '@ionic/angular';
 import { ButtonsModule } from '@co.mmons/ionic-extensions/buttons';
 import { MessageRef } from '@co.mmons/js-intl';
@@ -1126,9 +1127,46 @@ var LinkModal = /** @class */ (function () {
     };
     LinkModal.prototype.ionViewDidEnter = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.formHelper.focus("link", false);
-                return [2 /*return*/];
+            var e_3, _a, _b, _c, mark, parsed;
+            var _this = this;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (!!this.form) return [3 /*break*/, 2];
+                        this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
+                        this.form = new FormGroup({
+                            type: new FormControl(DefaultLinkType.www),
+                            link: new FormControl()
+                        });
+                        this.form.controls.link.setValidators(function (control) { return _this.linkValidator(control); });
+                        this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(function () { return _this.typeChanged(); });
+                        this.typeChanged();
+                        this.existing = undefined;
+                        try {
+                             for (_b = __values(findMarksInSelection(this.editor.state, schema.marks.link)), _c = _b.next(); !_c.done; _c = _b.next()) {
+                                mark = _c.value;
+                                parsed = this.parseLink(mark.attrs.href);
+                                if (parsed) {
+                                    this.form.controls["type"].setValue(parsed.type);
+                                    this.form.controls["link"].setValue(parsed.link);
+                                    this.existing = true;
+                                }
+                            }
+                        }
+                        catch (e_3_1) { e_3 = { error: e_3_1 }; }
+                        finally {
+                            try {
+                                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                            }
+                            finally { if (e_3) throw e_3.error; }
+                        }
+                        return [4 /*yield*/, waitTill(function () { return !!_this.formHelper; })];
+                    case 1:
+                        _d.sent();
+                        this.formHelper.focus("link", false);
+                        _d.label = 2;
+                    case 2: return [2 /*return*/];
+                }
             });
         });
     };
@@ -1139,37 +1177,6 @@ var LinkModal = /** @class */ (function () {
                 return [2 /*return*/];
             });
         });
-    };
-    LinkModal.prototype.ngOnInit = function () {
-        var _this = this;
-        var e_3, _a;
-        this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
-        this.form = new FormGroup({
-            type: new FormControl(DefaultLinkType.www),
-            link: new FormControl()
-        });
-        this.form.controls.link.setValidators(function (control) { return _this.linkValidator(control); });
-        this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(function () { return _this.typeChanged(); });
-        this.typeChanged();
-        this.existing = undefined;
-        try {
-             for (var _b = __values(findMarksInSelection(this.editor.state, schema.marks.link)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var mark = _c.value;
-                var parsed = this.parseLink(mark.attrs.href);
-                if (parsed) {
-                    this.form.controls["type"].setValue(parsed.type);
-                    this.form.controls["link"].setValue(parsed.link);
-                    this.existing = true;
-                }
-            }
-        }
-        catch (e_3_1) { e_3 = { error: e_3_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
-            }
-            finally { if (e_3) throw e_3.error; }
-        }
     };
     LinkModal.prototype.ngOnDestroy = function () {
         unsubscribe(this.typeChangesSubscription);
@@ -1186,7 +1193,7 @@ var LinkModal = /** @class */ (function () {
     ], LinkModal.prototype, "formHelper", void 0);
     LinkModal = LinkModal_1 = __decorate([
         Component({
-            template: "\n        <ion-header>\n            \n            <ion-toolbar>\n\n                <ionx-buttons slot=\"start\">\n                    <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'\" (click)=\"$event.preventDefault(); close()\"></ion-back-button>\n                </ionx-buttons>\n                \n                <ion-title style=\"margin: 0; padding: 0;\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-title>\n\n                <ionx-buttons slot=\"end\">\n\n                    <ion-button fill=\"clear\" color=\"dark\" (click)=\"unlink()\" *ngIf=\"existing\">\n                        <ion-icon name=\"trash\" slot=\"start\"></ion-icon>\n                        <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Unlink\" | intlMessage}}</ion-label>\n                    </ion-button>\n\n                    <ion-button fill=\"clear\" color=\"primary\" (click)=\"ok()\">\n                        <ion-icon name=\"checkmark\" slot=\"start\"></ion-icon>\n                        <ion-label>{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-label>\n                    </ion-button>\n                    \n                </ionx-buttons>\n                \n            </ion-toolbar>\n            \n        </ion-header>\n        <ion-content>\n            \n            <form ionx-form-helper [formGroup]=\"form\">\n                \n                <ion-grid>\n                    \n                    <ion-row>\n                        \n                        <ion-col [sizeXs]=\"12\">\n                            \n                            <ionx-form-item>\n\n                                <ion-item>\n                                    <ion-label position=\"stacked\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link type\" | intlMessage}}</ion-label>\n                                    <ionx-select required [compareAsString]=\"true\" formControlName=\"type\">\n                                        <ionx-select-option *ngFor=\"let type of types\" [value]=\"type\">{{type.label | intlMessage}}</ionx-select-option>\n                                    </ionx-select>\n                                </ion-item>\n    \n                            </ionx-form-item>\n                            \n                        </ion-col>\n\n                        <ion-col [sizeXs]=\"12\">\n                            \n                            <ionx-form-item>\n    \n                                <ion-item>\n                                    <ion-label position=\"stacked\">{{(form.controls['type'].value.inputLabel || \"@co.mmons/ionic-extensions/html-editor#link/Link\") | intlMessage}}</ion-label>\n                                    <ion-input formControlName=\"link\" type=\"form.controls['type'].value.inputType\"></ion-input>\n                                </ion-item>\n                                \n                                <ionx-form-item-error control=\"link\" markedAs=\"dirty\"></ionx-form-item-error>\n                                \n                                <ionx-form-item-hint *ngIf=\"form.controls['type'].value.inputHint\">\n                                    <span [innerHTML]=\"form.controls['type'].value.inputHint | intlMessage\"></span>\n                                </ionx-form-item-hint>\n\n                            </ionx-form-item>\n\n                        </ion-col>\n                        \n                    </ion-row>\n                    \n                    \n                </ion-grid>\n                \n            </form>\n            \n        </ion-content>\n    ",
+            template: "<ion-header>\n\n    <ion-toolbar>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'\" (click)=\"$event.preventDefault(); close()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"margin: 0; padding: 0;\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n\n            <ion-button fill=\"clear\" color=\"dark\" (click)=\"unlink()\" *ngIf=\"existing\">\n                <ion-icon name=\"trash\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Unlink\" | intlMessage}}</ion-label>\n            </ion-button>\n\n            <ion-button fill=\"clear\" color=\"primary\" (click)=\"ok()\">\n                <ion-icon name=\"checkmark\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-label>\n            </ion-button>\n\n        </ionx-buttons>\n\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content [forceOverscroll]=\"false\">\n\n    <ionx-spinner slot=\"fixed\" fill *ngIf=\"!form\"></ionx-spinner>\n\n    <form ionx-form-helper [formGroup]=\"form\" *ngIf=\"form\">\n\n        <ion-grid>\n\n            <ion-row>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link type\" | intlMessage}}</ion-label>\n                            <ionx-select required [compareAsString]=\"true\" formControlName=\"type\">\n                                <ionx-select-option *ngFor=\"let type of types\" [value]=\"type\">{{type.label | intlMessage}}</ionx-select-option>\n                            </ionx-select>\n                        </ion-item>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{(form.controls['type'].value.inputLabel || \"@co.mmons/ionic-extensions/html-editor#link/Link\") | intlMessage}}</ion-label>\n                            <ion-input formControlName=\"link\" type=\"form.controls['type'].value.inputType\"></ion-input>\n                        </ion-item>\n\n                        <ionx-form-item-error control=\"link\" markedAs=\"dirty\"></ionx-form-item-error>\n\n                        <ionx-form-item-hint *ngIf=\"form.controls['type'].value.inputHint\">\n                            <span [innerHTML]=\"form.controls['type'].value.inputHint | intlMessage\"></span>\n                        </ionx-form-item-hint>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n            </ion-row>\n\n\n        </ion-grid>\n\n    </form>\n\n</ion-content>\n",
             styles: [":host ion-item:not(.ion-dirty) { --highlight-height: 0px; }"]
         })
     ], LinkModal);
@@ -3082,7 +3089,7 @@ var HtmlEditorModule = /** @class */ (function () {
     }
     HtmlEditorModule = __decorate([
         NgModule({
-            imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule, MatchMediaModule],
+            imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule, MatchMediaModule, SpinnerModule],
             declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],
             exports: [HtmlEditor, IntlModule],
             entryComponents: [AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu]
