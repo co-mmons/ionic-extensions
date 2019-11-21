@@ -1303,9 +1303,24 @@
         };
         LinkModal.prototype.ionViewDidEnter = function () {
             return __awaiter(this, void 0, void 0, function () {
+                var _this = this;
                 return __generator(this, function (_a) {
-                    this.formHelper.focus("link", false);
-                    return [2 /*return*/];
+                    switch (_a.label) {
+                        case 0:
+                            this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
+                            this.form = new forms.FormGroup({
+                                type: new forms.FormControl(this.existingType || DefaultLinkType.www),
+                                link: new forms.FormControl(this.existingLink)
+                            });
+                            this.form.controls.link.setValidators(function (control) { return _this.linkValidator(control); });
+                            this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(function () { return _this.typeChanged(); });
+                            this.typeChanged();
+                            return [4 /*yield*/, core$1.waitTill(function () { return !!_this.formHelper; })];
+                        case 1:
+                            _a.sent();
+                            this.formHelper.focus("link", false);
+                            return [2 /*return*/];
+                    }
                 });
             });
         };
@@ -1318,25 +1333,16 @@
             });
         };
         LinkModal.prototype.ngOnInit = function () {
-            var _this = this;
             var e_3, _a;
-            this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
-            this.form = new forms.FormGroup({
-                type: new forms.FormControl(DefaultLinkType.www),
-                link: new forms.FormControl()
-            });
-            this.form.controls.link.setValidators(function (control) { return _this.linkValidator(control); });
-            this.typeChangesSubscription = this.form.controls["type"].valueChanges.subscribe(function () { return _this.typeChanged(); });
-            this.typeChanged();
-            this.existing = undefined;
             try {
-                 for (var _b = __values(findMarksInSelection(this.editor.state, schema.marks.link)), _c = _b.next(); !_c.done; _c = _b.next()) {
+                MARKS: for (var _b = __values(findMarksInSelection(this.editor.state, schema.marks.link)), _c = _b.next(); !_c.done; _c = _b.next()) {
                     var mark = _c.value;
                     var parsed = this.parseLink(mark.attrs.href);
                     if (parsed) {
-                        this.form.controls["type"].setValue(parsed.type);
-                        this.form.controls["link"].setValue(parsed.link);
+                        this.existingType = parsed.type;
+                        this.existingLink = parsed.link;
                         this.existing = true;
+                        break MARKS;
                     }
                 }
             }

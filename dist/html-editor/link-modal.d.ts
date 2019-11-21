@@ -10,6 +10,8 @@ export declare class LinkModal implements OnDestroy, OnInit {
     constructor(modalController: ModalController);
     private editor;
     existing: boolean;
+    private existingType;
+    private existingLink;
     types: LinkType[];
     form: FormGroup;
     formHelper: FormHelper;
