@@ -26,6 +26,7 @@ export class YoutubeNodeView implements NodeView {
         this.dom.style.overflow = "hidden";
         this.dom.style.height = "200px";
         this.dom.style.marginTop = "16px";
+        this.dom.setAttribute("no-blur", "");
 
         this.dom.appendChild(createYoutubeIframe(node.attrs.id, node.attrs.start));
 

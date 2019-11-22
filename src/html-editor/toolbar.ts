@@ -59,7 +59,7 @@ import {TextFormatMenu} from "./text-format-menu";
         </div>
     `,
     styles: [`
-        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); }
+        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); z-index: 1; }
         :host-context(.ion-focused) { background-color: var(--background-focused); }
         :host ion-button { margin: 0px 4px; --padding-end: 2px; --padding-start: 4px; }
         :host ion-button.active-feature span { font-weight: 800; }

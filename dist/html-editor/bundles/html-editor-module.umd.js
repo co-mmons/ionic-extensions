@@ -573,6 +573,7 @@
             this.dom.style.overflow = "hidden";
             this.dom.style.height = "200px";
             this.dom.style.marginTop = "16px";
+            this.dom.setAttribute("no-blur", "");
             this.dom.appendChild(createYoutubeIframe(node.attrs.id, node.attrs.start));
             var overlay = this.dom.appendChild(document.createElement("div"));
             overlay.style.position = "absolute";
@@ -797,13 +798,19 @@
                 this.scrollParent = findScrollParent(this.element.nativeElement);
             }
             this.view.dom.focus({ preventScroll: true });
-            var pos = this.view.domAtPos(this.view.state.selection.to);
-            if (pos.node) {
-                if (pos.node.nodeType === Node.TEXT_NODE) {
-                    scrollToCaret(this.scrollParent);
-                }
-                else {
-                    scrollIntoView(pos.node, this.scrollParent);
+            var selectedView = this.view.dom.querySelector(".ionx--selected");
+            if (selectedView) {
+                scrollIntoView(selectedView, this.scrollParent);
+            }
+            else {
+                var pos = this.view.domAtPos(this.view.state.selection.to);
+                if (pos.node) {
+                    if (pos.node.nodeType === Node.TEXT_NODE) {
+                        scrollToCaret(this.scrollParent);
+                    }
+                    else {
+                        scrollIntoView(pos.node, this.scrollParent);
+                    }
                 }
             }
         };
@@ -1034,7 +1041,7 @@
             core.Component({
                 selector: "ionx-html-editor",
                 template: "\n        <ionx-html-editor-toolbar [style.display]=\"readonly ? 'none' : ''\"></ionx-html-editor-toolbar>\n    ",
-                styles: [":host ::ng-deep .ProseMirror{outline:0;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}"]
+                styles: [":host ::ng-deep .ProseMirror{outline:0;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror:not([contenteditable=true]) .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}"]
             }),
             __param(2, core.Optional()),
             __param(3, core.Optional())
@@ -3318,7 +3325,7 @@
             core.Component({
                 selector: "ionx-html-editor-toolbar",
                 template: "\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.text\" (click)=\"showMenu($event, 'text')\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Text\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.alignment\" (click)=\"showMenu($event, 'alignment')\" *ngIf=\"!editor.features || editor.features.alignment\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Alignment\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.heading\" (click)=\"showMenu($event, 'heading')\" *ngIf=\"!editor.features || editor.features.heading\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.list\" (click)=\"showMenu($event, 'list')\" *ngIf=\"!editor.features || editor.features.list\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/List\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" (click)=\"showMenu($event, 'insert')\" *ngIf=\"!editor.features || editor.features.link || editor.features.multimedia\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Insert\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" class=\"active-feature\" (click)=\"editLink()\" *ngIf=\"activeFeatures.link\">\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</span>\n        </ion-button>\n        \n        <div ionx--buttons-group>\n            <ion-button size=\"small\" fill=\"clear\" tabindex=\"-1\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Undo' | intlMessage}}\" [disabled]=\"!canUndo\" (click)=\"undo()\">\n                <ion-icon name=\"undo\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n    \n            <ion-button size=\"small\" fill=\"clear\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Redo' | intlMessage}}\" [disabled]=\"!canRedo\" (click)=\"redo()\">\n                <ion-icon name=\"redo\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n        </div>\n    ",
-                styles: ["\n        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); }\n        :host-context(.ion-focused) { background-color: var(--background-focused); }\n        :host ion-button { margin: 0px 4px; --padding-end: 2px; --padding-start: 4px; }\n        :host ion-button.active-feature span { font-weight: 800; }\n        :host ion-icon[slot=\"end\"] { margin: 0px; }\n        :host ion-button[disabled] { opacity: 0.5; }\n        :host [ionx--buttons-group] { display: flex; }\n        :host [ionx--buttons-group] ion-button:not(:last-child) { margin-right: 0px; }\n    "]
+                styles: ["\n        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); z-index: 1; }\n        :host-context(.ion-focused) { background-color: var(--background-focused); }\n        :host ion-button { margin: 0px 4px; --padding-end: 2px; --padding-start: 4px; }\n        :host ion-button.active-feature span { font-weight: 800; }\n        :host ion-icon[slot=\"end\"] { margin: 0px; }\n        :host ion-button[disabled] { opacity: 0.5; }\n        :host [ionx--buttons-group] { display: flex; }\n        :host [ionx--buttons-group] ion-button:not(:last-child) { margin-right: 0px; }\n    "]
             })
         ], Toolbar);
         return Toolbar;

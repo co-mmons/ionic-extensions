@@ -386,6 +386,7 @@ class YoutubeNodeView {
         this.dom.style.overflow = "hidden";
         this.dom.style.height = "200px";
         this.dom.style.marginTop = "16px";
+        this.dom.setAttribute("no-blur", "");
         this.dom.appendChild(createYoutubeIframe(node.attrs.id, node.attrs.start));
         const overlay = this.dom.appendChild(document.createElement("div"));
         overlay.style.position = "absolute";
@@ -597,13 +598,19 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
             this.scrollParent = findScrollParent(this.element.nativeElement);
         }
         this.view.dom.focus({ preventScroll: true });
-        const pos = this.view.domAtPos(this.view.state.selection.to);
-        if (pos.node) {
-            if (pos.node.nodeType === Node.TEXT_NODE) {
-                scrollToCaret(this.scrollParent);
-            }
-            else {
-                scrollIntoView(pos.node, this.scrollParent);
+        const selectedView = this.view.dom.querySelector(".ionx--selected");
+        if (selectedView) {
+            scrollIntoView(selectedView, this.scrollParent);
+        }
+        else {
+            const pos = this.view.domAtPos(this.view.state.selection.to);
+            if (pos.node) {
+                if (pos.node.nodeType === Node.TEXT_NODE) {
+                    scrollToCaret(this.scrollParent);
+                }
+                else {
+                    scrollIntoView(pos.node, this.scrollParent);
+                }
             }
         }
     }
@@ -802,7 +809,7 @@ HtmlEditor = HtmlEditor_1 = __decorate([
         template: `
         <ionx-html-editor-toolbar [style.display]="readonly ? 'none' : ''"></ionx-html-editor-toolbar>
     `,
-        styles: [":host ::ng-deep .ProseMirror{outline:0;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}"]
+        styles: [":host ::ng-deep .ProseMirror{outline:0;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror:not([contenteditable=true]) .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}"]
     }),
     __param(2, Optional()),
     __param(3, Optional())
@@ -3037,7 +3044,7 @@ Toolbar = __decorate([
         </div>
     `,
         styles: [`
-        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); }
+        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); z-index: 1; }
         :host-context(.ion-focused) { background-color: var(--background-focused); }
         :host ion-button { margin: 0px 4px; --padding-end: 2px; --padding-start: 4px; }
         :host ion-button.active-feature span { font-weight: 800; }

@@ -11,6 +11,9 @@
         .ionx--selected {
             border: 4px solid var(--ion-color-primary);
         }
+    }
+
+    &:not([contenteditable=true]) {
 
         .ionx--interactive {
             display: none;

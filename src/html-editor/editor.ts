@@ -171,12 +171,18 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
 
         (this.view.dom as HTMLElement).focus({preventScroll: true});
 
-        const pos = this.view.domAtPos(this.view.state.selection.to);
-        if (pos.node) {
-            if (pos.node.nodeType === Node.TEXT_NODE) {
-                scrollToCaret(this.scrollParent);
-            } else {
-                scrollIntoView(pos.node as HTMLElement, this.scrollParent);
+        const selectedView = (this.view.dom as HTMLElement).querySelector(".ionx--selected");
+
+        if (selectedView) {
+            scrollIntoView(selectedView as HTMLElement, this.scrollParent);
+        } else {
+            const pos = this.view.domAtPos(this.view.state.selection.to);
+            if (pos.node) {
+                if (pos.node.nodeType === Node.TEXT_NODE) {
+                    scrollToCaret(this.scrollParent);
+                } else {
+                    scrollIntoView(pos.node as HTMLElement, this.scrollParent);
+                }
             }
         }
     }
