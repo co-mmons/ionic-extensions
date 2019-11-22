@@ -453,7 +453,7 @@ function scrollIntoView(element, parent) {
         const parentRect = parent.getBoundingClientRect();
         const rect = element.getBoundingClientRect();
         if (!(rect.top > parentRect.top && rect.top <= parentRect.bottom && rect.bottom < parentRect.height)) {
-            let top = element.offsetTop;
+            let top = element.offsetTop - 100;
             if (element.offsetParent) {
                 let offsetParent = element.offsetParent;
                 while (offsetParent !== parent && !!offsetParent) {
@@ -461,7 +461,7 @@ function scrollIntoView(element, parent) {
                     offsetParent = offsetParent.offsetParent;
                 }
             }
-            parent.scrollTo({ top: top - 100 });
+            parent.scrollTo({ top: top });
         }
         return;
     }
@@ -471,6 +471,7 @@ function scrollToCaret(parent) {
     if (parent) {
         const parentRect = parent.getBoundingClientRect();
         const rect = caretTopPoint();
+        rect.top -= 100;
         if (!(rect.top > parentRect.top && rect.top <= parentRect.bottom)) {
             let top = rect.top - parentRect.top;
             parent.scrollTo({ top: top, behavior: "auto" });
@@ -598,19 +599,13 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
             this.scrollParent = findScrollParent(this.element.nativeElement);
         }
         this.view.dom.focus({ preventScroll: true });
-        const selectedView = this.view.dom.querySelector(".ionx--selected");
-        if (selectedView) {
-            scrollIntoView(selectedView, this.scrollParent);
-        }
-        else {
-            const pos = this.view.domAtPos(this.view.state.selection.to);
-            if (pos.node) {
-                if (pos.node.nodeType === Node.TEXT_NODE) {
-                    scrollToCaret(this.scrollParent);
-                }
-                else {
-                    scrollIntoView(pos.node, this.scrollParent);
-                }
+        const pos = this.view.domAtPos(this.view.state.selection.to);
+        if (pos.node) {
+            if (pos.node.nodeType === Node.TEXT_NODE) {
+                scrollToCaret(this.scrollParent);
+            }
+            else {
+                scrollIntoView(this.view.dom.querySelector(".ionx--selected") || pos.node, this.scrollParent);
             }
         }
     }
@@ -646,7 +641,7 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
                 scrollToCaret(this.scrollParent);
             }
             else {
-                scrollIntoView(pos.node, this.scrollParent);
+                scrollIntoView(view.dom.querySelector(".ionx--selected") || pos.node, this.scrollParent);
             }
         }
         return false;
@@ -713,8 +708,9 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
         });
     }
     editorTransaction(transaction) {
-        this.focus();
+        this.view.dom.focus({ preventScroll: true });
         this.view.updateState(this.view.state.apply(transaction));
+        this.focus();
         this.selectionChange.next();
         if (transaction.docChanged) {
             this.change.next();

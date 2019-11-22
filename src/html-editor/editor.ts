@@ -171,18 +171,12 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
 
         (this.view.dom as HTMLElement).focus({preventScroll: true});
 
-        const selectedView = (this.view.dom as HTMLElement).querySelector(".ionx--selected");
-
-        if (selectedView) {
-            scrollIntoView(selectedView as HTMLElement, this.scrollParent);
-        } else {
-            const pos = this.view.domAtPos(this.view.state.selection.to);
-            if (pos.node) {
-                if (pos.node.nodeType === Node.TEXT_NODE) {
-                    scrollToCaret(this.scrollParent);
-                } else {
-                    scrollIntoView(pos.node as HTMLElement, this.scrollParent);
-                }
+        const pos = this.view.domAtPos(this.view.state.selection.to);
+        if (pos.node) {
+            if (pos.node.nodeType === Node.TEXT_NODE) {
+                scrollToCaret(this.scrollParent);
+            } else {
+                scrollIntoView(this.view.dom.querySelector(".ionx--selected") || pos.node as HTMLElement, this.scrollParent);
             }
         }
     }
@@ -225,7 +219,7 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
             if (pos.node.nodeType === Node.TEXT_NODE) {
                 scrollToCaret(this.scrollParent);
             } else {
-                scrollIntoView(pos.node as HTMLElement, this.scrollParent);
+                scrollIntoView(view.dom.querySelector(".ionx--selected") || pos.node as HTMLElement, this.scrollParent);
             }
         }
 
@@ -308,8 +302,11 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
 
     private editorTransaction(transaction: Transaction) {
 
-        this.focus();
+        (this.view.dom as HTMLElement).focus({preventScroll: true});
+
         this.view.updateState(this.view.state.apply(transaction));
+
+        this.focus();
 
         this.selectionChange.next();
 

@@ -30,7 +30,7 @@ export function scrollIntoView(element: HTMLElement, parent: HTMLElement) {
 
         if (!(rect.top > parentRect.top && rect.top <= parentRect.bottom && rect.bottom < parentRect.height)) {
 
-            let top = element.offsetTop;
+            let top = element.offsetTop - 100;
 
             if (element.offsetParent) {
                 let offsetParent = element.offsetParent as HTMLElement;
@@ -40,7 +40,7 @@ export function scrollIntoView(element: HTMLElement, parent: HTMLElement) {
                 }
             }
 
-            parent.scrollTo({top: top - 100});
+            parent.scrollTo({top: top});
         }
 
         return;
@@ -55,6 +55,7 @@ export function scrollToCaret(parent: HTMLElement) {
 
         const parentRect = parent.getBoundingClientRect();
         const rect = caretTopPoint();
+        rect.top -= 100;
 
         if (!(rect.top > parentRect.top && rect.top <= parentRect.bottom)) {
 
