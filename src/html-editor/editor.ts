@@ -14,7 +14,7 @@ import {HtmlEditorFeatures} from "./editor-features";
 import {buildKeymap} from "./prosemirror/keymap";
 import {schema} from "./prosemirror/schema";
 import {createYoutubeIframe, YoutubeNodeView} from "./prosemirror/views/youtube";
-import {findScrollParent, scrollIntoView} from "./scroll";
+import {findScrollParent, scrollIntoView, scrollToCaret} from "./scroll";
 
 @Component({
     selector: "ionx-html-editor",
@@ -173,7 +173,11 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
 
         const pos = this.view.domAtPos(this.view.state.selection.to);
         if (pos.node) {
-            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node as HTMLElement, "auto", this.scrollParent);
+            if (pos.node.nodeType === Node.TEXT_NODE) {
+                scrollToCaret(this.scrollParent);
+            } else {
+                scrollIntoView(pos.node as HTMLElement, this.scrollParent);
+            }
         }
     }
 
@@ -212,7 +216,11 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
 
         const pos = view.domAtPos(view.state.selection.to);
         if (pos.node) {
-            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node as HTMLElement, "auto", this.scrollParent);
+            if (pos.node.nodeType === Node.TEXT_NODE) {
+                scrollToCaret(this.scrollParent);
+            } else {
+                scrollIntoView(pos.node as HTMLElement, this.scrollParent);
+            }
         }
 
         return false;
