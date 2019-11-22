@@ -44,7 +44,7 @@ export function scrollIntoView(element: HTMLElement, scrollBehavior?: ScrollBeha
                 }
             }
 
-            parent.scrollTo({top: top, behavior: scrollBehavior});
+            parent.scrollTo({top: top - 100, behavior: scrollBehavior});
         }
 
         return;

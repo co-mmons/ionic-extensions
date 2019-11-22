@@ -40,6 +40,8 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
 
         this.id = "ionx-trix-editor" + (HtmlEditor.idGenerator++);
         this.itemInputWrapper = !!this.item;
+
+        this.element.nativeElement.setAttribute("no-blur", "");
     }
 
     private eventUnlisteners: Function[] = [];
@@ -162,8 +164,17 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
     }
 
     focus() {
-        (this.view.dom as HTMLElement).focus();
-        // this.content.focus();
+
+        if (!this.scrollParent) {
+            this.scrollParent = findScrollParent(this.element.nativeElement);
+        }
+
+        (this.view.dom as HTMLElement).focus({preventScroll: true});
+
+        const pos = this.view.domAtPos(this.view.state.selection.to);
+        if (pos.node) {
+            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node as HTMLElement, "auto", this.scrollParent);
+        }
     }
 
     // @ts-ignore
@@ -200,9 +211,8 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
         }
 
         const pos = view.domAtPos(view.state.selection.to);
-
-        if (pos.node instanceof HTMLElement) {
-            scrollIntoView(pos.node, undefined, this.scrollParent);
+        if (pos.node) {
+            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node as HTMLElement, "auto", this.scrollParent);
         }
 
         return false;
@@ -271,7 +281,7 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
 
         if (this.item) {
             const item: HTMLElement = this.item["el"];
-            await waitTill(() => !!item.shadowRoot);
+            await waitTill(() => !!item.shadowRoot && !!item.shadowRoot.querySelector(".item-inner"));
 
             item.style.overflow = "initial";
 

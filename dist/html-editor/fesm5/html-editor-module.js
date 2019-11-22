@@ -477,7 +477,7 @@ function scrollIntoView(element, scrollBehavior, parent) {
                     offsetParent = offsetParent.offsetParent;
                 }
             }
-            parent.scrollTo({ top: top_1, behavior: scrollBehavior });
+            parent.scrollTo({ top: top_1 - 100, behavior: scrollBehavior });
         }
         return;
     }
@@ -498,6 +498,7 @@ var HtmlEditor = /** @class */ (function () {
         }
         this.id = "ionx-trix-editor" + (HtmlEditor_1.idGenerator++);
         this.itemInputWrapper = !!this.item;
+        this.element.nativeElement.setAttribute("no-blur", "");
     }
     HtmlEditor_1 = HtmlEditor;
     Object.defineProperty(HtmlEditor.prototype, "state", {
@@ -571,8 +572,14 @@ var HtmlEditor = /** @class */ (function () {
         this.controlOnTouched = fn;
     };
     HtmlEditor.prototype.focus = function () {
-        this.view.dom.focus();
-        // this.content.focus();
+        if (!this.scrollParent) {
+            this.scrollParent = findScrollParent(this.element.nativeElement);
+        }
+        this.view.dom.focus({ preventScroll: true });
+        var pos = this.view.domAtPos(this.view.state.selection.to);
+        if (pos.node) {
+            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node, "auto", this.scrollParent);
+        }
     };
     // @ts-ignore
     HtmlEditor.prototype.editorInitialized = function (event) {
@@ -603,8 +610,8 @@ var HtmlEditor = /** @class */ (function () {
             this.scrollParent = findScrollParent(this.element.nativeElement);
         }
         var pos = view.domAtPos(view.state.selection.to);
-        if (pos.node instanceof HTMLElement) {
-            scrollIntoView(pos.node, undefined, this.scrollParent);
+        if (pos.node) {
+            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node, "auto", this.scrollParent);
         }
         return false;
     };
@@ -676,7 +683,7 @@ var HtmlEditor = /** @class */ (function () {
                     case 0:
                         if (!this.item) return [3 /*break*/, 2];
                         item_1 = this.item["el"];
-                        return [4 /*yield*/, waitTill(function () { return !!item_1.shadowRoot; })];
+                        return [4 /*yield*/, waitTill(function () { return !!item_1.shadowRoot && !!item_1.shadowRoot.querySelector(".item-inner"); })];
                     case 1:
                         _a.sent();
                         item_1.style.overflow = "initial";

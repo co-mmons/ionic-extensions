@@ -463,7 +463,7 @@ function scrollIntoView(element, scrollBehavior, parent) {
                     offsetParent = offsetParent.offsetParent;
                 }
             }
-            parent.scrollTo({ top: top, behavior: scrollBehavior });
+            parent.scrollTo({ top: top - 100, behavior: scrollBehavior });
         }
         return;
     }
@@ -485,6 +485,7 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
         }
         this.id = "ionx-trix-editor" + (HtmlEditor_1.idGenerator++);
         this.itemInputWrapper = !!this.item;
+        this.element.nativeElement.setAttribute("no-blur", "");
     }
     get state() {
         return this.view.state;
@@ -545,8 +546,14 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
         this.controlOnTouched = fn;
     }
     focus() {
-        this.view.dom.focus();
-        // this.content.focus();
+        if (!this.scrollParent) {
+            this.scrollParent = findScrollParent(this.element.nativeElement);
+        }
+        this.view.dom.focus({ preventScroll: true });
+        const pos = this.view.domAtPos(this.view.state.selection.to);
+        if (pos.node) {
+            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node, "auto", this.scrollParent);
+        }
     }
     // @ts-ignore
     editorInitialized(event) {
@@ -575,8 +582,8 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
             this.scrollParent = findScrollParent(this.element.nativeElement);
         }
         const pos = view.domAtPos(view.state.selection.to);
-        if (pos.node instanceof HTMLElement) {
-            scrollIntoView(pos.node, undefined, this.scrollParent);
+        if (pos.node) {
+            scrollIntoView(pos.node.nodeType === Node.TEXT_NODE ? pos.node.parentElement : pos.node, "auto", this.scrollParent);
         }
         return false;
     }
@@ -633,7 +640,7 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.item) {
                 const item = this.item["el"];
-                yield waitTill(() => !!item.shadowRoot);
+                yield waitTill(() => !!item.shadowRoot && !!item.shadowRoot.querySelector(".item-inner"));
                 item.style.overflow = "initial";
                 const style = document.createElement("style");
                 style.innerHTML = `.item-native, .item-inner, .input-wrapper { overflow: initial !important; }`;
