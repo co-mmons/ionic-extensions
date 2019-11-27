@@ -1,0 +1,13 @@
+{
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
+    "name": "@co.mmons/ionic-extensions/view-observer",
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/view-observer",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "view-observer-module"
+        }
+    }
+}

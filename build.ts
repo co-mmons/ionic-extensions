@@ -6,6 +6,7 @@ const modules = [
     "select",
     "scroll",
     "ionic-fix",
+    "view-observer",
 
     "back-button",
     "datetime-picker",
@@ -24,7 +25,8 @@ const modules = [
     "textarea-autosize",
     "toggle-labels",
     "tags-input",
-    "html-editor"
+    "html-editor",
+    "virtual-scroll-helper"
 ];
 
 (async () => {

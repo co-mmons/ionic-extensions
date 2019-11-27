@@ -1,0 +1,13 @@
+{
+    "$schema": "../../node_modules/ng-packagr/package.schema.json",
+    "name": "@co.mmons/ionic-extensions/virtual-scroll-helper",
+    "sideEffects": false,
+    "ngPackage": {
+        "dest": "../../dist/virtual-scroll-helper",
+        "deleteDestPath": false,
+        "lib": {
+            "entryFile": "index.ts",
+            "flatModuleFile": "virtual-scroll-helper-module"
+        }
+    }
+}
