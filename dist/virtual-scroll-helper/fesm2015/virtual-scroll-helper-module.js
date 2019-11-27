@@ -9,10 +9,11 @@ let VirtualScrollHelper = class VirtualScrollHelper {
     constructor(element, platform) {
         this.element = element;
         this.platform = platform;
+        this.scheduleRerender = 0;
     }
     contentScrolled() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.scheduleRerender && this.viewObserver.isActive()) {
+            if (this.scheduleRerender <= 0 && this.viewObserver.isActive()) {
                 const scroll = yield this.content.getScrollElement();
                 this.scrollPosition = scroll.scrollTop;
                 this.scrollHeight = scroll.scrollHeight;
@@ -21,31 +22,43 @@ let VirtualScrollHelper = class VirtualScrollHelper {
     }
     markAsDirtyWhenInactive() {
         if (!this.viewObserver.isActive()) {
-            this.scheduleRerender = true;
+            this.scheduleRerender++;
         }
     }
     activated() {
-        if (this.scheduleRerender) {
+        if (this.scheduleRerender > 0) {
             this.rerender();
         }
     }
     rerender() {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.rendering) {
+                this.scheduleRerender++;
+                return;
+            }
+            this.rendering = true;
+            const scrollPosition = this.scrollPosition;
+            const scrollHeight = this.scrollHeight;
+            const scrollPoint = Math.round((this.scrollPosition / this.scrollHeight) * 100);
             yield this.element.nativeElement.checkRange(0);
-            const scroll = yield this.content.getScrollElement();
-            let lastScrollHeight = this.scrollHeight ? this.scrollHeight : scroll.scrollHeight;
-            for (let i = 0; i < 20; i++) {
-                scroll.scrollTop = this.scrollPosition;
-                yield sleep(100);
-                if (scroll.scrollTop === this.scrollPosition) {
-                    break;
+            if (scrollPosition > 0 && scrollHeight > 0) {
+                const scroll = yield this.content.getScrollElement();
+                for (let i = 0; i < 20; i++) {
+                    scroll.scrollTop = this.scrollPosition;
+                    yield sleep(100);
+                    const point = Math.round((this.scrollPosition / scroll.scrollTop) * 100);
+                    console.log(point, scrollPoint);
+                    if (point === scrollPoint) {
+                        break;
+                    }
                 }
-                if (lastScrollHeight === scroll.scrollHeight) {
-                    break;
-                }
-                else {
-                    lastScrollHeight = scroll.scrollHeight;
-                }
+            }
+            this.scheduleRerender--;
+            if (this.scheduleRerender > 0) {
+                this.rerender();
+            }
+            else if (this.scheduleRerender < 0) {
+                this.scheduleRerender = 0;
             }
         });
     }

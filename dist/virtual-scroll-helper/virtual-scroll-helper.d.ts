@@ -6,6 +6,7 @@ export declare class VirtualScrollHelper implements OnInit, OnDestroy {
     constructor(element: ElementRef<HTMLIonVirtualScrollElement>, platform: Platform);
     private viewObserver;
     private scheduleRerender;
+    private rendering;
     private scrollPosition;
     private scrollHeight;
     private content;

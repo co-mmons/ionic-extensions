@@ -9,6 +9,7 @@ var VirtualScrollHelper = /** @class */ (function () {
     function VirtualScrollHelper(element, platform) {
         this.element = element;
         this.platform = platform;
+        this.scheduleRerender = 0;
     }
     VirtualScrollHelper.prototype.contentScrolled = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -16,7 +17,7 @@ var VirtualScrollHelper = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(!this.scheduleRerender && this.viewObserver.isActive())) return [3 /*break*/, 2];
+                        if (!(this.scheduleRerender <= 0 && this.viewObserver.isActive())) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.content.getScrollElement()];
                     case 1:
                         scroll_1 = _a.sent();
@@ -30,48 +31,61 @@ var VirtualScrollHelper = /** @class */ (function () {
     };
     VirtualScrollHelper.prototype.markAsDirtyWhenInactive = function () {
         if (!this.viewObserver.isActive()) {
-            this.scheduleRerender = true;
+            this.scheduleRerender++;
         }
     };
     VirtualScrollHelper.prototype.activated = function () {
-        if (this.scheduleRerender) {
+        if (this.scheduleRerender > 0) {
             this.rerender();
         }
     };
     VirtualScrollHelper.prototype.rerender = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var scroll, lastScrollHeight, i;
+            var scrollPosition, scrollHeight, scrollPoint, scroll_2, i, point;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.element.nativeElement.checkRange(0)];
+                    case 0:
+                        if (this.rendering) {
+                            this.scheduleRerender++;
+                            return [2 /*return*/];
+                        }
+                        this.rendering = true;
+                        scrollPosition = this.scrollPosition;
+                        scrollHeight = this.scrollHeight;
+                        scrollPoint = Math.round((this.scrollPosition / this.scrollHeight) * 100);
+                        return [4 /*yield*/, this.element.nativeElement.checkRange(0)];
                     case 1:
                         _a.sent();
+                        if (!(scrollPosition > 0 && scrollHeight > 0)) return [3 /*break*/, 6];
                         return [4 /*yield*/, this.content.getScrollElement()];
                     case 2:
-                        scroll = _a.sent();
-                        lastScrollHeight = this.scrollHeight ? this.scrollHeight : scroll.scrollHeight;
+                        scroll_2 = _a.sent();
                         i = 0;
                         _a.label = 3;
                     case 3:
                         if (!(i < 20)) return [3 /*break*/, 6];
-                        scroll.scrollTop = this.scrollPosition;
+                        scroll_2.scrollTop = this.scrollPosition;
                         return [4 /*yield*/, sleep(100)];
                     case 4:
                         _a.sent();
-                        if (scroll.scrollTop === this.scrollPosition) {
+                        point = Math.round((this.scrollPosition / scroll_2.scrollTop) * 100);
+                        console.log(point, scrollPoint);
+                        if (point === scrollPoint) {
                             return [3 /*break*/, 6];
-                        }
-                        if (lastScrollHeight === scroll.scrollHeight) {
-                            return [3 /*break*/, 6];
-                        }
-                        else {
-                            lastScrollHeight = scroll.scrollHeight;
                         }
                         _a.label = 5;
                     case 5:
                         i++;
                         return [3 /*break*/, 3];
-                    case 6: return [2 /*return*/];
+                    case 6:
+                        this.scheduleRerender--;
+                        if (this.scheduleRerender > 0) {
+                            this.rerender();
+                        }
+                        else if (this.scheduleRerender < 0) {
+                            this.scheduleRerender = 0;
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
