@@ -70,9 +70,7 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
             let scrollHeight = scroll.scrollHeight;
 
             for (let i = 0; i < 20; i++) {
-                scroll.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
-
-                await sleep(100);
+                await sleep(50);
 
                 if (scroll.scrollHeight === scrollHeight) {
                     break;
@@ -81,9 +79,10 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
                 }
             }
 
-            scroll.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
+            scroll.scrollTop = scroll.scrollHeight * (this.scrollPosition / this.scrollHeight);
         }
 
+        this.rendering = false;
         this.scheduleRerender--;
 
         if (this.scheduleRerender > 0) {

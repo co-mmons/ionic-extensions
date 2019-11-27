@@ -44,8 +44,7 @@ let VirtualScrollHelper = class VirtualScrollHelper {
                 const scroll = yield this.content.getScrollElement();
                 let scrollHeight = scroll.scrollHeight;
                 for (let i = 0; i < 20; i++) {
-                    scroll.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
-                    yield sleep(100);
+                    yield sleep(50);
                     if (scroll.scrollHeight === scrollHeight) {
                         break;
                     }
@@ -53,8 +52,9 @@ let VirtualScrollHelper = class VirtualScrollHelper {
                         scrollHeight = scroll.scrollHeight;
                     }
                 }
-                scroll.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
+                scroll.scrollTop = scroll.scrollHeight * (this.scrollPosition / this.scrollHeight);
             }
+            this.rendering = false;
             this.scheduleRerender--;
             if (this.scheduleRerender > 0) {
                 this.rerender();

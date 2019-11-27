@@ -64,8 +64,7 @@ var VirtualScrollHelper = /** @class */ (function () {
                         _a.label = 3;
                     case 3:
                         if (!(i < 20)) return [3 /*break*/, 6];
-                        scroll_2.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
-                        return [4 /*yield*/, sleep(100)];
+                        return [4 /*yield*/, sleep(50)];
                     case 4:
                         _a.sent();
                         if (scroll_2.scrollHeight === scrollHeight) {
@@ -79,9 +78,10 @@ var VirtualScrollHelper = /** @class */ (function () {
                         i++;
                         return [3 /*break*/, 3];
                     case 6:
-                        scroll_2.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
+                        scroll_2.scrollTop = scroll_2.scrollHeight * (this.scrollPosition / this.scrollHeight);
                         _a.label = 7;
                     case 7:
+                        this.rendering = false;
                         this.scheduleRerender--;
                         if (this.scheduleRerender > 0) {
                             this.rerender();
