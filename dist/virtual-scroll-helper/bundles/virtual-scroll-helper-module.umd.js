@@ -237,7 +237,7 @@
         };
         VirtualScrollHelper.prototype.rerender = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var scrollPosition, scrollHeight, scrollPoint, scroll_2, i, point;
+                var inputScrollPosition, inputScrollHeight, scroll_2, scrollHeight, i;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -246,34 +246,38 @@
                                 return [2 /*return*/];
                             }
                             this.rendering = true;
-                            scrollPosition = this.scrollPosition;
-                            scrollHeight = this.scrollHeight;
-                            scrollPoint = Math.round((this.scrollPosition / this.scrollHeight) * 100);
+                            inputScrollPosition = this.scrollPosition;
+                            inputScrollHeight = this.scrollHeight;
                             return [4 /*yield*/, this.element.nativeElement.checkRange(0)];
                         case 1:
                             _a.sent();
-                            if (!(scrollPosition > 0 && scrollHeight > 0)) return [3 /*break*/, 6];
+                            if (!(inputScrollPosition > 0 && inputScrollHeight > 0)) return [3 /*break*/, 7];
                             return [4 /*yield*/, this.content.getScrollElement()];
                         case 2:
                             scroll_2 = _a.sent();
+                            scrollHeight = scroll_2.scrollHeight;
                             i = 0;
                             _a.label = 3;
                         case 3:
                             if (!(i < 20)) return [3 /*break*/, 6];
-                            scroll_2.scrollTop = this.scrollPosition;
+                            scroll_2.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
                             return [4 /*yield*/, core$1.sleep(100)];
                         case 4:
                             _a.sent();
-                            point = Math.round((this.scrollPosition / scroll_2.scrollTop) * 100);
-                            console.log(point, scrollPoint);
-                            if (point === scrollPoint) {
+                            if (scroll_2.scrollHeight === scrollHeight) {
                                 return [3 /*break*/, 6];
+                            }
+                            else {
+                                scrollHeight = scroll_2.scrollHeight;
                             }
                             _a.label = 5;
                         case 5:
                             i++;
                             return [3 /*break*/, 3];
                         case 6:
+                            scroll_2.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
+                            _a.label = 7;
+                        case 7:
                             this.scheduleRerender--;
                             if (this.scheduleRerender > 0) {
                                 this.rerender();

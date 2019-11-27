@@ -59,26 +59,29 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
 
         this.rendering = true;
 
-        const scrollPosition = this.scrollPosition;
-        const scrollHeight = this.scrollHeight;
-        const scrollPoint = Math.round((this.scrollPosition / this.scrollHeight) * 100);
+        const inputScrollPosition = this.scrollPosition;
+        const inputScrollHeight = this.scrollHeight;
 
         await this.element.nativeElement.checkRange(0);
 
-        if (scrollPosition > 0 && scrollHeight > 0) {
+        if (inputScrollPosition > 0 && inputScrollHeight > 0) {
             const scroll = await this.content.getScrollElement();
 
+            let scrollHeight = scroll.scrollHeight;
+
             for (let i = 0; i < 20; i++) {
-                scroll.scrollTop = this.scrollPosition;
+                scroll.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
 
                 await sleep(100);
 
-                const point = Math.round((this.scrollPosition / scroll.scrollTop) * 100);
-                console.log(point, scrollPoint);
-                if (point === scrollPoint) {
+                if (scroll.scrollHeight === scrollHeight) {
                     break;
+                } else {
+                    scrollHeight = scroll.scrollHeight;
                 }
             }
+
+            scroll.scrollTop = this.scrollHeight * (this.scrollPosition / this.scrollHeight);
         }
 
         this.scheduleRerender--;
