@@ -228,6 +228,11 @@
                 this.scheduleRerender = true;
             }
         };
+        VirtualScrollHelper.prototype.activated = function () {
+            if (this.scheduleRerender) {
+                this.rerender();
+            }
+        };
         VirtualScrollHelper.prototype.rerender = function () {
             return __awaiter(this, void 0, void 0, function () {
                 var scroll, i;
@@ -265,9 +270,11 @@
             this.content.scrollEvents = true;
             this.content.addEventListener("ionScrollEnd", this.contentScrollEndListener = function () { return _this.contentScrolled(); });
             this.viewObserver = new viewObserver.ViewObserver(this.content, this.platform);
+            this.activationSubscription = this.viewObserver.activated.subscribe(function () { return _this.activated(); });
         };
         VirtualScrollHelper.prototype.ngOnDestroy = function () {
             this.content.removeEventListener("ionScrollEnd", this.contentScrollEndListener);
+            this.activationSubscription.unsubscribe();
             this.viewObserver.destroy();
         };
         VirtualScrollHelper.ctorParameters = function () { return [

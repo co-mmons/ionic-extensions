@@ -22,6 +22,11 @@ let VirtualScrollHelper = class VirtualScrollHelper {
             this.scheduleRerender = true;
         }
     }
+    activated() {
+        if (this.scheduleRerender) {
+            this.rerender();
+        }
+    }
     rerender() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.element.nativeElement.checkRange(0);
@@ -40,9 +45,11 @@ let VirtualScrollHelper = class VirtualScrollHelper {
         this.content.scrollEvents = true;
         this.content.addEventListener("ionScrollEnd", this.contentScrollEndListener = () => this.contentScrolled());
         this.viewObserver = new ViewObserver(this.content, this.platform);
+        this.activationSubscription = this.viewObserver.activated.subscribe(() => this.activated());
     }
     ngOnDestroy() {
         this.content.removeEventListener("ionScrollEnd", this.contentScrollEndListener);
+        this.activationSubscription.unsubscribe();
         this.viewObserver.destroy();
     }
 };

@@ -9,8 +9,10 @@ export declare class VirtualScrollHelper implements OnInit, OnDestroy {
     private scrollPosition;
     private content;
     private contentScrollEndListener;
+    private activationSubscription;
     private contentScrolled;
     markAsDirtyWhenInactive(): void;
+    private activated;
     rerender(): Promise<void>;
     ngOnInit(): void;
     ngOnDestroy(): void;

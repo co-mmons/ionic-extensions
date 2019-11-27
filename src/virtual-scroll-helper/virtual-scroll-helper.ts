@@ -2,6 +2,7 @@ import {Directive, ElementRef, HostListener, OnDestroy, OnInit} from "@angular/c
 import {ViewObserver} from "@co.mmons/ionic-extensions/view-observer";
 import {sleep} from "@co.mmons/js-utils/core";
 import {Platform} from "@ionic/angular";
+import {Subscription} from "rxjs";
 
 @Directive({
     selector: "ion-virtual-scroll",
@@ -21,6 +22,8 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
 
     private contentScrollEndListener: (ev: Event) => void;
 
+    private activationSubscription: Subscription;
+
     private async contentScrolled() {
         if (!this.scheduleRerender && this.viewObserver.isActive()) {
             this.scrollPosition = (await this.content.getScrollElement()).scrollTop;
@@ -31,6 +34,12 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
     markAsDirtyWhenInactive() {
         if (!this.viewObserver.isActive()) {
             this.scheduleRerender = true;
+        }
+    }
+
+    private activated() {
+        if (this.scheduleRerender) {
+            this.rerender();
         }
     }
 
@@ -57,10 +66,12 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
         this.content.addEventListener("ionScrollEnd", this.contentScrollEndListener = () => this.contentScrolled());
 
         this.viewObserver = new ViewObserver(this.content, this.platform);
+        this.activationSubscription = this.viewObserver.activated.subscribe(() => this.activated());
     }
 
     ngOnDestroy() {
         this.content.removeEventListener("ionScrollEnd" as any, this.contentScrollEndListener);
+        this.activationSubscription.unsubscribe();
         this.viewObserver.destroy();
     }
 }
