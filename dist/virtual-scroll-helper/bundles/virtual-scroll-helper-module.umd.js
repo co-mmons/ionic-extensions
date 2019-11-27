@@ -208,16 +208,17 @@
         }
         VirtualScrollHelper.prototype.contentScrolled = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var _a;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
+                var scroll_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
                         case 0:
                             if (!(!this.scheduleRerender && this.viewObserver.isActive())) return [3 /*break*/, 2];
-                            _a = this;
                             return [4 /*yield*/, this.content.getScrollElement()];
                         case 1:
-                            _a.scrollPosition = (_b.sent()).scrollTop;
-                            _b.label = 2;
+                            scroll_1 = _a.sent();
+                            this.scrollPosition = scroll_1.scrollTop;
+                            this.scrollHeight = scroll_1.scrollHeight;
+                            _a.label = 2;
                         case 2: return [2 /*return*/];
                     }
                 });
@@ -235,7 +236,7 @@
         };
         VirtualScrollHelper.prototype.rerender = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var scroll, i;
+                var scroll, lastScrollHeight, i;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, this.element.nativeElement.checkRange(0)];
@@ -244,17 +245,24 @@
                             return [4 /*yield*/, this.content.getScrollElement()];
                         case 2:
                             scroll = _a.sent();
+                            lastScrollHeight = this.scrollHeight ? this.scrollHeight : scroll.scrollHeight;
                             i = 0;
                             _a.label = 3;
                         case 3:
                             if (!(i < 20)) return [3 /*break*/, 6];
                             scroll.scrollTop = this.scrollPosition;
-                            if (scroll.scrollTop === this.scrollPosition || scroll.scrollHeight < this.scrollPosition) {
-                                return [3 /*break*/, 6];
-                            }
                             return [4 /*yield*/, core$1.sleep(100)];
                         case 4:
                             _a.sent();
+                            if (scroll.scrollTop === this.scrollPosition) {
+                                return [3 /*break*/, 6];
+                            }
+                            if (lastScrollHeight === scroll.scrollHeight) {
+                                return [3 /*break*/, 6];
+                            }
+                            else {
+                                lastScrollHeight = scroll.scrollHeight;
+                            }
                             _a.label = 5;
                         case 5:
                             i++;

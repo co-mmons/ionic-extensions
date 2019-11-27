@@ -18,6 +18,8 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
 
     private scrollPosition: number;
 
+    private scrollHeight: number;
+
     private content: HTMLIonContentElement;
 
     private contentScrollEndListener: (ev: Event) => void;
@@ -26,7 +28,9 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
 
     private async contentScrolled() {
         if (!this.scheduleRerender && this.viewObserver.isActive()) {
-            this.scrollPosition = (await this.content.getScrollElement()).scrollTop;
+            const scroll = await this.content.getScrollElement();
+            this.scrollPosition = scroll.scrollTop;
+            this.scrollHeight = scroll.scrollHeight;
         }
     }
 
@@ -48,15 +52,22 @@ export class VirtualScrollHelper implements OnInit, OnDestroy {
         await this.element.nativeElement.checkRange(0);
 
         const scroll = await this.content.getScrollElement();
+        let lastScrollHeight = this.scrollHeight ? this.scrollHeight : scroll.scrollHeight;
 
         for (let i = 0; i < 20; i++) {
             scroll.scrollTop = this.scrollPosition;
 
-            if (scroll.scrollTop === this.scrollPosition || scroll.scrollHeight < this.scrollPosition) {
+            await sleep(100);
+
+            if (scroll.scrollTop === this.scrollPosition) {
                 break;
             }
 
-            await sleep(100);
+            if (lastScrollHeight === scroll.scrollHeight) {
+                break;
+            } else {
+                lastScrollHeight = scroll.scrollHeight;
+            }
         }
     }
 

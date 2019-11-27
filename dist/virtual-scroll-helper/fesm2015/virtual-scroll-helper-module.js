@@ -13,7 +13,9 @@ let VirtualScrollHelper = class VirtualScrollHelper {
     contentScrolled() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.scheduleRerender && this.viewObserver.isActive()) {
-                this.scrollPosition = (yield this.content.getScrollElement()).scrollTop;
+                const scroll = yield this.content.getScrollElement();
+                this.scrollPosition = scroll.scrollTop;
+                this.scrollHeight = scroll.scrollHeight;
             }
         });
     }
@@ -31,12 +33,19 @@ let VirtualScrollHelper = class VirtualScrollHelper {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.element.nativeElement.checkRange(0);
             const scroll = yield this.content.getScrollElement();
+            let lastScrollHeight = this.scrollHeight ? this.scrollHeight : scroll.scrollHeight;
             for (let i = 0; i < 20; i++) {
                 scroll.scrollTop = this.scrollPosition;
-                if (scroll.scrollTop === this.scrollPosition || scroll.scrollHeight < this.scrollPosition) {
+                yield sleep(100);
+                if (scroll.scrollTop === this.scrollPosition) {
                     break;
                 }
-                yield sleep(100);
+                if (lastScrollHeight === scroll.scrollHeight) {
+                    break;
+                }
+                else {
+                    lastScrollHeight = scroll.scrollHeight;
+                }
             }
         });
     }

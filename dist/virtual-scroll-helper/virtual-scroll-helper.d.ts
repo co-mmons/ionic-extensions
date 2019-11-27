@@ -7,6 +7,7 @@ export declare class VirtualScrollHelper implements OnInit, OnDestroy {
     private viewObserver;
     private scheduleRerender;
     private scrollPosition;
+    private scrollHeight;
     private content;
     private contentScrollEndListener;
     private activationSubscription;
