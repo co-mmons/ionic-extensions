@@ -254,6 +254,17 @@ let SelectOverlayContent = class SelectOverlayContent {
         }
         this.buildVisibleOptions();
     }
+    fixIosContentInPopover() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.content.nativeElement.getScrollElement();
+                const style = this.content.nativeElement.shadowRoot.appendChild(document.createElement("style"));
+                style.innerText = ".transition-effect { display: none !important }";
+            }
+            catch (_a) {
+            }
+        });
+    }
     ngOnInit() {
         if (this.popoverOverlay) {
             this.initOptions();
@@ -266,6 +277,11 @@ let SelectOverlayContent = class SelectOverlayContent {
             else {
                 this.itemHeight = 49;
             }
+        }
+    }
+    ngAfterViewInit() {
+        if (this.popoverOverlay) {
+            this.fixIosContentInPopover();
         }
     }
     resetScrollHeight() {
@@ -310,7 +326,7 @@ __decorate([
     ViewChild(CdkVirtualScrollViewport, { static: false })
 ], SelectOverlayContent.prototype, "scroll", void 0);
 __decorate([
-    ViewChild("content", { read: ElementRef, static: false })
+    ViewChild("content", { read: ElementRef, static: true })
 ], SelectOverlayContent.prototype, "content", void 0);
 __decorate([
     Input()

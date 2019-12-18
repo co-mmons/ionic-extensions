@@ -40,7 +40,7 @@ export class SelectOverlayContent {
 
     itemHeight: number;
 
-    @ViewChild("content", {read: ElementRef, static: false})
+    @ViewChild("content", {read: ElementRef, static: true})
     content: ElementRef<HTMLElement & Components.IonContent>;
 
     @Input()
@@ -298,6 +298,17 @@ export class SelectOverlayContent {
         this.buildVisibleOptions();
     }
 
+    private async fixIosContentInPopover() {
+        try {
+
+            await this.content.nativeElement.getScrollElement();
+            const style = this.content.nativeElement.shadowRoot.appendChild(document.createElement("style"));
+            style.innerText = ".transition-effect { display: none !important }";
+
+        } catch {
+        }
+    }
+
     ngOnInit() {
 
         if (this.popoverOverlay) {
@@ -311,6 +322,12 @@ export class SelectOverlayContent {
             } else {
                 this.itemHeight = 49;
             }
+        }
+    }
+
+    ngAfterViewInit() {
+        if (this.popoverOverlay) {
+            this.fixIosContentInPopover();
         }
     }
 

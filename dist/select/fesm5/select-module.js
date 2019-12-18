@@ -394,6 +394,27 @@ var SelectOverlayContent = /** @class */ (function () {
         }
         this.buildVisibleOptions();
     };
+    SelectOverlayContent.prototype.fixIosContentInPopover = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var style, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.content.nativeElement.getScrollElement()];
+                    case 1:
+                        _b.sent();
+                        style = this.content.nativeElement.shadowRoot.appendChild(document.createElement("style"));
+                        style.innerText = ".transition-effect { display: none !important }";
+                        return [3 /*break*/, 3];
+                    case 2:
+                        _a = _b.sent();
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     SelectOverlayContent.prototype.ngOnInit = function () {
         if (this.popoverOverlay) {
             this.initOptions();
@@ -406,6 +427,11 @@ var SelectOverlayContent = /** @class */ (function () {
             else {
                 this.itemHeight = 49;
             }
+        }
+    };
+    SelectOverlayContent.prototype.ngAfterViewInit = function () {
+        if (this.popoverOverlay) {
+            this.fixIosContentInPopover();
         }
     };
     SelectOverlayContent.prototype.resetScrollHeight = function () {
@@ -470,7 +496,7 @@ var SelectOverlayContent = /** @class */ (function () {
         ViewChild(CdkVirtualScrollViewport, { static: false })
     ], SelectOverlayContent.prototype, "scroll", void 0);
     __decorate([
-        ViewChild("content", { read: ElementRef, static: false })
+        ViewChild("content", { read: ElementRef, static: true })
     ], SelectOverlayContent.prototype, "content", void 0);
     __decorate([
         Input()

@@ -42,7 +42,9 @@ export declare class SelectOverlayContent {
     cancelClicked(): void;
     private searchbar;
     search(ev: any): void;
+    private fixIosContentInPopover;
     ngOnInit(): void;
+    ngAfterViewInit(): void;
     resetScrollHeight(): Promise<void>;
     ionViewDidEnter(): Promise<void>;
 }
