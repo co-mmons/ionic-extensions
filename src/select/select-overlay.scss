@@ -13,10 +13,6 @@
             left: calc(16px + var(--ion-safe-area-left, 0px)) !important;
             width: calc(100% - (32px + var(--ion-safe-area-right, 0px) + var(--ion-safe-area-left, 0px)));
         }
-
-        .popover-arrow {
-            left: calc(32px + var(--ion-safe-area-left, 0px)) !important;
-        }
     }
 }
 
