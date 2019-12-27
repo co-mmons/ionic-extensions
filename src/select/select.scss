@@ -2,6 +2,8 @@
 
 :host {
     --placeholder-opacity: .5;
+    --dropdown-icon-opacity: .5;
+    --disabled-opacity: .5;
     padding: var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);
     display: inline-block;
     overflow: hidden;
@@ -35,7 +37,7 @@
 
             color: currentColor;
 
-            opacity: .33;
+            opacity: var(--dropdown-icon-opacity, .5);
 
             pointer-events: none;
         }
@@ -44,12 +46,12 @@
     .select-text {
 
         &.select-placeholder {
-            opacity: var(--placeholder-opacity, 0.5);
+            opacity: var(--placeholder-opacity, .5);
         }
     }
 
     &.select-disabled {
-        opacity: .4;
+        opacity: var(--disabled-opacity, .5);
         pointer-events: none;
     }
 
