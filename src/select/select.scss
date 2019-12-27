@@ -67,8 +67,9 @@
         }
     }
 
-    &[white-space-normal] .select-text {
+    &[white-space-normal] .select-text, &[ionx--white-space=normal] .select-text {
         white-space: normal !important;
+        overflow: auto;
     }
 
     button {

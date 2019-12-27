@@ -1,4 +1,4 @@
-import {Component, ContentChild, ContentChildren, ElementRef, EventEmitter, Input, OnChanges, OnInit, Optional, Output, QueryList, SimpleChanges, ViewChild} from "@angular/core";
+import {Component, ContentChild, ContentChildren, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Optional, Output, QueryList, SimpleChanges, ViewChild} from "@angular/core";
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
 import {ModalController, PopoverController} from "@ionic/angular";
@@ -55,7 +55,11 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
     public overlay: "popover" | "modal";
 
     @Input()
-    public overlayWhiteSpace: string = "nowrap";
+    public overlayWhiteSpace: "nowrap" | "normal" = "nowrap";
+
+    @Input()
+    @HostBinding("attr.ionx--white-space")
+    public whiteSpace: "nowrap" | "normal" = "nowrap";
 
     /**
      * Whether value should be always returned as array, no matter if multiple is set to true.

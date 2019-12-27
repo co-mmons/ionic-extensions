@@ -18,7 +18,8 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     textContainer: ElementRef<HTMLElement>;
     placeholder: string;
     overlay: "popover" | "modal";
-    overlayWhiteSpace: string;
+    overlayWhiteSpace: "nowrap" | "normal";
+    whiteSpace: "nowrap" | "normal";
     /**
      * Whether value should be always returned as array, no matter if multiple is set to true.
      */
