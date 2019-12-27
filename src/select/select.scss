@@ -1,6 +1,7 @@
 @import "../components";
 
 :host {
+    --placeholder-opacity: .5;
     padding: var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);
     display: inline-block;
     overflow: hidden;
@@ -43,7 +44,7 @@
     .select-text {
 
         &.select-placeholder {
-            opacity: 0.5;
+            opacity: var(--placeholder-opacity, 0.5);
         }
     }
 
