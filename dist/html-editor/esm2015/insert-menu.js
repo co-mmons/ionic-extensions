@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { Component, Input, ViewChild } from "@angular/core";
 import { sleep, waitTill } from "@co.mmons/js-utils/core";
 import { IonInput, ModalController, PopoverController } from "@ionic/angular";
@@ -10,13 +10,13 @@ let InsertMenu = class InsertMenu {
         this.modalController = modalController;
     }
     insertLink() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             this.popoverController.dismiss(undefined, "link");
             LinkModal.present(this.modalController, this.editor);
         });
     }
     insertYoutube() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             this.inputView = "youtube";
             yield waitTill(() => !!this.youtubeInput, undefined, 2000);
             this.youtubeInput.setFocus();
@@ -69,14 +69,14 @@ let InsertMenu = class InsertMenu {
     ngOnInit() {
     }
     ionViewWillLeave(event) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (!this.inputView && !event.role) {
                 this.editor.focus();
             }
         });
     }
     ionViewDidLeave(event) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.inputView) {
                 yield sleep(50);
                 this.editor.focus();
@@ -91,13 +91,13 @@ InsertMenu.ctorParameters = () => [
     { type: PopoverController },
     { type: ModalController }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], InsertMenu.prototype, "editor", void 0);
-tslib_1.__decorate([
+__decorate([
     ViewChild("youtubeInput", { static: false })
 ], InsertMenu.prototype, "youtubeInput", void 0);
-InsertMenu = tslib_1.__decorate([
+InsertMenu = __decorate([
     Component({
         template: `
         <ion-list lines="full">

@@ -701,19 +701,20 @@ var DateTimePickerOverlay = /** @class */ (function () {
     };
     DateTimePickerOverlay.prototype.loadTimezones = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var e_2, _a, _b, _c, t;
+            var _a, _b, t;
+            var e_2, _c;
             return __generator(this, function (_d) {
                 this.timezones = new SelectOptions();
                 try {
-                    for (_b = __values(timezones(this.value)), _c = _b.next(); !_c.done; _c = _b.next()) {
-                        t = _c.value;
+                    for (_a = __values(timezones(this.value)), _b = _a.next(); !_b.done; _b = _a.next()) {
+                        t = _b.value;
                         this.timezones.pushOption(t.id, t.label);
                     }
                 }
                 catch (e_2_1) { e_2 = { error: e_2_1 }; }
                 finally {
                     try {
-                        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                        if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
                     }
                     finally { if (e_2) throw e_2.error; }
                 }

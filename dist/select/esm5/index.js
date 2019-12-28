@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
@@ -17,7 +17,7 @@ export * from "./select-options";
 var SelectModule = /** @class */ (function () {
     function SelectModule() {
     }
-    SelectModule = tslib_1.__decorate([
+    SelectModule = __decorate([
         NgModule({
             declarations: [Select, SelectOption, SelectOverlayContent, SelectLabel],
             entryComponents: [Select, SelectOption, SelectOverlayContent],

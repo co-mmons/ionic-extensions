@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -17,7 +17,7 @@ export * from "./item-error";
 export * from "./item-hint";
 let FormHelperModule = class FormHelperModule {
 };
-FormHelperModule = tslib_1.__decorate([
+FormHelperModule = __decorate([
     NgModule({
         declarations: [FormItem, FormHeading, FormItemError, FormItemHint, FormHelper],
         imports: [CommonModule, FormsModule, IonicModule, IntlModule, MatchMediaModule],

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Component, Input, ViewChild, EventEmitter, Output, ViewEncapsulation } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 var PopoverControllerComponent = /** @class */ (function () {
@@ -12,9 +12,9 @@ var PopoverControllerComponent = /** @class */ (function () {
         this._presented = false;
     }
     PopoverControllerComponent.prototype.present = function (event) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var _a;
-            return tslib_1.__generator(this, function (_b) {
+            return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         // already opened - should we close existing and open new?
@@ -75,31 +75,31 @@ var PopoverControllerComponent = /** @class */ (function () {
     PopoverControllerComponent.ctorParameters = function () { return [
         { type: PopoverController }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], PopoverControllerComponent.prototype, "cssClass", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], PopoverControllerComponent.prototype, "enableBackdropDismiss", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], PopoverControllerComponent.prototype, "showBackdrop", void 0);
-    tslib_1.__decorate([
+    __decorate([
         ViewChild("popoverContent", { static: true })
     ], PopoverControllerComponent.prototype, "content", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], PopoverControllerComponent.prototype, "willEnter", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], PopoverControllerComponent.prototype, "didEnter", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], PopoverControllerComponent.prototype, "didDismiss", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], PopoverControllerComponent.prototype, "willDismiss", void 0);
-    PopoverControllerComponent = tslib_1.__decorate([
+    PopoverControllerComponent = __decorate([
         Component({
             selector: "ionx-popover-controller",
             encapsulation: ViewEncapsulation.None,
@@ -116,10 +116,10 @@ var PopoverControllerContentComponent = /** @class */ (function () {
     PopoverControllerContentComponent.prototype.ngOnDestroy = function () {
         this.template = undefined;
     };
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], PopoverControllerContentComponent.prototype, "template", void 0);
-    PopoverControllerContentComponent = tslib_1.__decorate([
+    PopoverControllerContentComponent = __decorate([
         Component({
             encapsulation: ViewEncapsulation.None,
             template: "\n        <ng-template [ngTemplateOutlet]=\"template\"></ng-template>\n    "

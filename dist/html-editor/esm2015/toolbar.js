@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { Component } from "@angular/core";
 import { EventManager } from "@angular/platform-browser";
 import { unsubscribe } from "@co.mmons/rxjs-utils";
@@ -25,7 +25,7 @@ let Toolbar = class Toolbar {
         this.activeFeatures = {};
     }
     showMenu(event, menu) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const components = {
                 text: TextFormatMenu,
                 list: ListMenu,
@@ -45,7 +45,7 @@ let Toolbar = class Toolbar {
         });
     }
     editLink() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             LinkModal.present(this.modalController, this.editor);
         });
     }
@@ -68,7 +68,7 @@ let Toolbar = class Toolbar {
         this.activeFeatures.link = isMarkActive(this.editor.view.state, schema.marks.link);
     }
     ngOnInit() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             this.selectionSubscription = this.editor.selectionChange.subscribe(() => this.editorSelectionChanged());
             this.editorSelectionChanged();
         });
@@ -84,7 +84,7 @@ Toolbar.ctorParameters = () => [
     { type: EventManager },
     { type: ModalController }
 ];
-Toolbar = tslib_1.__decorate([
+Toolbar = __decorate([
     Component({
         selector: "ionx-html-editor-toolbar",
         template: `

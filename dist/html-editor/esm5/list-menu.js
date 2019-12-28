@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, Input } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 import { indentList, outdentList, toggleList } from "./prosemirror/list-commands";
@@ -31,10 +31,10 @@ var ListMenu = /** @class */ (function () {
     ListMenu.ctorParameters = function () { return [
         { type: PopoverController }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], ListMenu.prototype, "editor", void 0);
-    ListMenu = tslib_1.__decorate([
+    ListMenu = __decorate([
         Component({
             template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleList('bulletList')\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Bulleted list\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeUnnumberedList\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/list-bulleted.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleList('orderedList')\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Numbered list\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeNumberedList\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/list-numbered.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n            <ng-template [ngIf]=\"activeUnnumberedList || activeNumberedList\">\n\n                <ion-item-divider>\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Indent\" | intlMessage}}</ion-label>\n                </ion-item-divider>\n\n                <ion-item button=\"true\" detail=\"false\" (click)=\"level(-1)\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Decrease indent\" | intlMessage}}</ion-label>\n                    <ion-icon src=\"assets/html-editor/indent-decrease.svg\" slot=\"start\"></ion-icon>\n                </ion-item>\n\n                <ion-item button=\"true\" detail=\"false\" (click)=\"level(1)\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Increase indent\" | intlMessage}}</ion-label>\n                    <ion-icon src=\"assets/html-editor/indent-increase.svg\" slot=\"start\"></ion-icon>\n                </ion-item>\n\n            </ng-template>\n\n        </ion-list>\n    ",
             styles: ["\n        :host { user-select: none; }\n        :host ion-list { margin: 0px; padding: 0px; }\n        :host ion-item:last-child { --border-width: 0px; }\n        :host ion-item-divider { --background: transparent; font-size: small }\n        :host ion-item-divider ion-label { margin-top: 20px; opacity: 0.8; }\n    "]

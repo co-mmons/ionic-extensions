@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
@@ -6,7 +6,7 @@ import { Spinner } from "./spinner";
 export { Spinner } from "./spinner";
 let SpinnerModule = class SpinnerModule {
 };
-SpinnerModule = tslib_1.__decorate([
+SpinnerModule = __decorate([
     NgModule({
         declarations: [Spinner],
         exports: [Spinner],

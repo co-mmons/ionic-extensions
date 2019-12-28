@@ -11,7 +11,7 @@
   "fesm2015": "fesm2015/textarea-autosize-module.js",
   "typings": "textarea-autosize-module.d.ts",
   "metadata": "textarea-autosize-module.metadata.json",
-  "dependencies": {
-    "tslib": "^1.9.0"
+  "peerDependencies": {
+    "tslib": "^1.10.0"
   }
 }

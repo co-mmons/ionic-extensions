@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { NgModule } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { ExpandingSearchbar } from "./expanding-searchbar";
@@ -6,7 +6,7 @@ import { ExpandingSearchbarStyles } from "./expanding-searchbar-styles";
 export { ExpandingSearchbar } from "./expanding-searchbar";
 let ExpandingSearchbarModule = class ExpandingSearchbarModule {
 };
-ExpandingSearchbarModule = tslib_1.__decorate([
+ExpandingSearchbarModule = __decorate([
     NgModule({
         declarations: [ExpandingSearchbar, ExpandingSearchbarStyles],
         exports: [ExpandingSearchbar],

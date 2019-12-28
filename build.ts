@@ -4,7 +4,6 @@ import * as yargs from "yargs";
 const modules = [
     "buttons",
     "select",
-    "scroll",
     "ionic-fix",
     "view-observer",
 

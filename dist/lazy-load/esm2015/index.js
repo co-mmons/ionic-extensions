@@ -1,11 +1,11 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { NgModule } from "@angular/core";
 import { LazyDirectives, LazyLoadContainer } from "./lazy-directives";
 export { LazyDirectives, LazyLoadContainer } from "./lazy-directives";
 export { ensureLazyLoad } from "./lazy-load";
 let LazyLoadModule = class LazyLoadModule {
 };
-LazyLoadModule = tslib_1.__decorate([
+LazyLoadModule = __decorate([
     NgModule({
         declarations: [LazyDirectives, LazyLoadContainer],
         exports: [LazyDirectives, LazyLoadContainer]

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, Input, ViewChild, ViewContainerRef } from "@angular/core";
 let FormItemHint = class FormItemHint {
     constructor() {
@@ -8,16 +8,16 @@ let FormItemHint = class FormItemHint {
         this.labelComponentContainer.insert(label.hostView);
     }
 };
-tslib_1.__decorate([
+__decorate([
     Input()
 ], FormItemHint.prototype, "icon", void 0);
-tslib_1.__decorate([
+__decorate([
     ViewChild("labelComponentContainer", { read: ViewContainerRef, static: true })
 ], FormItemHint.prototype, "labelComponentContainer", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], FormItemHint.prototype, "label", null);
-FormItemHint = tslib_1.__decorate([
+FormItemHint = __decorate([
     Component({
         selector: "ionx-form-item-hint",
         template: `

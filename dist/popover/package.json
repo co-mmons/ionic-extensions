@@ -11,7 +11,7 @@
   "fesm2015": "fesm2015/popover-module.js",
   "typings": "popover-module.d.ts",
   "metadata": "popover-module.metadata.json",
-  "dependencies": {
-    "tslib": "^1.9.0"
+  "peerDependencies": {
+    "tslib": "^1.10.0"
   }
 }

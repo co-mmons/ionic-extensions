@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { ApplicationRef, ComponentFactoryResolver, Directive, ElementRef, Injector, Input } from "@angular/core";
 import { unsubscribe } from "@co.mmons/rxjs-utils";
 import { IonSearchbar } from "@ionic/angular";
@@ -76,10 +76,10 @@ var ExpandingSearchbar = /** @class */ (function () {
         { type: ElementRef },
         { type: IonSearchbar }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input("ionx-expanded")
     ], ExpandingSearchbar.prototype, "expanded", null);
-    ExpandingSearchbar = tslib_1.__decorate([
+    ExpandingSearchbar = __decorate([
         Directive({
             selector: "ion-searchbar[ionx-expanding-searchbar]",
             exportAs: "ionxExpandingSearchbar"

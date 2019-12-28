@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { NgModule } from "@angular/core";
 import { IonicBackButtonFix } from "./back-button-fix";
 import { IonicInputFix } from "./input-fix";
@@ -6,7 +6,7 @@ import { IonicItemTargetFix } from "./item-target";
 var IonicFixModule = /** @class */ (function () {
     function IonicFixModule() {
     }
-    IonicFixModule = tslib_1.__decorate([
+    IonicFixModule = __decorate([
         NgModule({
             declarations: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix],
             exports: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix]

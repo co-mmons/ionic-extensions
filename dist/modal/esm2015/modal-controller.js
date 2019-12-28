@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { ModalController } from "@ionic/angular";
 let ModalControllerComponent = class ModalControllerComponent {
@@ -11,7 +11,7 @@ let ModalControllerComponent = class ModalControllerComponent {
         this._presented = false;
     }
     present() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             // already opened - should we close existing and open new?
             if (this.modal) {
                 return;
@@ -46,31 +46,31 @@ let ModalControllerComponent = class ModalControllerComponent {
 ModalControllerComponent.ctorParameters = () => [
     { type: ModalController }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], ModalControllerComponent.prototype, "cssClass", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], ModalControllerComponent.prototype, "backdropDismiss", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], ModalControllerComponent.prototype, "showBackdrop", void 0);
-tslib_1.__decorate([
+__decorate([
     ViewChild("modalContent", { static: true })
 ], ModalControllerComponent.prototype, "content", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], ModalControllerComponent.prototype, "willEnter", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], ModalControllerComponent.prototype, "didEnter", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], ModalControllerComponent.prototype, "didDismiss", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], ModalControllerComponent.prototype, "willDismiss", void 0);
-ModalControllerComponent = tslib_1.__decorate([
+ModalControllerComponent = __decorate([
     Component({
         selector: "ionx-modal-controller",
         template: `
@@ -89,7 +89,7 @@ let ModalControllerContentComponent = class ModalControllerContentComponent {
         this.template = undefined;
     }
 };
-ModalControllerContentComponent = tslib_1.__decorate([
+ModalControllerContentComponent = __decorate([
     Component({
         template: `
         <ng-container *ngTemplateOutlet="template"></ng-container>

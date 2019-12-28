@@ -1,14 +1,14 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, HostBinding, Input } from "@angular/core";
 let FormHeading = class FormHeading {
     constructor() {
     }
 };
-tslib_1.__decorate([
+__decorate([
     HostBinding("attr.sticky"),
     Input()
 ], FormHeading.prototype, "sticky", void 0);
-FormHeading = tslib_1.__decorate([
+FormHeading = __decorate([
     Component({
         selector: "ionx-form-heading",
         template: `

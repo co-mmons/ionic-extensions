@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { Component, Input, ViewChild, EventEmitter, Output, ViewEncapsulation } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 let PopoverControllerComponent = class PopoverControllerComponent {
@@ -12,7 +12,7 @@ let PopoverControllerComponent = class PopoverControllerComponent {
         this._presented = false;
     }
     present(event) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             // already opened - should we close existing and open new?
             if (this.popover) {
                 return;
@@ -52,31 +52,31 @@ let PopoverControllerComponent = class PopoverControllerComponent {
 PopoverControllerComponent.ctorParameters = () => [
     { type: PopoverController }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], PopoverControllerComponent.prototype, "cssClass", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], PopoverControllerComponent.prototype, "enableBackdropDismiss", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], PopoverControllerComponent.prototype, "showBackdrop", void 0);
-tslib_1.__decorate([
+__decorate([
     ViewChild("popoverContent", { static: true })
 ], PopoverControllerComponent.prototype, "content", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], PopoverControllerComponent.prototype, "willEnter", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], PopoverControllerComponent.prototype, "didEnter", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], PopoverControllerComponent.prototype, "didDismiss", void 0);
-tslib_1.__decorate([
+__decorate([
     Output()
 ], PopoverControllerComponent.prototype, "willDismiss", void 0);
-PopoverControllerComponent = tslib_1.__decorate([
+PopoverControllerComponent = __decorate([
     Component({
         selector: "ionx-popover-controller",
         encapsulation: ViewEncapsulation.None,
@@ -96,10 +96,10 @@ let PopoverControllerContentComponent = class PopoverControllerContentComponent 
         this.template = undefined;
     }
 };
-tslib_1.__decorate([
+__decorate([
     Input()
 ], PopoverControllerContentComponent.prototype, "template", void 0);
-PopoverControllerContentComponent = tslib_1.__decorate([
+PopoverControllerContentComponent = __decorate([
     Component({
         encapsulation: ViewEncapsulation.None,
         template: `

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { IntlModule } from "@co.mmons/angular-intl";
@@ -9,7 +9,7 @@ export { Loader } from "./loader";
 export { LoaderController } from "./loader-controller";
 let LoaderModule = class LoaderModule {
 };
-LoaderModule = tslib_1.__decorate([
+LoaderModule = __decorate([
     NgModule({
         declarations: [Loader],
         imports: [IntlModule, IonicModule, CommonModule],

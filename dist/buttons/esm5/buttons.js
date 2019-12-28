@@ -1,9 +1,9 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component } from "@angular/core";
 var Buttons = /** @class */ (function () {
     function Buttons() {
     }
-    Buttons = tslib_1.__decorate([
+    Buttons = __decorate([
         Component({
             selector: "ionx-buttons",
             template: "<ng-content></ng-content>",

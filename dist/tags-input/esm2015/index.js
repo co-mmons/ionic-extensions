@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -8,7 +8,7 @@ import { TagsInput } from "./tags-input";
 export { TagsInput } from "./tags-input";
 let TagsInputModule = class TagsInputModule {
 };
-TagsInputModule = tslib_1.__decorate([
+TagsInputModule = __decorate([
     NgModule({
         declarations: [TagsInput],
         exports: [TagsInput],

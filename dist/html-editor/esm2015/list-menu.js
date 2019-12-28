@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, Input } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 import { indentList, outdentList, toggleList } from "./prosemirror/list-commands";
@@ -30,10 +30,10 @@ let ListMenu = class ListMenu {
 ListMenu.ctorParameters = () => [
     { type: PopoverController }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], ListMenu.prototype, "editor", void 0);
-ListMenu = tslib_1.__decorate([
+ListMenu = __decorate([
     Component({
         template: `
         <ion-list lines="full">

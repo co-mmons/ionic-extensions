@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Component } from "@angular/core";
 import { EventManager } from "@angular/platform-browser";
 import { unsubscribe } from "@co.mmons/rxjs-utils";
@@ -25,9 +25,9 @@ var Toolbar = /** @class */ (function () {
         this.activeFeatures = {};
     }
     Toolbar.prototype.showMenu = function (event, menu) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var components, popover;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         components = {
@@ -54,8 +54,8 @@ var Toolbar = /** @class */ (function () {
         });
     };
     Toolbar.prototype.editLink = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 LinkModal.present(this.modalController, this.editor);
                 return [2 /*return*/];
             });
@@ -82,9 +82,9 @@ var Toolbar = /** @class */ (function () {
         this.activeFeatures.link = isMarkActive(this.editor.view.state, schema.marks.link);
     };
     Toolbar.prototype.ngOnInit = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 this.selectionSubscription = this.editor.selectionChange.subscribe(function () { return _this.editorSelectionChanged(); });
                 this.editorSelectionChanged();
                 return [2 /*return*/];
@@ -101,7 +101,7 @@ var Toolbar = /** @class */ (function () {
         { type: EventManager },
         { type: ModalController }
     ]; };
-    Toolbar = tslib_1.__decorate([
+    Toolbar = __decorate([
         Component({
             selector: "ionx-html-editor-toolbar",
             template: "\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.text\" (click)=\"showMenu($event, 'text')\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Text\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.alignment\" (click)=\"showMenu($event, 'alignment')\" *ngIf=\"!editor.features || editor.features.alignment\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Alignment\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.heading\" (click)=\"showMenu($event, 'heading')\" *ngIf=\"!editor.features || editor.features.heading\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.list\" (click)=\"showMenu($event, 'list')\" *ngIf=\"!editor.features || editor.features.list\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/List\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" (click)=\"showMenu($event, 'insert')\" *ngIf=\"!editor.features || editor.features.link || editor.features.multimedia\">\n            <ion-icon name=\"md-arrow-dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Insert\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" class=\"active-feature\" (click)=\"editLink()\" *ngIf=\"activeFeatures.link\">\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</span>\n        </ion-button>\n        \n        <div ionx--buttons-group>\n            <ion-button size=\"small\" fill=\"clear\" tabindex=\"-1\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Undo' | intlMessage}}\" [disabled]=\"!canUndo\" (click)=\"undo()\">\n                <ion-icon name=\"undo\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n    \n            <ion-button size=\"small\" fill=\"clear\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Redo' | intlMessage}}\" [disabled]=\"!canRedo\" (click)=\"redo()\">\n                <ion-icon name=\"redo\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n        </div>\n    ",

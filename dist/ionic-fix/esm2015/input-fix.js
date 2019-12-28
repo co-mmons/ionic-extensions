@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { Directive, ElementRef, Input } from "@angular/core";
 import { waitTill } from "@co.mmons/js-utils/core";
 let IonicInputFix = class IonicInputFix {
@@ -6,7 +6,7 @@ let IonicInputFix = class IonicInputFix {
         this.element = element;
     }
     ngAfterViewInit() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.tabIndex) {
                 this.element.nativeElement.removeAttribute("tabIndex");
                 yield waitTill(() => !!this.element.nativeElement.shadowRoot && !!this.element.nativeElement.shadowRoot.querySelector(".native-input"));
@@ -19,10 +19,10 @@ let IonicInputFix = class IonicInputFix {
 IonicInputFix.ctorParameters = () => [
     { type: ElementRef }
 ];
-tslib_1.__decorate([
+__decorate([
     Input("tabIndex")
 ], IonicInputFix.prototype, "tabIndex", void 0);
-IonicInputFix = tslib_1.__decorate([
+IonicInputFix = __decorate([
     Directive({
         selector: "ion-input[ionfix-input]"
     })

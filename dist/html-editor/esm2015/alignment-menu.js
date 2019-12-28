@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, Input } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 import { Alignment } from "./alignment";
@@ -35,10 +35,10 @@ let AlignmentMenu = class AlignmentMenu {
 AlignmentMenu.ctorParameters = () => [
     { type: PopoverController }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], AlignmentMenu.prototype, "editor", void 0);
-AlignmentMenu = tslib_1.__decorate([
+AlignmentMenu = __decorate([
     Component({
         template: `
         <ion-list lines="full">

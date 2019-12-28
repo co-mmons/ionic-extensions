@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatchMediaModule } from "@co.mmons/angular-extensions/browser/match-media";
@@ -9,7 +9,7 @@ export { BackButton } from "./back-button";
 var BackButtonModule = /** @class */ (function () {
     function BackButtonModule() {
     }
-    BackButtonModule = tslib_1.__decorate([
+    BackButtonModule = __decorate([
         NgModule({
             declarations: [BackButton],
             exports: [BackButton],

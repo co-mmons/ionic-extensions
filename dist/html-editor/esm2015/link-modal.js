@@ -1,5 +1,5 @@
-import * as tslib_1 from "tslib";
 var LinkModal_1;
+import { __awaiter, __decorate } from "tslib";
 import { Component, Input, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { FormHelper } from "@co.mmons/ionic-extensions/form-helper";
@@ -16,19 +16,19 @@ let LinkModal = LinkModal_1 = class LinkModal {
         this.modalController = modalController;
     }
     static present(modalController, editor) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const modal = yield modalController.create({ component: LinkModal_1, componentProps: { editor: editor } });
             modal.present();
         });
     }
     close() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             yield this.modalController.dismiss();
             this.editor.focus();
         });
     }
     unlink() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             yield this.modalController.dismiss();
             const selection = this.editor.state.selection;
             if (selection.empty) {
@@ -49,7 +49,7 @@ let LinkModal = LinkModal_1 = class LinkModal {
         });
     }
     ok() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             this.formHelper.validateAll("dirty");
             if (this.form.valid) {
                 yield this.modalController.dismiss();
@@ -79,7 +79,7 @@ let LinkModal = LinkModal_1 = class LinkModal {
         });
     }
     typeChanged() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.form.controls.link.value) {
                 this.form.controls.link.markAsDirty();
                 this.form.controls.link.updateValueAndValidity();
@@ -127,7 +127,7 @@ let LinkModal = LinkModal_1 = class LinkModal {
         }
     }
     ionViewDidEnter() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             this.types = [DefaultLinkType.www, DefaultLinkType.email, DefaultLinkType.tel, DefaultLinkType.sms, DefaultLinkType.other];
             this.form = new FormGroup({
                 type: new FormControl(this.existingType || DefaultLinkType.www),
@@ -141,7 +141,7 @@ let LinkModal = LinkModal_1 = class LinkModal {
         });
     }
     ionViewWillLeave() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             this.editor.focus();
         });
     }
@@ -163,13 +163,13 @@ let LinkModal = LinkModal_1 = class LinkModal {
 LinkModal.ctorParameters = () => [
     { type: ModalController }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], LinkModal.prototype, "editor", void 0);
-tslib_1.__decorate([
+__decorate([
     ViewChild(FormHelper, { static: false })
 ], LinkModal.prototype, "formHelper", void 0);
-LinkModal = LinkModal_1 = tslib_1.__decorate([
+LinkModal = LinkModal_1 = __decorate([
     Component({
         template: "<ion-header>\n\n    <ion-toolbar>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'\" (click)=\"$event.preventDefault(); close()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"margin: 0; padding: 0;\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n\n            <ion-button fill=\"clear\" color=\"dark\" (click)=\"unlink()\" *ngIf=\"existing\">\n                <ion-icon name=\"trash\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Unlink\" | intlMessage}}</ion-label>\n            </ion-button>\n\n            <ion-button fill=\"clear\" color=\"primary\" (click)=\"ok()\">\n                <ion-icon name=\"checkmark\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-label>\n            </ion-button>\n\n        </ionx-buttons>\n\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content [forceOverscroll]=\"false\">\n\n    <ionx-spinner slot=\"fixed\" fill *ngIf=\"!form\"></ionx-spinner>\n\n    <form ionx-form-helper [formGroup]=\"form\" *ngIf=\"form\">\n\n        <ion-grid>\n\n            <ion-row>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link type\" | intlMessage}}</ion-label>\n                            <ionx-select required [compareAsString]=\"true\" formControlName=\"type\">\n                                <ionx-select-option *ngFor=\"let type of types\" [value]=\"type\">{{type.label | intlMessage}}</ionx-select-option>\n                            </ionx-select>\n                        </ion-item>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{(form.controls['type'].value.inputLabel || \"@co.mmons/ionic-extensions/html-editor#link/Link\") | intlMessage}}</ion-label>\n                            <ion-input formControlName=\"link\" type=\"form.controls['type'].value.inputType\"></ion-input>\n                        </ion-item>\n\n                        <ionx-form-item-error control=\"link\" markedAs=\"dirty\"></ionx-form-item-error>\n\n                        <ionx-form-item-hint *ngIf=\"form.controls['type'].value.inputHint\">\n                            <span [innerHTML]=\"form.controls['type'].value.inputHint | intlMessage\"></span>\n                        </ionx-form-item-hint>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n            </ion-row>\n\n\n        </ion-grid>\n\n    </form>\n\n</ion-content>\n",
         styles: [`:host ion-item:not(.ion-dirty) { --highlight-height: 0px; }`]

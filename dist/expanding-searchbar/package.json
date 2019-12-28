@@ -11,7 +11,7 @@
   "fesm2015": "fesm2015/expanding-searchbar-module.js",
   "typings": "expanding-searchbar-module.d.ts",
   "metadata": "expanding-searchbar-module.metadata.json",
-  "dependencies": {
-    "tslib": "^1.9.0"
+  "peerDependencies": {
+    "tslib": "^1.10.0"
   }
 }

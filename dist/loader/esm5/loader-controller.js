@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Injectable } from "@angular/core";
 import { waitTill } from "@co.mmons/js-utils/core";
 import { PopoverController } from "@ionic/angular";
@@ -8,9 +8,9 @@ var LoaderController = /** @class */ (function () {
         this.popoverController = popoverController;
     }
     LoaderController.prototype.present = function (options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var loader, loaderInstance, popover;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         loaderInstance = function (instance) { return loader = instance; };
@@ -50,7 +50,7 @@ var LoaderController = /** @class */ (function () {
     LoaderController.ctorParameters = function () { return [
         { type: PopoverController }
     ]; };
-    LoaderController = tslib_1.__decorate([
+    LoaderController = __decorate([
         Injectable()
     ], LoaderController);
     return LoaderController;

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, HostListener, Input, Output, ViewChild } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { IonInput, Platform } from "@ionic/angular";
@@ -203,59 +203,59 @@ var TagsInput = /** @class */ (function () {
         { type: Platform },
         { type: ChangeDetectorRef }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         HostBinding("class.readonly"),
         Input()
     ], TagsInput.prototype, "readonly", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "hideRemove", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "maxTags", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "placeholder", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "type", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "separatorStr", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "canEnterAdd", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "canBackspaceRemove", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "verifyFn", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "sortFn", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "sortable", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], TagsInput.prototype, "once", null);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], TagsInput.prototype, "change", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], TagsInput.prototype, "ionFocus", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], TagsInput.prototype, "ionBlur", void 0);
-    tslib_1.__decorate([
+    __decorate([
         ViewChild(IonInput, { static: false })
     ], TagsInput.prototype, "input", void 0);
-    tslib_1.__decorate([
+    __decorate([
         HostListener("click", ["$event"])
     ], TagsInput.prototype, "_click", null);
-    TagsInput = tslib_1.__decorate([
+    TagsInput = __decorate([
         Component({
             selector: "ionx-tags-input",
             providers: [tagsValueAccessor],

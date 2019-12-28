@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
@@ -6,7 +6,7 @@ import { ToggleLabels } from "./toggle-labels";
 export { ToggleLabels } from "./toggle-labels";
 let ToggleLabelsModule = class ToggleLabelsModule {
 };
-ToggleLabelsModule = tslib_1.__decorate([
+ToggleLabelsModule = __decorate([
     NgModule({
         declarations: [ToggleLabels],
         exports: [ToggleLabels],

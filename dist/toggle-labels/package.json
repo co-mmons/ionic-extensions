@@ -11,7 +11,7 @@
   "fesm2015": "fesm2015/toggle-labels-module.js",
   "typings": "toggle-labels-module.d.ts",
   "metadata": "toggle-labels-module.metadata.json",
-  "dependencies": {
-    "tslib": "^1.9.0"
+  "peerDependencies": {
+    "tslib": "^1.10.0"
   }
 }

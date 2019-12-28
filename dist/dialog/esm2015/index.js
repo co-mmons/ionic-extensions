@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { IntlModule } from "@co.mmons/angular-intl";
@@ -12,7 +12,7 @@ export { dialogData } from "./dialog-data-symbol";
 export { dialogInstance } from "./dialog-instance-symbol";
 let DialogModule = class DialogModule {
 };
-DialogModule = tslib_1.__decorate([
+DialogModule = __decorate([
     NgModule({
         declarations: [Dialog],
         imports: [IntlModule, IonicModule, CommonModule, ButtonsModule],

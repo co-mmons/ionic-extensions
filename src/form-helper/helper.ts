@@ -1,6 +1,6 @@
 import {ContentChildren, Directive, ElementRef, Input, Optional, QueryList} from "@angular/core";
 import {FormControlName, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {scrollIntoView} from "@co.mmons/ionic-extensions/scroll";
+import scrollIntoView from "scroll-into-view";
 
 @Directive({
     selector: "[ionx-form-helper], [ionxFormHelper]",

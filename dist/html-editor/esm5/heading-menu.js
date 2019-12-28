@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, Input } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 import { schema } from "./prosemirror/schema";
@@ -35,10 +35,10 @@ var HeadingMenu = /** @class */ (function () {
     HeadingMenu.ctorParameters = function () { return [
         { type: PopoverController }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], HeadingMenu.prototype, "editor", void 0);
-    HeadingMenu = tslib_1.__decorate([
+    HeadingMenu = __decorate([
         Component({
             template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(0)\" *ngIf=\"activeHeading > 0\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#Plain text\" | intlMessage}}</ion-label>\n            </ion-item>\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(1)\">\n                <ion-label style=\"font-size: 130%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 1</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 1\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(2)\">\n                <ion-label style=\"font-size: 125%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 2</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 2\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(3)\">\n                <ion-label style=\"font-size: 120%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 3</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 3\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(4)\">\n                <ion-label style=\"font-size: 115%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 4</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 4\"></ion-icon>\n            </ion-item>\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(5)\">\n                <ion-label style=\"font-size: 110%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 5</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 5\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(6)\">\n                <ion-label style=\"font-size: 105%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 6</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 6\"></ion-icon>\n            </ion-item>\n            \n        </ion-list>\n    ",
             styles: [":host ion-list { margin: 0px; padding: 0px }",

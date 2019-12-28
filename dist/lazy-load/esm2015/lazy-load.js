@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter } from "tslib";
 const defaultOptions = {
     selector: "img",
     container: window,
@@ -344,7 +344,7 @@ export class Loader {
     }
 }
 export function ensureLazyLoad(root, options) {
-    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         for (let instanceId in instances) {
             let loader = instances[instanceId];
             let container = loader.container;

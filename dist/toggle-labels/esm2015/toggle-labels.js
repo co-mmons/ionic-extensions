@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, ContentChild, Input } from "@angular/core";
 import { IonToggle } from "@ionic/angular";
 let ToggleLabels = class ToggleLabels {
@@ -11,16 +11,16 @@ let ToggleLabels = class ToggleLabels {
         this.toggle.checked = false;
     }
 };
-tslib_1.__decorate([
+__decorate([
     Input()
 ], ToggleLabels.prototype, "on", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], ToggleLabels.prototype, "off", void 0);
-tslib_1.__decorate([
+__decorate([
     ContentChild(IonToggle, { static: false })
 ], ToggleLabels.prototype, "toggle", void 0);
-ToggleLabels = tslib_1.__decorate([
+ToggleLabels = __decorate([
     Component({
         selector: "ionx-toggle-labels",
         template: "<span ionx--off (click)=\"switchOff()\">\n    <ng-template [ngIf]=\"!!off\">{{off}}</ng-template>\n    <ng-content select=\"[slot=off]\"></ng-content>\n    </span>\n\n<ng-content select=\"ion-toggle\"></ng-content>\n\n<span ionx--on (click)=\"switchOn()\">\n    <ng-template [ngIf]=\"!!on\">{{on}}</ng-template>\n    <ng-content select=\"[slot=on]\"></ng-content>\n</span>\n",

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { IntlService } from "@co.mmons/angular-intl";
@@ -183,9 +183,9 @@ var DateTimePickerInput = /** @class */ (function () {
         this.open(undefined);
     };
     DateTimePickerInput.prototype.open = function (event) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var formatOptions, timezone, value, overlayTitle, label, overlay, _a;
-            return tslib_1.__generator(this, function (_b) {
+            return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         if (this.disabled || this.opened || this.readonly) {
@@ -314,49 +314,49 @@ var DateTimePickerInput = /** @class */ (function () {
         { type: ModalController },
         { type: NgControl }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         ViewChild("nativeInput", { read: ElementRef, static: true })
     ], DateTimePickerInput.prototype, "nativeInput", void 0);
-    tslib_1.__decorate([
+    __decorate([
         HostBinding("class.datetime-disabled")
     ], DateTimePickerInput.prototype, "_disabled", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "readonly", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "overlayTitle", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "placeholder", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Output()
     ], DateTimePickerInput.prototype, "ionChange", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "timezoneDisabled", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "defaultTimezone", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "disabled", null);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "displayFormat", null);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "pickerFormat", null);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], DateTimePickerInput.prototype, "value", null);
-    tslib_1.__decorate([
+    __decorate([
         HostListener("click", ["$event"])
     ], DateTimePickerInput.prototype, "clicked", null);
-    tslib_1.__decorate([
+    __decorate([
         HostListener("keyup.space")
     ], DateTimePickerInput.prototype, "keyuped", null);
-    DateTimePickerInput = DateTimePickerInput_1 = tslib_1.__decorate([
+    DateTimePickerInput = DateTimePickerInput_1 = __decorate([
         Component({
             selector: "ionx-datetime",
             template: "\n        <input #nativeInput\n               type=\"text\" \n               class=\"native-input\" \n               readonly [attr.disabled]=\"disabled || null\"\n               [attr.placeholder]=\"placeholder || null\"\n               [attr.value]=\"text || null\"\n               (focus)=\"nativeInputFocused()\" \n               (blur)=\"nativeInputBlured()\"/>\n    ",

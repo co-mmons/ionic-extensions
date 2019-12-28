@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
@@ -6,7 +6,7 @@ import { PopoverControllerComponent, PopoverControllerContentComponent } from ".
 export { PopoverControllerComponent } from "./popover-controller";
 let PopoverModule = class PopoverModule {
 };
-PopoverModule = tslib_1.__decorate([
+PopoverModule = __decorate([
     NgModule({
         declarations: [PopoverControllerComponent, PopoverControllerContentComponent],
         exports: [PopoverControllerComponent],

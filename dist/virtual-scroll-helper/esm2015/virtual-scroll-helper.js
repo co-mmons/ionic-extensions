@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { Directive, ElementRef, HostListener, OnDestroy, OnInit } from "@angular/core";
 import { ViewObserver } from "@co.mmons/ionic-extensions/view-observer";
 import { sleep } from "@co.mmons/js-utils/core";
@@ -10,7 +10,7 @@ let VirtualScrollHelper = class VirtualScrollHelper {
         this.scheduleRerender = 0;
     }
     contentScrolled() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.scheduleRerender <= 0 && this.viewObserver.isActive()) {
                 const scroll = yield this.content.getScrollElement();
                 this.scrollPosition = scroll.scrollTop;
@@ -29,7 +29,7 @@ let VirtualScrollHelper = class VirtualScrollHelper {
         }
     }
     rerender() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.rendering) {
                 this.scheduleRerender++;
                 return;
@@ -79,10 +79,10 @@ VirtualScrollHelper.ctorParameters = () => [
     { type: ElementRef },
     { type: Platform }
 ];
-tslib_1.__decorate([
+__decorate([
     HostListener("window:resize")
 ], VirtualScrollHelper.prototype, "markAsDirtyWhenInactive", null);
-VirtualScrollHelper = tslib_1.__decorate([
+VirtualScrollHelper = __decorate([
     Directive({
         selector: "ion-virtual-scroll",
     })

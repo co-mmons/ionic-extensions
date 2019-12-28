@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { Directive, ElementRef, Input } from "@angular/core";
 import { sleep } from "@co.mmons/js-utils/core";
 let IonicItemTargetFix = class IonicItemTargetFix {
@@ -6,7 +6,7 @@ let IonicItemTargetFix = class IonicItemTargetFix {
         this.element = element;
     }
     ngAfterViewInit() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.target) {
                 for (let i = 1; i < 20; i++) {
                     const a = (this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".item-native")) || undefined;
@@ -24,10 +24,10 @@ let IonicItemTargetFix = class IonicItemTargetFix {
 IonicItemTargetFix.ctorParameters = () => [
     { type: ElementRef }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], IonicItemTargetFix.prototype, "target", void 0);
-IonicItemTargetFix = tslib_1.__decorate([
+IonicItemTargetFix = __decorate([
     Directive({
         selector: "ion-item[target]"
     })

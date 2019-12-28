@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Directive, TemplateRef, ViewContainerRef, Input } from "@angular/core";
 let SelectLabel = class SelectLabel {
     constructor(templateRef, viewContainer) {
@@ -11,10 +11,10 @@ SelectLabel.ctorParameters = () => [
     { type: TemplateRef },
     { type: ViewContainerRef }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], SelectLabel.prototype, "separator", void 0);
-SelectLabel = tslib_1.__decorate([
+SelectLabel = __decorate([
     Directive({
         selector: "[ionxSelectLabel]"
     })

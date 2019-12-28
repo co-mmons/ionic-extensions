@@ -1,8 +1,10 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core'), require('@angular/forms'), require('@co.mmons/angular-extensions/browser/match-media'), require('@co.mmons/angular-intl'), require('@ionic/angular'), require('@co.mmons/ionic-extensions/scroll')) :
-    typeof define === 'function' && define.amd ? define('@co.mmons/ionic-extensions/form-helper', ['exports', '@angular/common', '@angular/core', '@angular/forms', '@co.mmons/angular-extensions/browser/match-media', '@co.mmons/angular-intl', '@ionic/angular', '@co.mmons/ionic-extensions/scroll'], factory) :
-    (global = global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons['ionic-extensions'] = global.co.mmons['ionic-extensions'] || {}, global.co.mmons['ionic-extensions']['form-helper'] = {}), global.ng.common, global.ng.core, global.ng.forms, global.matchMedia, global.angularIntl, global.angular, global.scroll));
-}(this, (function (exports, common, core, forms, matchMedia, angularIntl, angular, scroll) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core'), require('@angular/forms'), require('@co.mmons/angular-extensions/browser/match-media'), require('@co.mmons/angular-intl'), require('@ionic/angular'), require('scroll-into-view')) :
+    typeof define === 'function' && define.amd ? define('@co.mmons/ionic-extensions/form-helper', ['exports', '@angular/common', '@angular/core', '@angular/forms', '@co.mmons/angular-extensions/browser/match-media', '@co.mmons/angular-intl', '@ionic/angular', 'scroll-into-view'], factory) :
+    (global = global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons['ionic-extensions'] = global.co.mmons['ionic-extensions'] || {}, global.co.mmons['ionic-extensions']['form-helper'] = {}), global.ng.common, global.ng.core, global.ng.forms, global.matchMedia, global.angularIntl, global.angular, global.scrollIntoView));
+}(this, (function (exports, common, core, forms, matchMedia, angularIntl, angular, scrollIntoView) { 'use strict';
+
+    scrollIntoView = scrollIntoView && scrollIntoView.hasOwnProperty('default') ? scrollIntoView['default'] : scrollIntoView;
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -318,9 +320,9 @@
                 finally { if (e_2) throw e_2.error; }
             }
         };
-        FormHelper.prototype.focusImpl = function (control, scroll$1) {
+        FormHelper.prototype.focusImpl = function (control, scroll) {
             var e_3, _a;
-            if (scroll$1 === void 0) { scroll$1 = true; }
+            if (scroll === void 0) { scroll = true; }
             if (typeof control == "string" && this.formGroupDirective) {
                 try {
                     for (var _b = __values(this.formGroupDirective.directives), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -363,8 +365,8 @@
                     focusable.focus();
                 }
             }
-            if (scroll$1 && element) {
-                scroll.scrollIntoView(element.closest("ion-item") || element);
+            if (scroll && element) {
+                scrollIntoView(element.closest("ion-item") || element);
             }
         };
         FormHelper.prototype.focus = function (formControlName, scrollIntoView) {

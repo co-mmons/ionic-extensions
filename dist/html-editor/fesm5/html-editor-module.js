@@ -2286,7 +2286,7 @@ function pipe() {
 var normaliseNestedLayout = function (state, node) {
     if (state.selection.$from.depth > 1) {
         if (node.attrs.layout && node.attrs.layout !== "default") {
-            return node.type.createChecked(__assign({}, node.attrs, { layout: "default" }), node.content, node.marks);
+            return node.type.createChecked(__assign(__assign({}, node.attrs), { layout: "default" }), node.content, node.marks);
         }
         // If its a breakout layout, we can remove the mark
         // Since default isn"t a valid breakout mode.
@@ -2985,7 +2985,7 @@ var TextFormatMenu = /** @class */ (function () {
             MARKS: for (var _c = __values(findMarksInSelection(this.editor.state, schema.marks.fontSize)), _d = _c.next(); !_d.done; _d = _c.next()) {
                 var mark = _d.value;
                 try {
-                    for (var _e = __values(FontSize.sizes()), _f = _e.next(); !_f.done; _f = _e.next()) {
+                    for (var _e = (e_2 = void 0, __values(FontSize.sizes())), _f = _e.next(); !_f.done; _f = _e.next()) {
                         var size = _f.value;
                         if (size.size === mark.attrs.fontSize) {
                             // ups, mamy różne rozmiary w zaznaczeniu

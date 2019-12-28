@@ -11,7 +11,7 @@
   "fesm2015": "fesm2015/datetime-picker-module.js",
   "typings": "datetime-picker-module.d.ts",
   "metadata": "datetime-picker-module.metadata.json",
-  "dependencies": {
-    "tslib": "^1.9.0"
+  "peerDependencies": {
+    "tslib": "^1.10.0"
   }
 }

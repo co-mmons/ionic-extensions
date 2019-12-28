@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Directive, ElementRef, Input, OnInit } from "@angular/core";
 let BackButton = class BackButton {
     // template: `<ion-back-button [style.display]="modal ? 'inline-block' : null" [disabled]="disabled" [defaultHref]="defaultHref" [icon]="icon ? icon : (modal && ('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back')"></ion-back-button>`
@@ -14,10 +14,10 @@ let BackButton = class BackButton {
 BackButton.ctorParameters = () => [
     { type: ElementRef }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], BackButton.prototype, "icon", void 0);
-BackButton = tslib_1.__decorate([
+BackButton = __decorate([
     Directive({
         selector: "ion-back-button[ionx-back-button]",
     })

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __generator } from "tslib";
 import { EventEmitter } from "@angular/core";
 var ViewObserver = /** @class */ (function () {
     function ViewObserver(content, platform) {
@@ -13,8 +13,8 @@ var ViewObserver = /** @class */ (function () {
         this.visible = !this.content.parentElement.classList.contains("ion-page-hidden");
     }
     ViewObserver.prototype.viewDidEnter = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 this.visible = true;
                 if (!this.paused) {
                     this.activated.next();
@@ -30,8 +30,8 @@ var ViewObserver = /** @class */ (function () {
         this.paused = true;
     };
     ViewObserver.prototype.whenResumed = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 this.paused = false;
                 if (this.visible) {
                     this.activated.next();

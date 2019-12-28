@@ -2141,7 +2141,7 @@ function pipe(...fns) {
 const normaliseNestedLayout = (state, node) => {
     if (state.selection.$from.depth > 1) {
         if (node.attrs.layout && node.attrs.layout !== "default") {
-            return node.type.createChecked(Object.assign({}, node.attrs, { layout: "default" }), node.content, node.marks);
+            return node.type.createChecked(Object.assign(Object.assign({}, node.attrs), { layout: "default" }), node.content, node.marks);
         }
         // If its a breakout layout, we can remove the mark
         // Since default isn"t a valid breakout mode.

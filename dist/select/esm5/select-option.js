@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, Input, ElementRef, ChangeDetectionStrategy } from "@angular/core";
 var SelectOption = /** @class */ (function () {
     function SelectOption(element) {
@@ -14,13 +14,13 @@ var SelectOption = /** @class */ (function () {
     SelectOption.ctorParameters = function () { return [
         { type: ElementRef }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], SelectOption.prototype, "value", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], SelectOption.prototype, "divider", void 0);
-    SelectOption = tslib_1.__decorate([
+    SelectOption = __decorate([
         Component({
             selector: "ionx-select-option",
             changeDetection: ChangeDetectionStrategy.OnPush,

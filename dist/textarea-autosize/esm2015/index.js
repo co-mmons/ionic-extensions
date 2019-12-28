@@ -1,10 +1,10 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { NgModule } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { TextareaAutosize } from "./textarea-autosize";
 let TextareaAutosizeModule = class TextareaAutosizeModule {
 };
-TextareaAutosizeModule = tslib_1.__decorate([
+TextareaAutosizeModule = __decorate([
     NgModule({
         declarations: [TextareaAutosize],
         exports: [TextareaAutosize],

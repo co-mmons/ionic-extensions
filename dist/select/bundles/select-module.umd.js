@@ -350,7 +350,7 @@
                     VALUES: for (var _k = __values(this.valueValidator(option.value, optionWasChecked, values) || []), _l = _k.next(); !_l.done; _l = _k.next()) {
                         var v = _l.value;
                         try {
-                            for (var _m = __values(this.options), _o = _m.next(); !_o.done; _o = _m.next()) {
+                            for (var _m = (e_4 = void 0, __values(this.options)), _o = _m.next(); !_o.done; _o = _m.next()) {
                                 var o = _o.value;
                                 if (this.valueComparator(o.value, v)) {
                                     o.checked = true;
@@ -451,15 +451,16 @@
         };
         SelectOverlayContent.prototype.initOptions = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var e_7, _a, _b, _c, option, indexToScroll, i;
+                var _a, _b, option, indexToScroll, i;
+                var e_7, _c;
                 var _this = this;
                 return __generator(this, function (_d) {
                     switch (_d.label) {
                         case 0:
                             this.checkedOptions = [];
                             try {
-                                for (_b = __values(this.options), _c = _b.next(); !_c.done; _c = _b.next()) {
-                                    option = _c.value;
+                                for (_a = __values(this.options), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                    option = _b.value;
                                     if (option.checked) {
                                         this.checkedOptions.push(option);
                                     }
@@ -468,7 +469,7 @@
                             catch (e_7_1) { e_7 = { error: e_7_1 }; }
                             finally {
                                 try {
-                                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
                                 }
                                 finally { if (e_7) throw e_7.error; }
                             }
@@ -518,7 +519,7 @@
                     OPTIONS: for (var _f = __values(this.options), _g = _f.next(); !_g.done; _g = _f.next()) {
                         var option = _g.value;
                         try {
-                            for (var _h = __values(this.checkedOptions), _j = _h.next(); !_j.done; _j = _h.next()) {
+                            for (var _h = (e_10 = void 0, __values(this.checkedOptions)), _j = _h.next(); !_j.done; _j = _h.next()) {
                                 var checked = _j.value;
                                 if (option === checked) {
                                     values.push(checked.value);
@@ -928,7 +929,8 @@
         };
         Select.prototype.open = function (event) {
             return __awaiter(this, void 0, void 0, function () {
-                var e_1, _a, e_2, _b, e_3, _c, overlay, options, _d, _e, option, valueIndex, _f, _g, option, valueIndex, _h, _j, option, valueIndex, overlayTitle, title, label, overlayData, popover, modal;
+                var overlay, options, _a, _b, option, valueIndex, _c, _d, option, valueIndex, _e, _f, option, valueIndex, overlayTitle, title, label, overlayData, popover, modal;
+                var e_1, _g, e_2, _h, e_3, _j;
                 var _this = this;
                 return __generator(this, function (_k) {
                     switch (_k.label) {
@@ -940,8 +942,8 @@
                             options = [];
                             if (this.options instanceof SelectOptions) {
                                 try {
-                                    for (_d = __values(this.options), _e = _d.next(); !_e.done; _e = _d.next()) {
-                                        option = _e.value;
+                                    for (_a = __values(this.options), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                        option = _b.value;
                                         valueIndex = option.value ? this.indexOfValue(option.value) : -1;
                                         options.push({ value: option.value, checked: option.value ? valueIndex > -1 : false, checkedTimestamp: this.orderable && valueIndex, label: option.label ? option.label : ((!this.searchTest || !this.labelTemplate) ? this.labelImpl$(option.value) : undefined), disabled: option.disabled, divider: option.divider });
                                     }
@@ -949,15 +951,15 @@
                                 catch (e_1_1) { e_1 = { error: e_1_1 }; }
                                 finally {
                                     try {
-                                        if (_e && !_e.done && (_a = _d.return)) _a.call(_d);
+                                        if (_b && !_b.done && (_g = _a.return)) _g.call(_a);
                                     }
                                     finally { if (e_1) throw e_1.error; }
                                 }
                             }
                             else if (this.options) {
                                 try {
-                                    for (_f = __values(this.options), _g = _f.next(); !_g.done; _g = _f.next()) {
-                                        option = _g.value;
+                                    for (_c = __values(this.options), _d = _c.next(); !_d.done; _d = _c.next()) {
+                                        option = _d.value;
                                         valueIndex = this.indexOfValue(option);
                                         options.push({ value: option, checked: valueIndex > -1, checkedTimestamp: this.orderable && valueIndex, label: !this.labelTemplate || !this.searchTest ? this.labelImpl$(option) : undefined });
                                     }
@@ -965,15 +967,15 @@
                                 catch (e_2_1) { e_2 = { error: e_2_1 }; }
                                 finally {
                                     try {
-                                        if (_g && !_g.done && (_b = _f.return)) _b.call(_f);
+                                        if (_d && !_d.done && (_h = _c.return)) _h.call(_c);
                                     }
                                     finally { if (e_2) throw e_2.error; }
                                 }
                             }
                             else if (this.optionsComponents) {
                                 try {
-                                    for (_h = __values(this.optionsComponents.toArray()), _j = _h.next(); !_j.done; _j = _h.next()) {
-                                        option = _j.value;
+                                    for (_e = __values(this.optionsComponents.toArray()), _f = _e.next(); !_f.done; _f = _e.next()) {
+                                        option = _f.value;
                                         valueIndex = this.indexOfValue(option.value);
                                         options.push({ value: option.value, checked: valueIndex > -1, checkedTimestamp: this.orderable && valueIndex, label: option.label, divider: !!option.divider });
                                     }
@@ -981,7 +983,7 @@
                                 catch (e_3_1) { e_3 = { error: e_3_1 }; }
                                 finally {
                                     try {
-                                        if (_j && !_j.done && (_c = _h.return)) _c.call(_h);
+                                        if (_f && !_f.done && (_j = _e.return)) _j.call(_e);
                                     }
                                     finally { if (e_3) throw e_3.error; }
                                 }

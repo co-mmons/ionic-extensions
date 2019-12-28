@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
@@ -7,7 +7,7 @@ export { ModalControllerComponent } from "./modal-controller";
 var ModalModule = /** @class */ (function () {
     function ModalModule() {
     }
-    ModalModule = tslib_1.__decorate([
+    ModalModule = __decorate([
         NgModule({
             declarations: [ModalControllerComponent, ModalControllerContentComponent],
             exports: [ModalControllerComponent],

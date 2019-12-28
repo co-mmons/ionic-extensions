@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Directive, ElementRef, Input } from "@angular/core";
 import { waitTill } from "@co.mmons/js-utils/core";
 var IonicInputFix = /** @class */ (function () {
@@ -6,10 +6,10 @@ var IonicInputFix = /** @class */ (function () {
         this.element = element;
     }
     IonicInputFix.prototype.ngAfterViewInit = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var realInput;
             var _this = this;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.tabIndex) return [3 /*break*/, 2];
@@ -28,10 +28,10 @@ var IonicInputFix = /** @class */ (function () {
     IonicInputFix.ctorParameters = function () { return [
         { type: ElementRef }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input("tabIndex")
     ], IonicInputFix.prototype, "tabIndex", void 0);
-    IonicInputFix = tslib_1.__decorate([
+    IonicInputFix = __decorate([
         Directive({
             selector: "ion-input[ionfix-input]"
         })

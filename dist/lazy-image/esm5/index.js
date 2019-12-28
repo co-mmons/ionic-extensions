@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { NgModule } from "@angular/core";
 import { LazyImage, LazyImageContainer } from "./lazy-image";
 export { LazyImage, LazyImageContainer } from "./lazy-image";
@@ -6,7 +6,7 @@ export { ensureLazyImagesLoaded } from "./lazy-load";
 var LazyImageModule = /** @class */ (function () {
     function LazyImageModule() {
     }
-    LazyImageModule = tslib_1.__decorate([
+    LazyImageModule = __decorate([
         NgModule({
             declarations: [LazyImage, LazyImageContainer],
             exports: [LazyImage, LazyImageContainer]

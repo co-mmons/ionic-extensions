@@ -1,8 +1,8 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component } from "@angular/core";
 let FormItem = class FormItem {
 };
-FormItem = tslib_1.__decorate([
+FormItem = __decorate([
     Component({
         selector: "ionx-form-item",
         template: `<ng-content select="ion-item"></ng-content><ng-content select="ionx-form-item-error"></ng-content><ng-content select="ionx-form-item-hint"></ng-content><ng-content></ng-content>`,

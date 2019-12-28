@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Directive, ElementRef, Input } from "@angular/core";
 import { ensureLazyLoad } from "@co.mmons/ionic-extensions/lazy-load";
 var ImageLoader = /** @class */ (function () {
@@ -166,31 +166,31 @@ var ImageLoader = /** @class */ (function () {
     ImageLoader.ctorParameters = function () { return [
         { type: ElementRef }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input("src")
     ], ImageLoader.prototype, "src", null);
-    tslib_1.__decorate([
+    __decorate([
         Input("ionx-image-loader")
     ], ImageLoader.prototype, "src2", null);
-    tslib_1.__decorate([
+    __decorate([
         Input("alternate")
     ], ImageLoader.prototype, "alternate", null);
-    tslib_1.__decorate([
+    __decorate([
         Input("ionx-image-loader-alternate")
     ], ImageLoader.prototype, "alternate2", null);
-    tslib_1.__decorate([
+    __decorate([
         Input("css-classes")
     ], ImageLoader.prototype, "cssClasses", null);
-    tslib_1.__decorate([
+    __decorate([
         Input("ionx-image-loader-css-classes")
     ], ImageLoader.prototype, "cssClasses2", null);
-    tslib_1.__decorate([
+    __decorate([
         Input("css-classes-target")
     ], ImageLoader.prototype, "cssClassesTarget", null);
-    tslib_1.__decorate([
+    __decorate([
         Input("ionx-image-loader-css-classes-target")
     ], ImageLoader.prototype, "cssClassesParent", null);
-    ImageLoader = tslib_1.__decorate([
+    ImageLoader = __decorate([
         Directive({
             selector: "[ionx-image-loader]",
             host: {
@@ -202,9 +202,9 @@ var ImageLoader = /** @class */ (function () {
 }());
 export { ImageLoader };
 export function ensureImagesLoaded(root, options) {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var images, i, image;
-        return tslib_1.__generator(this, function (_a) {
+        return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     images = root.querySelectorAll("[ionx-image-loader]");

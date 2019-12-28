@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, ElementRef, Input, OnDestroy, OnInit } from "@angular/core";
 let Loader = class Loader {
     constructor(elementRef) {
@@ -33,34 +33,34 @@ let Loader = class Loader {
 Loader.ctorParameters = () => [
     { type: ElementRef }
 ];
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "instanceCallback", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "header", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "message", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "mode", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "progressMessage", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "progressType", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "progressValue", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "progressBuffer", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Loader.prototype, "progressPercent", void 0);
-Loader = tslib_1.__decorate([
+Loader = __decorate([
     Component({
         selector: "ionx-loader",
         template: "<div style=\"display: flex; align-items: center\">\n\n    <div *ngIf=\"spinnerMode\" style=\"padding: 16px; padding-right: 0px;\">\n        <ion-spinner></ion-spinner>\n    </div>\n\n    <div style=\"padding: 16px; flex: 1; display: flex; flex-direction: column; justify-items: center;\">\n        <h5 style=\"margin: 0px\" *ngIf=\"header\">{{header}}</h5>\n        <ion-text [innerHTML]=\"message\" *ngIf=\"!!message\"></ion-text>\n    </div>\n\n</div>\n\n<ion-progress-bar style=\"margin: 8px 0px 16px 0px\" [value]=\"progressValue\" [type]=\"progressType\" [buffer]=\"progressBuffer\" *ngIf=\"progressMode\"></ion-progress-bar>\n\n<div style=\"display: flex; margin: 0px 16px 16px 16px\" *ngIf=\"!!progressMessage || progressPercentVisible\">\n    <ion-text [innerHTML]=\"progressMessage\" style=\"flex: 1\"></ion-text>\n    <span style=\"width: 60px; text-align: right\" *ngIf=\"progressPercentVisible\">{{(progressPercent | intlPercentFormat: {maximumFractionDigits: 0})}}</span>\n</div>\n",

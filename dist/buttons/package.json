@@ -11,7 +11,7 @@
   "fesm2015": "fesm2015/buttons-module.js",
   "typings": "buttons-module.d.ts",
   "metadata": "buttons-module.metadata.json",
-  "dependencies": {
-    "tslib": "^1.9.0"
+  "peerDependencies": {
+    "tslib": "^1.10.0"
   }
 }

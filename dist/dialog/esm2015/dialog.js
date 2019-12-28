@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Type, ViewChild, ViewContainerRef } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ModalController } from "@ionic/angular";
@@ -102,19 +102,19 @@ Dialog.ctorParameters = () => [
     { type: ComponentFactoryResolver },
     { type: ChangeDetectorRef }
 ];
-tslib_1.__decorate([
+__decorate([
     ViewChild("messageComponentContainer", { read: ViewContainerRef, static: true })
 ], Dialog.prototype, "messageComponentContainer", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Dialog.prototype, "header", void 0);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Dialog.prototype, "buttons", null);
-tslib_1.__decorate([
+__decorate([
     Input()
 ], Dialog.prototype, "message", null);
-Dialog = tslib_1.__decorate([
+Dialog = __decorate([
     Component({
         selector: "ionx-dialog",
         changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Injectable } from "@angular/core";
 import { ModalController } from "@ionic/angular";
 import { Dialog } from "./dialog";
@@ -7,8 +7,8 @@ var DialogController = /** @class */ (function () {
         this.modalController = modalController;
     }
     DialogController.prototype.create = function (options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
                 return [2 /*return*/, this.modalController.create(Object.assign({}, options, {
                         component: Dialog,
                         componentProps: {
@@ -29,7 +29,7 @@ var DialogController = /** @class */ (function () {
     DialogController.ctorParameters = function () { return [
         { type: ModalController }
     ]; };
-    DialogController = tslib_1.__decorate([
+    DialogController = __decorate([
         Injectable()
     ], DialogController);
     return DialogController;

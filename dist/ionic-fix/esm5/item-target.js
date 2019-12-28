@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate, __generator } from "tslib";
 import { Directive, ElementRef, Input } from "@angular/core";
 import { sleep } from "@co.mmons/js-utils/core";
 var IonicItemTargetFix = /** @class */ (function () {
@@ -6,9 +6,9 @@ var IonicItemTargetFix = /** @class */ (function () {
         this.element = element;
     }
     IonicItemTargetFix.prototype.ngAfterViewInit = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, void 0, function () {
             var i, a;
-            return tslib_1.__generator(this, function (_a) {
+            return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.target) return [3 /*break*/, 5];
@@ -36,10 +36,10 @@ var IonicItemTargetFix = /** @class */ (function () {
     IonicItemTargetFix.ctorParameters = function () { return [
         { type: ElementRef }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], IonicItemTargetFix.prototype, "target", void 0);
-    IonicItemTargetFix = tslib_1.__decorate([
+    IonicItemTargetFix = __decorate([
         Directive({
             selector: "ion-item[target]"
         })

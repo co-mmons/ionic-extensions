@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, Input } from "@angular/core";
 import { AbstractControl, FormGroupDirective } from "@angular/forms";
 var FormItemError = /** @class */ (function () {
@@ -28,16 +28,16 @@ var FormItemError = /** @class */ (function () {
     FormItemError.ctorParameters = function () { return [
         { type: FormGroupDirective }
     ]; };
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], FormItemError.prototype, "icon", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input()
     ], FormItemError.prototype, "markedAs", void 0);
-    tslib_1.__decorate([
+    __decorate([
         Input("control")
     ], FormItemError.prototype, "controlOrName", null);
-    FormItemError = tslib_1.__decorate([
+    FormItemError = __decorate([
         Component({
             selector: "ionx-form-item-error",
             template: "\n        <ion-icon [name]=\"icon\" *ngIf=\"!!icon\"></ion-icon>\n        <label>\n            <ng-template [ngIf]=\"control\">{{control | intlValidationErrorMessage}}</ng-template>\n            <ng-content></ng-content>\n        </label>\n    ",

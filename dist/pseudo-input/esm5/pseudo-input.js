@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { Component, ElementRef } from "@angular/core";
 var PseudoInput = /** @class */ (function () {
     function PseudoInput(element) {
@@ -7,7 +7,7 @@ var PseudoInput = /** @class */ (function () {
     PseudoInput.ctorParameters = function () { return [
         { type: ElementRef }
     ]; };
-    PseudoInput = tslib_1.__decorate([
+    PseudoInput = __decorate([
         Component({
             selector: "ionx-pseudo-input",
             exportAs: "ionxPseudoInput",

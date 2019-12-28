@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -13,7 +13,7 @@ export { DateTimePickerInput } from "./input";
 var DateTimePickerModule = /** @class */ (function () {
     function DateTimePickerModule() {
     }
-    DateTimePickerModule = tslib_1.__decorate([
+    DateTimePickerModule = __decorate([
         NgModule({
             declarations: [DateTimePickerInput, DateTimePickerOverlay],
             entryComponents: [DateTimePickerOverlay],

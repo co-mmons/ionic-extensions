@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __decorate } from "tslib";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -21,7 +21,7 @@ export { HtmlEditor } from "./editor";
 var HtmlEditorModule = /** @class */ (function () {
     function HtmlEditorModule() {
     }
-    HtmlEditorModule = tslib_1.__decorate([
+    HtmlEditorModule = __decorate([
         NgModule({
             imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule, MatchMediaModule, SpinnerModule],
             declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],

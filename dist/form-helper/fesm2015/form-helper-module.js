@@ -5,7 +5,7 @@ import { FormControlName, NgForm, FormGroupDirective, FormsModule } from '@angul
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { IonicModule } from '@ionic/angular';
-import { scrollIntoView } from '@co.mmons/ionic-extensions/scroll';
+import scrollIntoView from 'scroll-into-view';
 
 let FormHeading = class FormHeading {
     constructor() {

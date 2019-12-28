@@ -1,4 +1,4 @@
-import * as tslib_1 from "tslib";
+import { __awaiter, __decorate } from "tslib";
 import { ElementRef, HostListener, Directive, OnInit } from "@angular/core";
 import { waitTill } from "@co.mmons/js-utils/core";
 let TextareaAutosize = class TextareaAutosize {
@@ -20,7 +20,7 @@ let TextareaAutosize = class TextareaAutosize {
         }
     }
     ngOnInit() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             yield waitTill(() => !!this.textarea);
             this.adjust();
         });
@@ -29,10 +29,10 @@ let TextareaAutosize = class TextareaAutosize {
 TextareaAutosize.ctorParameters = () => [
     { type: ElementRef }
 ];
-tslib_1.__decorate([
+__decorate([
     HostListener("ionChange")
 ], TextareaAutosize.prototype, "onChange", null);
-TextareaAutosize = tslib_1.__decorate([
+TextareaAutosize = __decorate([
     Directive({
         selector: "ion-textarea[ionx-autosize]"
     })
