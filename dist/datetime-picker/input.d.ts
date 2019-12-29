@@ -11,18 +11,18 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     protected control: NgControl;
     private static currentTimezone;
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, modalController: ModalController, control: NgControl);
+    private nativeInput;
     private muteControlOnChange;
     private _listItem;
     private _displayFormat;
     private _pickerFormat;
-    private nativeInput;
     private _text;
-    _disabled: boolean;
+    private _disabled;
+    private _readonly;
     private _value;
     private opened;
     private controlOnChange;
     private controlOnTouched;
-    readonly: boolean;
     overlayTitle: string;
     placeholder: string;
     readonly ionChange: EventEmitter<Value>;
@@ -34,11 +34,12 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
      * Timezone, that will be set, when new value is picked from picker.
      */
     defaultTimezone: string;
+    clearButtonVisible: boolean;
+    clearButtonIcon: string;
+    clearButtonText: string;
     readonly text: string;
-    /**
-     * Whether or not the datetime-picker component is disabled.
-     */
-    disabled: boolean | string;
+    readonly: boolean;
+    disabled: boolean;
     private readonly listItem;
     /**
      * The display format of the date and time as text that shows
@@ -54,7 +55,7 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     private checkListItemHasValue;
     private updateText;
     clicked(ev: UIEvent): void;
-    keyuped(): void;
+    clearButtonClicked(event: UIEvent): void;
     private open;
     private overlayClosed;
     writeValue(value: any): void;
@@ -63,9 +64,9 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     setDisabledState(isDisabled: boolean): void;
     nativeInputFocused(): void;
     nativeInputBlured(): void;
+    inputKeyUpDown(event: KeyboardEvent): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;
     private setupCss;
-    ngAfterContentChecked(): void;
 }
 export {};

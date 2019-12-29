@@ -1,0 +1,16 @@
+<div #nativeInput
+     class="ionx--input"
+     contenteditable="true"
+     spellcheck="false"
+     (focus)="nativeInputFocused()"
+     (blur)="nativeInputBlured()"
+     (cut)="$event.preventDefault()"
+     (paste)="$event.preventDefault()"
+     (keyup)="inputKeyUpDown($event)"
+     (keydown)="inputKeyUpDown($event)"
+>{{hasValue() ? text : placeholder}}</div>
+
+<ion-button fill="clear" size="small" (click)="clearButtonClicked($event)" *ngIf="clearButtonVisible && !readonly && !disabled && hasValue()">
+    <ion-icon name="close" [slot]="clearButtonText ? 'start' : 'icon-only'"></ion-icon>
+    <span *ngIf="!!clearButtonText">{{clearButtonText}}</span>
+</ion-button>

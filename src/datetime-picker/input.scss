@@ -1,42 +1,31 @@
 :host {
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
     flex: 1;
     width: 100%;
-    --padding-end: 16px;
-    --padding-start: 16px;
     --padding-top: 10px;
     --padding-bottom: 10px;
+    --padding-start: 0px;
+    --padding-end: 0px;
 
-    .native-input {
+    .ionx--input {
         padding-top: var(--padding-top, 10px);
         padding-bottom: var(--padding-bottom, 9px);
-        padding-left: var(--padding-start, 0px);
-        padding-right: var(--padding-end, 0px);
+        padding-left: var(--padding-start);
+        padding-right: var(--padding-end);
         display: inline-block;
-
-        flex: 1;
-
-        width: 100%;
-        max-width: 100%;
-        max-height: 100%;
-
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         border: 0;
-
         outline: none;
-
-        background: transparent;
-
-        box-sizing: border-box;
-        appearance: none;
     }
 
-    .native-input::placeholder {
-        opacity: 0.5;
-    }
-
-    .native-input:-webkit-autofill {
-        background-color: transparent;
+    &.ionx--placeholder-visible, &.ionx--disabled {
+        .ionx--input {
+            opacity: var(--placeholder-opacity, var(--ionx-placeholder-opacity, .5));
+        }
     }
 }
 

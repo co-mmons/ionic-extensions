@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild} from "@angular/core";
+import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Optional, Output, SimpleChanges, ViewChild} from "@angular/core";
 import {ControlValueAccessor, NgControl} from "@angular/forms";
 import {IntlService} from "@co.mmons/angular-intl";
 import {DateTimezone} from "@co.mmons/js-utils/core";
@@ -10,17 +10,11 @@ type Value = Date | DateTimezone | number;
 
 @Component({
     selector: "ionx-datetime",
-    template: `
-        <input #nativeInput
-               type="text" 
-               class="native-input" 
-               readonly [attr.disabled]="disabled || null"
-               [attr.placeholder]="placeholder || null"
-               [attr.value]="text || null"
-               (focus)="nativeInputFocused()" 
-               (blur)="nativeInputBlured()"/>
-    `,
-    styleUrls: ["input.scss"]
+    templateUrl: "input.html",
+    styleUrls: ["input.scss"],
+    host: {
+        "[class.ionx--placeholder-visible]": "!hasValue()"
+    }
 })
 export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
@@ -32,13 +26,16 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         private element: ElementRef<HTMLElement>,
         private intl: IntlService,
         private modalController: ModalController,
-        protected control: NgControl
+        @Optional() protected control: NgControl
     ) {
 
         if (control) {
             control.valueAccessor = this;
         }
     }
+
+    @ViewChild("nativeInput", {read: ElementRef, static: true})
+    private nativeInput: ElementRef<HTMLElement>;
 
     private muteControlOnChange: boolean;
 
@@ -48,13 +45,11 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
     private _pickerFormat: Intl.DateTimeFormatOptions;
 
-    @ViewChild("nativeInput", {read: ElementRef, static: true})
-    private nativeInput: ElementRef<HTMLElement>;
-
     private _text: string;
 
-    @HostBinding("class.datetime-disabled")
-    /*private*/ _disabled: boolean;
+    private _disabled: boolean = false;
+
+    private _readonly: boolean = false;
 
     private _value: DateTimezone;
 
@@ -64,9 +59,6 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
     private controlOnTouched: Function;
 
-
-    @Input()
-    readonly: boolean;
 
     @Input() 
     overlayTitle: string;
@@ -90,20 +82,40 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     defaultTimezone: string;
 
 
+    @Input()
+    clearButtonVisible: boolean;
+
+    @Input()
+    clearButtonIcon: string;
+
+    @Input()
+    clearButtonText: string;
+
+
     get text() {
         return this._text;
     }
 
-    /**
-     * Whether or not the datetime-picker component is disabled.
-     */
     @Input()
-    get disabled() {
+    @HostBinding("class.ionx--readonly")
+    get readonly(): boolean {
+        return this._readonly;
+    }
+
+    set readonly(rdonly: boolean) {
+        this._disabled = (rdonly as any) === "" || (rdonly as any) === "true" || rdonly === true ? true : false;
+        this.setupCss();
+    }
+
+    @HostBinding("class.ionx--disabled")
+    @Input()
+    get disabled(): boolean {
         return this._disabled;
     }
 
-    set disabled(disabled: boolean | string) {
-        this._disabled = disabled || disabled == "true" ? true : false;
+    set disabled(disabled: boolean) {
+        this._disabled = (disabled as any) === "" || (disabled as any) === "true" || disabled === true ? true : false;
+        this.setupCss();
     }
 
     private get listItem() {
@@ -211,9 +223,9 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     private checkListItemHasValue() {
         if (this.listItem) {
             if (this.hasValue()) {
-                this.listItem.classList.add("has-value")
+                this.listItem.classList.add("item-has-value")
             } else {
-                this.listItem.classList.remove("has-value");
+                this.listItem.classList.remove("item-has-value");
             }
         }
     }
@@ -245,7 +257,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
 
 
     @HostListener("click", ["$event"])
-    /*protected*/ clicked(ev: UIEvent) {
+    clicked(ev: UIEvent) {
 
         if (ev.detail === 0 || this.disabled || this.readonly) {
             return;
@@ -257,9 +269,10 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         this.open(ev);
     }
 
-    @HostListener("keyup.space")
-    /*protected*/ keyuped() {
-        this.open(undefined);
+    /*protected*/ clearButtonClicked(event: UIEvent) {
+        event.stopPropagation();
+
+        this.clearValue();
     }
 
     private async open(event?: Event) {
@@ -267,6 +280,8 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         if (this.disabled || this.opened || this.readonly ) {
             return;
         }
+
+        this.opened = true;
 
         const formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
 
@@ -310,6 +325,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     }
 
     private overlayClosed(newValue: DateTimezone) {
+
         if (newValue) {
             this.value = newValue;
         }
@@ -319,9 +335,11 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         }
 
         if (this.listItem) {
-            this.listItem.classList.add("item-has-focus");
             this.nativeInput.nativeElement.focus();
+            setTimeout(() => this.nativeInput.nativeElement.focus());
         }
+
+        this.opened = false;
     }
 
 
@@ -351,12 +369,8 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     nativeInputFocused() {
 
         if (this.listItem) {
-            if (!this._disabled && !this.readonly && !this.listItem.classList.contains("item-has-focus")) {
+            if (!this._disabled && !this._readonly && !this.listItem.classList.contains("item-has-focus")) {
                 this.listItem.classList.add("item-has-focus");
-
-                // if (!this.hasValue()) {
-                //     this.open();
-                // }
             }
         }
     }
@@ -367,14 +381,23 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
         }
     }
 
+    /*private*/ inputKeyUpDown(event: KeyboardEvent) {
+
+        if (event.key === "Tab" || event.key === "Shift" || event.key == "Alt" || event.key == "Ctrl" || event.key === "Meta") {
+            return;
+        }
+
+        if (!event.metaKey) {
+            event.preventDefault();
+
+            this.open(event);
+        }
+    }
+
     ngOnChanges(changes: SimpleChanges) {
 
         if (changes["displayFormat"]) {
             this.updateText();
-        }
-
-        if (changes["readonly"] || changes["disabled"]) {
-            this.setupCss();
         }
     }
 
@@ -395,26 +418,6 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
             }
         }
     }
-
-    ngAfterContentChecked() {
-        //this.setItemInputControlCss();
-    }
-
-    // private setItemInputControlCss() {
-    //     let item = this.item;
-    //     if (item && this.control) {
-    //         this.setControlCss(item, this.control);
-    //     }
-    // }
-
-    // private setControlCss(element: any, control: NgControl) {
-    //     element.setElementClass("ng-untouched", control.untouched);
-    //     element.setElementClass("ng-touched", control.touched);
-    //     element.setElementClass("ng-pristine", control.pristine);
-    //     element.setElementClass("ng-dirty", control.dirty);
-    //     element.setElementClass("ng-valid", control.valid);
-    //     element.setElementClass("ng-invalid", !control.valid && control.enabled);
-    // }
 
 
 }

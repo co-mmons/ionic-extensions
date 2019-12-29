@@ -1,6 +1,6 @@
-import { __values, __awaiter, __generator, __decorate } from 'tslib';
+import { __values, __awaiter, __generator, __decorate, __param } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Input, Component, EventEmitter, ElementRef, ViewChild, HostBinding, Output, HostListener, NgModule } from '@angular/core';
+import { ChangeDetectorRef, Input, Component, EventEmitter, ElementRef, Optional, ViewChild, Output, HostBinding, HostListener, NgModule } from '@angular/core';
 import { NgControl, FormsModule } from '@angular/forms';
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlService, IntlModule } from '@co.mmons/angular-intl';
@@ -776,6 +776,8 @@ var DateTimePickerInput = /** @class */ (function () {
         this.intl = intl;
         this.modalController = modalController;
         this.control = control;
+        this._disabled = false;
+        this._readonly = false;
         this.ionChange = new EventEmitter();
         if (control) {
             control.valueAccessor = this;
@@ -792,15 +794,24 @@ var DateTimePickerInput = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(DateTimePickerInput.prototype, "readonly", {
+        get: function () {
+            return this._readonly;
+        },
+        set: function (rdonly) {
+            this._disabled = rdonly === "" || rdonly === "true" || rdonly === true ? true : false;
+            this.setupCss();
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DateTimePickerInput.prototype, "disabled", {
-        /**
-         * Whether or not the datetime-picker component is disabled.
-         */
         get: function () {
             return this._disabled;
         },
         set: function (disabled) {
-            this._disabled = disabled || disabled == "true" ? true : false;
+            this._disabled = disabled === "" || disabled === "true" || disabled === true ? true : false;
+            this.setupCss();
         },
         enumerable: true,
         configurable: true
@@ -909,10 +920,10 @@ var DateTimePickerInput = /** @class */ (function () {
     DateTimePickerInput.prototype.checkListItemHasValue = function () {
         if (this.listItem) {
             if (this.hasValue()) {
-                this.listItem.classList.add("has-value");
+                this.listItem.classList.add("item-has-value");
             }
             else {
-                this.listItem.classList.remove("has-value");
+                this.listItem.classList.remove("item-has-value");
             }
         }
     };
@@ -935,7 +946,7 @@ var DateTimePickerInput = /** @class */ (function () {
             this._text = null;
         }
     };
-    /*protected*/ DateTimePickerInput.prototype.clicked = function (ev) {
+    DateTimePickerInput.prototype.clicked = function (ev) {
         if (ev.detail === 0 || this.disabled || this.readonly) {
             return;
         }
@@ -943,8 +954,9 @@ var DateTimePickerInput = /** @class */ (function () {
         ev.stopPropagation();
         this.open(ev);
     };
-    /*protected*/ DateTimePickerInput.prototype.keyuped = function () {
-        this.open(undefined);
+    /*protected*/ DateTimePickerInput.prototype.clearButtonClicked = function (event) {
+        event.stopPropagation();
+        this.clearValue();
     };
     DateTimePickerInput.prototype.open = function (event) {
         return __awaiter(this, void 0, void 0, function () {
@@ -955,6 +967,7 @@ var DateTimePickerInput = /** @class */ (function () {
                         if (this.disabled || this.opened || this.readonly) {
                             return [2 /*return*/];
                         }
+                        this.opened = true;
                         formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
                         timezone = this._value ? this._value.timezone : this.defaultTimezone;
                         if (timezone === "current") {
@@ -1001,6 +1014,7 @@ var DateTimePickerInput = /** @class */ (function () {
         });
     };
     DateTimePickerInput.prototype.overlayClosed = function (newValue) {
+        var _this = this;
         if (newValue) {
             this.value = newValue;
         }
@@ -1008,9 +1022,10 @@ var DateTimePickerInput = /** @class */ (function () {
             this.controlOnTouched();
         }
         if (this.listItem) {
-            this.listItem.classList.add("item-has-focus");
             this.nativeInput.nativeElement.focus();
+            setTimeout(function () { return _this.nativeInput.nativeElement.focus(); });
         }
+        this.opened = false;
     };
     DateTimePickerInput.prototype.writeValue = function (value) {
         this.muteControlOnChange = true;
@@ -1032,11 +1047,8 @@ var DateTimePickerInput = /** @class */ (function () {
     };
     DateTimePickerInput.prototype.nativeInputFocused = function () {
         if (this.listItem) {
-            if (!this._disabled && !this.readonly && !this.listItem.classList.contains("item-has-focus")) {
+            if (!this._disabled && !this._readonly && !this.listItem.classList.contains("item-has-focus")) {
                 this.listItem.classList.add("item-has-focus");
-                // if (!this.hasValue()) {
-                //     this.open();
-                // }
             }
         }
     };
@@ -1045,12 +1057,18 @@ var DateTimePickerInput = /** @class */ (function () {
             this.listItem.classList.remove("item-has-focus");
         }
     };
+    /*private*/ DateTimePickerInput.prototype.inputKeyUpDown = function (event) {
+        if (event.key === "Tab" || event.key === "Shift" || event.key == "Alt" || event.key == "Ctrl" || event.key === "Meta") {
+            return;
+        }
+        if (!event.metaKey) {
+            event.preventDefault();
+            this.open(event);
+        }
+    };
     DateTimePickerInput.prototype.ngOnChanges = function (changes) {
         if (changes["displayFormat"]) {
             this.updateText();
-        }
-        if (changes["readonly"] || changes["disabled"]) {
-            this.setupCss();
         }
     };
     DateTimePickerInput.prototype.ngOnInit = function () {
@@ -1068,25 +1086,16 @@ var DateTimePickerInput = /** @class */ (function () {
             }
         }
     };
-    DateTimePickerInput.prototype.ngAfterContentChecked = function () {
-        //this.setItemInputControlCss();
-    };
     var DateTimePickerInput_1;
     DateTimePickerInput.ctorParameters = function () { return [
         { type: ElementRef },
         { type: IntlService },
         { type: ModalController },
-        { type: NgControl }
+        { type: NgControl, decorators: [{ type: Optional }] }
     ]; };
     __decorate([
         ViewChild("nativeInput", { read: ElementRef, static: true })
     ], DateTimePickerInput.prototype, "nativeInput", void 0);
-    __decorate([
-        HostBinding("class.datetime-disabled")
-    ], DateTimePickerInput.prototype, "_disabled", void 0);
-    __decorate([
-        Input()
-    ], DateTimePickerInput.prototype, "readonly", void 0);
     __decorate([
         Input()
     ], DateTimePickerInput.prototype, "overlayTitle", void 0);
@@ -1104,6 +1113,20 @@ var DateTimePickerInput = /** @class */ (function () {
     ], DateTimePickerInput.prototype, "defaultTimezone", void 0);
     __decorate([
         Input()
+    ], DateTimePickerInput.prototype, "clearButtonVisible", void 0);
+    __decorate([
+        Input()
+    ], DateTimePickerInput.prototype, "clearButtonIcon", void 0);
+    __decorate([
+        Input()
+    ], DateTimePickerInput.prototype, "clearButtonText", void 0);
+    __decorate([
+        Input(),
+        HostBinding("class.ionx--readonly")
+    ], DateTimePickerInput.prototype, "readonly", null);
+    __decorate([
+        HostBinding("class.ionx--disabled"),
+        Input()
     ], DateTimePickerInput.prototype, "disabled", null);
     __decorate([
         Input()
@@ -1117,15 +1140,16 @@ var DateTimePickerInput = /** @class */ (function () {
     __decorate([
         HostListener("click", ["$event"])
     ], DateTimePickerInput.prototype, "clicked", null);
-    __decorate([
-        HostListener("keyup.space")
-    ], DateTimePickerInput.prototype, "keyuped", null);
     DateTimePickerInput = DateTimePickerInput_1 = __decorate([
         Component({
             selector: "ionx-datetime",
-            template: "\n        <input #nativeInput\n               type=\"text\" \n               class=\"native-input\" \n               readonly [attr.disabled]=\"disabled || null\"\n               [attr.placeholder]=\"placeholder || null\"\n               [attr.value]=\"text || null\"\n               (focus)=\"nativeInputFocused()\" \n               (blur)=\"nativeInputBlured()\"/>\n    ",
-            styles: [":host{position:relative;display:block;-webkit-box-flex:1;flex:1;width:100%;--padding-end:16px;--padding-start:16px;--padding-top:10px;--padding-bottom:10px}:host .native-input{padding-top:var(--padding-top,10px);padding-bottom:var(--padding-bottom,9px);padding-left:var(--padding-start,0);padding-right:var(--padding-end,0);display:inline-block;-webkit-box-flex:1;flex:1;width:100%;max-width:100%;max-height:100%;border:0;outline:0;background:0 0;box-sizing:border-box;-webkit-appearance:none;-moz-appearance:none;appearance:none}:host .native-input::-webkit-input-placeholder{opacity:.5}:host .native-input::-moz-placeholder{opacity:.5}:host .native-input:-ms-input-placeholder{opacity:.5}:host .native-input::-ms-input-placeholder{opacity:.5}:host .native-input::placeholder{opacity:.5}:host .native-input:-webkit-autofill{background-color:transparent}:host-context(.md){--padding-bottom:11px}:host-context(.item-label-stacked){--padding-end:0px;--padding-start:0px;--padding-top:9px;--padding-bottom:9px}:host-context(.ios) .native-input{--padding-top:9px;--padding-bottom:8px}"]
-        })
+            template: "<div #nativeInput\n     class=\"ionx--input\"\n     contenteditable=\"true\"\n     spellcheck=\"false\"\n     (focus)=\"nativeInputFocused()\"\n     (blur)=\"nativeInputBlured()\"\n     (cut)=\"$event.preventDefault()\"\n     (paste)=\"$event.preventDefault()\"\n     (keyup)=\"inputKeyUpDown($event)\"\n     (keydown)=\"inputKeyUpDown($event)\"\n>{{hasValue() ? text : placeholder}}</div>\n\n<ion-button fill=\"clear\" size=\"small\" (click)=\"clearButtonClicked($event)\" *ngIf=\"clearButtonVisible && !readonly && !disabled && hasValue()\">\n    <ion-icon name=\"close\" [slot]=\"clearButtonText ? 'start' : 'icon-only'\"></ion-icon>\n    <span *ngIf=\"!!clearButtonText\">{{clearButtonText}}</span>\n</ion-button>\n",
+            host: {
+                "[class.ionx--placeholder-visible]": "!hasValue()"
+            },
+            styles: [":host{position:relative;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-flex:1;flex:1;width:100%;--padding-top:10px;--padding-bottom:10px;--padding-start:0px;--padding-end:0px}:host .ionx--input{padding-top:var(--padding-top,10px);padding-bottom:var(--padding-bottom,9px);padding-left:var(--padding-start);padding-right:var(--padding-end);display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:0;outline:0}:host.ionx--disabled .ionx--input,:host.ionx--placeholder-visible .ionx--input{opacity:var(--placeholder-opacity,var(--ionx-placeholder-opacity,.5))}:host-context(.md){--padding-bottom:11px}:host-context(.item-label-stacked){--padding-end:0px;--padding-start:0px;--padding-top:9px;--padding-bottom:9px}:host-context(.ios) .native-input{--padding-top:9px;--padding-bottom:8px}"]
+        }),
+        __param(3, Optional())
     ], DateTimePickerInput);
     return DateTimePickerInput;
 }());
