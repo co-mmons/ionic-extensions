@@ -9,7 +9,7 @@
     --ionx--header-font-size: 18px;
     --ionx--text-align: center;
     --ionx--buttons-align: center;
-    --ionx--header-font-weight: 600;
+    --ionx--header-font-weight: 500;
 }
 
 :host {
@@ -59,7 +59,7 @@
         }
 
         ion-button:last-child {
-            font-weight: 600;
+            font-weight: 500;
         }
     }
 }
