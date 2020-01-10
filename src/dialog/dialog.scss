@@ -16,9 +16,11 @@
     display: flex;
     contain: content;
     position: relative;
+    color: var(--ion-text-color);
 
     [ionx--content] {
         --background: var(--ion-background-color, #ffffff);
+        --color: var(--ion-text-color);
     }
 
     [ionx--message] {
@@ -90,7 +92,7 @@
         }
 
         ion-button:not(:first-child) {
-            border-left: 0.55px solid var(--ion-toolbar-border-color,var(--ion-border-color,var(--ion-color-step-150,rgba(0,0,0,0.2))));;
+            border-left: 0.55px solid var(--ion-toolbar-border-color, var(--ion-border-color));
         }
     }
 }
