@@ -17,6 +17,10 @@
     contain: content;
     position: relative;
 
+    [ionx--content] {
+        --background: var(--ion-background-color, #ffffff);
+    }
+
     [ionx--message] {
         font-size: var(--ionx--message-font-size);
         text-align: var(--ionx--text-align);
@@ -42,8 +46,9 @@
             --ion-safe-area-top: 0px;
             --ion-safe-area-start: 0px;
             --ion-safe-area-end: 0px;
-            --ion-toolbar-background: #ffffff;
-            --ion-toolbar-background-color: #ffffff;
+            --ion-toolbar-background: var(--ion-background-color, #ffffff);
+            --ion-toolbar-background-color: var(--ion-background-color, #000000);
+            --ion-toolbar-color: var(--ion-text-color, #000000);
         }
 
         ionx-buttons {
