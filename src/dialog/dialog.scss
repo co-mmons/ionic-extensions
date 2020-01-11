@@ -1,27 +1,16 @@
-:host-context(.md) {
-    --ionx--message-font-size: 16px;
-    --ionx--header-font-size: 20px;
-    --ionx--text-align: left;
-}
-
-:host-context(.ios) {
-    --ionx--message-font-size: 15px;
-    --ionx--header-font-size: 18px;
-    --ionx--text-align: center;
-    --ionx--buttons-align: center;
-    --ionx--header-font-weight: 500;
-}
-
 :host {
+    --background-color: var(--ion-background-color, #ffffff);
+    --foreground-color: var(--ion-text-color);
+    --border-color: var(--ion-border-color);
+
     display: flex;
     contain: content;
     position: relative;
-    color: var(--ion-text-color);
+    color: var(--foreground-color);
 
     [ionx--content] {
-        background: var(--ion-background-color-contrast, #ffffff);
-        --color: var(--ion-text-color);
-        color: var(--ion-text-color);
+        background: var(--background-color, #ffffff);
+        color: var(--foreground-color);
     }
 
     [ionx--message] {
@@ -49,9 +38,9 @@
             --ion-safe-area-top: 0px;
             --ion-safe-area-start: 0px;
             --ion-safe-area-end: 0px;
-            --ion-toolbar-background: var(--ion-background-color, #ffffff);
-            --ion-toolbar-background-color: var(--ion-background-color, #000000);
-            --ion-toolbar-color: var(--ion-text-color, #000000);
+            --ion-toolbar-background: var(--background-color, #ffffff);
+            --ion-toolbar-background-color: var(--background-color, #000000);
+            --ion-toolbar-color: var(--foreground-color, #000000);
         }
 
         ionx-buttons {
@@ -73,6 +62,10 @@
 }
 
 :host-context(.md) {
+    --ionx--message-font-size: 16px;
+    --ionx--header-font-size: 20px;
+    --ionx--text-align: left;
+
     ion-footer {
         ion-toolbar {
             --padding-bottom: 8px;
@@ -85,6 +78,11 @@
 }
 
 :host-context(.ios) {
+    --ionx--message-font-size: 15px;
+    --ionx--header-font-size: 18px;
+    --ionx--text-align: center;
+    --ionx--buttons-align: center;
+    --ionx--header-font-weight: 500;
 
     ion-footer {
         
@@ -93,7 +91,7 @@
         }
 
         ion-button:not(:first-child) {
-            border-left: 0.55px solid var(--ion-toolbar-border-color, var(--ion-border-color));
+            border-left: 0.55px solid var(--border-color);
         }
     }
 }
