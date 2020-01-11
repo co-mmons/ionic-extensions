@@ -1,29 +1,33 @@
 :host {
-    --background-color: var(--ion-background-color, #ffffff);
-    --foreground-color: var(--ion-text-color);
-    --border-color: var(--ion-border-color);
+    //--background-color: var(--ion-background-color, #ffffff);
+    //--foreground-color: var(--ion-text-color);
+    //--border-color: var(--ion-border-color);
+
+    --dialog--background-color: var(--background-color, var(--ion-background-color, #ffffff));
+    --dialog--foreground-color: var(--foreground-color, var(--ion-text-color));
+    --dialog--border-color: var(--border-color, var(--ion-border-color));
 
     display: flex;
     contain: content;
     position: relative;
-    color: var(--foreground-color);
+    color: var(--dialog--foreground-color);
 
     [ionx--content] {
-        background: var(--background-color, #ffffff);
-        color: var(--foreground-color);
+        background: var(--dialog--background-color, #ffffff);
+        color: var(--dialog--foreground-color);
     }
 
     [ionx--message] {
-        font-size: var(--ionx--message-font-size);
-        text-align: var(--ionx--text-align);
+        font-size: var(--dialog--message-font-size);
+        text-align: var(--dialog--text-align);
         margin: 16px 16px 24px 16px;
     }
 
     [ionx--header] {
-        font-size: var(--ionx--header-font-size);
-        font-weight: var(--ionx--header-font-weight, 500);
+        font-size: var(--dialog--header-font-size);
+        font-weight: var(--dialog--header-font-weight, 500);
         margin: 16px;
-        text-align: var(--ionx--text-align);
+        text-align: var(--dialog--text-align);
     }
 
     ion-footer {
@@ -38,13 +42,13 @@
             --ion-safe-area-top: 0px;
             --ion-safe-area-start: 0px;
             --ion-safe-area-end: 0px;
-            --ion-toolbar-background: var(--background-color, #ffffff);
-            --ion-toolbar-background-color: var(--background-color, #000000);
-            --ion-toolbar-color: var(--foreground-color, #000000);
+            --ion-toolbar-background: var(--dialog--background-color, #ffffff);
+            --ion-toolbar-background-color: var(--dialog--background-color, #000000);
+            --ion-toolbar-color: var(--dialog--foreground-color, #000000);
         }
 
         ionx-buttons {
-            justify-content: var(--ionx--buttons-align, flex-end);
+            justify-content: var(--dialog--buttons-align, flex-end);
         }
 
         ion-button {
@@ -62,9 +66,9 @@
 }
 
 :host-context(.md) {
-    --ionx--message-font-size: 16px;
-    --ionx--header-font-size: 20px;
-    --ionx--text-align: left;
+    --dialog--message-font-size: 16px;
+    --dialog--header-font-size: 20px;
+    --dialog--text-align: left;
 
     ion-footer {
         ion-toolbar {
@@ -78,11 +82,11 @@
 }
 
 :host-context(.ios) {
-    --ionx--message-font-size: 15px;
-    --ionx--header-font-size: 18px;
-    --ionx--text-align: center;
-    --ionx--buttons-align: center;
-    --ionx--header-font-weight: 500;
+    --dialog--message-font-size: 15px;
+    --dialog--header-font-size: 18px;
+    --dialog--text-align: center;
+    --dialog--buttons-align: center;
+    --dialog--header-font-weight: 500;
 
     ion-footer {
         
@@ -91,7 +95,7 @@
         }
 
         ion-button:not(:first-child) {
-            border-left: 0.55px solid var(--border-color);
+            border-left: 0.55px solid var(--dialog--border-color);
         }
     }
 }
