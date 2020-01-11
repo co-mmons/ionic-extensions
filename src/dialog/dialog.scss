@@ -19,8 +19,9 @@
     color: var(--ion-text-color);
 
     [ionx--content] {
-        --background: var(--ion-background-color, #ffffff);
+        background: var(--ion-background-color, #ffffff);
         --color: var(--ion-text-color);
+        color: var(--ion-text-color);
     }
 
     [ionx--message] {
