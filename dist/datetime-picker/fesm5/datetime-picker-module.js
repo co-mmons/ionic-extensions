@@ -799,7 +799,7 @@ var DateTimePickerInput = /** @class */ (function () {
             return this._readonly;
         },
         set: function (rdonly) {
-            this._disabled = rdonly === "" || rdonly === "true" || rdonly === true ? true : false;
+            this._readonly = rdonly === "" || rdonly === "true" || rdonly === true ? true : false;
             this.setupCss();
         },
         enumerable: true,

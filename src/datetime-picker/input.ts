@@ -103,7 +103,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     }
 
     set readonly(rdonly: boolean) {
-        this._disabled = (rdonly as any) === "" || (rdonly as any) === "true" || rdonly === true ? true : false;
+        this._readonly = (rdonly as any) === "" || (rdonly as any) === "true" || rdonly === true ? true : false;
         this.setupCss();
     }
 

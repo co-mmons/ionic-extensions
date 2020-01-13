@@ -736,7 +736,7 @@ let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
         return this._readonly;
     }
     set readonly(rdonly) {
-        this._disabled = rdonly === "" || rdonly === "true" || rdonly === true ? true : false;
+        this._readonly = rdonly === "" || rdonly === "true" || rdonly === true ? true : false;
         this.setupCss();
     }
     get disabled() {
