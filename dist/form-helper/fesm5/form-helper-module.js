@@ -125,12 +125,12 @@ var FormHelper = /** @class */ (function () {
         }
     };
     FormHelper.prototype.focusImpl = function (control, scroll) {
-        var e_3, _a;
+        var e_3, _a, e_4, _b;
         if (scroll === void 0) { scroll = true; }
         if (typeof control == "string" && this.formGroupDirective) {
             try {
-                for (var _b = __values(this.formGroupDirective.directives), _c = _b.next(); !_c.done; _c = _b.next()) {
-                    var c = _c.value;
+                for (var _c = __values(this.formGroupDirective.directives), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var c = _d.value;
                     if (c.name == control) {
                         control = c;
                         break;
@@ -140,7 +140,7 @@ var FormHelper = /** @class */ (function () {
             catch (e_3_1) { e_3 = { error: e_3_1 }; }
             finally {
                 try {
-                    if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
                 }
                 finally { if (e_3) throw e_3.error; }
             }
@@ -149,11 +149,25 @@ var FormHelper = /** @class */ (function () {
         if (control instanceof FormControlName) {
             control = control.valueAccessor;
         }
-        if (control["el"] instanceof ElementRef) {
-            element = control["el"].nativeElement;
+        try {
+            for (var _e = __values(["el", "_elementRef", "element", "elementRef"]), _f = _e.next(); !_f.done; _f = _e.next()) {
+                var elementProperty = _f.value;
+                if (control[elementProperty] instanceof ElementRef) {
+                    element = control[elementProperty].nativeElement;
+                    break;
+                }
+                else if (control[elementProperty] instanceof HTMLElement) {
+                    element = control[elementProperty];
+                    break;
+                }
+            }
         }
-        if (control["_elementRef"] instanceof ElementRef) {
-            element = control["_elementRef"].nativeElement;
+        catch (e_4_1) { e_4 = { error: e_4_1 }; }
+        finally {
+            try {
+                if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
+            }
+            finally { if (e_4) throw e_4.error; }
         }
         // element to focus
         if (element) {
