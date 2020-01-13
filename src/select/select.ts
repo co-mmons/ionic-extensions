@@ -24,7 +24,7 @@ const createDragula = dragula;
 export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
 
-    constructor(private element: ElementRef<HTMLElement>, protected intl: IntlService, private popoverController: PopoverController, protected modalController: ModalController, @Optional() protected control: NgControl) {
+    constructor(public readonly element: ElementRef<HTMLElement>, protected intl: IntlService, private popoverController: PopoverController, protected modalController: ModalController, @Optional() protected control: NgControl) {
 
         if (control) {
             control.valueAccessor = this;

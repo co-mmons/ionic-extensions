@@ -6,7 +6,7 @@ import { SelectLabel } from "./select-label";
 import { SelectOption } from "./select-option";
 import { SelectOptions } from "./select-options";
 export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
-    private element;
+    readonly element: ElementRef<HTMLElement>;
     protected intl: IntlService;
     private popoverController;
     protected modalController: ModalController;

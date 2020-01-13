@@ -106,12 +106,13 @@ export class FormHelper {
             control = control.valueAccessor;
         }
 
-        if (control["el"] instanceof ElementRef) {
-            element = control["el"].nativeElement;
-        }
-
-        if (control["_elementRef"] instanceof ElementRef) {
-            element = control["_elementRef"].nativeElement;
+        for (const elementProperty of ["el", "_elementRef", "element", "elementRef"]) {
+            if (control[elementProperty] instanceof ElementRef) {
+                element = control[elementProperty].nativeElement;
+                break;
+            } else if (control[elementProperty] instanceof HTMLElement) {
+                element = control[elementProperty];
+            }
         }
 
         // element to focus
