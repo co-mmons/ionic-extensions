@@ -112,6 +112,7 @@ export class FormHelper {
                 break;
             } else if (control[elementProperty] instanceof HTMLElement) {
                 element = control[elementProperty];
+                break;
             }
         }
 
