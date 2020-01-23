@@ -95,12 +95,13 @@
         }
     }
 
-    [ionx--orderable] ion-chip {
+    &.ionx--orderable ion-chip {
         cursor: move;
     }
 
-    [ionx--chips-layout] .select-text {
+    &.ionx--chips-layout .select-text {
         white-space: normal;
+        overflow: auto;
         width: 100%;
     }
 }
@@ -124,7 +125,7 @@
         flex: initial;
     }
 
-    &[ionx--chips-layout] .select-text {
+    &.ionx--chips-layout .select-text {
         flex: 1;
     }
 }

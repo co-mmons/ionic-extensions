@@ -14,9 +14,9 @@ const createDragula = dragula;
 @Component({
     selector: "ionx-select",
     host: {
-        "[attr.ionx--chips-layout]": "!!orderable || null",
-        "[attr.ionx--readonly]": "(!!readonly || !!disabled) || null",
-        "[attr.ionx--orderable]": "(!!orderable && !readonly && !disabled && values && values.length > 1) || null",
+        "[class.ionx--chips-layout]": "!!orderable",
+        "[class.ionx--readonly]": "!!readonly || !!disabled",
+        "[class.ionx--orderable]": "!!orderable && !readonly && !disabled && values && values.length > 1",
     },
     styleUrls: ["select.scss"],
     templateUrl: "select.html"
