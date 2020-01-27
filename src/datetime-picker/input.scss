@@ -20,6 +20,17 @@
         text-overflow: ellipsis;
         border: 0;
         outline: none;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    &:not(.ionx--placeholder-visible) {
+        &.ionx--disabled, &.ionx--readonly {
+            .ionx--input {
+                user-select: text;
+                pointer-events: initial;
+            }
+        }
     }
 
     &.ionx--placeholder-visible, &.ionx--disabled {

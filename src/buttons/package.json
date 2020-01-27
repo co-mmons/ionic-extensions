@@ -1,14 +1,26 @@
 {
-    "$schema": "../../node_modules/ng-packagr/package.schema.json",
-    "name": "@co.mmons/ionic-extensions/buttons",
-    "sideEffects": false,
-    "main": "esm2015/buttons-module.js",
-    "ngPackage": {
-        "dest": "../../dist/buttons",
-        "deleteDestPath": false,
-        "lib": {
-            "entryFile": "index.ts",
-            "flatModuleFile": "buttons-module"
-        }
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@co.mmons/ionic-extensions/buttons",
+  "sideEffects": false,
+  "main": "esm2015/buttons-module.js",
+  "ngPackage": {
+    "dest": "../../dist/buttons",
+    "deleteDestPath": false,
+    "lib": {
+      "entryFile": "index.ts",
+      "flatModuleFile": "buttons-module"
     }
+  },
+  "__processed_by_ivy_ngcc__": {
+    "fesm2015": "9.0.0-rc.7",
+    "fesm5": "9.0.0-rc.7",
+    "es2015": "9.0.0-rc.7",
+    "esm2015": "9.0.0-rc.7",
+    "esm5": "9.0.0-rc.7",
+    "main": "9.0.0-rc.7",
+    "module": "9.0.0-rc.7"
+  },
+  "scripts": {
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1"
+  }
 }
