@@ -626,7 +626,7 @@ let Select = class Select {
             }
             this.dragula = createDragula({
                 containers: [this.textContainer.nativeElement],
-                mirrorContainer: document.querySelector("ion-app"),
+                // mirrorContainer: document.querySelector("ion-app"),
                 direction: "horizontal",
                 moves: (el, container, handle) => {
                     return this.values && this.values.length > 1;

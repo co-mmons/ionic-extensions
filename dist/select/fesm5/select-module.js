@@ -862,7 +862,7 @@ var Select = /** @class */ (function () {
             }
             this.dragula = createDragula({
                 containers: [this.textContainer.nativeElement],
-                mirrorContainer: document.querySelector("ion-app"),
+                // mirrorContainer: document.querySelector("ion-app"),
                 direction: "horizontal",
                 moves: function (el, container, handle) {
                     return _this.values && _this.values.length > 1;

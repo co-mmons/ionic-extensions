@@ -431,7 +431,7 @@ export class Select implements ControlValueAccessor, OnChanges, OnInit {
 
             this.dragula = createDragula({
                 containers: [this.textContainer.nativeElement],
-                mirrorContainer: document.querySelector("ion-app"),
+                // mirrorContainer: document.querySelector("ion-app"),
                 direction: "horizontal",
 
                 moves: (el, container, handle) => {
