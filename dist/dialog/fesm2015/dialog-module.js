@@ -54,6 +54,7 @@ let Dialog = class Dialog {
             // this.bodyComponent.instance[dialogInstance] = undefined;
             this.bodyComponent.destroy();
         }
+        this.value = undefined;
     }
     ionViewDidEnter() {
         const input = this.elementRef.nativeElement.querySelector("input");

@@ -69,6 +69,7 @@ var Dialog = /** @class */ (function () {
             // this.bodyComponent.instance[dialogInstance] = undefined;
             this.bodyComponent.destroy();
         }
+        this.value = undefined;
     };
     Dialog.prototype.ionViewDidEnter = function () {
         var input = this.elementRef.nativeElement.querySelector("input");

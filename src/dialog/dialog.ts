@@ -101,6 +101,8 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
             // this.bodyComponent.instance[dialogInstance] = undefined;
             this.bodyComponent.destroy();
         }
+
+        this.value = undefined;
     }
 
     ionViewDidEnter() {
