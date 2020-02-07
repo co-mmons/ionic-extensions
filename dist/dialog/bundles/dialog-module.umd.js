@@ -312,7 +312,7 @@
         }
         /*private*/ DialogButtons.prototype.buttonClicked = function (button) {
             var dialog = this.injector.get(Dialog);
-            var value = dialog && dialog.value;
+            var value = dialog && dialog.value && dialog.value();
             if (button.handler) {
                 var res = button.handler(value);
                 if ((typeof res === "boolean" && res) || typeof res !== "boolean") {

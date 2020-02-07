@@ -7,7 +7,7 @@ export declare class Dialog implements OnInit, OnDestroy, DialogOptions {
     protected injector: Injector;
     constructor(elementRef: ElementRef<HTMLElement>, resolver: ComponentFactoryResolver, injector: Injector);
     readonly didLoad: EventEmitter<any>;
-    value: any;
+    value: () => any;
     message: string | Type<any> | [Type<any>, {
         [param: string]: any;
     }];

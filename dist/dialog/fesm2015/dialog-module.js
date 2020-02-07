@@ -101,7 +101,7 @@ let DialogButtons = class DialogButtons {
     }
     /*private*/ buttonClicked(button) {
         const dialog = this.injector.get(Dialog);
-        const value = dialog && dialog.value;
+        const value = dialog && dialog.value && dialog.value();
         if (button.handler) {
             const res = button.handler(value);
             if ((typeof res === "boolean" && res) || typeof res !== "boolean") {

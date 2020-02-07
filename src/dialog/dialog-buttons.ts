@@ -22,7 +22,7 @@ export class DialogButtons {
     /*private*/ buttonClicked(button: DialogButton) {
 
         const dialog = this.injector.get(Dialog);
-        const value = dialog && dialog.value;
+        const value = dialog && dialog.value && dialog.value();
 
         if (button.handler) {
             const res = button.handler(value);

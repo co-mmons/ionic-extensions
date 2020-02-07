@@ -32,7 +32,7 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
 
     readonly didLoad: EventEmitter<any> = new EventEmitter();
 
-    value: any;
+    value: () => any;
 
     @Input()
     message: string | Type<any> | [Type<any>, {[param: string]: any}];
