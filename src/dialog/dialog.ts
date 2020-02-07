@@ -53,11 +53,24 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
     @Input()
     set buttons(buttons: DialogButton[]) {
         this._buttons = buttons;
-        this.changeDetectorRef.detectChanges();
+        this.detectChanges();
     }
 
     get buttons(): DialogButton[] {
         return this._buttons;
+    }
+
+    detectChanges() {
+
+        if (this.messageComponent) {
+            this.messageComponent.changeDetectorRef.detach();
+        }
+
+        this.changeDetectorRef.detectChanges();
+
+        if (this.messageComponent) {
+            this.messageComponent.changeDetectorRef.reattach();
+        }
     }
 
     readonly didLoad: EventEmitter<any> = new EventEmitter();

@@ -17,6 +17,7 @@ export declare class Dialog implements OnInit, OnDestroy, DialogOptions {
     header: string;
     _buttons: DialogButton[];
     buttons: DialogButton[];
+    detectChanges(): void;
     readonly didLoad: EventEmitter<any>;
     message: string | ComponentRef<any> | Type<any> | [Type<any>, {
         [param: string]: any;

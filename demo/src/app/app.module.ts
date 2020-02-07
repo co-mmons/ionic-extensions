@@ -4,6 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy, RouterModule} from '@angular/router';
 import {IntlModule} from "@co.mmons/angular-intl";
 import {DateTimePickerModule} from "@co.mmons/ionic-extensions/datetime-picker";
+import {DialogModule} from "@co.mmons/ionic-extensions/dialog";
 
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 
@@ -16,8 +17,11 @@ import {AppComponent} from './app.component';
         CommonModule,
         IonicModule.forRoot(),
         IntlModule.forRoot(),
-        RouterModule.forRoot([]),
-        DateTimePickerModule
+        RouterModule.forRoot([
+            {path: "dialog", loadChildren: async () => (await import("./dialog")).DialogTestModule}
+        ]),
+        DateTimePickerModule,
+        DialogModule
     ],
     exports: [CommonModule],
     providers: [
