@@ -13,19 +13,19 @@ var Dialog = /** @class */ (function () {
         this.injector = injector;
         this.didLoad = new EventEmitter();
     }
-    Object.defineProperty(Dialog.prototype, "body", {
-        set: function (body) {
+    Object.defineProperty(Dialog.prototype, "component", {
+        set: function (component) {
             var e_1, _a;
-            if (body) {
-                this.bodyContainer.clear();
+            if (component) {
+                this.componentContainer.clear();
                 var type = void 0;
                 var params = void 0;
-                if (Array.isArray(body)) {
-                    type = body.length >= 1 ? body[0] : undefined;
-                    params = body.length >= 2 ? body[1] : undefined;
+                if (Array.isArray(component)) {
+                    type = component.length >= 1 ? component[0] : undefined;
+                    params = component.length >= 2 ? component[1] : undefined;
                 }
                 else {
-                    type = body;
+                    type = component;
                 }
                 var componentRef = this.resolver.resolveComponentFactory(type).create(this.injector);
                 if (params) {
@@ -43,8 +43,8 @@ var Dialog = /** @class */ (function () {
                         finally { if (e_1) throw e_1.error; }
                     }
                 }
-                this.bodyComponent = componentRef;
-                this.bodyContainer.insert(this.bodyComponent.hostView);
+                this.componentRef = componentRef;
+                this.componentContainer.insert(this.componentRef.hostView);
             }
         },
         enumerable: true,
@@ -65,9 +65,8 @@ var Dialog = /** @class */ (function () {
         }
     };
     Dialog.prototype.ngOnDestroy = function () {
-        if (this.bodyComponent) {
-            // this.bodyComponent.instance[dialogInstance] = undefined;
-            this.bodyComponent.destroy();
+        if (this.componentRef) {
+            this.componentRef.destroy();
         }
         this.value = undefined;
     };
@@ -92,16 +91,16 @@ var Dialog = /** @class */ (function () {
         Input()
     ], Dialog.prototype, "buttons", void 0);
     __decorate([
-        ViewChild("bodyContainer", { read: ViewContainerRef, static: true })
-    ], Dialog.prototype, "bodyContainer", void 0);
+        ViewChild("componentContainer", { read: ViewContainerRef, static: true })
+    ], Dialog.prototype, "componentContainer", void 0);
     __decorate([
         Input()
-    ], Dialog.prototype, "body", null);
+    ], Dialog.prototype, "component", null);
     Dialog = __decorate([
         Component({
             selector: "ionx-dialog",
             changeDetection: ChangeDetectionStrategy.OnPush,
-            template: "<ng-container *ngIf=\"!bodyComponent\">\n\n    <ionx-dialog-content [header]=\"header\" [message]=\"message\"></ionx-dialog-content>\n\n    <ionx-dialog-buttons [buttons]=\"buttons\"></ionx-dialog-buttons>\n\n</ng-container>\n\n<ng-template #bodyContainer></ng-template>\n",
+            template: "<ng-container *ngIf=\"!componentRef\">\n\n    <ionx-dialog-content [header]=\"header\" [message]=\"message\"></ionx-dialog-content>\n\n    <ionx-dialog-buttons [buttons]=\"buttons\"></ionx-dialog-buttons>\n\n</ng-container>\n\n<ng-template #componentContainer></ng-template>\n",
             styles: [":host{--dialog--background-color:var(--background-color, var(--ion-background-color, #ffffff));--dialog--foreground-color:var(--foreground-color, var(--ion-text-color));--dialog--border-color:var(--border-color, var(--ion-border-color));display:-webkit-box;display:flex;contain:content;position:relative;color:var(--dialog--foreground-color)}:host-context(.md){--dialog--message-font-size:16px;--dialog--header-font-size:20px;--dialog--text-align:left}:host-context(.ios){--dialog--message-font-size:15px;--dialog--header-font-size:18px;--dialog--text-align:center;--dialog--buttons-align:center;--dialog--header-font-weight:500}"]
         })
     ], Dialog);
@@ -240,7 +239,7 @@ var DialogController = /** @class */ (function () {
                 return [2 /*return*/, this.modalController.create(Object.assign({}, options, {
                         component: Dialog,
                         componentProps: {
-                            body: options.body,
+                            component: options.component,
                             header: options.header,
                             message: options.message,
                             buttons: options.buttons

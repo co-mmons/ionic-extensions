@@ -14,7 +14,6 @@ import {
     ViewContainerRef
 } from "@angular/core";
 import {DialogButton} from "./dialog-button";
-import {DialogOptions} from "./dialog-options";
 
 @Component({
     selector: "ionx-dialog",
@@ -22,7 +21,7 @@ import {DialogOptions} from "./dialog-options";
     templateUrl: "dialog.html",
     styleUrls: ["dialog.scss"]
 })
-export class Dialog implements OnInit, OnDestroy, DialogOptions {
+export class Dialog implements OnInit, OnDestroy {
 
     constructor(
         public elementRef: ElementRef<HTMLElement>,
@@ -43,26 +42,26 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
     @Input()
     buttons: DialogButton[];
 
-    @ViewChild("bodyContainer", {read: ViewContainerRef, static: true})
-    private bodyContainer: ViewContainerRef;
+    @ViewChild("componentContainer", {read: ViewContainerRef, static: true})
+    private componentContainer: ViewContainerRef;
 
-    bodyComponent: ComponentRef<any>;
+    /* private */ componentRef: ComponentRef<any>;
 
     @Input()
-    set body(body: Type<any> | [Type<any>, {[param: string]: any}]) {
+    set component(component: Type<any> | [Type<any>, {[param: string]: any}]) {
 
-        if (body) {
+        if (component) {
 
-            this.bodyContainer.clear();
+            this.componentContainer.clear();
 
             let type: Type<any>;
             let params: {[param: string]: any};
 
-            if (Array.isArray(body)) {
-                type = body.length >= 1 ? body[0] : undefined;
-                params = body.length >= 2 ? body[1] : undefined;
+            if (Array.isArray(component)) {
+                type = component.length >= 1 ? component[0] : undefined;
+                params = component.length >= 2 ? component[1] : undefined;
             } else {
-                type = body;
+                type = component;
             }
 
             const componentRef = this.resolver.resolveComponentFactory(type).create(this.injector);
@@ -73,8 +72,8 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
                 }
             }
 
-            this.bodyComponent = componentRef;
-            this.bodyContainer.insert(this.bodyComponent.hostView);
+            this.componentRef = componentRef;
+            this.componentContainer.insert(this.componentRef.hostView);
         }
 
     }
@@ -97,9 +96,8 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
 
     ngOnDestroy() {
 
-        if (this.bodyComponent) {
-            // this.bodyComponent.instance[dialogInstance] = undefined;
-            this.bodyComponent.destroy();
+        if (this.componentRef) {
+            this.componentRef.destroy();
         }
 
         this.value = undefined;

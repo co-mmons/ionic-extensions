@@ -9,5 +9,5 @@ export interface DialogOptions extends Omit<ModalOptions, "componentProps" | "co
     message?: string | Type<any> | TypeAndProps<any>;
     header?: string;
     buttons?: DialogButton[];
-    body?: Type<any> | TypeAndProps<any>;
+    component?: Type<any> | TypeAndProps<any>;
 }
