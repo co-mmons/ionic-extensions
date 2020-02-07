@@ -1,0 +1,65 @@
+:host {
+    display: block;
+
+    ion-footer {
+        --border-color: var(--dialog--border-color);
+
+        ion-toolbar {
+            --padding-start: 0px;
+            --padding-end: 0px;
+            --padding-top: 0px;
+            --padding-bottom: 0px;
+            --min-height: none;
+            --ion-safe-area-bottom: 0px;
+            --ion-safe-area-top: 0px;
+            --ion-safe-area-start: 0px;
+            --ion-safe-area-end: 0px;
+            --ion-toolbar-background: var(--dialog--background-color, #ffffff);
+            --ion-toolbar-background-color: var(--dialog--background-color, #000000);
+            --ion-toolbar-color: var(--dialog--foreground-color, #000000);
+        }
+
+        ionx-buttons {
+            justify-content: var(--dialog--buttons-align, flex-end);
+        }
+
+        ion-button {
+            min-height: 44px;
+        }
+
+        ion-button:not(:last-child) {
+            font-weight: 400;
+        }
+
+        ion-button:last-child {
+            font-weight: 500;
+        }
+    }
+}
+
+:host-context(.md) {
+
+    ion-footer {
+        ion-toolbar {
+            --padding-bottom: 8px;
+        }
+
+        &::before {
+            display: none;
+        }
+    }
+}
+
+:host-context(.ios) {
+
+    ion-footer {
+        
+        ion-button {
+            flex: 1;
+        }
+
+        ion-button:not(:first-child) {
+            border-left: 0.55px solid var(--dialog--border-color);
+        }
+    }
+}

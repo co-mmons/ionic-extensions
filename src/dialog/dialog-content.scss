@@ -1,0 +1,18 @@
+:host {
+    background: var(--dialog--background-color, #ffffff);
+    color: var(--dialog--foreground-color);
+    display: block;
+
+    [ionx--message] {
+        font-size: var(--dialog--message-font-size);
+        text-align: var(--dialog--text-align);
+        margin: 16px 16px 24px 16px;
+    }
+
+    [ionx--header] {
+        font-size: var(--dialog--header-font-size);
+        font-weight: var(--dialog--header-font-weight, 500);
+        margin: 16px;
+        text-align: var(--dialog--text-align);
+    }
+}

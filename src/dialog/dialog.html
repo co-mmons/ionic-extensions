@@ -1,25 +1,9 @@
-<div ionx--content>
+<ng-container *ngIf="!bodyComponent">
 
-    <div ionx--header *ngIf="!!header">{{header}}</div>
+    <ionx-dialog-content [header]="header" [message]="message"></ionx-dialog-content>
 
-    <div ionx--message>
+    <ionx-dialog-buttons [buttons]="buttons"></ionx-dialog-buttons>
 
-        <div [innerHTML]="messageText" *ngIf="!!messageText"></div>
+</ng-container>
 
-        <ng-template #messageComponentContainer></ng-template>
-
-    </div>
-
-</div>
-
-<ion-footer *ngIf="_buttons && _buttons.length > 0">
-    <ion-toolbar>
-        <ionx-buttons>
-
-            <ion-button fill="clear" [color]="button.color || 'primary'" [size]="button.size" (click)="buttonClicked(button)" *ngFor="let button of _buttons">
-                <span>{{button.text}}</span>
-            </ion-button>
-
-        </ionx-buttons>
-    </ion-toolbar>
-</ion-footer>
+<ng-template #bodyContainer></ng-template>

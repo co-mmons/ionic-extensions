@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
     Component,
     ComponentFactoryResolver,
     ComponentRef,
@@ -13,12 +13,7 @@ import {
     ViewChild,
     ViewContainerRef
 } from "@angular/core";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {ModalController} from "@ionic/angular";
 import {DialogButton} from "./dialog-button";
-import {dialogData} from "./dialog-data-symbol";
-import {dialogInstance} from "./dialog-instance-symbol";
-import {DialogMessageComponent} from "./dialog-message-component";
 import {DialogOptions} from "./dialog-options";
 
 @Component({
@@ -30,121 +25,58 @@ import {DialogOptions} from "./dialog-options";
 export class Dialog implements OnInit, OnDestroy, DialogOptions {
 
     constructor(
-        private injector: Injector,
-        private sanitizer: DomSanitizer,
         public elementRef: ElementRef<HTMLElement>,
-        private modalController: ModalController,
         protected resolver: ComponentFactoryResolver,
-        private changeDetectorRef: ChangeDetectorRef
+        protected injector: Injector
     ) {}
 
-    messageText: SafeHtml;
+    readonly didLoad: EventEmitter<any> = new EventEmitter();
 
-    messageComponent: ComponentRef<any>;
+    value: any;
 
-    @ViewChild("messageComponentContainer", {read: ViewContainerRef, static: true})
-    private messageComponentContainer: ViewContainerRef;
+    @Input()
+    message: string | Type<any> | [Type<any>, {[param: string]: any}];
 
     @Input()
     header: string;
 
-    _buttons: DialogButton[];
+    @Input()
+    buttons: DialogButton[];
+
+    @ViewChild("bodyContainer", {read: ViewContainerRef, static: true})
+    private bodyContainer: ViewContainerRef;
+
+    bodyComponent: ComponentRef<any>;
 
     @Input()
-    set buttons(buttons: DialogButton[]) {
-        this._buttons = buttons;
-        this.detectChanges();
-    }
+    set body(body: Type<any> | [Type<any>, {[param: string]: any}]) {
 
-    get buttons(): DialogButton[] {
-        return this._buttons;
-    }
+        if (body) {
 
-    detectChanges() {
+            this.bodyContainer.clear();
 
-        if (this.messageComponent) {
-            this.messageComponent.changeDetectorRef.detach();
-        }
+            let type: Type<any>;
+            let params: {[param: string]: any};
 
-        this.changeDetectorRef.detectChanges();
-
-        if (this.messageComponent) {
-            this.messageComponent.changeDetectorRef.reattach();
-        }
-    }
-
-    readonly didLoad: EventEmitter<any> = new EventEmitter();
-
-    @Input()
-    set message(message: string | ComponentRef<any> | Type<any> | [Type<any>, {[param: string]: any}]) {
-
-        if (typeof message === "string") {
-            this.messageText = this.sanitizer.bypassSecurityTrustHtml(message);
-
-            if (this.messageComponent) {
-                this.messageComponent.destroy();
+            if (Array.isArray(body)) {
+                type = body.length >= 1 ? body[0] : undefined;
+                params = body.length >= 2 ? body[1] : undefined;
+            } else {
+                type = body;
             }
 
-            this.messageComponent = undefined;
+            const componentRef = this.resolver.resolveComponentFactory(type).create(this.injector);
 
-        } else if (message) {
-            this.messageText = undefined;
-
-            this.messageComponentContainer.clear();
-
-            if (!(message instanceof ComponentRef)) {
-
-                let type: Type<any>;
-                let params: {[param: string]: any};
-
-                if (Array.isArray(message)) {
-                    type = message.length >= 1 ? message[0] : undefined;
-                    params = message.length >= 2 ? message[1] : undefined;
-                } else {
-                    type = message;
-                }
-
-                message = this.resolver.resolveComponentFactory(type).create(this.injector);
-
-                if (params) {
-                    for (const param of Object.keys(params)) {
-                        message.instance[param] = params[param];
-                    }
+            if (params) {
+                for (const param of Object.keys(params)) {
+                    componentRef.instance[param] = params[param];
                 }
             }
 
-            this.messageComponent = message;
-            this.messageComponent.instance[dialogInstance] = this;
-
-            this.messageComponentContainer.insert(this.messageComponent.hostView);
+            this.bodyComponent = componentRef;
+            this.bodyContainer.insert(this.bodyComponent.hostView);
         }
 
-    }
-
-    /*private*/ buttonClicked(button: DialogButton) {
-
-        const value = this.messageComponent && this.messageComponent.instance[dialogData] ? (<DialogMessageComponent>this.messageComponent.instance)[dialogData]() : undefined;
-
-        if (button.handler) {
-            const res = button.handler(value);
-
-            if ((typeof res === "boolean" && res) || typeof res !== "boolean") {
-                this.modalController.dismiss(value, button.role);
-            }
-
-            return;
-
-        } else {
-            this.modalController.dismiss(button.role !== "cancel" ? value : undefined, button.role);
-        }
-    }
-
-    ngOnDestroy(): void {
-
-        if (this.messageComponent) {
-            this.messageComponent.instance[dialogInstance] = undefined;
-            this.messageComponent.destroy();
-        }
     }
 
     ngOnInit(): void {
@@ -160,6 +92,14 @@ export class Dialog implements OnInit, OnDestroy, DialogOptions {
         } else {
             modal.style.setProperty("--border-radius", "4px");
             modal.style.setProperty("--box-shadow", "0 28px 48px rgba(0,0,0,0.4)");
+        }
+    }
+
+    ngOnDestroy() {
+
+        if (this.bodyComponent) {
+            // this.bodyComponent.instance[dialogInstance] = undefined;
+            this.bodyComponent.destroy();
         }
     }
 

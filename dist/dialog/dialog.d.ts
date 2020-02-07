@@ -1,29 +1,24 @@
-import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, OnDestroy, OnInit, Type } from "@angular/core";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { ModalController } from "@ionic/angular";
+import { ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, OnDestroy, OnInit, Type } from "@angular/core";
 import { DialogButton } from "./dialog-button";
 import { DialogOptions } from "./dialog-options";
 export declare class Dialog implements OnInit, OnDestroy, DialogOptions {
-    private injector;
-    private sanitizer;
     elementRef: ElementRef<HTMLElement>;
-    private modalController;
     protected resolver: ComponentFactoryResolver;
-    private changeDetectorRef;
-    constructor(injector: Injector, sanitizer: DomSanitizer, elementRef: ElementRef<HTMLElement>, modalController: ModalController, resolver: ComponentFactoryResolver, changeDetectorRef: ChangeDetectorRef);
-    messageText: SafeHtml;
-    messageComponent: ComponentRef<any>;
-    private messageComponentContainer;
-    header: string;
-    _buttons: DialogButton[];
-    buttons: DialogButton[];
-    detectChanges(): void;
+    protected injector: Injector;
+    constructor(elementRef: ElementRef<HTMLElement>, resolver: ComponentFactoryResolver, injector: Injector);
     readonly didLoad: EventEmitter<any>;
-    message: string | ComponentRef<any> | Type<any> | [Type<any>, {
+    value: any;
+    message: string | Type<any> | [Type<any>, {
         [param: string]: any;
     }];
-    buttonClicked(button: DialogButton): void;
-    ngOnDestroy(): void;
+    header: string;
+    buttons: DialogButton[];
+    private bodyContainer;
+    bodyComponent: ComponentRef<any>;
+    body: Type<any> | [Type<any>, {
+        [param: string]: any;
+    }];
     ngOnInit(): void;
+    ngOnDestroy(): void;
     ionViewDidEnter(): void;
 }

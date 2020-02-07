@@ -1,0 +1,11 @@
+<div ionx--header *ngIf="!!header">{{header}}</div>
+
+<div ionx--message>
+
+    <div [innerHTML]="messageText" *ngIf="!!messageText"></div>
+
+    <ng-template #messageComponentContainer></ng-template>
+
+    <ng-content content="[ionx-dialog-message]"></ng-content>
+
+</div>

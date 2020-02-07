@@ -1,0 +1,11 @@
+<ion-footer *ngIf="buttons && buttons.length > 0">
+    <ion-toolbar>
+        <ionx-buttons>
+
+            <ion-button fill="clear" [color]="button.color || 'primary'" [size]="button.size" (click)="buttonClicked(button)" *ngFor="let button of buttons">
+                <span>{{button.text}}</span>
+            </ion-button>
+
+        </ionx-buttons>
+    </ion-toolbar>
+</ion-footer>

@@ -14,6 +14,7 @@ export class DialogController {
         return this.modalController.create(Object.assign({}, options, {
             component: Dialog,
             componentProps: {
+                body: options.body,
                 header: options.header,
                 message: options.message,
                 buttons: options.buttons
