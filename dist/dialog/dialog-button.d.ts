@@ -4,5 +4,7 @@ export interface DialogButton {
     color?: string;
     cssClass?: string | string[];
     size?: string;
+    icon?: string;
+    flex?: string | number;
     handler?: (value: any) => boolean | void;
 }

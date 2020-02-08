@@ -47,6 +47,10 @@
         &::before {
             display: none;
         }
+
+        ion-button {
+            flex: none !important;
+        }
     }
 }
 

@@ -2,8 +2,9 @@
     <ion-toolbar>
         <ionx-buttons>
 
-            <ion-button fill="clear" [color]="button.color || 'primary'" [size]="button.size" (click)="buttonClicked(button)" *ngFor="let button of buttons">
-                <span>{{button.text}}</span>
+            <ion-button fill="clear" [style.flex]="button.flex || 1" [color]="button.color || 'primary'" [size]="button.size" (click)="buttonClicked(button)" *ngFor="let button of buttons">
+                <span *ngIf="!!button.text">{{button.text}}</span>
+                <ion-icon [icon]="button.icon" [slot]="button.text ? 'start' : 'icon-only'" *ngIf="button.icon"></ion-icon>
             </ion-button>
 
         </ionx-buttons>
