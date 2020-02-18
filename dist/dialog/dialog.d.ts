@@ -1,5 +1,6 @@
 import { ComponentFactoryResolver, ComponentRef, ElementRef, EventEmitter, Injector, OnDestroy, OnInit, Type } from "@angular/core";
 import { DialogButton } from "./dialog-button";
+import { TypeAndProps } from "./type-and-props";
 export declare class Dialog implements OnInit, OnDestroy {
     elementRef: ElementRef<HTMLElement>;
     protected resolver: ComponentFactoryResolver;
@@ -7,9 +8,7 @@ export declare class Dialog implements OnInit, OnDestroy {
     constructor(elementRef: ElementRef<HTMLElement>, resolver: ComponentFactoryResolver, injector: Injector);
     readonly didLoad: EventEmitter<any>;
     value: () => any;
-    message: string | Type<any> | [Type<any>, {
-        [param: string]: any;
-    }];
+    message: string | Type<any> | TypeAndProps<any>;
     header: string;
     buttons: DialogButton[];
     private componentContainer;
