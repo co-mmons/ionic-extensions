@@ -27,14 +27,15 @@ export declare class HtmlEditor implements OnInit, AfterViewInit, ControlValueAc
     private focused;
     private silentChanges;
     view: EditorView;
-    readonly state: EditorState<any>;
+    get state(): EditorState<any>;
     private schema;
     private plugins;
     private scrollParent;
     readonly change: EventEmitter<any>;
     readonly selectionChange: EventEmitter<any>;
-    value: string;
-    readonly nativeElement: HTMLElement;
+    set value(html: string);
+    get value(): string;
+    get nativeElement(): HTMLElement;
     private prepareOutputValue;
     private prepareInputValue;
     setDisabledState(isDisabled: boolean): void;

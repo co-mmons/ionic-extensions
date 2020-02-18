@@ -6,8 +6,9 @@ export declare class ExpandingSearchbar {
     private searchbar;
     constructor(injector: Injector, resolver: ComponentFactoryResolver, appRef: ApplicationRef, element: ElementRef<HTMLIonSearchbarElement>, searchbar: IonSearchbar);
     private subscriptions;
-    readonly parentElement: HTMLElement;
-    expanded: boolean;
+    get parentElement(): HTMLElement;
+    get expanded(): boolean;
+    set expanded(expanded: boolean);
     expand(): void;
     collapseIfPossible(cleared?: boolean): void;
     ngOnInit(): void;

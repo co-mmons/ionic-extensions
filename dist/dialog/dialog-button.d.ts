@@ -1,5 +1,5 @@
 export interface DialogButton {
-    text: string;
+    text?: string;
     role?: string;
     color?: string;
     cssClass?: string | string[];

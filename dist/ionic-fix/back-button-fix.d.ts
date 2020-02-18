@@ -7,6 +7,7 @@ export declare class IonicBackButtonFix {
     private navCtrl;
     private elementRef;
     constructor(router: Router, routerOutlet: IonRouterOutlet, navCtrl: NavController, elementRef: ElementRef);
-    defaultHref: string;
+    set defaultHref(value: string);
+    get defaultHref(): string;
     onClick(ev: Event): void;
 }

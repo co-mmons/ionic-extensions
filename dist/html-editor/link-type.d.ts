@@ -3,12 +3,12 @@ import { MessageRef } from "@co.mmons/js-intl";
 export declare abstract class LinkType {
     readonly type: string;
     protected constructor(type: string);
-    abstract readonly label: MessageRef;
-    abstract readonly inputType: string;
-    abstract readonly inputComponent: any;
-    abstract readonly inputValidators: ValidatorFn[];
-    abstract readonly inputHint: MessageRef;
-    abstract readonly inputLabel: MessageRef;
+    abstract get label(): MessageRef;
+    abstract get inputType(): string;
+    abstract get inputComponent(): any;
+    abstract get inputValidators(): ValidatorFn[];
+    abstract get inputHint(): MessageRef;
+    abstract get inputLabel(): MessageRef;
     abstract uri(fromLink: string): string;
     toString(): string;
 }

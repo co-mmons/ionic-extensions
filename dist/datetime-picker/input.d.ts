@@ -37,19 +37,24 @@ export declare class DateTimePickerInput implements ControlValueAccessor, OnChan
     clearButtonVisible: boolean;
     clearButtonIcon: string;
     clearButtonText: string;
-    readonly text: string;
-    readonly: boolean;
-    disabled: boolean;
-    private readonly listItem;
+    get text(): string;
+    get readonly(): boolean;
+    set readonly(rdonly: boolean);
+    get disabled(): boolean;
+    set disabled(disabled: boolean);
+    private get listItem();
     /**
      * The display format of the date and time as text that shows
      * within the item. When the `pickerFormat` input is not used, then the
      * `displayFormat` is used for both display the formatted text, and determining
      * the datetime-picker picker's columns.
      */
-    displayFormat: Intl.DateTimeFormatOptions;
-    pickerFormat: Intl.DateTimeFormatOptions;
-    value: Value;
+    set displayFormat(format: Intl.DateTimeFormatOptions);
+    get displayFormat(): Intl.DateTimeFormatOptions;
+    set pickerFormat(format: Intl.DateTimeFormatOptions);
+    get pickerFormat(): Intl.DateTimeFormatOptions;
+    set value(value: Value);
+    get value(): Value;
     clearValue(): void;
     hasValue(): boolean;
     private checkListItemHasValue;

@@ -5,13 +5,15 @@ export declare class FormHelper {
     readonly ngForm: NgForm;
     private readonly formGroupDirective;
     constructor(element: ElementRef, ngForm: NgForm, formGroupDirective: FormGroupDirective);
-    readonly: boolean;
+    get readonly(): boolean;
+    set readonly(readonly: boolean);
     markAsReadonly(): void;
-    busy: boolean;
+    get busy(): boolean;
+    set busy(busy: boolean);
     markAsBusy(): void;
     protected readonly contentControls: QueryList<FormControlName>;
     formControlName(name: string): FormControlName;
-    readonly formGroup: FormGroup;
+    get formGroup(): FormGroup;
     validateAll(markAs?: "touched" | "dirty"): void;
     private focusImpl;
     focus(formControlName: string, scrollIntoView?: boolean): void;

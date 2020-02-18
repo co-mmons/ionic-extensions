@@ -5,6 +5,6 @@ export declare class FormItemError {
     icon: string;
     markedAs: "touched" | "dirty";
     private _control;
-    readonly control: AbstractControl;
-    controlOrName: AbstractControl | string;
+    get control(): AbstractControl;
+    set controlOrName(control: AbstractControl | string);
 }

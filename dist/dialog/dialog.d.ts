@@ -14,9 +14,9 @@ export declare class Dialog implements OnInit, OnDestroy {
     buttons: DialogButton[];
     private componentContainer;
     componentRef: ComponentRef<any>;
-    component: Type<any> | [Type<any>, {
+    set component(component: Type<any> | [Type<any>, {
         [param: string]: any;
-    }];
+    }]);
     ngOnInit(): void;
     ngOnDestroy(): void;
     ionViewDidEnter(): void;

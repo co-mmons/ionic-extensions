@@ -8,7 +8,7 @@ export declare class Loader {
     private _loopTimeout;
     private _handleScrollFn;
     private _elements;
-    readonly container: HTMLElement | Document;
+    get container(): HTMLElement | Document;
     private _showOnAppear;
     private _loopThroughElements;
     private _purgeElements;

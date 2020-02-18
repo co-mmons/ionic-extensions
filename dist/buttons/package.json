@@ -3,6 +3,15 @@
   "name": "@co.mmons/ionic-extensions/buttons",
   "sideEffects": false,
   "main": "bundles/buttons-module.umd.js",
+  "__processed_by_ivy_ngcc__": {
+    "fesm2015": "9.0.0-rc.7",
+    "fesm5": "9.0.0-rc.7",
+    "es2015": "9.0.0-rc.7",
+    "esm2015": "9.0.0-rc.7",
+    "esm5": "9.0.0-rc.7",
+    "main": "9.0.0-rc.7",
+    "module": "9.0.0-rc.7"
+  },
   "module": "fesm5/buttons-module.js",
   "es2015": "fesm2015/buttons-module.js",
   "esm5": "esm5/buttons-module.js",

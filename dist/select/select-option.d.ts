@@ -4,5 +4,5 @@ export declare class SelectOption {
     constructor(element: ElementRef<HTMLElement>);
     value: any;
     divider: boolean;
-    readonly label: string;
+    get label(): string;
 }
