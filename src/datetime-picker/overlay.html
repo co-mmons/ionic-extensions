@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ionx-buttons slot="start">
-            <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'" (click)="$event.preventDefault(); cancelClicked()"></ion-back-button>
+            <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : null" (click)="$event.preventDefault(); cancelClicked()"></ion-back-button>
         </ionx-buttons>
 
         <ion-title style="padding: 0px">{{title}}</ion-title>

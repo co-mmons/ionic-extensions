@@ -3,7 +3,7 @@
     <ion-toolbar>
 
         <ionx-buttons slot="start">
-            <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : 'arrow-back'" (click)="$event.preventDefault(); close()"></ion-back-button>
+            <ion-back-button style="display: inline-block" [icon]="('tablet' | matchGreaterWidth) ? 'close' : null" (click)="$event.preventDefault(); close()"></ion-back-button>
         </ionx-buttons>
 
         <ion-title style="margin: 0; padding: 0;">{{"@co.mmons/ionic-extensions/html-editor#link/Link" | intlMessage}}</ion-title>

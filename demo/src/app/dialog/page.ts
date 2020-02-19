@@ -13,7 +13,7 @@ export class DialogTestPage {
     async openDialog() {
 
         const dialog = await this.dialogController.create({
-            body: DialogTestBody
+            component: DialogTestBody
         });
 
         dialog.present();
