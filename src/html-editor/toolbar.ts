@@ -20,27 +20,27 @@ import {TextFormatMenu} from "./text-format-menu";
     selector: "ionx-html-editor-toolbar",
     template: `
         <ion-button size="small" fill="clear" [class.active-feature]="activeFeatures.text" (click)="showMenu($event, 'text')">
-            <ion-icon name="md-arrow-dropdown" slot="end"></ion-icon>
+            <ion-icon name="dropdown" slot="end"></ion-icon>
             <span>{{"@co.mmons/ionic-extensions/html-editor#Text" | intlMessage}}</span>
         </ion-button>
 
         <ion-button size="small" fill="clear" [class.active-feature]="activeFeatures.alignment" (click)="showMenu($event, 'alignment')" *ngIf="!editor.features || editor.features.alignment">
-            <ion-icon name="md-arrow-dropdown" slot="end"></ion-icon>
+            <ion-icon name="dropdown" slot="end"></ion-icon>
             <span>{{"@co.mmons/ionic-extensions/html-editor#Alignment" | intlMessage}}</span>
         </ion-button>
 
         <ion-button size="small" fill="clear" [class.active-feature]="activeFeatures.heading" (click)="showMenu($event, 'heading')" *ngIf="!editor.features || editor.features.heading">
-            <ion-icon name="md-arrow-dropdown" slot="end"></ion-icon>
+            <ion-icon name="dropdown" slot="end"></ion-icon>
             <span>{{"@co.mmons/ionic-extensions/html-editor#Heading" | intlMessage}}</span>
         </ion-button>
         
         <ion-button size="small" fill="clear" [class.active-feature]="activeFeatures.list" (click)="showMenu($event, 'list')" *ngIf="!editor.features || editor.features.list">
-            <ion-icon name="md-arrow-dropdown" slot="end"></ion-icon>
+            <ion-icon name="dropdown" slot="end"></ion-icon>
             <span>{{"@co.mmons/ionic-extensions/html-editor#listMenu/List" | intlMessage}}</span>
         </ion-button>
 
         <ion-button size="small" fill="clear" (click)="showMenu($event, 'insert')" *ngIf="!editor.features || editor.features.link || editor.features.multimedia">
-            <ion-icon name="md-arrow-dropdown" slot="end"></ion-icon>
+            <ion-icon name="dropdown" slot="end"></ion-icon>
             <span>{{"@co.mmons/ionic-extensions/html-editor#Insert" | intlMessage}}</span>
         </ion-button>
         
@@ -50,11 +50,11 @@ import {TextFormatMenu} from "./text-format-menu";
         
         <div ionx--buttons-group>
             <ion-button size="small" fill="clear" tabindex="-1" title="{{'@co.mmons/ionic-extensions/html-editor#Undo' | intlMessage}}" [disabled]="!canUndo" (click)="undo()">
-                <ion-icon name="undo" slot="icon-only"></ion-icon>
+                <ion-icon name="assets/html-editor/undo.svg" slot="icon-only"></ion-icon>
             </ion-button>
     
             <ion-button size="small" fill="clear" title="{{'@co.mmons/ionic-extensions/html-editor#Redo' | intlMessage}}" [disabled]="!canRedo" (click)="redo()">
-                <ion-icon name="redo" slot="icon-only"></ion-icon>
+                <ion-icon name="assets/html-editor/redo.svg" slot="icon-only"></ion-icon>
             </ion-button>
         </div>
     `,
