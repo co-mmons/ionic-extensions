@@ -5,6 +5,7 @@ import { IntlModule } from '@co.mmons/angular-intl';
 import { ButtonsModule } from '@co.mmons/ionic-extensions/buttons';
 import { ModalController, IonicModule } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
+import { createAnimation } from '@ionic/core/';
 
 let Dialog = class Dialog {
     constructor(elementRef, resolver, injector) {
@@ -196,6 +197,30 @@ DialogContent = __decorate([
     })
 ], DialogContent);
 
+/**
+ * Md Modal Leave Animation
+ */
+function leaveAnimation(baseEl) {
+    const baseAnimation = createAnimation();
+    const backdropAnimation = createAnimation();
+    const wrapperAnimation = createAnimation();
+    const wrapperEl = baseEl.querySelector('.modal-wrapper');
+    backdropAnimation
+        .addElement(baseEl.querySelector('ion-backdrop'))
+        .fromTo('opacity', 'var(--backdrop-opacity)', 0.0);
+    wrapperAnimation
+        .addElement(wrapperEl)
+        .keyframes([
+        { offset: 0, opacity: 0.99, transform: 'translateY(0px)' },
+        { offset: 1, opacity: 0, transform: 'translateY(40px)' }
+    ]);
+    return baseAnimation
+        .addElement(baseEl)
+        .easing('cubic-bezier(0.47,0,0.745,0.715)')
+        .duration(200)
+        .addAnimation([backdropAnimation, wrapperAnimation]);
+}
+;
 let DialogController = class DialogController {
     constructor(modalController) {
         this.modalController = modalController;
@@ -210,7 +235,7 @@ let DialogController = class DialogController {
                     message: options.message,
                     buttons: options.buttons
                 },
-                leaveAnimation: () => null
+                leaveAnimation
             }));
         });
     }
