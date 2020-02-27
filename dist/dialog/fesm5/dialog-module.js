@@ -243,7 +243,8 @@ var DialogController = /** @class */ (function () {
                             header: options.header,
                             message: options.message,
                             buttons: options.buttons
-                        }
+                        },
+                        leaveAnimation: function () { return null; }
                     }))];
             });
         });

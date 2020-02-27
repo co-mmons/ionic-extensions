@@ -18,7 +18,8 @@ export class DialogController {
                 header: options.header,
                 message: options.message,
                 buttons: options.buttons
-            }
+            },
+            leaveAnimation: () => null
         }));
     }
 
