@@ -5,6 +5,7 @@ import { IntlModule } from '@co.mmons/angular-intl';
 import { ButtonsModule } from '@co.mmons/ionic-extensions/buttons';
 import { ModalController, IonicModule } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
+import { createAnimation } from '@ionic/core/';
 
 var Dialog = /** @class */ (function () {
     function Dialog(elementRef, resolver, injector) {
@@ -229,6 +230,30 @@ var DialogContent = /** @class */ (function () {
     return DialogContent;
 }());
 
+/**
+ * Md Modal Leave Animation
+ */
+function leaveAnimation(baseEl) {
+    var baseAnimation = createAnimation();
+    var backdropAnimation = createAnimation();
+    var wrapperAnimation = createAnimation();
+    var wrapperEl = baseEl.querySelector('.modal-wrapper');
+    backdropAnimation
+        .addElement(baseEl.querySelector('ion-backdrop'))
+        .fromTo('opacity', 'var(--backdrop-opacity)', 0.0);
+    wrapperAnimation
+        .addElement(wrapperEl)
+        .keyframes([
+        { offset: 0, opacity: 0.99, transform: 'translateY(0px)' },
+        { offset: 1, opacity: 0, transform: 'translateY(40px)' }
+    ]);
+    return baseAnimation
+        .addElement(baseEl)
+        .easing('cubic-bezier(0.47,0,0.745,0.715)')
+        .duration(200)
+        .addAnimation([backdropAnimation, wrapperAnimation]);
+}
+;
 var DialogController = /** @class */ (function () {
     function DialogController(modalController) {
         this.modalController = modalController;
@@ -243,7 +268,8 @@ var DialogController = /** @class */ (function () {
                             header: options.header,
                             message: options.message,
                             buttons: options.buttons
-                        }
+                        },
+                        leaveAnimation: leaveAnimation
                     }))];
             });
         });

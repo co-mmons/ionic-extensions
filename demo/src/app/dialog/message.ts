@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from "@angular/core";
 
 @Component({
-    template: "tralalala {{now.getTime()}}"
+    template: "tralalala<br/><br/><br/><br/><br/> {{now.getTime()}}"
 })
 export class DialogTestMessage implements OnInit, AfterViewInit {
 

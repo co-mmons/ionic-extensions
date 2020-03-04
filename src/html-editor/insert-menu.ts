@@ -126,7 +126,7 @@ export class InsertMenu implements OnInit {
     applyYoutube() {
 
 
-        const info = this.parseYoutube(this.youtubeInput.value);
+        const info = this.parseYoutube(this.youtubeInput.value as string);
         if (info) {
             const tr = this.editor.state.tr.replaceSelectionWith(this.editor.state.schema.nodes.youtube.create({id: info.id, start: info.start || 0}));
             this.editor.view.dispatch(tr);

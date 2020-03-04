@@ -12,8 +12,8 @@ export declare class SelectOverlayContent {
     private modalController;
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, popoverController: PopoverController, modalController: ModalController);
     private overlay;
-    readonly popoverOverlay: boolean;
-    readonly modalOverlay: boolean;
+    get popoverOverlay(): boolean;
+    get modalOverlay(): boolean;
     scroll: CdkVirtualScrollViewport;
     scrollHeight: number;
     itemHeight: number;

@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core'), require('@co.mmons/angular-intl'), require('@co.mmons/ionic-extensions/buttons'), require('@ionic/angular'), require('@angular/platform-browser')) :
-    typeof define === 'function' && define.amd ? define('@co.mmons/ionic-extensions/dialog', ['exports', '@angular/common', '@angular/core', '@co.mmons/angular-intl', '@co.mmons/ionic-extensions/buttons', '@ionic/angular', '@angular/platform-browser'], factory) :
-    (global = global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons['ionic-extensions'] = global.co.mmons['ionic-extensions'] || {}, global.co.mmons['ionic-extensions'].dialog = {}), global.ng.common, global.ng.core, global.angularIntl, global.buttons, global.angular, global.ng.platformBrowser));
-}(this, (function (exports, common, core, angularIntl, buttons, angular, platformBrowser) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core'), require('@co.mmons/angular-intl'), require('@co.mmons/ionic-extensions/buttons'), require('@ionic/angular'), require('@angular/platform-browser'), require('@ionic/core/')) :
+    typeof define === 'function' && define.amd ? define('@co.mmons/ionic-extensions/dialog', ['exports', '@angular/common', '@angular/core', '@co.mmons/angular-intl', '@co.mmons/ionic-extensions/buttons', '@ionic/angular', '@angular/platform-browser', '@ionic/core/'], factory) :
+    (global = global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons['ionic-extensions'] = global.co.mmons['ionic-extensions'] || {}, global.co.mmons['ionic-extensions'].dialog = {}), global.ng.common, global.ng.core, global.angularIntl, global.buttons, global.angular, global.ng.platformBrowser, global._));
+}(this, (function (exports, common, core, angularIntl, buttons, angular, platformBrowser, _) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -424,6 +424,30 @@
         return DialogContent;
     }());
 
+    /**
+     * Md Modal Leave Animation
+     */
+    function leaveAnimation(baseEl) {
+        var baseAnimation = _.createAnimation();
+        var backdropAnimation = _.createAnimation();
+        var wrapperAnimation = _.createAnimation();
+        var wrapperEl = baseEl.querySelector('.modal-wrapper');
+        backdropAnimation
+            .addElement(baseEl.querySelector('ion-backdrop'))
+            .fromTo('opacity', 'var(--backdrop-opacity)', 0.0);
+        wrapperAnimation
+            .addElement(wrapperEl)
+            .keyframes([
+            { offset: 0, opacity: 0.99, transform: 'translateY(0px)' },
+            { offset: 1, opacity: 0, transform: 'translateY(40px)' }
+        ]);
+        return baseAnimation
+            .addElement(baseEl)
+            .easing('cubic-bezier(0.47,0,0.745,0.715)')
+            .duration(200)
+            .addAnimation([backdropAnimation, wrapperAnimation]);
+    }
+    ;
     var DialogController = /** @class */ (function () {
         function DialogController(modalController) {
             this.modalController = modalController;
@@ -438,7 +462,8 @@
                                 header: options.header,
                                 message: options.message,
                                 buttons: options.buttons
-                            }
+                            },
+                            leaveAnimation: leaveAnimation
                         }))];
                 });
             });

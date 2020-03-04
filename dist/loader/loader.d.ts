@@ -12,9 +12,9 @@ export declare class Loader implements OnInit, OnDestroy, LoaderOptions {
     progressValue: number;
     progressBuffer: number;
     progressPercent: number;
-    readonly progressPercentVisible: boolean;
-    readonly spinnerMode: boolean;
-    readonly progressMode: boolean;
+    get progressPercentVisible(): boolean;
+    get spinnerMode(): boolean;
+    get progressMode(): boolean;
     dismiss(): Promise<boolean>;
     private popover;
     ngOnInit(): void;

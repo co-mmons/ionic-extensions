@@ -14,7 +14,7 @@ export declare class ModalControllerComponent {
     private modal;
     present(): Promise<void>;
     private _presented;
-    readonly presented: boolean;
+    get presented(): boolean;
     dismiss(data?: any, role?: any): Promise<any>;
 }
 export declare class ModalControllerContentComponent {

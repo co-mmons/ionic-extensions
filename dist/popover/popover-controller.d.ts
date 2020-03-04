@@ -14,9 +14,9 @@ export declare class PopoverControllerComponent {
     private popover;
     present(event?: Event): Promise<void>;
     private _dismissing;
-    readonly dismissing: boolean;
+    get dismissing(): boolean;
     private _presented;
-    readonly presented: boolean;
+    get presented(): boolean;
     dismiss(data?: any, role?: any): Promise<any>;
 }
 export declare class PopoverControllerContentComponent {

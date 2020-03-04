@@ -13,7 +13,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     protected control: NgControl;
     constructor(element: ElementRef<HTMLElement>, intl: IntlService, popoverController: PopoverController, modalController: ModalController, control: NgControl);
     private _listItem;
-    private readonly listItem;
+    private get listItem();
     private dragula;
     textContainer: ElementRef<HTMLElement>;
     placeholder: string;
@@ -43,7 +43,8 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     orderable: boolean;
     empty: boolean;
     _readonly: boolean;
-    readonly: boolean;
+    set readonly(readonly: boolean);
+    get readonly(): boolean;
     /**
      * A function, that will be used for testing if value passes search critieria.
      * Default implementation checks lowercased label of value against
@@ -57,9 +58,11 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     /**
      * Whether or not the select component is disabled.
      */
-    disabled: boolean | string;
+    get disabled(): boolean | string;
+    set disabled(disabled: boolean | string);
     values: any[];
-    value: any | any[];
+    set value(value: any | any[]);
+    get value(): any | any[];
     private cachedLabels;
     labelImpl$(value: any): string;
     private fireOnChange;
@@ -71,7 +74,7 @@ export declare class Select implements ControlValueAccessor, OnChanges, OnInit {
     label: (value: any) => string;
     options: any[] | SelectOptions;
     private optionsComponents;
-    protected _optionsComponents: QueryList<SelectOption>;
+    protected set _optionsComponents(val: QueryList<SelectOption>);
     private indexOfValue;
     private controlOnChange;
     registerOnChange(fn: Function): void;

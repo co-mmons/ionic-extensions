@@ -13,6 +13,6 @@ export declare class DialogContent {
     messageText: SafeHtml;
     messageComponent: ComponentRef<any>;
     private messageComponentContainer;
-    message: string | Type<any> | TypeAndProps<any>;
+    set message(message: string | Type<any> | TypeAndProps<any>);
     ngOnDestroy(): void;
 }

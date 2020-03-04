@@ -3,5 +3,5 @@ export declare class FormItemHint {
     constructor();
     icon: string;
     private labelComponentContainer;
-    label: ComponentRef<any>;
+    set label(label: ComponentRef<any>);
 }

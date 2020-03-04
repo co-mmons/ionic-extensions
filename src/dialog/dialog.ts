@@ -14,6 +14,7 @@ import {
     ViewContainerRef
 } from "@angular/core";
 import {DialogButton} from "./dialog-button";
+import {TypeAndProps} from "./type-and-props";
 
 @Component({
     selector: "ionx-dialog",
@@ -34,7 +35,7 @@ export class Dialog implements OnInit, OnDestroy {
     value: () => any;
 
     @Input()
-    message: string | Type<any> | [Type<any>, {[param: string]: any}];
+    message: string | Type<any> | TypeAndProps<any>;
 
     @Input()
     header: string;

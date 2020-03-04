@@ -22,7 +22,8 @@ export declare class TagsInput implements ControlValueAccessor {
     sortFn: (a: string, b: string) => number;
     sortable: boolean;
     _once: boolean;
-    once: boolean | string;
+    set once(value: boolean | string);
+    get once(): boolean | string;
     change: EventEmitter<any>;
     ionFocus: EventEmitter<any>;
     ionBlur: EventEmitter<any>;

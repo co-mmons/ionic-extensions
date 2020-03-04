@@ -18,7 +18,8 @@ import {AppComponent} from './app.component';
         IonicModule.forRoot(),
         IntlModule.forRoot(),
         RouterModule.forRoot([
-            {path: "dialog", loadChildren: async () => (await import("./dialog")).DialogTestModule}
+            {path: "dialog", loadChildren: async () => (await import("./dialog")).DialogTestModule},
+            {path: "select", loadChildren: async () => (await import("./select")).SelectTestModule}
         ]),
         DateTimePickerModule,
         DialogModule

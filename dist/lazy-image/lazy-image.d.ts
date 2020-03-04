@@ -18,8 +18,8 @@ export declare class LazyImage {
     children: QueryList<LazyImage>;
     private _src;
     private _alternate;
-    src: string;
-    alternate: string;
+    set src(value: string);
+    set alternate(value: string);
     private reset;
     private revalidate;
     ngAfterContentInit(): void;
