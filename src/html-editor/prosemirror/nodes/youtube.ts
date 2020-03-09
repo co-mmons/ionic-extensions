@@ -10,8 +10,7 @@ export const youtube: NodeSpec = {
 
         return [
             "div",
-            {"data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "")},
-            "youtube"
+            {"data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "")}
         ];
     },
 

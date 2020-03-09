@@ -23,4 +23,4 @@ export declare const marks: {
     fontSize: MarkSpec;
     underline: MarkSpec;
 };
-export declare const schema: Schema<"youtube" | "doc" | "paragraph" | "blockquote" | "horizontalRule" | "heading" | "text" | "hardBreak" | "bulletList" | "orderedList" | "listItem", "fontSize" | "alignment" | "link" | "em" | "strong" | "underline">;
+export declare const schema: Schema<"doc" | "paragraph" | "blockquote" | "horizontalRule" | "heading" | "text" | "hardBreak" | "bulletList" | "orderedList" | "listItem" | "youtube", "fontSize" | "alignment" | "link" | "em" | "strong" | "underline">;
