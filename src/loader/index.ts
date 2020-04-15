@@ -12,6 +12,7 @@ export {LoaderOptions} from "./loader-options";
 @NgModule({
     declarations: [Loader],
     imports: [IntlModule, IonicModule, CommonModule],
+    exports: [Loader],
     entryComponents: [Loader],
     providers: [LoaderController]
 })

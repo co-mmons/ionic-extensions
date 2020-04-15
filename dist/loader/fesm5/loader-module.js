@@ -146,6 +146,7 @@ var LoaderModule = /** @class */ (function () {
         NgModule({
             declarations: [Loader],
             imports: [IntlModule, IonicModule, CommonModule],
+            exports: [Loader],
             entryComponents: [Loader],
             providers: [LoaderController]
         })
