@@ -122,6 +122,7 @@ LoaderModule = __decorate([
     NgModule({
         declarations: [Loader],
         imports: [IntlModule, IonicModule, CommonModule],
+        exports: [Loader],
         entryComponents: [Loader],
         providers: [LoaderController]
     })

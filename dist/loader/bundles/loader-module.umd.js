@@ -342,6 +342,7 @@
             core.NgModule({
                 declarations: [Loader],
                 imports: [angularIntl.IntlModule, angular.IonicModule, common.CommonModule],
+                exports: [Loader],
                 entryComponents: [Loader],
                 providers: [LoaderController]
             })

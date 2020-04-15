@@ -171,8 +171,7 @@ const alignment = {
 const ɵ0$2 = { default: "" }, ɵ1 = (node) => {
     return [
         "div",
-        { "data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "") },
-        "youtube"
+        { "data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "") }
     ];
 }, ɵ2 = (dom) => {
     // @ts-ignore

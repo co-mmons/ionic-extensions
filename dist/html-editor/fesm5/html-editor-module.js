@@ -172,8 +172,7 @@ var alignment = {
 var ɵ0$2 = { default: "" }, ɵ1 = function (node) {
     return [
         "div",
-        { "data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "") },
-        "youtube"
+        { "data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "") }
     ];
 }, ɵ2 = function (dom) {
     // @ts-ignore
