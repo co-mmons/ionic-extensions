@@ -1,5 +1,6 @@
 :host {
-    display: block; margin-top: 16px;
+    display: block;
+    margin-top: 16px;
 
     ::ng-deep ion-item {
         --padding-start: 0px;
@@ -9,8 +10,19 @@
     }
 
     ::ng-deep ion-item > ion-label {
-        font-size: 0.9rem;
         font-weight: 500;
+
+        &[size=large] {
+            font-size: large;
+        }
+
+        &[size=small] {
+            font-size: small;
+        }
+    }
+
+    ::ng-deep ion-button {
+        height: auto;
     }
 
     [ionx--under]:not(:empty) {
@@ -35,13 +47,5 @@
 
     [ionx--under]:not(:empty) {
         padding: 8px;
-    }
-}
-
-:host-context(.ios) {
-    ::ng-deep ion-item.item-label > ion-label {
-        font-size: 0.8rem;
-        letter-spacing: 1px;
-        text-transform: uppercase;
     }
 }
