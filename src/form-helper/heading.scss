@@ -21,10 +21,6 @@
         }
     }
 
-    ::ng-deep ion-button {
-        height: auto;
-    }
-
     [ionx--under]:not(:empty) {
         padding: 8px 16px;
     }
@@ -48,4 +44,12 @@
     [ionx--under]:not(:empty) {
         padding: 8px;
     }
+}
+
+:host-context(.ios) {
+
+    ::ng-deep ion-button {
+        height: auto;
+    }
+
 }
