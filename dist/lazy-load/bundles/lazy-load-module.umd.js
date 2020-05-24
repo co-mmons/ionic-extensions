@@ -434,10 +434,9 @@
             var processedIndexes = [];
             for (var i = 0; i < elementsLength; i++) {
                 var element = this._elements[i];
-                /* If must skip_invisible and element is invisible, skip it */
-                // if (this._options.skipInvisible && (element.offsetParent === null)) {
-                //     continue;
-                // }
+                if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
+                    continue;
+                }
                 if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
                     this._showOnAppear(element);
                     /* Marking the element as processed. */

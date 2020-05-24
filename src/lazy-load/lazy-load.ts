@@ -20,7 +20,7 @@ const defaultOptions: LazyLoadOptions = {
 
 function _isInsideViewport(element, container, threshold) {
 
-    var ownerDocument, documentTop, documentLeft;
+    let ownerDocument, documentTop, documentLeft;
 
     function _getDocumentWidth() {
         return window.innerWidth || (ownerDocument.documentElement.clientWidth || document.body.clientWidth);
@@ -116,16 +116,16 @@ function setSourcesForPicture(element, srcsetDataAttribute) {
 /**
  * Sets sources (e.g. src) for lazy load element.
  * @param element Element, whose image to be loaded.
- * @param srcsetDataAttribute 
- * @param srcDataAttribute 
+ * @param srcsetDataAttribute
+ * @param srcDataAttribute
  */
 function setSources(element, srcsetDataAttribute, srcDataAttribute) {
 
     let tagName = element.tagName.toUpperCase();
     let elementSrc = element.getAttribute("data-" + srcDataAttribute);
-    
+
     if (tagName === "IFRAME" || tagName === "VIDEO") {
-        
+
         if (elementSrc) {
             element.setAttribute("src", elementSrc);
         }
@@ -133,7 +133,7 @@ function setSources(element, srcsetDataAttribute, srcDataAttribute) {
         return;
 
     } else {
-        
+
         if (tagName === "IMG") {
             setSourcesForPicture(element, srcsetDataAttribute);
         }
@@ -244,9 +244,9 @@ export class Loader {
             if (this._options === null || this._options === undefined) {
                 return;
             }
-            
+
             let eventTarget: any = element;
-            
+
             // if target element is not <img>, the real target of onload callback is temporary image
             if (element["__ionxLazyLoadTmpImg"]) {
                 eventTarget = element["__ionxLazyLoadTmpImg"];
@@ -303,10 +303,9 @@ export class Loader {
         for (let i = 0; i < elementsLength; i++) {
             let element = this._elements[i];
 
-            /* If must skip_invisible and element is invisible, skip it */
-            // if (this._options.skipInvisible && (element.offsetParent === null)) {
-            //     continue;
-            // }
+            if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
+                continue;
+            }
 
             if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
                 this._showOnAppear(element);
@@ -433,7 +432,7 @@ export class Loader {
         this._elements = null;
         this._queryOriginNode = null;
         this._options = null;
-        
+
         delete instances[this.id];
     }
 

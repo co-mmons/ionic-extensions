@@ -19,7 +19,8 @@ import {AppComponent} from './app.component';
         IntlModule.forRoot(),
         RouterModule.forRoot([
             {path: "dialog", loadChildren: async () => (await import("./dialog")).DialogTestModule},
-            {path: "select", loadChildren: async () => (await import("./select")).SelectTestModule}
+            {path: "select", loadChildren: async () => (await import("./select")).SelectTestModule},
+            {path: "lazy-load", loadChildren: async () => (await import("./lazy-load")).LazyLoadTestModule},
         ]),
         DateTimePickerModule,
         DialogModule
