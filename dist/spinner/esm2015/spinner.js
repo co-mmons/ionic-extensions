@@ -1,5 +1,5 @@
 import { __decorate } from "tslib";
-import { Component, Input } from "@angular/core";
+import { Component, HostBinding, Input } from "@angular/core";
 let Spinner = class Spinner {
     constructor() {
         this.backdropVisible = false;
@@ -7,7 +7,8 @@ let Spinner = class Spinner {
     }
 };
 __decorate([
-    Input()
+    Input(),
+    HostBinding("class.ionx--backdrop-visible")
 ], Spinner.prototype, "backdropVisible", void 0);
 __decorate([
     Input()
@@ -22,8 +23,8 @@ Spinner = __decorate([
     Component({
         selector: "ionx-spinner",
         template: `<ion-backdrop *ngIf="backdropVisible"></ion-backdrop><ion-spinner [name]="name" [color]="color"></ion-spinner>`,
-        styles: [":host{position:relative;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center}:host ion-backdrop{opacity:.1}:host[fill]{position:absolute;width:100%;height:100%;left:0;top:0}:host[always-on-top]{z-index:100000}"]
+        styles: [":host{position:relative;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;--spinner--backdrop-background-color:var(--backdrop-background-color, #000);--spinner--backdrop-opacity:var(--backdrop-opacity, .1)}:host ion-backdrop{opacity:var(--spinner--backdrop-opacity);background-color:var(--spinner--backdrop-background-color)}:host[fill]{position:absolute;width:100%;height:100%;left:0;top:0}:host[always-on-top]{z-index:100000}:host.ionx--backdrop-visible ion-backdrop{z-index:1}:host.ionx--backdrop-visible ion-spinner{z-index:2}"]
     })
 ], Spinner);
 export { Spinner };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3Bpbm5lci5qcyIsInNvdXJjZVJvb3QiOiJuZzovL0Bjby5tbW9ucy9pb25pYy1leHRlbnNpb25zL3NwaW5uZXIvIiwic291cmNlcyI6WyJzcGlubmVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFBQSxPQUFPLEVBQUMsU0FBUyxFQUFFLEtBQUssRUFBQyxNQUFNLGVBQWUsQ0FBQztBQU8vQyxJQUFhLE9BQU8sR0FBcEIsTUFBYSxPQUFPO0lBQXBCO1FBR0ksb0JBQWUsR0FBWSxLQUFLLENBQUM7UUFHakMsU0FBSSxHQUFZLEtBQUssQ0FBQztJQVExQixDQUFDO0NBQUEsQ0FBQTtBQVhHO0lBREMsS0FBSyxFQUFFO2dEQUN5QjtBQUdqQztJQURDLEtBQUssRUFBRTtxQ0FDYztBQUd0QjtJQURDLEtBQUssRUFBRTtzQ0FDTTtBQUdkO0lBREMsS0FBSyxFQUFFO3FDQUNLO0FBWkosT0FBTztJQUxuQixTQUFTLENBQUM7UUFDUCxRQUFRLEVBQUUsY0FBYztRQUV4QixRQUFRLEVBQUUsZ0hBQWdIOztLQUM3SCxDQUFDO0dBQ1csT0FBTyxDQWNuQjtTQWRZLE9BQU8iLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge0NvbXBvbmVudCwgSW5wdXR9IGZyb20gXCJAYW5ndWxhci9jb3JlXCI7XG5cbkBDb21wb25lbnQoe1xuICAgIHNlbGVjdG9yOiBcImlvbngtc3Bpbm5lclwiLFxuICAgIHN0eWxlVXJsczogW1wic3Bpbm5lci5zY3NzXCJdLFxuICAgIHRlbXBsYXRlOiBgPGlvbi1iYWNrZHJvcCAqbmdJZj1cImJhY2tkcm9wVmlzaWJsZVwiPjwvaW9uLWJhY2tkcm9wPjxpb24tc3Bpbm5lciBbbmFtZV09XCJuYW1lXCIgW2NvbG9yXT1cImNvbG9yXCI+PC9pb24tc3Bpbm5lcj5gXG59KVxuZXhwb3J0IGNsYXNzIFNwaW5uZXIge1xuXG4gICAgQElucHV0KClcbiAgICBiYWNrZHJvcFZpc2libGU6IGJvb2xlYW4gPSBmYWxzZTtcblxuICAgIEBJbnB1dCgpXG4gICAgZmlsbDogYm9vbGVhbiA9IGZhbHNlO1xuXG4gICAgQElucHV0KClcbiAgICBjb2xvcjogc3RyaW5nO1xuXG4gICAgQElucHV0KClcbiAgICBuYW1lOiBzdHJpbmc7XG5cbn1cbiJdfQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3Bpbm5lci5qcyIsInNvdXJjZVJvb3QiOiJuZzovL0Bjby5tbW9ucy9pb25pYy1leHRlbnNpb25zL3NwaW5uZXIvIiwic291cmNlcyI6WyJzcGlubmVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFBQSxPQUFPLEVBQUMsU0FBUyxFQUFFLFdBQVcsRUFBRSxLQUFLLEVBQUMsTUFBTSxlQUFlLENBQUM7QUFPNUQsSUFBYSxPQUFPLEdBQXBCLE1BQWEsT0FBTztJQUFwQjtRQUlJLG9CQUFlLEdBQVksS0FBSyxDQUFDO1FBR2pDLFNBQUksR0FBWSxLQUFLLENBQUM7SUFRMUIsQ0FBQztDQUFBLENBQUE7QUFYRztJQUZDLEtBQUssRUFBRTtJQUNQLFdBQVcsQ0FBQyw4QkFBOEIsQ0FBQztnREFDWDtBQUdqQztJQURDLEtBQUssRUFBRTtxQ0FDYztBQUd0QjtJQURDLEtBQUssRUFBRTtzQ0FDTTtBQUdkO0lBREMsS0FBSyxFQUFFO3FDQUNLO0FBYkosT0FBTztJQUxuQixTQUFTLENBQUM7UUFDUCxRQUFRLEVBQUUsY0FBYztRQUV4QixRQUFRLEVBQUUsZ0hBQWdIOztLQUM3SCxDQUFDO0dBQ1csT0FBTyxDQWVuQjtTQWZZLE9BQU8iLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge0NvbXBvbmVudCwgSG9zdEJpbmRpbmcsIElucHV0fSBmcm9tIFwiQGFuZ3VsYXIvY29yZVwiO1xuXG5AQ29tcG9uZW50KHtcbiAgICBzZWxlY3RvcjogXCJpb254LXNwaW5uZXJcIixcbiAgICBzdHlsZVVybHM6IFtcInNwaW5uZXIuc2Nzc1wiXSxcbiAgICB0ZW1wbGF0ZTogYDxpb24tYmFja2Ryb3AgKm5nSWY9XCJiYWNrZHJvcFZpc2libGVcIj48L2lvbi1iYWNrZHJvcD48aW9uLXNwaW5uZXIgW25hbWVdPVwibmFtZVwiIFtjb2xvcl09XCJjb2xvclwiPjwvaW9uLXNwaW5uZXI+YFxufSlcbmV4cG9ydCBjbGFzcyBTcGlubmVyIHtcblxuICAgIEBJbnB1dCgpXG4gICAgQEhvc3RCaW5kaW5nKFwiY2xhc3MuaW9ueC0tYmFja2Ryb3AtdmlzaWJsZVwiKVxuICAgIGJhY2tkcm9wVmlzaWJsZTogYm9vbGVhbiA9IGZhbHNlO1xuXG4gICAgQElucHV0KClcbiAgICBmaWxsOiBib29sZWFuID0gZmFsc2U7XG5cbiAgICBASW5wdXQoKVxuICAgIGNvbG9yOiBzdHJpbmc7XG5cbiAgICBASW5wdXQoKVxuICAgIG5hbWU6IHN0cmluZztcblxufVxuIl19

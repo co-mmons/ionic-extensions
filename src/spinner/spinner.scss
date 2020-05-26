@@ -4,13 +4,17 @@
     align-items: center;
     justify-content: center;
 
+    --spinner--backdrop-background-color: var(--backdrop-background-color, #000);
+    --spinner--backdrop-opacity: var(--backdrop-opacity, .1);
+
     ion-backdrop {
-        opacity: 0.1;
+        opacity: var(--spinner--backdrop-opacity);
+        background-color: var(--spinner--backdrop-background-color);
     }
 
     &[fill] {
-        position: absolute; 
-        width: 100%; 
+        position: absolute;
+        width: 100%;
         height: 100%;
         left: 0px;
         top: 0px;
@@ -18,5 +22,16 @@
 
     &[always-on-top] {
         z-index: 100000;
+    }
+
+    &.ionx--backdrop-visible {
+
+        ion-backdrop {
+            z-index: 1;
+        }
+
+        ion-spinner {
+            z-index: 2;
+        }
     }
 }
