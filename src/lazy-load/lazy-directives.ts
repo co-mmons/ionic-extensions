@@ -11,7 +11,7 @@ export class LazyLoadContainer {
 	constructor(private element: ElementRef<HTMLElement>) {
 	}
 
-	@Input()
+	@Input("ionx-lazy-load-container")
 	options?: LazyLoadOptions;
 
 	private loader: Loader;

@@ -652,7 +652,7 @@
             { type: core.ElementRef }
         ]; };
         __decorate([
-            core.Input()
+            core.Input("ionx-lazy-load-container")
         ], LazyLoadContainer.prototype, "options", void 0);
         __decorate([
             core.ContentChildren(core.forwardRef(function () { return LazyDirectives; }), { descendants: true })

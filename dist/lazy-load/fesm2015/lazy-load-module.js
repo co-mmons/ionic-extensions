@@ -421,7 +421,7 @@ LazyLoadContainer.ctorParameters = () => [
     { type: ElementRef }
 ];
 __decorate([
-    Input()
+    Input("ionx-lazy-load-container")
 ], LazyLoadContainer.prototype, "options", void 0);
 __decorate([
     ContentChildren(forwardRef(() => LazyDirectives), { descendants: true })
