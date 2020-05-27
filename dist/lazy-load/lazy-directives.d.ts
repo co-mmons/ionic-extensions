@@ -1,7 +1,9 @@
 import { ElementRef, QueryList, Renderer2 } from "@angular/core";
+import { LazyLoadOptions } from "./lazy-load-options";
 export declare class LazyLoadContainer {
     private element;
     constructor(element: ElementRef<HTMLElement>);
+    options?: LazyLoadOptions;
     private loader;
     revalidate(): void;
     children: QueryList<LazyDirectives>;

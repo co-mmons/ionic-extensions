@@ -1,5 +1,5 @@
 import { __awaiter, __decorate, __param } from 'tslib';
-import { ElementRef, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, Input, NgModule } from '@angular/core';
+import { ElementRef, Input, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, NgModule } from '@angular/core';
 import { sleep } from '@co.mmons/js-utils/core';
 
 const defaultOptions = {
@@ -398,9 +398,10 @@ let LazyLoadContainer = class LazyLoadContainer {
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
-            const options = {};
-            options.selector = ".ionx-lazy-load";
-            options.container = this.element.nativeElement;
+            const options = Object.assign({
+                selector: ".ionx-lazy-load",
+                container: this.element.nativeElement
+            }, this.options);
             if (this.element.nativeElement.tagName.toLowerCase() === "ion-content") {
                 for (let i = 0; i < 40; i++) {
                     options.scroll = this.element.nativeElement.shadowRoot && this.element.nativeElement.shadowRoot.querySelector(".inner-scroll");
@@ -419,6 +420,9 @@ let LazyLoadContainer = class LazyLoadContainer {
 LazyLoadContainer.ctorParameters = () => [
     { type: ElementRef }
 ];
+__decorate([
+    Input()
+], LazyLoadContainer.prototype, "options", void 0);
 __decorate([
     ContentChildren(forwardRef(() => LazyDirectives), { descendants: true })
 ], LazyLoadContainer.prototype, "children", void 0);

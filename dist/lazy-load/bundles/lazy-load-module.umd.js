@@ -622,9 +622,10 @@
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            options = {};
-                            options.selector = ".ionx-lazy-load";
-                            options.container = this.element.nativeElement;
+                            options = Object.assign({
+                                selector: ".ionx-lazy-load",
+                                container: this.element.nativeElement
+                            }, this.options);
                             if (!(this.element.nativeElement.tagName.toLowerCase() === "ion-content")) return [3 /*break*/, 5];
                             i = 0;
                             _a.label = 1;
@@ -650,6 +651,9 @@
         LazyLoadContainer.ctorParameters = function () { return [
             { type: core.ElementRef }
         ]; };
+        __decorate([
+            core.Input()
+        ], LazyLoadContainer.prototype, "options", void 0);
         __decorate([
             core.ContentChildren(core.forwardRef(function () { return LazyDirectives; }), { descendants: true })
         ], LazyLoadContainer.prototype, "children", void 0);

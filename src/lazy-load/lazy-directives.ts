@@ -11,6 +11,9 @@ export class LazyLoadContainer {
 	constructor(private element: ElementRef<HTMLElement>) {
 	}
 
+	@Input()
+	options?: LazyLoadOptions;
+
 	private loader: Loader;
 
 	revalidate() {
@@ -51,9 +54,10 @@ export class LazyLoadContainer {
 
 	private async init() {
 
-		const options: LazyLoadOptions = {};
-		options.selector = ".ionx-lazy-load";
-		options.container = this.element.nativeElement;
+		const options: LazyLoadOptions = Object.assign({
+			selector: ".ionx-lazy-load",
+			container: this.element.nativeElement
+		}, this.options);
 
 		if (this.element.nativeElement.tagName.toLowerCase() === "ion-content") {
 

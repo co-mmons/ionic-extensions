@@ -1,5 +1,5 @@
 import { __values, __awaiter, __generator, __decorate, __param } from 'tslib';
-import { ElementRef, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, Input, NgModule } from '@angular/core';
+import { ElementRef, Input, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, NgModule } from '@angular/core';
 import { sleep } from '@co.mmons/js-utils/core';
 
 var defaultOptions = {
@@ -423,9 +423,10 @@ var LazyLoadContainer = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        options = {};
-                        options.selector = ".ionx-lazy-load";
-                        options.container = this.element.nativeElement;
+                        options = Object.assign({
+                            selector: ".ionx-lazy-load",
+                            container: this.element.nativeElement
+                        }, this.options);
                         if (!(this.element.nativeElement.tagName.toLowerCase() === "ion-content")) return [3 /*break*/, 5];
                         i = 0;
                         _a.label = 1;
@@ -451,6 +452,9 @@ var LazyLoadContainer = /** @class */ (function () {
     LazyLoadContainer.ctorParameters = function () { return [
         { type: ElementRef }
     ]; };
+    __decorate([
+        Input()
+    ], LazyLoadContainer.prototype, "options", void 0);
     __decorate([
         ContentChildren(forwardRef(function () { return LazyDirectives; }), { descendants: true })
     ], LazyLoadContainer.prototype, "children", void 0);
