@@ -431,17 +431,20 @@
         };
         Loader.prototype._loopThroughElements = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var elementsLength, processedIndexes, i, element;
+                var elements, shownCount, i, element, i;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            elementsLength = (!this._elements) ? 0 : this._elements.length;
-                            processedIndexes = [];
+                            elements = (this._elements || []).slice();
+                            shownCount = 0;
                             i = 0;
                             _a.label = 1;
                         case 1:
-                            if (!(i < elementsLength)) return [3 /*break*/, 6];
-                            element = this._elements[i];
+                            if (!(i < elements.length)) return [3 /*break*/, 6];
+                            element = elements[i];
+                            if (element.lazyLoadProcessed) {
+                                return [3 /*break*/, 5];
+                            }
                             _a.label = 2;
                         case 2:
                             if (!(element.offsetParent === null && this._options.waitInvisible !== false)) return [3 /*break*/, 4];
@@ -455,8 +458,7 @@
                             }
                             if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
                                 this._showOnAppear(element);
-                                /* Marking the element as processed. */
-                                processedIndexes.push(i);
+                                shownCount++;
                                 element.lazyLoadProcessed = true;
                             }
                             _a.label = 5;
@@ -464,15 +466,16 @@
                             i++;
                             return [3 /*break*/, 1];
                         case 6:
-                            /* Removing processed elements from this._elements. */
-                            while (processedIndexes.length > 0) {
-                                this._elements.splice(processedIndexes.pop(), 1);
-                                if (this._options.callbackProcessed) {
-                                    this._options.callbackProcessed(this._elements.length);
+                            for (i = (this._elements || []).length - 1; i >= 0; i--) {
+                                if (this._elements[i].lazyLoadProcessed) {
+                                    this._elements.splice(i, 1);
                                 }
                             }
+                            if (this._options.callbackProcessed && shownCount > 0) {
+                                this._options.callbackProcessed(shownCount);
+                            }
                             /* Stop listening to scroll event when 0 elements remains */
-                            if (elementsLength === 0) {
+                            if (!this._elements || this._elements.length === 0) {
                                 this._stopScrollHandler();
                             }
                             return [2 /*return*/];

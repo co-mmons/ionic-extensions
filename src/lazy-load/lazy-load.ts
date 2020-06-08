@@ -298,11 +298,15 @@ export class Loader {
 
     private async _loopThroughElements() {
 
-        let elementsLength = (!this._elements) ? 0 : this._elements.length;
-        let processedIndexes = [];
+        let elements = (this._elements || []).slice();
+        let shownCount = 0;
 
-        for (let i = 0; i < elementsLength; i++) {
-            let element = this._elements[i];
+        for (let i = 0; i < elements.length; i++) {
+            let element = elements[i];
+
+            if (element.lazyLoadProcessed) {
+                continue;
+            }
 
             while (element.offsetParent === null && this._options.waitInvisible !== false) {
                 await sleep(100);
@@ -314,24 +318,23 @@ export class Loader {
 
             if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
                 this._showOnAppear(element);
-
-                /* Marking the element as processed. */
-                processedIndexes.push(i);
+                shownCount++;
                 element.lazyLoadProcessed = true;
             }
         }
 
-        /* Removing processed elements from this._elements. */
-        while (processedIndexes.length > 0) {
-            this._elements.splice(processedIndexes.pop(), 1);
-
-            if (this._options.callbackProcessed) {
-                this._options.callbackProcessed(this._elements.length);
+        for (let i = (this._elements || []).length - 1; i >= 0; i--) {
+            if (this._elements[i].lazyLoadProcessed) {
+                this._elements.splice(i, 1);
             }
         }
 
+        if (this._options.callbackProcessed && shownCount > 0) {
+            this._options.callbackProcessed(shownCount);
+        }
+
         /* Stop listening to scroll event when 0 elements remains */
-        if (elementsLength === 0) {
+        if (!this._elements || this._elements.length === 0) {
             this._stopScrollHandler();
         }
     };
