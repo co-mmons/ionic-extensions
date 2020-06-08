@@ -312,6 +312,10 @@ export class Loader {
                 await sleep(100);
             }
 
+            if (element.lazyLoadProcessed) {
+                continue;
+            }
+
             if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
                 continue;
             }

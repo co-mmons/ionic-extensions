@@ -237,6 +237,9 @@ class Loader {
                 while (element.offsetParent === null && this._options.waitInvisible !== false) {
                     yield sleep(100);
                 }
+                if (element.lazyLoadProcessed) {
+                    continue;
+                }
                 if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
                     continue;
                 }

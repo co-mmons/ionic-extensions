@@ -453,6 +453,9 @@
                             _a.sent();
                             return [3 /*break*/, 2];
                         case 4:
+                            if (element.lazyLoadProcessed) {
+                                return [3 /*break*/, 5];
+                            }
                             if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
                                 return [3 /*break*/, 5];
                             }
