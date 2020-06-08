@@ -1,4 +1,4 @@
-import { __values, __awaiter, __generator, __decorate, __param } from 'tslib';
+import { __awaiter, __generator, __values, __decorate, __param } from 'tslib';
 import { ElementRef, Input, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, NgModule } from '@angular/core';
 import { sleep } from '@co.mmons/js-utils/core';
 
@@ -231,31 +231,55 @@ var Loader = /** @class */ (function () {
         }
     };
     Loader.prototype._loopThroughElements = function () {
-        var elementsLength = (!this._elements) ? 0 : this._elements.length;
-        var processedIndexes = [];
-        for (var i = 0; i < elementsLength; i++) {
-            var element = this._elements[i];
-            if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
-                continue;
-            }
-            if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
-                this._showOnAppear(element);
-                /* Marking the element as processed. */
-                processedIndexes.push(i);
-                element.lazyLoadProcessed = true;
-            }
-        }
-        /* Removing processed elements from this._elements. */
-        while (processedIndexes.length > 0) {
-            this._elements.splice(processedIndexes.pop(), 1);
-            if (this._options.callbackProcessed) {
-                this._options.callbackProcessed(this._elements.length);
-            }
-        }
-        /* Stop listening to scroll event when 0 elements remains */
-        if (elementsLength === 0) {
-            this._stopScrollHandler();
-        }
+        return __awaiter(this, void 0, void 0, function () {
+            var elementsLength, processedIndexes, i, element;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        elementsLength = (!this._elements) ? 0 : this._elements.length;
+                        processedIndexes = [];
+                        i = 0;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < elementsLength)) return [3 /*break*/, 6];
+                        element = this._elements[i];
+                        _a.label = 2;
+                    case 2:
+                        if (!(element.offsetParent === null && this._options.waitInvisible !== false)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, sleep(100)];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 2];
+                    case 4:
+                        if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
+                            return [3 /*break*/, 5];
+                        }
+                        if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
+                            this._showOnAppear(element);
+                            /* Marking the element as processed. */
+                            processedIndexes.push(i);
+                            element.lazyLoadProcessed = true;
+                        }
+                        _a.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 6:
+                        /* Removing processed elements from this._elements. */
+                        while (processedIndexes.length > 0) {
+                            this._elements.splice(processedIndexes.pop(), 1);
+                            if (this._options.callbackProcessed) {
+                                this._options.callbackProcessed(this._elements.length);
+                            }
+                        }
+                        /* Stop listening to scroll event when 0 elements remains */
+                        if (elementsLength === 0) {
+                            this._stopScrollHandler();
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     ;
     Loader.prototype._purgeElements = function () {
@@ -498,8 +522,7 @@ var LazyDirectives = /** @class */ (function () {
         }
     };
     LazyDirectives.prototype.revalidate = function () {
-        // children.length > 1 because this is also included in children query
-        if (this.container && this.children.length > 1) {
+        if (this.container && this.children.length > 0) {
             this.container.revalidate();
         }
     };

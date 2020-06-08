@@ -1,3 +1,4 @@
+import {sleep} from "@co.mmons/js-utils/core";
 import {LazyLoadOptions} from "./lazy-load-options";
 
 const defaultOptions: LazyLoadOptions = {
@@ -295,13 +296,17 @@ export class Loader {
         }
     }
 
-    private _loopThroughElements() {
+    private async _loopThroughElements() {
 
         let elementsLength = (!this._elements) ? 0 : this._elements.length;
         let processedIndexes = [];
 
         for (let i = 0; i < elementsLength; i++) {
             let element = this._elements[i];
+
+            while (element.offsetParent === null && this._options.waitInvisible !== false) {
+                await sleep(100);
+            }
 
             if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
                 continue;

@@ -226,31 +226,36 @@ class Loader {
         }
     }
     _loopThroughElements() {
-        let elementsLength = (!this._elements) ? 0 : this._elements.length;
-        let processedIndexes = [];
-        for (let i = 0; i < elementsLength; i++) {
-            let element = this._elements[i];
-            if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
-                continue;
+        return __awaiter(this, void 0, void 0, function* () {
+            let elementsLength = (!this._elements) ? 0 : this._elements.length;
+            let processedIndexes = [];
+            for (let i = 0; i < elementsLength; i++) {
+                let element = this._elements[i];
+                while (element.offsetParent === null && this._options.waitInvisible !== false) {
+                    yield sleep(100);
+                }
+                if (this._options.skipInvisible !== false && (element.offsetParent === null || element.offsetHeight === 0 || element.offsetWidth === 0)) {
+                    continue;
+                }
+                if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
+                    this._showOnAppear(element);
+                    /* Marking the element as processed. */
+                    processedIndexes.push(i);
+                    element.lazyLoadProcessed = true;
+                }
             }
-            if (_isInsideViewport(element, this._options.container, this._options.threshold)) {
-                this._showOnAppear(element);
-                /* Marking the element as processed. */
-                processedIndexes.push(i);
-                element.lazyLoadProcessed = true;
+            /* Removing processed elements from this._elements. */
+            while (processedIndexes.length > 0) {
+                this._elements.splice(processedIndexes.pop(), 1);
+                if (this._options.callbackProcessed) {
+                    this._options.callbackProcessed(this._elements.length);
+                }
             }
-        }
-        /* Removing processed elements from this._elements. */
-        while (processedIndexes.length > 0) {
-            this._elements.splice(processedIndexes.pop(), 1);
-            if (this._options.callbackProcessed) {
-                this._options.callbackProcessed(this._elements.length);
+            /* Stop listening to scroll event when 0 elements remains */
+            if (elementsLength === 0) {
+                this._stopScrollHandler();
             }
-        }
-        /* Stop listening to scroll event when 0 elements remains */
-        if (elementsLength === 0) {
-            this._stopScrollHandler();
-        }
+        });
     }
     ;
     _purgeElements() {
@@ -455,8 +460,7 @@ let LazyDirectives = LazyDirectives_1 = class LazyDirectives {
         }
     }
     revalidate() {
-        // children.length > 1 because this is also included in children query
-        if (this.container && this.children.length > 1) {
+        if (this.container && this.children.length > 0) {
             this.container.revalidate();
         }
     }

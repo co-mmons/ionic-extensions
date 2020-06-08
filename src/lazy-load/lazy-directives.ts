@@ -117,9 +117,7 @@ export class LazyDirectives {
 	}
 
 	private revalidate() {
-
-		// children.length > 1 because this is also included in children query
-		if (this.container && this.children.length > 1) {
+		if (this.container && this.children.length > 0) {
 			this.container.revalidate();
 		}
 	}

@@ -10,6 +10,7 @@ export interface LazyLoadOptions {
     classLoading?: string;
     classLoaded?: string;
     skipInvisible?: boolean;
+    waitInvisible?: boolean;
     callbackLoad?: any;
     callbackError?: any;
     callbackSet?: any;
