@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, ElementRef, HostBinding, Input, OnDestroy, OnInit} from "@angular/core";
 import {LoaderOptions} from "./loader-options";
 
 @Component({
@@ -11,7 +11,8 @@ export class Loader implements OnInit, OnDestroy, LoaderOptions {
     constructor(private elementRef: ElementRef<HTMLElement>) {
     }
 
-    @Input("class.ionx--filled")
+    @Input()
+    @HostBinding("class.ionx--filled")
     fill: boolean;
 
     @Input()

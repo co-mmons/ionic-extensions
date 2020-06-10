@@ -1,6 +1,6 @@
 import { __decorate, __awaiter, __generator } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { ElementRef, Input, Component, Injectable, NgModule } from '@angular/core';
+import { ElementRef, Input, HostBinding, Component, Injectable, NgModule } from '@angular/core';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { PopoverController, IonicModule } from '@ionic/angular';
 import { waitTill } from '@co.mmons/js-utils/core';
@@ -50,7 +50,8 @@ var Loader = /** @class */ (function () {
         { type: ElementRef }
     ]; };
     __decorate([
-        Input("class.ionx--filled")
+        Input(),
+        HostBinding("class.ionx--filled")
     ], Loader.prototype, "fill", void 0);
     __decorate([
         Input()

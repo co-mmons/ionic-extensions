@@ -246,7 +246,8 @@
             { type: core.ElementRef }
         ]; };
         __decorate([
-            core.Input("class.ionx--filled")
+            core.Input(),
+            core.HostBinding("class.ionx--filled")
         ], Loader.prototype, "fill", void 0);
         __decorate([
             core.Input()
