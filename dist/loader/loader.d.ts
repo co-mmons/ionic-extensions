@@ -3,6 +3,7 @@ import { LoaderOptions } from "./loader-options";
 export declare class Loader implements OnInit, OnDestroy, LoaderOptions {
     private elementRef;
     constructor(elementRef: ElementRef<HTMLElement>);
+    fill: boolean;
     instanceCallback: (loader: Loader) => void;
     header: string;
     message: string;

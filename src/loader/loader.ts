@@ -4,14 +4,15 @@ import {LoaderOptions} from "./loader-options";
 @Component({
     selector: "ionx-loader",
     templateUrl: "loader.html",
-    styles: [
-        `:host { display: block }`
-    ]
+    styleUrls: ["loader.scss"]
 })
 export class Loader implements OnInit, OnDestroy, LoaderOptions {
 
     constructor(private elementRef: ElementRef<HTMLElement>) {
     }
+
+    @Input("class.ionx--filled")
+    fill: boolean;
 
     @Input()
     instanceCallback: (loader: Loader) => void;
