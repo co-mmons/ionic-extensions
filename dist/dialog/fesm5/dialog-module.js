@@ -13,6 +13,7 @@ var Dialog = /** @class */ (function () {
         this.resolver = resolver;
         this.injector = injector;
         this.didLoad = new EventEmitter();
+        this.width = "300px";
     }
     Object.defineProperty(Dialog.prototype, "component", {
         set: function (component) {
@@ -53,7 +54,7 @@ var Dialog = /** @class */ (function () {
     });
     Dialog.prototype.ngOnInit = function () {
         var modal = this.elementRef.nativeElement.closest("ion-modal");
-        modal.style.setProperty("--width", "300px");
+        modal.style.setProperty("--width", this.width || "auto");
         modal.style.setProperty("--height", "auto");
         modal.style.setProperty("--max-width", "90%");
         modal.style.setProperty("--max-height", "90%");
@@ -91,6 +92,9 @@ var Dialog = /** @class */ (function () {
     __decorate([
         Input()
     ], Dialog.prototype, "buttons", void 0);
+    __decorate([
+        Input()
+    ], Dialog.prototype, "width", void 0);
     __decorate([
         ViewChild("componentContainer", { read: ViewContainerRef, static: true })
     ], Dialog.prototype, "componentContainer", void 0);

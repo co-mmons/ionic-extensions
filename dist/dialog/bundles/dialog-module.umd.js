@@ -207,6 +207,7 @@
             this.resolver = resolver;
             this.injector = injector;
             this.didLoad = new core.EventEmitter();
+            this.width = "300px";
         }
         Object.defineProperty(Dialog.prototype, "component", {
             set: function (component) {
@@ -247,7 +248,7 @@
         });
         Dialog.prototype.ngOnInit = function () {
             var modal = this.elementRef.nativeElement.closest("ion-modal");
-            modal.style.setProperty("--width", "300px");
+            modal.style.setProperty("--width", this.width || "auto");
             modal.style.setProperty("--height", "auto");
             modal.style.setProperty("--max-width", "90%");
             modal.style.setProperty("--max-height", "90%");
@@ -285,6 +286,9 @@
         __decorate([
             core.Input()
         ], Dialog.prototype, "buttons", void 0);
+        __decorate([
+            core.Input()
+        ], Dialog.prototype, "width", void 0);
         __decorate([
             core.ViewChild("componentContainer", { read: core.ViewContainerRef, static: true })
         ], Dialog.prototype, "componentContainer", void 0);

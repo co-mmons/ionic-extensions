@@ -11,6 +11,7 @@ export declare class Dialog implements OnInit, OnDestroy {
     message: string | Type<any> | TypeAndProps<any>;
     header: string;
     buttons: DialogButton[];
+    width: string;
     private componentContainer;
     componentRef: ComponentRef<any>;
     set component(component: Type<any> | [Type<any>, {
