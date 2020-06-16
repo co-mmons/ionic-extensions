@@ -45,7 +45,8 @@ export class DialogController {
                 component: options.component,
                 header: options.header,
                 message: options.message,
-                buttons: options.buttons
+                buttons: options.buttons,
+                width: options.width
             },
             leaveAnimation
         }));

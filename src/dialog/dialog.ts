@@ -44,7 +44,7 @@ export class Dialog implements OnInit, OnDestroy {
     buttons: DialogButton[];
 
     @Input()
-    width: string = "300px";
+    width: string;
 
     @ViewChild("componentContainer", {read: ViewContainerRef, static: true})
     private componentContainer: ViewContainerRef;
@@ -85,7 +85,7 @@ export class Dialog implements OnInit, OnDestroy {
     ngOnInit(): void {
         const modal = this.elementRef.nativeElement.closest("ion-modal");
 
-        modal.style.setProperty("--width", this.width || "auto");
+        modal.style.setProperty("--width", this.width || "300px");
         modal.style.setProperty("--height", "auto");
         modal.style.setProperty("--max-width", "90%");
         modal.style.setProperty("--max-height", "90%");
