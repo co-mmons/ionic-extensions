@@ -8,5 +8,6 @@ export interface DialogOptions extends Omit<ModalOptions, "componentProps" | "co
     header?: string;
     buttons?: DialogButton[];
     component?: Type<any> | TypeAndProps<any>;
+    width?: string;
 }
 export {};
