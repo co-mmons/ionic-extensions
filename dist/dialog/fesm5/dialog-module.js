@@ -72,9 +72,31 @@ var Dialog = /** @class */ (function () {
         this.value = undefined;
     };
     Dialog.prototype.ionViewDidEnter = function () {
+        var _a, _b;
         var input = this.elementRef.nativeElement.querySelector("input");
         if (input) {
             input.focus();
+        }
+        if (typeof ((_b = (_a = this.componentRef) === null || _a === void 0 ? void 0 : _a.instance) === null || _b === void 0 ? void 0 : _b.ionViewDidEnter) === "function") {
+            this.componentRef.instance.ionViewDidEnter();
+        }
+    };
+    Dialog.prototype.ionViewDidLeave = function () {
+        var _a, _b;
+        if (typeof ((_b = (_a = this.componentRef) === null || _a === void 0 ? void 0 : _a.instance) === null || _b === void 0 ? void 0 : _b.ionViewDidLeave) === "function") {
+            this.componentRef.instance.ionViewDidLeave();
+        }
+    };
+    Dialog.prototype.ionViewWillEnter = function () {
+        var _a, _b;
+        if (typeof ((_b = (_a = this.componentRef) === null || _a === void 0 ? void 0 : _a.instance) === null || _b === void 0 ? void 0 : _b.ionViewWillEnter) === "function") {
+            this.componentRef.instance.ionViewWillEnter();
+        }
+    };
+    Dialog.prototype.ionViewWillLeave = function () {
+        var _a, _b;
+        if (typeof ((_b = (_a = this.componentRef) === null || _a === void 0 ? void 0 : _a.instance) === null || _b === void 0 ? void 0 : _b.ionViewWillLeave) === "function") {
+            this.componentRef.instance.ionViewWillLeave();
         }
     };
     Dialog.ctorParameters = function () { return [

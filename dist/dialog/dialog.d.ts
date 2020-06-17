@@ -20,4 +20,7 @@ export declare class Dialog implements OnInit, OnDestroy {
     ngOnInit(): void;
     ngOnDestroy(): void;
     ionViewDidEnter(): void;
+    ionViewDidLeave(): void;
+    ionViewWillEnter(): void;
+    ionViewWillLeave(): void;
 }

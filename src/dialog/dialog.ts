@@ -112,5 +112,27 @@ export class Dialog implements OnInit, OnDestroy {
         if (input) {
             input.focus();
         }
+
+        if (typeof this.componentRef?.instance?.ionViewDidEnter === "function") {
+            this.componentRef.instance.ionViewDidEnter();
+        }
+    }
+
+    ionViewDidLeave() {
+        if (typeof this.componentRef?.instance?.ionViewDidLeave === "function") {
+            this.componentRef.instance.ionViewDidLeave();
+        }
+    }
+
+    ionViewWillEnter() {
+        if (typeof this.componentRef?.instance?.ionViewWillEnter === "function") {
+            this.componentRef.instance.ionViewWillEnter();
+        }
+    }
+
+    ionViewWillLeave() {
+        if (typeof this.componentRef?.instance?.ionViewWillLeave === "function") {
+            this.componentRef.instance.ionViewWillLeave();
+        }
     }
 }
