@@ -1,6 +1,5 @@
-import { __decorate, __awaiter, __param } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { Input, Component, EventEmitter, ElementRef, Optional, HostBinding, Output, ViewChild, NgModule } from '@angular/core';
+import { Component, Input, EventEmitter, ElementRef, Optional, HostBinding, Output, ViewChild, NgModule } from '@angular/core';
 import { NgControl, Validators, FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlModule } from '@co.mmons/angular-intl';
@@ -12,10 +11,13 @@ import { ButtonsModule } from '@co.mmons/ionic-extensions/buttons';
 import { MessageRef } from '@co.mmons/js-intl';
 import { Schema, DOMSerializer, DOMParser, Slice, Fragment, NodeRange } from 'prosemirror-model';
 import { nodes as nodes$1, marks as marks$1 } from 'prosemirror-schema-basic';
-import { bulletList, orderedList, listItem, splitListItem as splitListItem$1, liftListItem as liftListItem$1, sinkListItem, wrapInList as wrapInList$1 } from 'prosemirror-schema-list';
+import * as baseListCommand from 'prosemirror-schema-list';
+import { bulletList, orderedList, listItem, splitListItem as splitListItem$1 } from 'prosemirror-schema-list';
+import { __awaiter } from 'tslib';
 import { EventManager } from '@angular/platform-browser';
 import { waitTill, sleep } from '@co.mmons/js-utils/core';
-import { joinUp, joinDown, lift, selectParentNode, toggleMark, baseKeymap, setBlockType, chainCommands, autoJoin } from 'prosemirror-commands';
+import * as baseCommand from 'prosemirror-commands';
+import { joinUp, joinDown, lift, selectParentNode, toggleMark, baseKeymap, setBlockType } from 'prosemirror-commands';
 import { gapCursor, GapCursor } from 'prosemirror-gapcursor';
 import { undo, redo, history, undoDepth, redoDepth } from 'prosemirror-history';
 import { keymap } from 'prosemirror-keymap';
@@ -115,7 +117,7 @@ const changeAlignment = (align) => (state, dispatch) => {
     return toggleBlockMark(alignment, () => (!align ? undefined : align === "left" ? false : { align }), [paragraph, heading])(state, dispatch);
 };
 
-const ɵ0 = dom => {
+const ɵ0$4 = dom => {
     const size = dom.getAttribute("data-font-size");
     return size ? { fontSize: size } : false;
 };
@@ -128,7 +130,7 @@ const fontSize = {
     parseDOM: [
         {
             tag: "span[data-font-size]",
-            getAttrs: ɵ0,
+            getAttrs: ɵ0$4,
         },
     ],
     toDOM(mark) {
@@ -140,7 +142,7 @@ const fontSize = {
     },
 };
 
-const ɵ0$1 = dom => {
+const ɵ0$3 = dom => {
     const align = dom.getAttribute("data-align");
     return align ? { align } : false;
 };
@@ -153,7 +155,7 @@ const alignment = {
     parseDOM: [
         {
             tag: "div[data-align]",
-            getAttrs: ɵ0$1,
+            getAttrs: ɵ0$3,
         },
     ],
     toDOM(mark) {
@@ -168,12 +170,12 @@ const alignment = {
     },
 };
 
-const ɵ0$2 = { default: "" }, ɵ1 = (node) => {
+const ɵ0$2 = { default: "" }, ɵ1$1 = (node) => {
     return [
         "div",
         { "data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "") }
     ];
-}, ɵ2 = (dom) => {
+}, ɵ2$1 = (dom) => {
     // @ts-ignore
     const info = dom.getAttribute("data-youtube").split(",");
     return {
@@ -186,11 +188,11 @@ const youtube = {
     inline: false,
     group: "block",
     draggable: false,
-    toDOM: ɵ1,
+    toDOM: ɵ1$1,
     parseDOM: [
         {
             tag: "div[data-youtube]",
-            getAttrs: ɵ2,
+            getAttrs: ɵ2$1,
         }
     ]
 };
@@ -257,7 +259,7 @@ function findBlockMarks(state, markType) {
     return marks;
 }
 
-let AlignmentMenu = class AlignmentMenu {
+class AlignmentMenu {
     constructor(popoverController) {
         this.popoverController = popoverController;
         this.Alignment = Alignment;
@@ -283,16 +285,10 @@ let AlignmentMenu = class AlignmentMenu {
     ionViewWillLeave() {
         this.editor.focus();
     }
-};
-AlignmentMenu.ctorParameters = () => [
-    { type: PopoverController }
-];
-__decorate([
-    Input()
-], AlignmentMenu.prototype, "editor", void 0);
-AlignmentMenu = __decorate([
-    Component({
-        template: `
+}
+AlignmentMenu.decorators = [
+    { type: Component, args: [{
+                template: `
         <ion-list lines="full">
 
             <ion-item button="true" detail="false" (click)="toggleAligment(alignment)" *ngFor="let alignment of Alignment.alignments()">
@@ -303,12 +299,18 @@ AlignmentMenu = __decorate([
 
         </ion-list>
     `,
-        styles: [`
+                styles: [`
         :host ion-list { margin: 0px; padding: 0px; }
         :host ion-item:last-child { --border-width: 0px; }
     `]
-    })
-], AlignmentMenu);
+            },] }
+];
+AlignmentMenu.ctorParameters = () => [
+    { type: PopoverController }
+];
+AlignmentMenu.propDecorators = {
+    editor: [{ type: Input }]
+};
 
 const mac = typeof navigator !== "undefined" ? /Mac/.test(navigator.platform) : false;
 function buildKeymap(schema, mapKeys) {
@@ -518,8 +520,7 @@ function caretTopPoint() {
     }
 }
 
-var HtmlEditor_1;
-let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
+class HtmlEditor {
     constructor(element, eventManager, formControl, item) {
         this.element = element;
         this.eventManager = eventManager;
@@ -531,7 +532,7 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
         if (formControl) {
             this.formControl.valueAccessor = this;
         }
-        this.id = "ionx-trix-editor" + (HtmlEditor_1.idGenerator++);
+        this.id = "ionx-trix-editor" + (HtmlEditor.idGenerator++);
         this.itemInputWrapper = !!this.item;
         this.element.nativeElement.setAttribute("no-blur", "");
     }
@@ -769,48 +770,34 @@ let HtmlEditor = HtmlEditor_1 = class HtmlEditor {
             this.readonlyChanged();
         }
     }
-};
+}
 HtmlEditor.idGenerator = 0;
+HtmlEditor.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-html-editor",
+                template: `
+        <ionx-html-editor-toolbar [style.display]="readonly ? 'none' : ''"></ionx-html-editor-toolbar>
+    `,
+                styles: [":host ::ng-deep .ProseMirror{outline:none;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror:not([contenteditable=true]) .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}\n"]
+            },] }
+];
 HtmlEditor.ctorParameters = () => [
     { type: ElementRef },
     { type: EventManager },
     { type: NgControl, decorators: [{ type: Optional }] },
     { type: IonItem, decorators: [{ type: Optional }] }
 ];
-__decorate([
-    HostBinding("class.ionx-item-input-wrapper")
-], HtmlEditor.prototype, "itemInputWrapper", void 0);
-__decorate([
-    Input()
-], HtmlEditor.prototype, "features", void 0);
-__decorate([
-    Input()
-], HtmlEditor.prototype, "disabled", void 0);
-__decorate([
-    Input()
-], HtmlEditor.prototype, "readonly", void 0);
-__decorate([
-    Output()
-], HtmlEditor.prototype, "change", void 0);
-__decorate([
-    Output()
-], HtmlEditor.prototype, "selectionChange", void 0);
-__decorate([
-    Input()
-], HtmlEditor.prototype, "value", null);
-HtmlEditor = HtmlEditor_1 = __decorate([
-    Component({
-        selector: "ionx-html-editor",
-        template: `
-        <ionx-html-editor-toolbar [style.display]="readonly ? 'none' : ''"></ionx-html-editor-toolbar>
-    `,
-        styles: [":host ::ng-deep .ProseMirror{outline:0;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror:not([contenteditable=true]) .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}"]
-    }),
-    __param(2, Optional()),
-    __param(3, Optional())
-], HtmlEditor);
+HtmlEditor.propDecorators = {
+    itemInputWrapper: [{ type: HostBinding, args: ["class.ionx-item-input-wrapper",] }],
+    features: [{ type: Input }],
+    disabled: [{ type: Input }],
+    readonly: [{ type: Input }],
+    change: [{ type: Output }],
+    selectionChange: [{ type: Output }],
+    value: [{ type: Input }]
+};
 
-let HeadingMenu = class HeadingMenu {
+class HeadingMenu {
     constructor(popoverController) {
         this.popoverController = popoverController;
     }
@@ -837,16 +824,10 @@ let HeadingMenu = class HeadingMenu {
     ionViewWillLeave() {
         this.editor.focus();
     }
-};
-HeadingMenu.ctorParameters = () => [
-    { type: PopoverController }
-];
-__decorate([
-    Input()
-], HeadingMenu.prototype, "editor", void 0);
-HeadingMenu = __decorate([
-    Component({
-        template: `
+}
+HeadingMenu.decorators = [
+    { type: Component, args: [{
+                template: `
         <ion-list lines="full">
 
             <ion-item button="true" detail="false" (click)="toggleHeading(0)" *ngIf="activeHeading > 0">
@@ -885,10 +866,16 @@ HeadingMenu = __decorate([
             
         </ion-list>
     `,
-        styles: [`:host ion-list { margin: 0px; padding: 0px }`,
-            `:host ion-item:last-child { --border-width: 0px; }`]
-    })
-], HeadingMenu);
+                styles: [`:host ion-list { margin: 0px; padding: 0px }`,
+                    `:host ion-item:last-child { --border-width: 0px; }`]
+            },] }
+];
+HeadingMenu.ctorParameters = () => [
+    { type: PopoverController }
+];
+HeadingMenu.propDecorators = {
+    editor: [{ type: Input }]
+};
 
 class LinkType {
     constructor(type) {
@@ -985,14 +972,13 @@ function findNodeStartEnd(doc, pos) {
     return { start, end };
 }
 
-var LinkModal_1;
-let LinkModal = LinkModal_1 = class LinkModal {
+class LinkModal {
     constructor(modalController) {
         this.modalController = modalController;
     }
     static present(modalController, editor) {
         return __awaiter(this, void 0, void 0, function* () {
-            const modal = yield modalController.create({ component: LinkModal_1, componentProps: { editor: editor } });
+            const modal = yield modalController.create({ component: LinkModal, componentProps: { editor: editor } });
             modal.present();
         });
     }
@@ -1134,24 +1120,22 @@ let LinkModal = LinkModal_1 = class LinkModal {
     ngOnDestroy() {
         unsubscribe(this.typeChangesSubscription);
     }
-};
+}
+LinkModal.decorators = [
+    { type: Component, args: [{
+                template: "<ion-header>\n\n    <ion-toolbar>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); close()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"margin: 0; padding: 0;\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n\n            <ion-button fill=\"clear\" color=\"dark\" (click)=\"unlink()\" *ngIf=\"existing\">\n                <ion-icon name=\"trash\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Unlink\" | intlMessage}}</ion-label>\n            </ion-button>\n\n            <ion-button fill=\"clear\" color=\"primary\" (click)=\"ok()\">\n                <ion-icon name=\"checkmark\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-label>\n            </ion-button>\n\n        </ionx-buttons>\n\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content [forceOverscroll]=\"false\">\n\n    <ionx-spinner slot=\"fixed\" fill *ngIf=\"!form\"></ionx-spinner>\n\n    <form ionx-form-helper [formGroup]=\"form\" *ngIf=\"form\">\n\n        <ion-grid>\n\n            <ion-row>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link type\" | intlMessage}}</ion-label>\n                            <ionx-select required [compareAsString]=\"true\" formControlName=\"type\">\n                                <ionx-select-option *ngFor=\"let type of types\" [value]=\"type\">{{type.label | intlMessage}}</ionx-select-option>\n                            </ionx-select>\n                        </ion-item>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{(form.controls['type'].value.inputLabel || \"@co.mmons/ionic-extensions/html-editor#link/Link\") | intlMessage}}</ion-label>\n                            <ion-input formControlName=\"link\" type=\"form.controls['type'].value.inputType\"></ion-input>\n                        </ion-item>\n\n                        <ionx-form-item-error control=\"link\" markedAs=\"dirty\"></ionx-form-item-error>\n\n                        <ionx-form-item-hint *ngIf=\"form.controls['type'].value.inputHint\">\n                            <span [innerHTML]=\"form.controls['type'].value.inputHint | intlMessage\"></span>\n                        </ionx-form-item-hint>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n            </ion-row>\n\n\n        </ion-grid>\n\n    </form>\n\n</ion-content>\n",
+                styles: [`:host ion-item:not(.ion-dirty) { --highlight-height: 0px; }`]
+            },] }
+];
 LinkModal.ctorParameters = () => [
     { type: ModalController }
 ];
-__decorate([
-    Input()
-], LinkModal.prototype, "editor", void 0);
-__decorate([
-    ViewChild(FormHelper, { static: false })
-], LinkModal.prototype, "formHelper", void 0);
-LinkModal = LinkModal_1 = __decorate([
-    Component({
-        template: "<ion-header>\n\n    <ion-toolbar>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); close()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"margin: 0; padding: 0;\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n\n            <ion-button fill=\"clear\" color=\"dark\" (click)=\"unlink()\" *ngIf=\"existing\">\n                <ion-icon name=\"trash\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Unlink\" | intlMessage}}</ion-label>\n            </ion-button>\n\n            <ion-button fill=\"clear\" color=\"primary\" (click)=\"ok()\">\n                <ion-icon name=\"checkmark\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-label>\n            </ion-button>\n\n        </ionx-buttons>\n\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content [forceOverscroll]=\"false\">\n\n    <ionx-spinner slot=\"fixed\" fill *ngIf=\"!form\"></ionx-spinner>\n\n    <form ionx-form-helper [formGroup]=\"form\" *ngIf=\"form\">\n\n        <ion-grid>\n\n            <ion-row>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link type\" | intlMessage}}</ion-label>\n                            <ionx-select required [compareAsString]=\"true\" formControlName=\"type\">\n                                <ionx-select-option *ngFor=\"let type of types\" [value]=\"type\">{{type.label | intlMessage}}</ionx-select-option>\n                            </ionx-select>\n                        </ion-item>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{(form.controls['type'].value.inputLabel || \"@co.mmons/ionic-extensions/html-editor#link/Link\") | intlMessage}}</ion-label>\n                            <ion-input formControlName=\"link\" type=\"form.controls['type'].value.inputType\"></ion-input>\n                        </ion-item>\n\n                        <ionx-form-item-error control=\"link\" markedAs=\"dirty\"></ionx-form-item-error>\n\n                        <ionx-form-item-hint *ngIf=\"form.controls['type'].value.inputHint\">\n                            <span [innerHTML]=\"form.controls['type'].value.inputHint | intlMessage\"></span>\n                        </ionx-form-item-hint>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n            </ion-row>\n\n\n        </ion-grid>\n\n    </form>\n\n</ion-content>\n",
-        styles: [`:host ion-item:not(.ion-dirty) { --highlight-height: 0px; }`]
-    })
-], LinkModal);
+LinkModal.propDecorators = {
+    editor: [{ type: Input }],
+    formHelper: [{ type: ViewChild, args: [FormHelper, { static: false },] }]
+};
 
-let InsertMenu = class InsertMenu {
+class InsertMenu {
     // @ts-ignore
     constructor(popoverController, modalController) {
         this.popoverController = popoverController;
@@ -1234,20 +1218,10 @@ let InsertMenu = class InsertMenu {
             }
         });
     }
-};
-InsertMenu.ctorParameters = () => [
-    { type: PopoverController },
-    { type: ModalController }
-];
-__decorate([
-    Input()
-], InsertMenu.prototype, "editor", void 0);
-__decorate([
-    ViewChild("youtubeInput", { static: false })
-], InsertMenu.prototype, "youtubeInput", void 0);
-InsertMenu = __decorate([
-    Component({
-        template: `
+}
+InsertMenu.decorators = [
+    { type: Component, args: [{
+                template: `
         <ion-list lines="full">
             
             <ng-template [ngIf]="!inputView">
@@ -1287,11 +1261,19 @@ InsertMenu = __decorate([
             
         </ion-list>
     `,
-        styles: [`:host ion-list { margin: 0px; padding: 0px }`,
-            `:host ion-item:last-child { --border-width: 0px; }`,
-            `:host ion-item { --highlight-height: 0px; }`]
-    })
-], InsertMenu);
+                styles: [`:host ion-list { margin: 0px; padding: 0px }`,
+                    `:host ion-item:last-child { --border-width: 0px; }`,
+                    `:host ion-item { --highlight-height: 0px; }`]
+            },] }
+];
+InsertMenu.ctorParameters = () => [
+    { type: PopoverController },
+    { type: ModalController }
+];
+InsertMenu.propDecorators = {
+    editor: [{ type: Input }],
+    youtubeInput: [{ type: ViewChild, args: ["youtubeInput", { static: false },] }]
+};
 
 const filter = (predicates, cmd) => {
     return function (state, dispatch, view) {
@@ -1549,7 +1531,7 @@ const isMarkExcluded = (type, marks) => {
     return false;
 };
 const not = (fn) => (arg) => !fn(arg);
-const ɵ0$3 = not;
+const ɵ0$1 = not;
 const removeBlockMarks = (state, marks) => {
     const { selection, schema } = state;
     let { tr } = state;
@@ -2191,7 +2173,7 @@ const deletePreviousEmptyListItem = (state, dispatch) => {
     }
     return false;
 };
-const ɵ0$4 = deletePreviousEmptyListItem;
+const ɵ0 = deletePreviousEmptyListItem;
 const joinToPreviousListItem = (state, dispatch) => {
     const { $from } = state.selection;
     const { paragraph, listItem, codeBlock, bulletList, orderedList, } = state.schema.nodes;
@@ -2243,7 +2225,7 @@ const joinToPreviousListItem = (state, dispatch) => {
     }
     return false;
 };
-const ɵ1$1 = joinToPreviousListItem;
+const ɵ1 = joinToPreviousListItem;
 const isInsideListItem = (state) => {
     const { $from } = state.selection;
     const { listItem, paragraph } = state.schema.nodes;
@@ -2253,7 +2235,7 @@ const isInsideListItem = (state) => {
     return (hasParentNodeOfType(listItem)(state.selection) &&
         $from.parent.type === paragraph);
 };
-const ɵ2$1 = isInsideListItem;
+const ɵ2 = isInsideListItem;
 const canToJoinToPreviousListItem = (state) => {
     const { $from } = state.selection;
     const { bulletList, orderedList } = state.schema.nodes;
@@ -2294,7 +2276,7 @@ const enterKeyCommand = (state, dispatch) => {
     }
     return false;
 };
-const backspaceKeyCommand = chainCommands(
+const backspaceKeyCommand = baseCommand.chainCommands(
 // if we"re at the start of a list item, we need to either backspace
 // directly to an empty list item above, or outdent this node
 filter([
@@ -2302,7 +2284,7 @@ filter([
     // list items might have multiple paragraphs; only do this at the first one
     isFirstChildOfParent,
     canOutdent,
-], chainCommands(deletePreviousEmptyListItem, outdentList())), 
+], baseCommand.chainCommands(deletePreviousEmptyListItem, outdentList())), 
 // if we"re just inside a paragraph node (or gapcursor is shown) and backspace, then try to join
 // the text to the previous list item, if one exists
 filter([isEmptySelectionAtStart, canToJoinToPreviousListItem], joinToPreviousListItem));
@@ -2428,7 +2410,7 @@ function outdentList() {
                 return false;
             }
             return compose(mergeLists(listItem, range), // 2. Check if I need to merge nearest list
-            liftListItem$1)(listItem)(state, dispatch);
+            baseListCommand.liftListItem)(listItem)(state, dispatch);
         }
         return false;
     };
@@ -2465,7 +2447,7 @@ function indentList() {
             // Record initial list indentation
             const initialIndentationLevel = numberNestedLists(state.selection.$from, state.schema.nodes);
             if (canSink(initialIndentationLevel, state)) {
-                compose(sinkListItem)(listItem)(state, dispatch);
+                compose(baseListCommand.sinkListItem)(listItem)(state, dispatch);
             }
             return true;
         }
@@ -2627,10 +2609,10 @@ function toggleOrderedList(view) {
     return toggleList(view.state, view.dispatch, view, "orderedList");
 }
 function wrapInList(nodeType) {
-    return autoJoin(wrapInList$1(nodeType), (before, after) => before.type === after.type && before.type === nodeType);
+    return baseCommand.autoJoin(baseListCommand.wrapInList(nodeType), (before, after) => before.type === after.type && before.type === nodeType);
 }
 
-let ListMenu = class ListMenu {
+class ListMenu {
     constructor(popoverController) {
         this.popoverController = popoverController;
     }
@@ -2652,16 +2634,10 @@ let ListMenu = class ListMenu {
     ionViewWillLeave() {
         this.editor.focus();
     }
-};
-ListMenu.ctorParameters = () => [
-    { type: PopoverController }
-];
-__decorate([
-    Input()
-], ListMenu.prototype, "editor", void 0);
-ListMenu = __decorate([
-    Component({
-        template: `
+}
+ListMenu.decorators = [
+    { type: Component, args: [{
+                template: `
         <ion-list lines="full">
 
             <ion-item button="true" detail="false" (click)="toggleList('bulletList')">
@@ -2696,15 +2672,21 @@ ListMenu = __decorate([
 
         </ion-list>
     `,
-        styles: [`
+                styles: [`
         :host { user-select: none; }
         :host ion-list { margin: 0px; padding: 0px; }
         :host ion-item:last-child { --border-width: 0px; }
         :host ion-item-divider { --background: transparent; font-size: small }
         :host ion-item-divider ion-label { margin-top: 20px; opacity: 0.8; }
     `]
-    })
-], ListMenu);
+            },] }
+];
+ListMenu.ctorParameters = () => [
+    { type: PopoverController }
+];
+ListMenu.propDecorators = {
+    editor: [{ type: Input }]
+};
 
 class FontSize {
     constructor(size) {
@@ -2807,7 +2789,7 @@ function anyMarkActive(state, types) {
     return false;
 }
 
-let TextFormatMenu = class TextFormatMenu {
+class TextFormatMenu {
     constructor(popoverController) {
         this.popoverController = popoverController;
         this.FontSize = FontSize;
@@ -2860,16 +2842,10 @@ let TextFormatMenu = class TextFormatMenu {
     ionViewWillLeave() {
         this.editor.focus();
     }
-};
-TextFormatMenu.ctorParameters = () => [
-    { type: PopoverController }
-];
-__decorate([
-    Input()
-], TextFormatMenu.prototype, "editor", void 0);
-TextFormatMenu = __decorate([
-    Component({
-        template: `
+}
+TextFormatMenu.decorators = [
+    { type: Component, args: [{
+                template: `
         <ion-list lines="full">
             
             <ion-item button="true" detail="false" (click)="toggle('bold')">
@@ -2902,15 +2878,21 @@ TextFormatMenu = __decorate([
 
         </ion-list>
     `,
-        styles: [`
+                styles: [`
         :host { user-select: none; }
         :host ion-list { margin: 0px; padding: 0px; }
         :host ion-item:last-child { --border-width: 0px; }
         :host ion-item-divider { --background: transparent; font-size: small }
         :host ion-item-divider ion-label { margin-top: 20px; opacity: 0.8; }
     `]
-    })
-], TextFormatMenu);
+            },] }
+];
+TextFormatMenu.ctorParameters = () => [
+    { type: PopoverController }
+];
+TextFormatMenu.propDecorators = {
+    editor: [{ type: Input }]
+};
 
 function isBlockMarkActive(state, type) {
     const { from, $from, to, empty } = state.selection;
@@ -2926,7 +2908,7 @@ function isBlockMarkActive(state, type) {
     }
 }
 
-let Toolbar = class Toolbar {
+class Toolbar {
     constructor(popoverController, platform, editor, eventManager, modalController) {
         this.popoverController = popoverController;
         this.platform = platform;
@@ -2987,18 +2969,11 @@ let Toolbar = class Toolbar {
     ngOnDestroy() {
         unsubscribe(this.selectionSubscription);
     }
-};
-Toolbar.ctorParameters = () => [
-    { type: PopoverController },
-    { type: Platform },
-    { type: HtmlEditor },
-    { type: EventManager },
-    { type: ModalController }
-];
-Toolbar = __decorate([
-    Component({
-        selector: "ionx-html-editor-toolbar",
-        template: `
+}
+Toolbar.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-html-editor-toolbar",
+                template: `
         <ion-button size="small" fill="clear" [class.active-feature]="activeFeatures.text" (click)="showMenu($event, 'text')">
             <ion-icon name="dropdown" slot="end"></ion-icon>
             <span>{{"@co.mmons/ionic-extensions/html-editor#Text" | intlMessage}}</span>
@@ -3038,7 +3013,7 @@ Toolbar = __decorate([
             </ion-button>
         </div>
     `,
-        styles: [`
+                styles: [`
         :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); z-index: 1; }
         :host-context(.ion-focused) { background-color: var(--background-focused); }
         :host ion-button { margin: 0px 4px; --padding-end: 2px; --padding-start: 4px; }
@@ -3048,19 +3023,26 @@ Toolbar = __decorate([
         :host [ionx--buttons-group] { display: flex; }
         :host [ionx--buttons-group] ion-button:not(:last-child) { margin-right: 0px; }
     `]
-    })
-], Toolbar);
+            },] }
+];
+Toolbar.ctorParameters = () => [
+    { type: PopoverController },
+    { type: Platform },
+    { type: HtmlEditor },
+    { type: EventManager },
+    { type: ModalController }
+];
 
-let HtmlEditorModule = class HtmlEditorModule {
-};
-HtmlEditorModule = __decorate([
-    NgModule({
-        imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule, MatchMediaModule, SpinnerModule],
-        declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],
-        exports: [HtmlEditor, IntlModule],
-        entryComponents: [AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu]
-    })
-], HtmlEditorModule);
+class HtmlEditorModule {
+}
+HtmlEditorModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule, IonicModule, IntlModule, SelectModule, FormsModule, ReactiveFormsModule, FormHelperModule, ButtonsModule, MatchMediaModule, SpinnerModule],
+                declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],
+                exports: [HtmlEditor, IntlModule],
+                entryComponents: [AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

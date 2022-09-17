@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/modal",
   "sideEffects": false,
   "main": "bundles/modal-module.umd.js",
-  "module": "fesm5/modal-module.js",
+  "module": "fesm2015/modal-module.js",
   "es2015": "fesm2015/modal-module.js",
-  "esm5": "esm5/modal-module.js",
   "esm2015": "esm2015/modal-module.js",
-  "fesm5": "fesm5/modal-module.js",
   "fesm2015": "fesm2015/modal-module.js",
   "typings": "modal-module.d.ts",
   "metadata": "modal-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

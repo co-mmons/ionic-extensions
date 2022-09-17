@@ -1,13 +1,13 @@
-import { __decorate, __awaiter } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { EventEmitter, ElementRef, ComponentFactoryResolver, Injector, Input, ViewChild, ViewContainerRef, Component, ChangeDetectionStrategy, Injectable, NgModule } from '@angular/core';
+import { EventEmitter, Component, ChangeDetectionStrategy, ElementRef, ComponentFactoryResolver, Injector, Input, ViewChild, ViewContainerRef, Injectable, NgModule } from '@angular/core';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { ButtonsModule } from '@co.mmons/ionic-extensions/buttons';
 import { ModalController, IonicModule } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
+import { __awaiter } from 'tslib';
 import { createAnimation } from '@ionic/core/';
 
-let Dialog = class Dialog {
+class Dialog {
     constructor(elementRef, resolver, injector) {
         this.elementRef = elementRef;
         this.resolver = resolver;
@@ -84,43 +84,33 @@ let Dialog = class Dialog {
             this.componentRef.instance.ionViewWillLeave();
         }
     }
-};
+}
+Dialog.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-dialog",
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                template: "<ng-container *ngIf=\"!componentRef\">\n\n    <ionx-dialog-content [header]=\"header\" [message]=\"message\"></ionx-dialog-content>\n\n    <ionx-dialog-buttons [buttons]=\"buttons\"></ionx-dialog-buttons>\n\n</ng-container>\n\n<ng-template #componentContainer></ng-template>\n",
+                styles: [":host{--dialog--background-color: var(--background-color, var(--ion-background-color, #ffffff));--dialog--foreground-color: var(--foreground-color, var(--ion-text-color));--dialog--border-color: var(--border-color, var(--ion-border-color));display:flex;contain:content;position:relative;color:var(--dialog--foreground-color)}:host-context(.md){--dialog--message-font-size: 16px;--dialog--header-font-size: 20px;--dialog--text-align: left}:host-context(.ios){--dialog--message-font-size: 15px;--dialog--header-font-size: 18px;--dialog--text-align: left;--dialog--buttons-align: center;--dialog--header-font-weight: 500}\n"]
+            },] }
+];
 Dialog.ctorParameters = () => [
     { type: ElementRef },
     { type: ComponentFactoryResolver },
     { type: Injector }
 ];
-__decorate([
-    Input()
-], Dialog.prototype, "message", void 0);
-__decorate([
-    Input()
-], Dialog.prototype, "header", void 0);
-__decorate([
-    Input()
-], Dialog.prototype, "buttons", void 0);
-__decorate([
-    Input()
-], Dialog.prototype, "width", void 0);
-__decorate([
-    ViewChild("componentContainer", { read: ViewContainerRef, static: true })
-], Dialog.prototype, "componentContainer", void 0);
-__decorate([
-    Input()
-], Dialog.prototype, "component", null);
-Dialog = __decorate([
-    Component({
-        selector: "ionx-dialog",
-        changeDetection: ChangeDetectionStrategy.OnPush,
-        template: "<ng-container *ngIf=\"!componentRef\">\n\n    <ionx-dialog-content [header]=\"header\" [message]=\"message\"></ionx-dialog-content>\n\n    <ionx-dialog-buttons [buttons]=\"buttons\"></ionx-dialog-buttons>\n\n</ng-container>\n\n<ng-template #componentContainer></ng-template>\n",
-        styles: [":host{--dialog--background-color:var(--background-color, var(--ion-background-color, #ffffff));--dialog--foreground-color:var(--foreground-color, var(--ion-text-color));--dialog--border-color:var(--border-color, var(--ion-border-color));display:-webkit-box;display:flex;contain:content;position:relative;color:var(--dialog--foreground-color)}:host-context(.md){--dialog--message-font-size:16px;--dialog--header-font-size:20px;--dialog--text-align:left}:host-context(.ios){--dialog--message-font-size:15px;--dialog--header-font-size:18px;--dialog--text-align:left;--dialog--buttons-align:center;--dialog--header-font-weight:500}"]
-    })
-], Dialog);
+Dialog.propDecorators = {
+    message: [{ type: Input }],
+    header: [{ type: Input }],
+    buttons: [{ type: Input }],
+    width: [{ type: Input }],
+    componentContainer: [{ type: ViewChild, args: ["componentContainer", { read: ViewContainerRef, static: true },] }],
+    component: [{ type: Input }]
+};
 
 /**
  * Komponent, który strukturyzuje widok dialogu.
  */
-let DialogButtons = class DialogButtons {
+class DialogButtons {
     constructor(injector, modalController) {
         this.injector = injector;
         this.modalController = modalController;
@@ -139,26 +129,26 @@ let DialogButtons = class DialogButtons {
             this.modalController.dismiss(button.role !== "cancel" ? value : undefined, button.role);
         }
     }
-};
+}
+DialogButtons.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-dialog-buttons",
+                template: "<ion-footer *ngIf=\"buttons && buttons.length > 0\">\n    <ion-toolbar>\n        <ionx-buttons>\n\n            <ion-button fill=\"clear\" [style.flex]=\"button.flex || 1\" [color]=\"button.color || 'primary'\" [size]=\"button.size\" (click)=\"buttonClicked(button)\" *ngFor=\"let button of buttons\">\n                <span *ngIf=\"!!button.text\">{{button.text}}</span>\n                <ion-icon [icon]=\"button.icon\" [slot]=\"button.text ? 'start' : 'icon-only'\" *ngIf=\"button.icon\"></ion-icon>\n            </ion-button>\n\n        </ionx-buttons>\n    </ion-toolbar>\n</ion-footer>\n",
+                styles: [":host{display:block}:host ion-footer{--border-color: var(--dialog--border-color)}:host ion-footer ion-toolbar{--padding-start: 0px;--padding-end: 0px;--padding-top: 0px;--padding-bottom: 0px;--min-height: none;--ion-safe-area-bottom: 0px;--ion-safe-area-top: 0px;--ion-safe-area-start: 0px;--ion-safe-area-end: 0px;--ion-toolbar-background: var(--dialog--background-color, #ffffff);--ion-toolbar-background-color: var(--dialog--background-color, #000000);--ion-toolbar-color: var(--dialog--foreground-color, #000000)}:host ion-footer ionx-buttons{justify-content:var(--dialog--buttons-align, flex-end)}:host ion-footer ion-button{min-height:44px}:host ion-footer ion-button:not(:last-child){font-weight:400}:host ion-footer ion-button:last-child{font-weight:500}:host-context(.md) ion-footer ion-toolbar{--padding-bottom: 8px}:host-context(.md) ion-footer:before{display:none}:host-context(.md) ion-footer ion-button{flex:none!important}:host-context(.ios) ion-footer ion-button{flex:1}:host-context(.ios) ion-footer ion-button:not(:first-child){border-left:.55px solid var(--dialog--border-color)}\n"]
+            },] }
+];
 DialogButtons.ctorParameters = () => [
     { type: Injector },
     { type: ModalController }
 ];
-__decorate([
-    Input()
-], DialogButtons.prototype, "buttons", void 0);
-DialogButtons = __decorate([
-    Component({
-        selector: "ionx-dialog-buttons",
-        template: "<ion-footer *ngIf=\"buttons && buttons.length > 0\">\n    <ion-toolbar>\n        <ionx-buttons>\n\n            <ion-button fill=\"clear\" [style.flex]=\"button.flex || 1\" [color]=\"button.color || 'primary'\" [size]=\"button.size\" (click)=\"buttonClicked(button)\" *ngFor=\"let button of buttons\">\n                <span *ngIf=\"!!button.text\">{{button.text}}</span>\n                <ion-icon [icon]=\"button.icon\" [slot]=\"button.text ? 'start' : 'icon-only'\" *ngIf=\"button.icon\"></ion-icon>\n            </ion-button>\n\n        </ionx-buttons>\n    </ion-toolbar>\n</ion-footer>\n",
-        styles: [":host{display:block}:host ion-footer{--border-color:var(--dialog--border-color)}:host ion-footer ion-toolbar{--padding-start:0px;--padding-end:0px;--padding-top:0px;--padding-bottom:0px;--min-height:none;--ion-safe-area-bottom:0px;--ion-safe-area-top:0px;--ion-safe-area-start:0px;--ion-safe-area-end:0px;--ion-toolbar-background:var(--dialog--background-color, #ffffff);--ion-toolbar-background-color:var(--dialog--background-color, #000000);--ion-toolbar-color:var(--dialog--foreground-color, #000000)}:host ion-footer ionx-buttons{-webkit-box-pack:var(--dialog--buttons-align,flex-end);justify-content:var(--dialog--buttons-align,flex-end)}:host ion-footer ion-button{min-height:44px}:host ion-footer ion-button:not(:last-child){font-weight:400}:host ion-footer ion-button:last-child{font-weight:500}:host-context(.md) ion-footer ion-toolbar{--padding-bottom:8px}:host-context(.md) ion-footer::before{display:none}:host-context(.md) ion-footer ion-button{-webkit-box-flex:0!important;flex:none!important}:host-context(.ios) ion-footer ion-button{-webkit-box-flex:1;flex:1}:host-context(.ios) ion-footer ion-button:not(:first-child){border-left:.55px solid var(--dialog--border-color)}"]
-    })
-], DialogButtons);
+DialogButtons.propDecorators = {
+    buttons: [{ type: Input }]
+};
 
 /**
  * Komponent, który strukturyzuje widok dialogu.
  */
-let DialogContent = class DialogContent {
+class DialogContent {
     constructor(sanitizer, resolver, injector) {
         this.sanitizer = sanitizer;
         this.resolver = resolver;
@@ -199,28 +189,24 @@ let DialogContent = class DialogContent {
             this.messageComponent.destroy();
         }
     }
-};
+}
+DialogContent.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-dialog-content",
+                template: "<div ionx--header *ngIf=\"!!header\">{{header}}</div>\n\n<div ionx--message>\n\n    <div [innerHTML]=\"messageText\" *ngIf=\"!!messageText\"></div>\n\n    <ng-template #messageComponentContainer></ng-template>\n\n    <ng-content content=\"[ionx-dialog-message]\"></ng-content>\n\n</div>\n",
+                styles: [":host{background:var(--dialog--background-color, #ffffff);color:var(--dialog--foreground-color);display:block}:host [ionx--message]{font-size:var(--dialog--message-font-size);text-align:var(--dialog--text-align);margin:16px 16px 24px}:host [ionx--header]{font-size:var(--dialog--header-font-size);font-weight:var(--dialog--header-font-weight, 500);margin:16px;text-align:var(--dialog--text-align)}\n"]
+            },] }
+];
 DialogContent.ctorParameters = () => [
     { type: DomSanitizer },
     { type: ComponentFactoryResolver },
     { type: Injector }
 ];
-__decorate([
-    Input()
-], DialogContent.prototype, "header", void 0);
-__decorate([
-    ViewChild("messageComponentContainer", { read: ViewContainerRef, static: true })
-], DialogContent.prototype, "messageComponentContainer", void 0);
-__decorate([
-    Input()
-], DialogContent.prototype, "message", null);
-DialogContent = __decorate([
-    Component({
-        selector: "ionx-dialog-content",
-        template: "<div ionx--header *ngIf=\"!!header\">{{header}}</div>\n\n<div ionx--message>\n\n    <div [innerHTML]=\"messageText\" *ngIf=\"!!messageText\"></div>\n\n    <ng-template #messageComponentContainer></ng-template>\n\n    <ng-content content=\"[ionx-dialog-message]\"></ng-content>\n\n</div>\n",
-        styles: [":host{background:var(--dialog--background-color,#fff);color:var(--dialog--foreground-color);display:block}:host [ionx--message]{font-size:var(--dialog--message-font-size);text-align:var(--dialog--text-align);margin:16px 16px 24px}:host [ionx--header]{font-size:var(--dialog--header-font-size);font-weight:var(--dialog--header-font-weight,500);margin:16px;text-align:var(--dialog--text-align)}"]
-    })
-], DialogContent);
+DialogContent.propDecorators = {
+    header: [{ type: Input }],
+    messageComponentContainer: [{ type: ViewChild, args: ["messageComponentContainer", { read: ViewContainerRef, static: true },] }],
+    message: [{ type: Input }]
+};
 
 /**
  * Md Modal Leave Animation
@@ -246,7 +232,7 @@ function leaveAnimation(baseEl) {
         .addAnimation([backdropAnimation, wrapperAnimation]);
 }
 ;
-let DialogController = class DialogController {
+class DialogController {
     constructor(modalController) {
         this.modalController = modalController;
     }
@@ -271,25 +257,25 @@ let DialogController = class DialogController {
     dismiss(data, role, id) {
         return this.modalController.dismiss(data, role, id);
     }
-};
+}
+DialogController.decorators = [
+    { type: Injectable }
+];
 DialogController.ctorParameters = () => [
     { type: ModalController }
 ];
-DialogController = __decorate([
-    Injectable()
-], DialogController);
 
-let DialogModule = class DialogModule {
-};
-DialogModule = __decorate([
-    NgModule({
-        declarations: [Dialog, DialogContent, DialogButtons],
-        imports: [IntlModule, IonicModule, CommonModule, ButtonsModule],
-        exports: [DialogContent, DialogButtons],
-        entryComponents: [Dialog],
-        providers: [DialogController]
-    })
-], DialogModule);
+class DialogModule {
+}
+DialogModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [Dialog, DialogContent, DialogButtons],
+                imports: [IntlModule, IonicModule, CommonModule, ButtonsModule],
+                exports: [DialogContent, DialogButtons],
+                entryComponents: [Dialog],
+                providers: [DialogController]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/lazy-image",
   "sideEffects": false,
   "main": "bundles/lazy-image-module.umd.js",
-  "module": "fesm5/lazy-image-module.js",
+  "module": "fesm2015/lazy-image-module.js",
   "es2015": "fesm2015/lazy-image-module.js",
-  "esm5": "esm5/lazy-image-module.js",
   "esm2015": "esm2015/lazy-image-module.js",
-  "fesm5": "fesm5/lazy-image-module.js",
   "fesm2015": "fesm2015/lazy-image-module.js",
   "typings": "lazy-image-module.d.ts",
   "metadata": "lazy-image-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

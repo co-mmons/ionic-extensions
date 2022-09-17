@@ -1,59 +1,57 @@
-import { __decorate, __awaiter, __param } from 'tslib';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { TemplateRef, ViewContainerRef, Input, Directive, ElementRef, Component, ChangeDetectionStrategy, Optional, ViewChild, HostListener, EventEmitter, HostBinding, Output, ContentChild, ContentChildren, NgModule } from '@angular/core';
+import { Directive, TemplateRef, ViewContainerRef, Input, Component, ChangeDetectionStrategy, ElementRef, Optional, ViewChild, HostListener, EventEmitter, HostBinding, Output, ContentChild, ContentChildren, NgModule } from '@angular/core';
 import { NgControl, FormsModule } from '@angular/forms';
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlService, IntlModule } from '@co.mmons/angular-intl';
 import { ButtonsModule } from '@co.mmons/ionic-extensions/buttons';
 import { PopoverController, ModalController, IonicModule } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 import * as dragula from 'dragula';
 import { waitTill } from '@co.mmons/js-utils/core';
 
-let SelectLabel = class SelectLabel {
+class SelectLabel {
     constructor(templateRef, viewContainer) {
         this.templateRef = templateRef;
         this.viewContainer = viewContainer;
         this.separator = ", ";
     }
-};
+}
+SelectLabel.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionxSelectLabel]"
+            },] }
+];
 SelectLabel.ctorParameters = () => [
     { type: TemplateRef },
     { type: ViewContainerRef }
 ];
-__decorate([
-    Input()
-], SelectLabel.prototype, "separator", void 0);
-SelectLabel = __decorate([
-    Directive({
-        selector: "[ionxSelectLabel]"
-    })
-], SelectLabel);
+SelectLabel.propDecorators = {
+    separator: [{ type: Input }]
+};
 
-let SelectOption = class SelectOption {
+class SelectOption {
     constructor(element) {
         this.element = element;
     }
     get label() {
         return this.element.nativeElement.innerText;
     }
-};
+}
+SelectOption.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-select-option",
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                template: "<ng-content></ng-content>"
+            },] }
+];
 SelectOption.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    Input()
-], SelectOption.prototype, "value", void 0);
-__decorate([
-    Input()
-], SelectOption.prototype, "divider", void 0);
-SelectOption = __decorate([
-    Component({
-        selector: "ionx-select-option",
-        changeDetection: ChangeDetectionStrategy.OnPush,
-        template: "<ng-content></ng-content>"
-    })
-], SelectOption);
+SelectOption.propDecorators = {
+    value: [{ type: Input }],
+    divider: [{ type: Input }]
+};
 
 class SelectOptions extends Array {
     constructor() {
@@ -68,7 +66,7 @@ class SelectOptions extends Array {
     }
 }
 
-let SelectOverlayContent = class SelectOverlayContent {
+class SelectOverlayContent {
     constructor(element, intl, popoverController, modalController) {
         this.element = element;
         this.intl = intl;
@@ -312,73 +310,41 @@ let SelectOverlayContent = class SelectOverlayContent {
             }
         });
     }
-};
+}
+SelectOverlayContent.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-select-overlay",
+                template: "<ion-header *ngIf=\"modalOverlay\">\n    <ion-toolbar>\n        <ion-title style=\"padding: 0px\">{{title}}</ion-title>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); cancelClicked()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ionx-buttons slot=\"end\">\n            <ion-button fill=\"clear\" (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n        </ionx-buttons>\n\n    </ion-toolbar>\n    <ion-toolbar>\n        <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\"\n                       (ionInput)=\"search($event)\"></ion-searchbar>\n    </ion-toolbar>\n</ion-header>\n<ion-content [scrollY]=\"false\" [scrollX]=\"false\" #content>\n\n    <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n        <ion-spinner></ion-spinner>\n    </div>\n\n    <ng-template [ngIf]=\"!!visibleOptions\">\n        <div>\n\n            <cdk-virtual-scroll-viewport [itemSize]=\"itemHeight\" [style.height.px]=\"scrollHeight\" *ngIf=\"modalOverlay\">\n\n                <ion-list lines=\"full\">\n\n                    <ion-item detail=\"false\" button=\"false\" [style.fontWeight]=\"option.divider ? 500 : null\" #listItem *cdkVirtualFor=\"let option of visibleOptions\">\n                        <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionBeforeChange(option)\" (ionChange)=\"optionChanged(option)\" (click)=\"optionClicked(option, $event)\" slot=\"start\"\n                                      *ngIf=\"!option.divider\"></ion-checkbox>\n                        <ion-label>\n                            <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                            <ng-template #customLabel>\n                                <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                            </ng-template>\n                        </ion-label>\n                    </ion-item>\n                </ion-list>\n\n            </cdk-virtual-scroll-viewport>\n\n            <ion-list lines=\"full\" *ngIf=\"popoverOverlay\">\n\n                <ng-template ngFor [ngForOf]=\"visibleOptions\" let-option>\n\n                    <ion-item-divider *ngIf=\"option.divider; else basicOption\">\n                        <ion-label>{{option.label}}</ion-label>\n                    </ion-item-divider>\n\n                    <ng-template #basicOption>\n\n                        <ion-item detail=\"false\" button=\"false\" #listItem>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionBeforeChange(option)\" (ionChange)=\"optionChanged(option)\" (click)=\"optionClicked(option, $event)\" slot=\"start\"></ion-checkbox>\n                            <ion-label [style.whiteSpace]=\"whiteSpace\">\n                                <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                <ng-template #customLabel>\n                                    <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                </ng-template>\n                            </ion-label>\n                        </ion-item>\n\n                    </ng-template>\n\n                </ng-template>\n            </ion-list>\n        </div>\n    </ng-template>\n\n</ion-content>\n\n<ion-footer *ngIf=\"multiple && popoverOverlay\" style=\"position: sticky; bottom: 0px\">\n    <ion-toolbar>\n        <ion-buttons slot=\"end\">\n\n            <ion-button size=\"small\" (click)=\"cancelClicked()\">{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</ion-button>\n\n            <ion-button size=\"small\" (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Ok\" | intlMessage}}</ion-button>\n\n        </ion-buttons>\n    </ion-toolbar>\n</ion-footer>\n",
+                styles: ["@media (min-width: 768px){::ng-deep .ionx-select-overlay-width .popover-content{--width: 300px;--max-width: 90%}}@media (max-width: 767px){::ng-deep .ionx-select-overlay-width .popover-content{left:calc(16px + var(--ion-safe-area-left, 0px))!important;width:calc(100% - (32px + var(--ion-safe-area-right, 0px) + var(--ion-safe-area-left, 0px)))}}:host .ionx-select-overlay-spinner{position:absolute;width:100%;height:100%;left:0px;top:0px}:host .ionx-select-overlay-spinner ion-spinner{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}:host ion-checkbox{margin-right:16px;margin-top:8px;margin-bottom:8px;align-self:center}:host ion-list{margin:4px 0;padding:0}:host ::ng-deep .cdk-virtual-scroll-content-wrapper{max-width:100%}:host ::ng-deep .hydrated{visibility:visible}:host-context(ion-popover) ion-content{--overflow: initial !important}:host-context(ion-popover) ion-content ion-item ion-label{white-space:normal}:host-context(ion-popover) ion-content ion-item.item:last-child{--border-width: 0px}:host-context(.ios) ion-item-divider{--background: transparent;font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:500}\n"]
+            },] }
+];
 SelectOverlayContent.ctorParameters = () => [
     { type: ElementRef },
     { type: IntlService },
     { type: PopoverController, decorators: [{ type: Optional }] },
     { type: ModalController, decorators: [{ type: Optional }] }
 ];
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "overlay", void 0);
-__decorate([
-    ViewChild(CdkVirtualScrollViewport, { static: false })
-], SelectOverlayContent.prototype, "scroll", void 0);
-__decorate([
-    ViewChild("content", { read: ElementRef, static: true })
-], SelectOverlayContent.prototype, "content", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "multiple", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "orderable", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "updateValues", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "title", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "searchHandler", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "valueValidator", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "valueComparator", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "label", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "options", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "empty", void 0);
-__decorate([
-    Input()
-], SelectOverlayContent.prototype, "whiteSpace", void 0);
-__decorate([
-    ViewChild("searchbar", { read: ElementRef, static: false })
-], SelectOverlayContent.prototype, "searchbar", void 0);
-__decorate([
-    HostListener("window:resize")
-], SelectOverlayContent.prototype, "resetScrollHeight", null);
-SelectOverlayContent = __decorate([
-    Component({
-        selector: "ionx-select-overlay",
-        template: "<ion-header *ngIf=\"modalOverlay\">\n    <ion-toolbar>\n        <ion-title style=\"padding: 0px\">{{title}}</ion-title>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); cancelClicked()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ionx-buttons slot=\"end\">\n            <ion-button fill=\"clear\" (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n        </ionx-buttons>\n\n    </ion-toolbar>\n    <ion-toolbar>\n        <ion-searchbar #searchbar cancelButtonText=\"{{'@co.mmons/js-intl#Cancel' | intlMessage}}\" placeholder=\"{{'@co.mmons/js-intl#Search' | intlMessage}}\"\n                       (ionInput)=\"search($event)\"></ion-searchbar>\n    </ion-toolbar>\n</ion-header>\n<ion-content [scrollY]=\"false\" [scrollX]=\"false\" #content>\n\n    <div class=\"ionx-select-overlay-spinner\" slot=\"fixed\" *ngIf=\"!checkedOptions\">\n        <ion-spinner></ion-spinner>\n    </div>\n\n    <ng-template [ngIf]=\"!!visibleOptions\">\n        <div>\n\n            <cdk-virtual-scroll-viewport [itemSize]=\"itemHeight\" [style.height.px]=\"scrollHeight\" *ngIf=\"modalOverlay\">\n\n                <ion-list lines=\"full\">\n\n                    <ion-item detail=\"false\" button=\"false\" [style.fontWeight]=\"option.divider ? 500 : null\" #listItem *cdkVirtualFor=\"let option of visibleOptions\">\n                        <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionBeforeChange(option)\" (ionChange)=\"optionChanged(option)\" (click)=\"optionClicked(option, $event)\" slot=\"start\"\n                                      *ngIf=\"!option.divider\"></ion-checkbox>\n                        <ion-label>\n                            <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                            <ng-template #customLabel>\n                                <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                            </ng-template>\n                        </ion-label>\n                    </ion-item>\n                </ion-list>\n\n            </cdk-virtual-scroll-viewport>\n\n            <ion-list lines=\"full\" *ngIf=\"popoverOverlay\">\n\n                <ng-template ngFor [ngForOf]=\"visibleOptions\" let-option>\n\n                    <ion-item-divider *ngIf=\"option.divider; else basicOption\">\n                        <ion-label>{{option.label}}</ion-label>\n                    </ion-item-divider>\n\n                    <ng-template #basicOption>\n\n                        <ion-item detail=\"false\" button=\"false\" #listItem>\n                            <ion-checkbox [(ngModel)]=\"option.checked\" (ngModelChange)=\"optionBeforeChange(option)\" (ionChange)=\"optionChanged(option)\" (click)=\"optionClicked(option, $event)\" slot=\"start\"></ion-checkbox>\n                            <ion-label [style.whiteSpace]=\"whiteSpace\">\n                                <span *ngIf=\"!label; else customLabel\">{{option.label}}</span>\n                                <ng-template #customLabel>\n                                    <ng-container *ngTemplateOutlet=\"label.templateRef; context: {$implicit: option.value}\"></ng-container>\n                                </ng-template>\n                            </ion-label>\n                        </ion-item>\n\n                    </ng-template>\n\n                </ng-template>\n            </ion-list>\n        </div>\n    </ng-template>\n\n</ion-content>\n\n<ion-footer *ngIf=\"multiple && popoverOverlay\" style=\"position: sticky; bottom: 0px\">\n    <ion-toolbar>\n        <ion-buttons slot=\"end\">\n\n            <ion-button size=\"small\" (click)=\"cancelClicked()\">{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</ion-button>\n\n            <ion-button size=\"small\" (click)=\"okClicked()\">{{\"@co.mmons/js-intl#Ok\" | intlMessage}}</ion-button>\n\n        </ion-buttons>\n    </ion-toolbar>\n</ion-footer>\n",
-        styles: ["@media (min-width:768px){::ng-deep .ionx-select-overlay-width .popover-content{--width:300px;--max-width:90%}}@media (max-width:767px){::ng-deep .ionx-select-overlay-width .popover-content{left:calc(16px + var(--ion-safe-area-left,0px))!important;width:calc(100% - (32px + var(--ion-safe-area-right,0px) + var(--ion-safe-area-left,0px)))}}:host .ionx-select-overlay-spinner{position:absolute;width:100%;height:100%;left:0;top:0}:host .ionx-select-overlay-spinner ion-spinner{position:absolute;left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}:host ion-checkbox{margin-right:16px;margin-top:8px;margin-bottom:8px;-ms-grid-row-align:center;align-self:center}:host ion-list{margin:4px 0;padding:0}:host ::ng-deep .cdk-virtual-scroll-content-wrapper{max-width:100%}:host ::ng-deep .hydrated{visibility:visible}:host-context(ion-popover) ion-content{--overflow:initial!important}:host-context(ion-popover) ion-content ion-item ion-label{white-space:normal}:host-context(ion-popover) ion-content ion-item.item:last-child{--border-width:0px}:host-context(.ios) ion-item-divider{--background:transparent;font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:500}"]
-    }),
-    __param(2, Optional()),
-    __param(3, Optional())
-], SelectOverlayContent);
+SelectOverlayContent.propDecorators = {
+    overlay: [{ type: Input }],
+    scroll: [{ type: ViewChild, args: [CdkVirtualScrollViewport, { static: false },] }],
+    content: [{ type: ViewChild, args: ["content", { read: ElementRef, static: true },] }],
+    multiple: [{ type: Input }],
+    orderable: [{ type: Input }],
+    updateValues: [{ type: Input }],
+    title: [{ type: Input }],
+    searchHandler: [{ type: Input }],
+    valueValidator: [{ type: Input }],
+    valueComparator: [{ type: Input }],
+    label: [{ type: Input }],
+    options: [{ type: Input }],
+    empty: [{ type: Input }],
+    whiteSpace: [{ type: Input }],
+    searchbar: [{ type: ViewChild, args: ["searchbar", { read: ElementRef, static: false },] }],
+    resetScrollHeight: [{ type: HostListener, args: ["window:resize",] }]
+};
 
 const createDragula = dragula;
-let Select = class Select {
+class Select {
     constructor(element, intl, popoverController, modalController, control) {
         this.element = element;
         this.intl = intl;
@@ -683,7 +649,19 @@ let Select = class Select {
             this.initDragula();
         }
     }
-};
+}
+Select.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-select",
+                host: {
+                    "[class.ionx--chips-layout]": "!!orderable",
+                    "[class.ionx--readonly]": "!!readonly || !!disabled",
+                    "[class.ionx--orderable]": "!!orderable && !readonly && !disabled && values && values.length > 1",
+                },
+                template: "<ng-template #optionTemplate let-value=\"value\" let-index=\"index\">\n    <span *ngIf=\"!labelTemplate; else hasLabelTemplate\">{{labelImpl$(value)}}</span>\n    <ng-template #hasLabelTemplate>\n        <ng-container *ngTemplateOutlet=\"labelTemplate.templateRef; context: {$implicit: value, index: index}\"></ng-container>\n    </ng-template>\n</ng-template>\n\n<div class=\"select-inner\">\n    <div class=\"select-text\" #textContainer [class.select-placeholder]=\"values.length == 0\">\n        <span *ngIf=\"values.length == 0; else showValues\">{{placeholder}}</span>\n\n        <ng-template #showValues>\n            <ng-template ngFor [ngForOf]=\"values\" let-value let-index=\"index\">\n                <span *ngIf=\"index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable\">{{!labelTemplate ? \", \" : labelTemplate.separator}}</span>\n\n                <ion-chip *ngIf=\"orderable else simpleText\" outline=\"true\" [attr.ionx--index]=\"index\">\n                    <ng-template *ngTemplateOutlet=\"optionTemplate; context: {value: value, index: index}\"></ng-template>\n                </ion-chip>\n\n                <ng-template #simpleText>\n                    <ng-template *ngTemplateOutlet=\"optionTemplate; context: {value: value, index: index}\"></ng-template>\n                </ng-template>\n\n            </ng-template>\n        </ng-template>\n    </div>\n\n    <ng-container  *ngIf=\"!_readonly && !_disabled\">\n        <div class=\"select-icon\" role=\"presentation\" *ngIf=\"!orderable\">\n            <div class=\"select-icon-inner\"></div>\n        </div>\n        <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\" *ngIf=\"!orderable || !values || values.length === 0\"></button>\n    </ng-container>\n\n</div>\n",
+                styles: [":host{--placeholder-opacity: .5;--dropdown-icon-opacity: .5;--disabled-opacity: .5;padding:var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);display:inline-block;overflow:hidden;color:var(--color);font-family:var(--ion-font-family, inherit);max-width:100%}:host .select-inner{display:flex;position:relative}:host .select-icon{position:relative;width:16px;height:20px}:host .select-icon .select-icon-inner{top:50%;right:0px;margin-top:-3px;position:absolute;width:0;height:0;border-top:5px solid;border-right:5px solid transparent;border-left:5px solid transparent;color:currentColor;opacity:var(--dropdown-icon-opacity, .5);pointer-events:none}:host .select-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}:host .select-text.select-placeholder{opacity:var(--placeholder-opacity, .5)}:host.select-disabled{opacity:var(--disabled-opacity, .5);pointer-events:none}:host.select-readonly{opacity:1;pointer-events:none}:host.select-readonly .select-icon{display:none}:host[white-space-normal] .select-text,:host[ionx--white-space=normal] .select-text{white-space:normal!important;overflow:auto}:host button{left:0px;top:0px;margin:0;position:absolute;width:100%;height:100%;border:0;background:transparent;cursor:pointer;-webkit-appearance:none;appearance:none;outline:none}:host button::-moz-focus-inner{border:0}:host.in-item{position:static}:host ion-chip{max-width:calc(50% - 4px);margin-inline-start:0px;margin-bottom:0;cursor:default}:host ion-chip>span{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;line-height:1.1}:host.ionx--orderable ion-chip{cursor:move}:host.ionx--chips-layout .select-text{white-space:normal;overflow:auto;width:100%}:host-context(ion-toolbar){color:var(--ion-toolbar-color);--icon-color: var(--ion-toolbar-color);--padding-start: 16px;--padding-end: 16px}:host-context(.item-label-stacked){align-self:flex-start;--padding-top: 8px;--padding-bottom: 8px;--padding-start: 0;width:100%}:host-context(.item-label-stacked) .select-text{max-width:calc(100% - 16px);flex:initial}:host-context(.item-label-stacked).ionx--chips-layout .select-text{flex:1}\n"]
+            },] }
+];
 Select.ctorParameters = () => [
     { type: ElementRef },
     { type: IntlService },
@@ -691,100 +669,42 @@ Select.ctorParameters = () => [
     { type: ModalController },
     { type: NgControl, decorators: [{ type: Optional }] }
 ];
-__decorate([
-    ViewChild("textContainer", { static: true })
-], Select.prototype, "textContainer", void 0);
-__decorate([
-    Input()
-], Select.prototype, "placeholder", void 0);
-__decorate([
-    Input()
-], Select.prototype, "overlay", void 0);
-__decorate([
-    Input()
-], Select.prototype, "overlayWhiteSpace", void 0);
-__decorate([
-    Input(),
-    HostBinding("attr.ionx--white-space")
-], Select.prototype, "whiteSpace", void 0);
-__decorate([
-    Input()
-], Select.prototype, "alwaysArray", void 0);
-__decorate([
-    Input()
-], Select.prototype, "compareAsString", void 0);
-__decorate([
-    Input()
-], Select.prototype, "comparator", void 0);
-__decorate([
-    Input()
-], Select.prototype, "multiple", void 0);
-__decorate([
-    Input()
-], Select.prototype, "title", void 0);
-__decorate([
-    Input()
-], Select.prototype, "orderable", void 0);
-__decorate([
-    Input()
-], Select.prototype, "empty", void 0);
-__decorate([
-    Input()
-], Select.prototype, "readonly", null);
-__decorate([
-    Input()
-], Select.prototype, "searchTest", void 0);
-__decorate([
-    Input()
-], Select.prototype, "checkValidator", void 0);
-__decorate([
-    Output()
-], Select.prototype, "ionChange", void 0);
-__decorate([
-    Output()
-], Select.prototype, "change", void 0);
-__decorate([
-    Input()
-], Select.prototype, "disabled", null);
-__decorate([
-    Input()
-], Select.prototype, "value", null);
-__decorate([
-    ContentChild(SelectLabel, { static: false })
-], Select.prototype, "labelTemplate", void 0);
-__decorate([
-    Input()
-], Select.prototype, "label", void 0);
-__decorate([
-    Input()
-], Select.prototype, "options", void 0);
-__decorate([
-    ContentChildren(SelectOption, { descendants: true })
-], Select.prototype, "_optionsComponents", null);
-Select = __decorate([
-    Component({
-        selector: "ionx-select",
-        host: {
-            "[class.ionx--chips-layout]": "!!orderable",
-            "[class.ionx--readonly]": "!!readonly || !!disabled",
-            "[class.ionx--orderable]": "!!orderable && !readonly && !disabled && values && values.length > 1",
-        },
-        template: "<ng-template #optionTemplate let-value=\"value\" let-index=\"index\">\n    <span *ngIf=\"!labelTemplate; else hasLabelTemplate\">{{labelImpl$(value)}}</span>\n    <ng-template #hasLabelTemplate>\n        <ng-container *ngTemplateOutlet=\"labelTemplate.templateRef; context: {$implicit: value, index: index}\"></ng-container>\n    </ng-template>\n</ng-template>\n\n<div class=\"select-inner\">\n    <div class=\"select-text\" #textContainer [class.select-placeholder]=\"values.length == 0\">\n        <span *ngIf=\"values.length == 0; else showValues\">{{placeholder}}</span>\n\n        <ng-template #showValues>\n            <ng-template ngFor [ngForOf]=\"values\" let-value let-index=\"index\">\n                <span *ngIf=\"index > 0 && (!labelTemplate || labelTemplate.separator) && !orderable\">{{!labelTemplate ? \", \" : labelTemplate.separator}}</span>\n\n                <ion-chip *ngIf=\"orderable else simpleText\" outline=\"true\" [attr.ionx--index]=\"index\">\n                    <ng-template *ngTemplateOutlet=\"optionTemplate; context: {value: value, index: index}\"></ng-template>\n                </ion-chip>\n\n                <ng-template #simpleText>\n                    <ng-template *ngTemplateOutlet=\"optionTemplate; context: {value: value, index: index}\"></ng-template>\n                </ng-template>\n\n            </ng-template>\n        </ng-template>\n    </div>\n\n    <ng-container  *ngIf=\"!_readonly && !_disabled\">\n        <div class=\"select-icon\" role=\"presentation\" *ngIf=\"!orderable\">\n            <div class=\"select-icon-inner\"></div>\n        </div>\n        <button type=\"button\" role=\"combobox\" aria-haspopup=\"dialog\" class=\"select-cover\" (click)=\"open($event)\" *ngIf=\"!orderable || !values || values.length === 0\"></button>\n    </ng-container>\n\n</div>\n",
-        styles: [":host{--placeholder-opacity:.5;--dropdown-icon-opacity:.5;--disabled-opacity:.5;padding:var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);display:inline-block;overflow:hidden;color:var(--color);font-family:var(--ion-font-family,inherit);max-width:100%}:host .select-inner{display:-webkit-box;display:flex;position:relative}:host .select-icon{position:relative;width:16px;height:20px}:host .select-icon .select-icon-inner{top:50%;right:0;margin-top:-3px;position:absolute;width:0;height:0;border-top:5px solid;border-right:5px solid transparent;border-left:5px solid transparent;color:currentColor;opacity:var(--dropdown-icon-opacity,.5);pointer-events:none}:host .select-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}:host .select-text.select-placeholder{opacity:var(--placeholder-opacity,.5)}:host.select-disabled{opacity:var(--disabled-opacity,.5);pointer-events:none}:host.select-readonly{opacity:1;pointer-events:none}:host.select-readonly .select-icon{display:none}:host[ionx--white-space=normal] .select-text,:host[white-space-normal] .select-text{white-space:normal!important;overflow:auto}:host button{left:0;top:0;margin:0;position:absolute;width:100%;height:100%;border:0;background:0 0;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none;outline:0}:host button::-moz-focus-inner{border:0}:host.in-item{position:static}:host ion-chip{max-width:calc(50% - 4px);-webkit-margin-start:0;margin-inline-start:0;margin-bottom:0;cursor:default}:host ion-chip>span{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;line-height:1.1}:host.ionx--orderable ion-chip{cursor:move}:host.ionx--chips-layout .select-text{white-space:normal;overflow:auto;width:100%}:host-context(ion-toolbar){color:var(--ion-toolbar-color);--icon-color:var(--ion-toolbar-color);--padding-start:16px;--padding-end:16px}:host-context(.item-label-stacked){align-self:flex-start;--padding-top:8px;--padding-bottom:8px;--padding-start:0;width:100%}:host-context(.item-label-stacked) .select-text{max-width:calc(100% - 16px);-webkit-box-flex:initial;flex:initial}:host-context(.item-label-stacked).ionx--chips-layout .select-text{-webkit-box-flex:1;flex:1}"]
-    }),
-    __param(4, Optional())
-], Select);
-
-let SelectModule = class SelectModule {
+Select.propDecorators = {
+    textContainer: [{ type: ViewChild, args: ["textContainer", { static: true },] }],
+    placeholder: [{ type: Input }],
+    overlay: [{ type: Input }],
+    overlayWhiteSpace: [{ type: Input }],
+    whiteSpace: [{ type: Input }, { type: HostBinding, args: ["attr.ionx--white-space",] }],
+    alwaysArray: [{ type: Input }],
+    compareAsString: [{ type: Input }],
+    comparator: [{ type: Input }],
+    multiple: [{ type: Input }],
+    title: [{ type: Input }],
+    orderable: [{ type: Input }],
+    empty: [{ type: Input }],
+    readonly: [{ type: Input }],
+    searchTest: [{ type: Input }],
+    checkValidator: [{ type: Input }],
+    ionChange: [{ type: Output }],
+    change: [{ type: Output }],
+    disabled: [{ type: Input }],
+    value: [{ type: Input }],
+    labelTemplate: [{ type: ContentChild, args: [SelectLabel, { static: false },] }],
+    label: [{ type: Input }],
+    options: [{ type: Input }],
+    _optionsComponents: [{ type: ContentChildren, args: [SelectOption, { descendants: true },] }]
 };
-SelectModule = __decorate([
-    NgModule({
-        declarations: [Select, SelectOption, SelectOverlayContent, SelectLabel],
-        entryComponents: [Select, SelectOption, SelectOverlayContent],
-        exports: [Select, SelectOption, SelectOverlayContent, SelectLabel],
-        imports: [CommonModule, FormsModule, IonicModule, IntlModule, ScrollingModule, ButtonsModule, MatchMediaModule]
-    })
-], SelectModule);
+
+class SelectModule {
+}
+SelectModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [Select, SelectOption, SelectOverlayContent, SelectLabel],
+                entryComponents: [Select, SelectOption, SelectOverlayContent],
+                exports: [Select, SelectOption, SelectOverlayContent, SelectLabel],
+                imports: [CommonModule, FormsModule, IonicModule, IntlModule, ScrollingModule, ButtonsModule, MatchMediaModule]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

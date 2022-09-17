@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/datetime-picker",
   "sideEffects": false,
   "main": "bundles/datetime-picker-module.umd.js",
-  "module": "fesm5/datetime-picker-module.js",
+  "module": "fesm2015/datetime-picker-module.js",
   "es2015": "fesm2015/datetime-picker-module.js",
-  "esm5": "esm5/datetime-picker-module.js",
   "esm2015": "esm2015/datetime-picker-module.js",
-  "fesm5": "fesm5/datetime-picker-module.js",
   "fesm2015": "fesm2015/datetime-picker-module.js",
   "typings": "datetime-picker-module.d.ts",
   "metadata": "datetime-picker-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

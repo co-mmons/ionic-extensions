@@ -1,8 +1,8 @@
-import { __decorate, __awaiter } from 'tslib';
-import { ElementRef, Input, Directive, NgModule } from '@angular/core';
+import { Directive, ElementRef, Input, NgModule } from '@angular/core';
+import { __awaiter } from 'tslib';
 import { ensureLazyLoad } from '@co.mmons/ionic-extensions/lazy-load';
 
-let ImageLoader = class ImageLoader {
+class ImageLoader {
     constructor(element) {
         this.element = element;
     }
@@ -131,42 +131,28 @@ let ImageLoader = class ImageLoader {
             delete this.element.nativeElement["ionxImageLoader"];
         }
     }
-};
+}
+ImageLoader.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionx-image-loader]",
+                host: {
+                    "[attr.ionx-image-loader]": "true"
+                }
+            },] }
+];
 ImageLoader.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    Input("src")
-], ImageLoader.prototype, "src", null);
-__decorate([
-    Input("ionx-image-loader")
-], ImageLoader.prototype, "src2", null);
-__decorate([
-    Input("alternate")
-], ImageLoader.prototype, "alternate", null);
-__decorate([
-    Input("ionx-image-loader-alternate")
-], ImageLoader.prototype, "alternate2", null);
-__decorate([
-    Input("css-classes")
-], ImageLoader.prototype, "cssClasses", null);
-__decorate([
-    Input("ionx-image-loader-css-classes")
-], ImageLoader.prototype, "cssClasses2", null);
-__decorate([
-    Input("css-classes-target")
-], ImageLoader.prototype, "cssClassesTarget", null);
-__decorate([
-    Input("ionx-image-loader-css-classes-target")
-], ImageLoader.prototype, "cssClassesParent", null);
-ImageLoader = __decorate([
-    Directive({
-        selector: "[ionx-image-loader]",
-        host: {
-            "[attr.ionx-image-loader]": "true"
-        }
-    })
-], ImageLoader);
+ImageLoader.propDecorators = {
+    src: [{ type: Input, args: ["src",] }],
+    src2: [{ type: Input, args: ["ionx-image-loader",] }],
+    alternate: [{ type: Input, args: ["alternate",] }],
+    alternate2: [{ type: Input, args: ["ionx-image-loader-alternate",] }],
+    cssClasses: [{ type: Input, args: ["css-classes",] }],
+    cssClasses2: [{ type: Input, args: ["ionx-image-loader-css-classes",] }],
+    cssClassesTarget: [{ type: Input, args: ["css-classes-target",] }],
+    cssClassesParent: [{ type: Input, args: ["ionx-image-loader-css-classes-target",] }]
+};
 function ensureImagesLoaded(root, options) {
     return __awaiter(this, void 0, void 0, function* () {
         let images = root.querySelectorAll("[ionx-image-loader]");
@@ -183,14 +169,14 @@ function ensureImagesLoaded(root, options) {
     });
 }
 
-let ImageLoaderModule = class ImageLoaderModule {
-};
-ImageLoaderModule = __decorate([
-    NgModule({
-        declarations: [ImageLoader],
-        exports: [ImageLoader]
-    })
-], ImageLoaderModule);
+class ImageLoaderModule {
+}
+ImageLoaderModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [ImageLoader],
+                exports: [ImageLoader]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

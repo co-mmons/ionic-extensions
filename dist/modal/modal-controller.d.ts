@@ -7,10 +7,10 @@ export declare class ModalControllerComponent {
     private backdropDismiss;
     private showBackdrop;
     private content;
-    readonly willEnter: EventEmitter<any>;
-    readonly didEnter: EventEmitter<any>;
-    readonly didDismiss: EventEmitter<any>;
-    readonly willDismiss: EventEmitter<any>;
+    readonly willEnter: EventEmitter<void>;
+    readonly didEnter: EventEmitter<void>;
+    readonly didDismiss: EventEmitter<void>;
+    readonly willDismiss: EventEmitter<void>;
     private modal;
     present(): Promise<void>;
     private _presented;

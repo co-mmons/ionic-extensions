@@ -1,9 +1,9 @@
-import { __awaiter, __decorate } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { EventEmitter, Input, ViewChild, Output, Component, NgModule } from '@angular/core';
+import { EventEmitter, Component, Input, ViewChild, Output, NgModule } from '@angular/core';
 import { ModalController, IonicModule } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 
-let ModalControllerComponent = class ModalControllerComponent {
+class ModalControllerComponent {
     constructor(controller) {
         this.controller = controller;
         this.willEnter = new EventEmitter();
@@ -44,70 +44,57 @@ let ModalControllerComponent = class ModalControllerComponent {
             resolve();
         });
     }
-};
-ModalControllerComponent.ctorParameters = () => [
-    { type: ModalController }
-];
-__decorate([
-    Input()
-], ModalControllerComponent.prototype, "cssClass", void 0);
-__decorate([
-    Input()
-], ModalControllerComponent.prototype, "backdropDismiss", void 0);
-__decorate([
-    Input()
-], ModalControllerComponent.prototype, "showBackdrop", void 0);
-__decorate([
-    ViewChild("modalContent", { static: true })
-], ModalControllerComponent.prototype, "content", void 0);
-__decorate([
-    Output()
-], ModalControllerComponent.prototype, "willEnter", void 0);
-__decorate([
-    Output()
-], ModalControllerComponent.prototype, "didEnter", void 0);
-__decorate([
-    Output()
-], ModalControllerComponent.prototype, "didDismiss", void 0);
-__decorate([
-    Output()
-], ModalControllerComponent.prototype, "willDismiss", void 0);
-ModalControllerComponent = __decorate([
-    Component({
-        selector: "ionx-modal-controller",
-        template: `
+}
+ModalControllerComponent.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-modal-controller",
+                template: `
         <ng-template #modalContent>
             <ng-content></ng-content>
         </ng-template>
     `
-    })
-], ModalControllerComponent);
-let ModalControllerContentComponent = class ModalControllerContentComponent {
+            },] }
+];
+ModalControllerComponent.ctorParameters = () => [
+    { type: ModalController }
+];
+ModalControllerComponent.propDecorators = {
+    cssClass: [{ type: Input }],
+    backdropDismiss: [{ type: Input }],
+    showBackdrop: [{ type: Input }],
+    content: [{ type: ViewChild, args: ["modalContent", { static: true },] }],
+    willEnter: [{ type: Output }],
+    didEnter: [{ type: Output }],
+    didDismiss: [{ type: Output }],
+    willDismiss: [{ type: Output }]
+};
+class ModalControllerContentComponent {
     constructor() {
         //this.template = params.get("template");
     }
     ngOnDestroy() {
         this.template = undefined;
     }
-};
-ModalControllerContentComponent = __decorate([
-    Component({
-        template: `
+}
+ModalControllerContentComponent.decorators = [
+    { type: Component, args: [{
+                template: `
         <ng-container *ngTemplateOutlet="template"></ng-container>
     `
-    })
-], ModalControllerContentComponent);
+            },] }
+];
+ModalControllerContentComponent.ctorParameters = () => [];
 
-let ModalModule = class ModalModule {
-};
-ModalModule = __decorate([
-    NgModule({
-        declarations: [ModalControllerComponent, ModalControllerContentComponent],
-        exports: [ModalControllerComponent],
-        imports: [CommonModule, IonicModule],
-        entryComponents: [ModalControllerComponent, ModalControllerContentComponent]
-    })
-], ModalModule);
+class ModalModule {
+}
+ModalModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [ModalControllerComponent, ModalControllerContentComponent],
+                exports: [ModalControllerComponent],
+                imports: [CommonModule, IonicModule],
+                entryComponents: [ModalControllerComponent, ModalControllerContentComponent]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

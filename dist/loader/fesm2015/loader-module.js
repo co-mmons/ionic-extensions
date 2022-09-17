@@ -1,11 +1,11 @@
-import { __decorate, __awaiter } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { ElementRef, Input, HostBinding, Component, Injectable, NgModule } from '@angular/core';
+import { Component, ElementRef, Input, HostBinding, Injectable, NgModule } from '@angular/core';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { PopoverController, IonicModule } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 import { waitTill } from '@co.mmons/js-utils/core';
 
-let Loader = class Loader {
+class Loader {
     constructor(elementRef) {
         this.elementRef = elementRef;
         this.progressType = "determinate";
@@ -34,50 +34,31 @@ let Loader = class Loader {
         this.popover = undefined;
         this.instanceCallback = undefined;
     }
-};
+}
+Loader.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-loader",
+                template: "<div>\n\n    <div style=\"display: flex; align-items: center\">\n\n        <div *ngIf=\"spinnerMode\" style=\"padding: 16px; padding-right: 0px;\">\n            <ion-spinner></ion-spinner>\n        </div>\n\n        <div style=\"padding: 16px; flex: 1; display: flex; flex-direction: column; justify-items: center;\">\n            <h5 style=\"margin: 0px\" *ngIf=\"header\">{{header}}</h5>\n            <ion-text [innerHTML]=\"message\" *ngIf=\"!!message\"></ion-text>\n        </div>\n\n    </div>\n\n    <ion-progress-bar style=\"margin: 8px 0px 16px 0px\" [value]=\"progressValue\" [type]=\"progressType\" [buffer]=\"progressBuffer\" *ngIf=\"progressMode\"></ion-progress-bar>\n\n    <div style=\"display: flex; margin: 0px 16px 16px 16px\" *ngIf=\"!!progressMessage || progressPercentVisible\">\n        <ion-text [innerHTML]=\"progressMessage\" style=\"flex: 1\"></ion-text>\n        <span style=\"width: 60px; text-align: right\" *ngIf=\"progressPercentVisible\">{{(progressPercent | intlPercentFormat: {maximumFractionDigits: 0})}}</span>\n    </div>\n\n</div>\n",
+                styles: [":host{display:flex}:host.ionx--filled{width:100%;height:100%;align-items:center;align-content:center;justify-items:center;justify-content:center}\n"]
+            },] }
+];
 Loader.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    Input(),
-    HostBinding("class.ionx--filled")
-], Loader.prototype, "fill", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "instanceCallback", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "header", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "message", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "mode", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "progressMessage", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "progressType", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "progressValue", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "progressBuffer", void 0);
-__decorate([
-    Input()
-], Loader.prototype, "progressPercent", void 0);
-Loader = __decorate([
-    Component({
-        selector: "ionx-loader",
-        template: "<div>\n\n    <div style=\"display: flex; align-items: center\">\n\n        <div *ngIf=\"spinnerMode\" style=\"padding: 16px; padding-right: 0px;\">\n            <ion-spinner></ion-spinner>\n        </div>\n\n        <div style=\"padding: 16px; flex: 1; display: flex; flex-direction: column; justify-items: center;\">\n            <h5 style=\"margin: 0px\" *ngIf=\"header\">{{header}}</h5>\n            <ion-text [innerHTML]=\"message\" *ngIf=\"!!message\"></ion-text>\n        </div>\n\n    </div>\n\n    <ion-progress-bar style=\"margin: 8px 0px 16px 0px\" [value]=\"progressValue\" [type]=\"progressType\" [buffer]=\"progressBuffer\" *ngIf=\"progressMode\"></ion-progress-bar>\n\n    <div style=\"display: flex; margin: 0px 16px 16px 16px\" *ngIf=\"!!progressMessage || progressPercentVisible\">\n        <ion-text [innerHTML]=\"progressMessage\" style=\"flex: 1\"></ion-text>\n        <span style=\"width: 60px; text-align: right\" *ngIf=\"progressPercentVisible\">{{(progressPercent | intlPercentFormat: {maximumFractionDigits: 0})}}</span>\n    </div>\n\n</div>\n",
-        styles: [":host{display:-webkit-box;display:flex}:host.ionx--filled{width:100%;height:100%;-webkit-box-align:center;align-items:center;align-content:center;justify-items:center;-webkit-box-pack:center;justify-content:center}"]
-    })
-], Loader);
+Loader.propDecorators = {
+    fill: [{ type: Input }, { type: HostBinding, args: ["class.ionx--filled",] }],
+    instanceCallback: [{ type: Input }],
+    header: [{ type: Input }],
+    message: [{ type: Input }],
+    mode: [{ type: Input }],
+    progressMessage: [{ type: Input }],
+    progressType: [{ type: Input }],
+    progressValue: [{ type: Input }],
+    progressBuffer: [{ type: Input }],
+    progressPercent: [{ type: Input }]
+};
 
-let LoaderController = class LoaderController {
+class LoaderController {
     constructor(popoverController) {
         this.popoverController = popoverController;
     }
@@ -112,25 +93,25 @@ let LoaderController = class LoaderController {
             return loader;
         });
     }
-};
+}
+LoaderController.decorators = [
+    { type: Injectable }
+];
 LoaderController.ctorParameters = () => [
     { type: PopoverController }
 ];
-LoaderController = __decorate([
-    Injectable()
-], LoaderController);
 
-let LoaderModule = class LoaderModule {
-};
-LoaderModule = __decorate([
-    NgModule({
-        declarations: [Loader],
-        imports: [IntlModule, IonicModule, CommonModule],
-        exports: [Loader],
-        entryComponents: [Loader],
-        providers: [LoaderController]
-    })
-], LoaderModule);
+class LoaderModule {
+}
+LoaderModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [Loader],
+                imports: [IntlModule, IonicModule, CommonModule],
+                exports: [Loader],
+                entryComponents: [Loader],
+                providers: [LoaderController]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

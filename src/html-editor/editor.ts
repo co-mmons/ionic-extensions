@@ -86,10 +86,10 @@ export class HtmlEditor implements OnInit, AfterViewInit, ControlValueAccessor, 
     private scrollParent: HTMLElement;
 
     @Output()
-    readonly change: EventEmitter<any> = new EventEmitter();
+    readonly change: EventEmitter<void> = new EventEmitter();
 
     @Output()
-    readonly selectionChange: EventEmitter<any> = new EventEmitter();
+    readonly selectionChange: EventEmitter<void> = new EventEmitter();
 
     @Input()
     public set value(html: string) {

@@ -7,10 +7,10 @@ export declare class PopoverControllerComponent {
     private enableBackdropDismiss;
     private showBackdrop;
     private content;
-    readonly willEnter: EventEmitter<any>;
-    readonly didEnter: EventEmitter<any>;
-    readonly didDismiss: EventEmitter<any>;
-    readonly willDismiss: EventEmitter<any>;
+    readonly willEnter: EventEmitter<void>;
+    readonly didEnter: EventEmitter<void>;
+    readonly didDismiss: EventEmitter<void>;
+    readonly willDismiss: EventEmitter<void>;
     private popover;
     present(event?: Event): Promise<void>;
     private _dismissing;

@@ -1,9 +1,9 @@
-import { __awaiter, __decorate } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { EventEmitter, Input, ViewChild, Output, Component, ViewEncapsulation, NgModule } from '@angular/core';
+import { EventEmitter, Component, ViewEncapsulation, Input, ViewChild, Output, NgModule } from '@angular/core';
 import { PopoverController, IonicModule } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 
-let PopoverControllerComponent = class PopoverControllerComponent {
+class PopoverControllerComponent {
     constructor(controller) {
         this.controller = controller;
         this.willEnter = new EventEmitter();
@@ -50,75 +50,62 @@ let PopoverControllerComponent = class PopoverControllerComponent {
             resolve();
         });
     }
-};
-PopoverControllerComponent.ctorParameters = () => [
-    { type: PopoverController }
-];
-__decorate([
-    Input()
-], PopoverControllerComponent.prototype, "cssClass", void 0);
-__decorate([
-    Input()
-], PopoverControllerComponent.prototype, "enableBackdropDismiss", void 0);
-__decorate([
-    Input()
-], PopoverControllerComponent.prototype, "showBackdrop", void 0);
-__decorate([
-    ViewChild("popoverContent", { static: true })
-], PopoverControllerComponent.prototype, "content", void 0);
-__decorate([
-    Output()
-], PopoverControllerComponent.prototype, "willEnter", void 0);
-__decorate([
-    Output()
-], PopoverControllerComponent.prototype, "didEnter", void 0);
-__decorate([
-    Output()
-], PopoverControllerComponent.prototype, "didDismiss", void 0);
-__decorate([
-    Output()
-], PopoverControllerComponent.prototype, "willDismiss", void 0);
-PopoverControllerComponent = __decorate([
-    Component({
-        selector: "ionx-popover-controller",
-        encapsulation: ViewEncapsulation.None,
-        template: `
+}
+PopoverControllerComponent.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-popover-controller",
+                encapsulation: ViewEncapsulation.None,
+                template: `
         <ng-template #popoverContent>
             <ng-content></ng-content>
         </ng-template>
     `
-    })
-], PopoverControllerComponent);
-let PopoverControllerContentComponent = class PopoverControllerContentComponent {
+            },] }
+];
+PopoverControllerComponent.ctorParameters = () => [
+    { type: PopoverController }
+];
+PopoverControllerComponent.propDecorators = {
+    cssClass: [{ type: Input }],
+    enableBackdropDismiss: [{ type: Input }],
+    showBackdrop: [{ type: Input }],
+    content: [{ type: ViewChild, args: ["popoverContent", { static: true },] }],
+    willEnter: [{ type: Output }],
+    didEnter: [{ type: Output }],
+    didDismiss: [{ type: Output }],
+    willDismiss: [{ type: Output }]
+};
+class PopoverControllerContentComponent {
     constructor() {
         //this.template = params.get("template");
     }
     ngOnDestroy() {
         this.template = undefined;
     }
-};
-__decorate([
-    Input()
-], PopoverControllerContentComponent.prototype, "template", void 0);
-PopoverControllerContentComponent = __decorate([
-    Component({
-        encapsulation: ViewEncapsulation.None,
-        template: `
+}
+PopoverControllerContentComponent.decorators = [
+    { type: Component, args: [{
+                encapsulation: ViewEncapsulation.None,
+                template: `
         <ng-template [ngTemplateOutlet]="template"></ng-template>
     `
-    })
-], PopoverControllerContentComponent);
-
-let PopoverModule = class PopoverModule {
+            },] }
+];
+PopoverControllerContentComponent.ctorParameters = () => [];
+PopoverControllerContentComponent.propDecorators = {
+    template: [{ type: Input }]
 };
-PopoverModule = __decorate([
-    NgModule({
-        declarations: [PopoverControllerComponent, PopoverControllerContentComponent],
-        exports: [PopoverControllerComponent],
-        imports: [IonicModule, CommonModule],
-        entryComponents: [PopoverControllerComponent, PopoverControllerContentComponent]
-    })
-], PopoverModule);
+
+class PopoverModule {
+}
+PopoverModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [PopoverControllerComponent, PopoverControllerContentComponent],
+                exports: [PopoverControllerComponent],
+                imports: [IonicModule, CommonModule],
+                entryComponents: [PopoverControllerComponent, PopoverControllerContentComponent]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

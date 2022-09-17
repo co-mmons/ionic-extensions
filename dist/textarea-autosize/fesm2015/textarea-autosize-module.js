@@ -1,9 +1,9 @@
-import { __awaiter, __decorate } from 'tslib';
-import { ElementRef, HostListener, Directive, NgModule } from '@angular/core';
+import { Directive, ElementRef, HostListener, NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 import { waitTill } from '@co.mmons/js-utils/core';
 
-let TextareaAutosize = class TextareaAutosize {
+class TextareaAutosize {
     constructor(element) {
         this.element = element;
     }
@@ -27,28 +27,28 @@ let TextareaAutosize = class TextareaAutosize {
             this.adjust();
         });
     }
-};
+}
+TextareaAutosize.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-textarea[ionx-autosize]"
+            },] }
+];
 TextareaAutosize.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    HostListener("ionChange")
-], TextareaAutosize.prototype, "onChange", null);
-TextareaAutosize = __decorate([
-    Directive({
-        selector: "ion-textarea[ionx-autosize]"
-    })
-], TextareaAutosize);
-
-let TextareaAutosizeModule = class TextareaAutosizeModule {
+TextareaAutosize.propDecorators = {
+    onChange: [{ type: HostListener, args: ["ionChange",] }]
 };
-TextareaAutosizeModule = __decorate([
-    NgModule({
-        declarations: [TextareaAutosize],
-        exports: [TextareaAutosize],
-        imports: [IonicModule]
-    })
-], TextareaAutosizeModule);
+
+class TextareaAutosizeModule {
+}
+TextareaAutosizeModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [TextareaAutosize],
+                exports: [TextareaAutosize],
+                imports: [IonicModule]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

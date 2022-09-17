@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/image-loader",
   "sideEffects": false,
   "main": "bundles/image-loader-module.umd.js",
-  "module": "fesm5/image-loader-module.js",
+  "module": "fesm2015/image-loader-module.js",
   "es2015": "fesm2015/image-loader-module.js",
-  "esm5": "esm5/image-loader-module.js",
   "esm2015": "esm2015/image-loader-module.js",
-  "fesm5": "fesm5/image-loader-module.js",
   "fesm2015": "fesm2015/image-loader-module.js",
   "typings": "image-loader-module.d.ts",
   "metadata": "image-loader-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

@@ -1,5 +1,5 @@
-import { __awaiter, __decorate, __param } from 'tslib';
-import { ElementRef, Input, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, NgModule } from '@angular/core';
+import { Directive, ElementRef, Input, ContentChildren, forwardRef, Renderer2, Optional, Inject, NgModule } from '@angular/core';
+import { __awaiter } from 'tslib';
 import { sleep } from '@co.mmons/js-utils/core';
 
 const defaultOptions = {
@@ -377,8 +377,7 @@ function ensureLazyLoad(root, options) {
     });
 }
 
-var LazyDirectives_1;
-let LazyLoadContainer = class LazyLoadContainer {
+class LazyLoadContainer {
     constructor(element) {
         this.element = element;
     }
@@ -427,22 +426,20 @@ let LazyLoadContainer = class LazyLoadContainer {
             this.loader = new Loader(options);
         });
     }
-};
+}
+LazyLoadContainer.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionx-lazy-load-container]"
+            },] }
+];
 LazyLoadContainer.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    Input("ionx-lazy-load-container")
-], LazyLoadContainer.prototype, "options", void 0);
-__decorate([
-    ContentChildren(forwardRef(() => LazyDirectives), { descendants: true })
-], LazyLoadContainer.prototype, "children", void 0);
-LazyLoadContainer = __decorate([
-    Directive({
-        selector: "[ionx-lazy-load-container]"
-    })
-], LazyLoadContainer);
-let LazyDirectives = LazyDirectives_1 = class LazyDirectives {
+LazyLoadContainer.propDecorators = {
+    options: [{ type: Input, args: ["ionx-lazy-load-container",] }],
+    children: [{ type: ContentChildren, args: [forwardRef(() => LazyDirectives), { descendants: true },] }]
+};
+class LazyDirectives {
     constructor(element, renderer, container) {
         this.element = element;
         this.renderer = renderer;
@@ -474,36 +471,31 @@ let LazyDirectives = LazyDirectives_1 = class LazyDirectives {
         this.children.changes.subscribe(() => this.revalidate());
         this.revalidate();
     }
-};
+}
+LazyDirectives.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionx-lazy-load]"
+            },] }
+];
 LazyDirectives.ctorParameters = () => [
     { type: ElementRef },
     { type: Renderer2 },
     { type: LazyLoadContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(() => LazyLoadContainer),] }] }
 ];
-__decorate([
-    ContentChildren(LazyDirectives_1, { descendants: true })
-], LazyDirectives.prototype, "children", void 0);
-__decorate([
-    Input("ionx-lazy-load")
-], LazyDirectives.prototype, "src", null);
-__decorate([
-    Input("ionx-lazy-load-alternate")
-], LazyDirectives.prototype, "alternate", null);
-LazyDirectives = LazyDirectives_1 = __decorate([
-    Directive({
-        selector: "[ionx-lazy-load]"
-    }),
-    __param(2, Optional()), __param(2, Inject(forwardRef(() => LazyLoadContainer)))
-], LazyDirectives);
-
-let LazyLoadModule = class LazyLoadModule {
+LazyDirectives.propDecorators = {
+    children: [{ type: ContentChildren, args: [LazyDirectives, { descendants: true },] }],
+    src: [{ type: Input, args: ["ionx-lazy-load",] }],
+    alternate: [{ type: Input, args: ["ionx-lazy-load-alternate",] }]
 };
-LazyLoadModule = __decorate([
-    NgModule({
-        declarations: [LazyDirectives, LazyLoadContainer],
-        exports: [LazyDirectives, LazyLoadContainer]
-    })
-], LazyLoadModule);
+
+class LazyLoadModule {
+}
+LazyLoadModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [LazyDirectives, LazyLoadContainer],
+                exports: [LazyDirectives, LazyLoadContainer]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

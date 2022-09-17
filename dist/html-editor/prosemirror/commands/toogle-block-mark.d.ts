@@ -7,4 +7,4 @@ import { Command } from "../command";
  * return `undefined for no-op.
  * return an `object` to update the mark.
  */
-export declare const toggleBlockMark: <T = object>(markType: MarkType<any>, getAttrs: (prevAttrs?: T, node?: PMNode<any>) => false | T, allowedBlocks?: NodeType<any>[] | ((schema: Schema<any, any>, node: PMNode<any>, parent: PMNode<any>) => boolean)) => Command;
+export declare const toggleBlockMark: <T = object>(markType: MarkType, getAttrs: (prevAttrs?: T, node?: PMNode) => false | T, allowedBlocks?: NodeType[] | ((schema: Schema, node: PMNode, parent: PMNode) => boolean)) => Command;

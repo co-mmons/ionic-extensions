@@ -1,53 +1,77 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core'), require('@angular/forms'), require('@co.mmons/angular-extensions/browser/match-media'), require('@co.mmons/angular-intl'), require('@co.mmons/ionic-extensions/form-helper'), require('@co.mmons/ionic-extensions/select'), require('@co.mmons/ionic-extensions/spinner'), require('@ionic/angular'), require('@co.mmons/ionic-extensions/buttons'), require('@co.mmons/js-intl'), require('prosemirror-model'), require('prosemirror-schema-basic'), require('prosemirror-schema-list'), require('@angular/platform-browser'), require('@co.mmons/js-utils/core'), require('prosemirror-commands'), require('prosemirror-gapcursor'), require('prosemirror-history'), require('prosemirror-keymap'), require('prosemirror-state'), require('prosemirror-view'), require('prosemirror-inputrules'), require('prosemirror-utils'), require('@co.mmons/rxjs-utils'), require('fast-equals'), require('prosemirror-transform')) :
     typeof define === 'function' && define.amd ? define('@co.mmons/ionic-extensions/html-editor', ['exports', '@angular/common', '@angular/core', '@angular/forms', '@co.mmons/angular-extensions/browser/match-media', '@co.mmons/angular-intl', '@co.mmons/ionic-extensions/form-helper', '@co.mmons/ionic-extensions/select', '@co.mmons/ionic-extensions/spinner', '@ionic/angular', '@co.mmons/ionic-extensions/buttons', '@co.mmons/js-intl', 'prosemirror-model', 'prosemirror-schema-basic', 'prosemirror-schema-list', '@angular/platform-browser', '@co.mmons/js-utils/core', 'prosemirror-commands', 'prosemirror-gapcursor', 'prosemirror-history', 'prosemirror-keymap', 'prosemirror-state', 'prosemirror-view', 'prosemirror-inputrules', 'prosemirror-utils', '@co.mmons/rxjs-utils', 'fast-equals', 'prosemirror-transform'], factory) :
-    (global = global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons['ionic-extensions'] = global.co.mmons['ionic-extensions'] || {}, global.co.mmons['ionic-extensions']['html-editor'] = {}), global.ng.common, global.ng.core, global.ng.forms, global.matchMedia, global.angularIntl, global.formHelper, global.select, global.spinner, global.angular, global.buttons, global.jsIntl, global.prosemirrorModel, global.prosemirrorSchemaBasic, global.prosemirrorSchemaList, global.ng.platformBrowser, global.core$1, global.prosemirrorCommands, global.prosemirrorGapcursor, global.prosemirrorHistory, global.prosemirrorKeymap, global.prosemirrorState, global.prosemirrorView, global.prosemirrorInputrules, global.prosemirrorUtils, global.rxjsUtils, global.fastEquals, global.prosemirrorTransform));
-}(this, (function (exports, common, core, forms, matchMedia, angularIntl, formHelper, select, spinner, angular, buttons, jsIntl, prosemirrorModel, prosemirrorSchemaBasic, prosemirrorSchemaList, platformBrowser, core$1, prosemirrorCommands, prosemirrorGapcursor, prosemirrorHistory, prosemirrorKeymap, prosemirrorState, prosemirrorView, prosemirrorInputrules, prosemirrorUtils, rxjsUtils, fastEquals, prosemirrorTransform) { 'use strict';
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory((global.co = global.co || {}, global.co.mmons = global.co.mmons || {}, global.co.mmons["ionic-extensions"] = global.co.mmons["ionic-extensions"] || {}, global.co.mmons["ionic-extensions"]["html-editor"] = {}), global.ng.common, global.ng.core, global.ng.forms, global.matchMedia, global.angularIntl, global.formHelper, global.select, global.spinner, global.angular, global.buttons, global.jsIntl, global.prosemirrorModel, global.prosemirrorSchemaBasic, global.baseListCommand, global.ng.platformBrowser, global.core$1, global.baseCommand, global.prosemirrorGapcursor, global.prosemirrorHistory, global.prosemirrorKeymap, global.prosemirrorState, global.prosemirrorView, global.prosemirrorInputrules, global.prosemirrorUtils, global.rxjsUtils, global.fastEquals, global.prosemirrorTransform));
+})(this, (function (exports, common, core, forms, matchMedia, angularIntl, formHelper, select, spinner, angular, buttons, jsIntl, prosemirrorModel, prosemirrorSchemaBasic, baseListCommand, platformBrowser, core$1, baseCommand, prosemirrorGapcursor, prosemirrorHistory, prosemirrorKeymap, prosemirrorState, prosemirrorView, prosemirrorInputrules, prosemirrorUtils, rxjsUtils, fastEquals, prosemirrorTransform) { 'use strict';
 
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
+    function _interopNamespace(e) {
+        if (e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (e) {
+            Object.keys(e).forEach(function (k) {
+                if (k !== 'default') {
+                    var d = Object.getOwnPropertyDescriptor(e, k);
+                    Object.defineProperty(n, k, d.get ? d : {
+                        enumerable: true,
+                        get: function () { return e[k]; }
+                    });
+                }
+            });
+        }
+        n["default"] = e;
+        return Object.freeze(n);
+    }
 
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
+    var baseListCommand__namespace = /*#__PURE__*/_interopNamespace(baseListCommand);
+    var baseCommand__namespace = /*#__PURE__*/_interopNamespace(baseCommand);
 
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
+    /******************************************************************************
+    Copyright (c) Microsoft Corporation.
+
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
     /* global Reflect, Promise */
-
-    var extendStatics = function(d, b) {
+    var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b)
+                if (Object.prototype.hasOwnProperty.call(b, p))
+                    d[p] = b[p]; };
         return extendStatics(d, b);
     };
-
     function __extends(d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     }
-
-    var __assign = function() {
+    var __assign = function () {
         __assign = Object.assign || function __assign(t) {
             for (var s, i = 1, n = arguments.length; i < n; i++) {
                 s = arguments[i];
-                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+                for (var p in s)
+                    if (Object.prototype.hasOwnProperty.call(s, p))
+                        t[p] = s[p];
             }
             return t;
         };
         return __assign.apply(this, arguments);
     };
-
     function __rest(s, e) {
         var t = {};
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
+        for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+                t[p] = s[p];
         if (s != null && typeof Object.getOwnPropertySymbols === "function")
             for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
                 if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
@@ -55,150 +79,277 @@
             }
         return t;
     }
-
     function __decorate(decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+            r = Reflect.decorate(decorators, target, key, desc);
+        else
+            for (var i = decorators.length - 1; i >= 0; i--)
+                if (d = decorators[i])
+                    r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     }
-
     function __param(paramIndex, decorator) {
-        return function (target, key) { decorator(target, key, paramIndex); }
+        return function (target, key) { decorator(target, key, paramIndex); };
     }
-
     function __metadata(metadataKey, metadataValue) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+            return Reflect.metadata(metadataKey, metadataValue);
     }
-
     function __awaiter(thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+            function fulfilled(value) { try {
+                step(generator.next(value));
+            }
+            catch (e) {
+                reject(e);
+            } }
+            function rejected(value) { try {
+                step(generator["throw"](value));
+            }
+            catch (e) {
+                reject(e);
+            } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     }
-
     function __generator(thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+        var _ = { label: 0, sent: function () { if (t[0] & 1)
+                throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
         function step(op) {
-            if (f) throw new TypeError("Generator is already executing.");
-            while (_) try {
-                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-                if (y = 0, t) op = [op[0] & 2, t.value];
-                switch (op[0]) {
-                    case 0: case 1: t = op; break;
-                    case 4: _.label++; return { value: op[1], done: false };
-                    case 5: _.label++; y = op[1]; op = [0]; continue;
-                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                    default:
-                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                        if (t[2]) _.ops.pop();
-                        _.trys.pop(); continue;
+            if (f)
+                throw new TypeError("Generator is already executing.");
+            while (_)
+                try {
+                    if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+                        return t;
+                    if (y = 0, t)
+                        op = [op[0] & 2, t.value];
+                    switch (op[0]) {
+                        case 0:
+                        case 1:
+                            t = op;
+                            break;
+                        case 4:
+                            _.label++;
+                            return { value: op[1], done: false };
+                        case 5:
+                            _.label++;
+                            y = op[1];
+                            op = [0];
+                            continue;
+                        case 7:
+                            op = _.ops.pop();
+                            _.trys.pop();
+                            continue;
+                        default:
+                            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                                _ = 0;
+                                continue;
+                            }
+                            if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) {
+                                _.label = op[1];
+                                break;
+                            }
+                            if (op[0] === 6 && _.label < t[1]) {
+                                _.label = t[1];
+                                t = op;
+                                break;
+                            }
+                            if (t && _.label < t[2]) {
+                                _.label = t[2];
+                                _.ops.push(op);
+                                break;
+                            }
+                            if (t[2])
+                                _.ops.pop();
+                            _.trys.pop();
+                            continue;
+                    }
+                    op = body.call(thisArg, _);
                 }
-                op = body.call(thisArg, _);
-            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+                catch (e) {
+                    op = [6, e];
+                    y = 0;
+                }
+                finally {
+                    f = t = 0;
+                }
+            if (op[0] & 5)
+                throw op[1];
+            return { value: op[0] ? op[1] : void 0, done: true };
         }
     }
-
-    function __exportStar(m, exports) {
-        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    var __createBinding = Object.create ? (function (o, m, k, k2) {
+        if (k2 === undefined)
+            k2 = k;
+        var desc = Object.getOwnPropertyDescriptor(m, k);
+        if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+            desc = { enumerable: true, get: function () { return m[k]; } };
+        }
+        Object.defineProperty(o, k2, desc);
+    }) : (function (o, m, k, k2) {
+        if (k2 === undefined)
+            k2 = k;
+        o[k2] = m[k];
+    });
+    function __exportStar(m, o) {
+        for (var p in m)
+            if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p))
+                __createBinding(o, m, p);
     }
-
     function __values(o) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-        if (m) return m.call(o);
-        return {
-            next: function () {
-                if (o && i >= o.length) o = void 0;
-                return { value: o && o[i++], done: !o };
-            }
-        };
+        var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+        if (m)
+            return m.call(o);
+        if (o && typeof o.length === "number")
+            return {
+                next: function () {
+                    if (o && i >= o.length)
+                        o = void 0;
+                    return { value: o && o[i++], done: !o };
+                }
+            };
+        throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
     }
-
     function __read(o, n) {
         var m = typeof Symbol === "function" && o[Symbol.iterator];
-        if (!m) return o;
+        if (!m)
+            return o;
         var i = m.call(o), r, ar = [], e;
         try {
-            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
+                ar.push(r.value);
         }
-        catch (error) { e = { error: error }; }
+        catch (error) {
+            e = { error: error };
+        }
         finally {
             try {
-                if (r && !r.done && (m = i["return"])) m.call(i);
+                if (r && !r.done && (m = i["return"]))
+                    m.call(i);
             }
-            finally { if (e) throw e.error; }
+            finally {
+                if (e)
+                    throw e.error;
+            }
         }
         return ar;
     }
-
+    /** @deprecated */
     function __spread() {
         for (var ar = [], i = 0; i < arguments.length; i++)
             ar = ar.concat(__read(arguments[i]));
         return ar;
     }
-
+    /** @deprecated */
     function __spreadArrays() {
-        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+        for (var s = 0, i = 0, il = arguments.length; i < il; i++)
+            s += arguments[i].length;
         for (var r = Array(s), k = 0, i = 0; i < il; i++)
             for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
                 r[k] = a[j];
         return r;
-    };
-
+    }
+    function __spreadArray(to, from, pack) {
+        if (pack || arguments.length === 2)
+            for (var i = 0, l = from.length, ar; i < l; i++) {
+                if (ar || !(i in from)) {
+                    if (!ar)
+                        ar = Array.prototype.slice.call(from, 0, i);
+                    ar[i] = from[i];
+                }
+            }
+        return to.concat(ar || Array.prototype.slice.call(from));
+    }
     function __await(v) {
         return this instanceof __await ? (this.v = v, this) : new __await(v);
     }
-
     function __asyncGenerator(thisArg, _arguments, generator) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+        if (!Symbol.asyncIterator)
+            throw new TypeError("Symbol.asyncIterator is not defined.");
         var g = generator.apply(thisArg, _arguments || []), i, q = [];
         return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-        function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-        function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+        function verb(n) { if (g[n])
+            i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+        function resume(n, v) { try {
+            step(g[n](v));
+        }
+        catch (e) {
+            settle(q[0][3], e);
+        } }
         function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
         function fulfill(value) { resume("next", value); }
         function reject(value) { resume("throw", value); }
-        function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+        function settle(f, v) { if (f(v), q.shift(), q.length)
+            resume(q[0][0], q[0][1]); }
     }
-
     function __asyncDelegator(o) {
         var i, p;
         return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
         function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
     }
-
     function __asyncValues(o) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+        if (!Symbol.asyncIterator)
+            throw new TypeError("Symbol.asyncIterator is not defined.");
         var m = o[Symbol.asyncIterator], i;
         return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
         function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-        function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+        function settle(resolve, reject, d, v) { Promise.resolve(v).then(function (v) { resolve({ value: v, done: d }); }, reject); }
     }
-
     function __makeTemplateObject(cooked, raw) {
-        if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+        if (Object.defineProperty) {
+            Object.defineProperty(cooked, "raw", { value: raw });
+        }
+        else {
+            cooked.raw = raw;
+        }
         return cooked;
+    }
+    ;
+    var __setModuleDefault = Object.create ? (function (o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+    }) : function (o, v) {
+        o["default"] = v;
     };
-
     function __importStar(mod) {
-        if (mod && mod.__esModule) return mod;
+        if (mod && mod.__esModule)
+            return mod;
         var result = {};
-        if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-        result.default = mod;
+        if (mod != null)
+            for (var k in mod)
+                if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+                    __createBinding(result, mod, k);
+        __setModuleDefault(result, mod);
         return result;
     }
-
     function __importDefault(mod) {
         return (mod && mod.__esModule) ? mod : { default: mod };
+    }
+    function __classPrivateFieldGet(receiver, state, kind, f) {
+        if (kind === "a" && !f)
+            throw new TypeError("Private accessor was defined without a getter");
+        if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+            throw new TypeError("Cannot read private member from an object whose class did not declare it");
+        return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+    }
+    function __classPrivateFieldSet(receiver, state, value, kind, f) {
+        if (kind === "m")
+            throw new TypeError("Private method is not writable");
+        if (kind === "a" && !f)
+            throw new TypeError("Private accessor was defined without a setter");
+        if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+            throw new TypeError("Cannot write private member to an object whose class did not declare it");
+        return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+    }
+    function __classPrivateFieldIn(state, receiver) {
+        if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function"))
+            throw new TypeError("Cannot use 'in' operator on non-object");
+        return typeof state === "function" ? receiver === state : state.has(receiver);
     }
 
     var Alignment = /** @class */ (function () {
@@ -210,13 +361,13 @@
         Alignment.alignments = function () {
             return Alignment._alignments.slice();
         };
-        Alignment._alignments = [];
-        Alignment.left = new Alignment("left");
-        Alignment.right = new Alignment("right");
-        Alignment.center = new Alignment("center");
-        Alignment.justify = new Alignment("justify");
         return Alignment;
     }());
+    Alignment._alignments = [];
+    Alignment.left = new Alignment("left");
+    Alignment.right = new Alignment("right");
+    Alignment.center = new Alignment("center");
+    Alignment.justify = new Alignment("justify");
 
     /**
      * Toggles block mark based on the return type of `getAttrs`.
@@ -290,7 +441,7 @@
         return toggleBlockMark(alignment, function () { return (!align ? undefined : align === "left" ? false : { align: align }); }, [paragraph, heading])(state, dispatch);
     }; };
 
-    var ɵ0 = function (dom) {
+    var ɵ0$4 = function (dom) {
         var size = dom.getAttribute("data-font-size");
         return size ? { fontSize: size } : false;
     };
@@ -303,7 +454,7 @@
         parseDOM: [
             {
                 tag: "span[data-font-size]",
-                getAttrs: ɵ0,
+                getAttrs: ɵ0$4,
             },
         ],
         toDOM: function (mark) {
@@ -315,7 +466,7 @@
         },
     };
 
-    var ɵ0$1 = function (dom) {
+    var ɵ0$3 = function (dom) {
         var align = dom.getAttribute("data-align");
         return align ? { align: align } : false;
     };
@@ -328,7 +479,7 @@
         parseDOM: [
             {
                 tag: "div[data-align]",
-                getAttrs: ɵ0$1,
+                getAttrs: ɵ0$3,
             },
         ],
         toDOM: function (mark) {
@@ -343,12 +494,12 @@
         },
     };
 
-    var ɵ0$2 = { default: "" }, ɵ1 = function (node) {
+    var ɵ0$2 = { default: "" }, ɵ1$1 = function (node) {
         return [
             "div",
             { "data-youtube": node.attrs.id + (node.attrs.start ? "," + node.attrs.start : "") }
         ];
-    }, ɵ2 = function (dom) {
+    }, ɵ2$1 = function (dom) {
         // @ts-ignore
         var info = dom.getAttribute("data-youtube").split(",");
         return {
@@ -361,11 +512,11 @@
         inline: false,
         group: "block",
         draggable: false,
-        toDOM: ɵ1,
+        toDOM: ɵ1$1,
         parseDOM: [
             {
                 tag: "div[data-youtube]",
-                getAttrs: ɵ2,
+                getAttrs: ɵ2$1,
             }
         ]
     };
@@ -387,15 +538,15 @@
         heading: prosemirrorSchemaBasic.nodes.heading,
         text: prosemirrorSchemaBasic.nodes.text,
         hardBreak: prosemirrorSchemaBasic.nodes.hard_break,
-        bulletList: Object.assign({}, prosemirrorSchemaList.bulletList, {
+        bulletList: Object.assign({}, baseListCommand.bulletList, {
             content: "listItem+",
             group: "block"
         }),
-        orderedList: Object.assign({}, prosemirrorSchemaList.orderedList, {
+        orderedList: Object.assign({}, baseListCommand.orderedList, {
             content: "listItem+",
             group: "block"
         }),
-        listItem: Object.assign({}, prosemirrorSchemaList.listItem, {
+        listItem: Object.assign({}, baseListCommand.listItem, {
             content: "paragraph block*",
             marks: "alignment"
         }),
@@ -481,20 +632,20 @@
         AlignmentMenu.prototype.ionViewWillLeave = function () {
             this.editor.focus();
         };
-        AlignmentMenu.ctorParameters = function () { return [
-            { type: angular.PopoverController }
-        ]; };
-        __decorate([
-            core.Input()
-        ], AlignmentMenu.prototype, "editor", void 0);
-        AlignmentMenu = __decorate([
-            core.Component({
-                template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleAligment(alignment)\" *ngFor=\"let alignment of Alignment.alignments()\">\n                <ion-label>{{alignment.label | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"active === alignment.alignment\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/align-{{alignment.alignment}}.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n        </ion-list>\n    ",
-                styles: ["\n        :host ion-list { margin: 0px; padding: 0px; }\n        :host ion-item:last-child { --border-width: 0px; }\n    "]
-            })
-        ], AlignmentMenu);
         return AlignmentMenu;
     }());
+    AlignmentMenu.decorators = [
+        { type: core.Component, args: [{
+                    template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleAligment(alignment)\" *ngFor=\"let alignment of Alignment.alignments()\">\n                <ion-label>{{alignment.label | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"active === alignment.alignment\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/align-{{alignment.alignment}}.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n        </ion-list>\n    ",
+                    styles: ["\n        :host ion-list { margin: 0px; padding: 0px; }\n        :host ion-item:last-child { --border-width: 0px; }\n    "]
+                },] }
+    ];
+    AlignmentMenu.ctorParameters = function () { return [
+        { type: angular.PopoverController }
+    ]; };
+    AlignmentMenu.propDecorators = {
+        editor: [{ type: core.Input }]
+    };
 
     var mac = typeof navigator !== "undefined" ? /Mac/.test(navigator.platform) : false;
     function buildKeymap(schema, mapKeys) {
@@ -518,24 +669,24 @@
         if (!mac) {
             bind("Mod-y", prosemirrorHistory.redo);
         }
-        bind("Alt-ArrowUp", prosemirrorCommands.joinUp);
-        bind("Alt-ArrowDown", prosemirrorCommands.joinDown);
-        bind("Mod-BracketLeft", prosemirrorCommands.lift);
-        bind("Escape", prosemirrorCommands.selectParentNode);
+        bind("Alt-ArrowUp", baseCommand.joinUp);
+        bind("Alt-ArrowDown", baseCommand.joinDown);
+        bind("Mod-BracketLeft", baseCommand.lift);
+        bind("Escape", baseCommand.selectParentNode);
         if (type = schema.marks.strong) {
-            bind("Mod-b", prosemirrorCommands.toggleMark(type));
-            bind("Mod-B", prosemirrorCommands.toggleMark(type));
+            bind("Mod-b", baseCommand.toggleMark(type));
+            bind("Mod-B", baseCommand.toggleMark(type));
         }
         if (type = schema.marks.em) {
-            bind("Mod-i", prosemirrorCommands.toggleMark(type));
-            bind("Mod-I", prosemirrorCommands.toggleMark(type));
+            bind("Mod-i", baseCommand.toggleMark(type));
+            bind("Mod-I", baseCommand.toggleMark(type));
         }
         if (type = schema.marks.underline) {
-            bind("Mod-u", prosemirrorCommands.toggleMark(type));
-            bind("Mod-U", prosemirrorCommands.toggleMark(type));
+            bind("Mod-u", baseCommand.toggleMark(type));
+            bind("Mod-U", baseCommand.toggleMark(type));
         }
         if (type = schema.nodes.listItem) {
-            bind("Enter", prosemirrorSchemaList.splitListItem(type));
+            bind("Enter", baseListCommand.splitListItem(type));
         }
         if (type = schema.nodes.hardBreak) {
             var br_1 = type;
@@ -640,15 +791,15 @@
             var parentRect = parent.getBoundingClientRect();
             var rect = element.getBoundingClientRect();
             if (!(rect.top > parentRect.top && rect.top <= parentRect.bottom && rect.bottom < parentRect.height)) {
-                var top_1 = element.offsetTop - 100;
+                var top = element.offsetTop - 100;
                 if (element.offsetParent) {
                     var offsetParent = element.offsetParent;
                     while (offsetParent !== parent && !!offsetParent) {
-                        top_1 += offsetParent.offsetTop;
+                        top += offsetParent.offsetTop;
                         offsetParent = offsetParent.offsetParent;
                     }
                 }
-                parent.scrollTo({ top: top_1 });
+                parent.scrollTo({ top: top });
             }
             return;
         }
@@ -660,8 +811,8 @@
             var rect = caretTopPoint();
             rect.top -= 100;
             if (!(rect.top > parentRect.top && rect.top <= parentRect.bottom)) {
-                var top_2 = rect.top - parentRect.top;
-                parent.scrollTo({ top: top_2, behavior: "auto" });
+                var top = rect.top - parentRect.top;
+                parent.scrollTo({ top: top, behavior: "auto" });
             }
             return;
         }
@@ -718,16 +869,15 @@
             if (formControl) {
                 this.formControl.valueAccessor = this;
             }
-            this.id = "ionx-trix-editor" + (HtmlEditor_1.idGenerator++);
+            this.id = "ionx-trix-editor" + (HtmlEditor.idGenerator++);
             this.itemInputWrapper = !!this.item;
             this.element.nativeElement.setAttribute("no-blur", "");
         }
-        HtmlEditor_1 = HtmlEditor;
         Object.defineProperty(HtmlEditor.prototype, "state", {
             get: function () {
                 return this.view.state;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(HtmlEditor.prototype, "value", {
@@ -761,14 +911,14 @@
                 }
                 this.silentChanges = false;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(HtmlEditor.prototype, "nativeElement", {
             get: function () {
                 return this.element.nativeElement;
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         HtmlEditor.prototype.prepareOutputValue = function (value) {
@@ -976,7 +1126,7 @@
             this.schema = schema;
             this.plugins = [
                 prosemirrorKeymap.keymap(buildKeymap(schema)),
-                prosemirrorKeymap.keymap(prosemirrorCommands.baseKeymap),
+                prosemirrorKeymap.keymap(baseCommand.baseKeymap),
                 prosemirrorGapcursor.gapCursor(),
                 prosemirrorHistory.history()
             ];
@@ -1003,46 +1153,31 @@
                 this.readonlyChanged();
             }
         };
-        var HtmlEditor_1;
-        HtmlEditor.idGenerator = 0;
-        HtmlEditor.ctorParameters = function () { return [
-            { type: core.ElementRef },
-            { type: platformBrowser.EventManager },
-            { type: forms.NgControl, decorators: [{ type: core.Optional }] },
-            { type: angular.IonItem, decorators: [{ type: core.Optional }] }
-        ]; };
-        __decorate([
-            core.HostBinding("class.ionx-item-input-wrapper")
-        ], HtmlEditor.prototype, "itemInputWrapper", void 0);
-        __decorate([
-            core.Input()
-        ], HtmlEditor.prototype, "features", void 0);
-        __decorate([
-            core.Input()
-        ], HtmlEditor.prototype, "disabled", void 0);
-        __decorate([
-            core.Input()
-        ], HtmlEditor.prototype, "readonly", void 0);
-        __decorate([
-            core.Output()
-        ], HtmlEditor.prototype, "change", void 0);
-        __decorate([
-            core.Output()
-        ], HtmlEditor.prototype, "selectionChange", void 0);
-        __decorate([
-            core.Input()
-        ], HtmlEditor.prototype, "value", null);
-        HtmlEditor = HtmlEditor_1 = __decorate([
-            core.Component({
-                selector: "ionx-html-editor",
-                template: "\n        <ionx-html-editor-toolbar [style.display]=\"readonly ? 'none' : ''\"></ionx-html-editor-toolbar>\n    ",
-                styles: [":host ::ng-deep .ProseMirror{outline:0;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror:not([contenteditable=true]) .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}"]
-            }),
-            __param(2, core.Optional()),
-            __param(3, core.Optional())
-        ], HtmlEditor);
         return HtmlEditor;
     }());
+    HtmlEditor.idGenerator = 0;
+    HtmlEditor.decorators = [
+        { type: core.Component, args: [{
+                    selector: "ionx-html-editor",
+                    template: "\n        <ionx-html-editor-toolbar [style.display]=\"readonly ? 'none' : ''\"></ionx-html-editor-toolbar>\n    ",
+                    styles: [":host ::ng-deep .ProseMirror{outline:none;user-select:text;-webkit-user-select:text}:host ::ng-deep .ProseMirror[contenteditable=true]{min-height:60px;white-space:pre-wrap;word-wrap:break-word}:host ::ng-deep .ProseMirror[contenteditable=true] .ionx--selected{border:4px solid var(--ion-color-primary)}:host ::ng-deep .ProseMirror:not([contenteditable=true]) .ionx--interactive{display:none}:host ::ng-deep .ProseMirror p{margin:16px 0 0}:host ::ng-deep .ProseMirror p:first-child{margin-top:0}:host ::ng-deep .ProseMirror h1{font-size:130%}:host ::ng-deep .ProseMirror h2{font-size:125%}:host ::ng-deep .ProseMirror h3{font-size:120%}:host ::ng-deep .ProseMirror h4{font-size:115%}:host ::ng-deep .ProseMirror h5{font-size:110%}:host ::ng-deep .ProseMirror h6{font-size:105%}:host ::ng-deep .ProseMirror h1,:host ::ng-deep .ProseMirror h2,:host ::ng-deep .ProseMirror h3,:host ::ng-deep .ProseMirror h4,:host ::ng-deep .ProseMirror h5,:host ::ng-deep .ProseMirror h6{margin-top:16px;margin-bottom:8px}:host ::ng-deep .ProseMirror h1:first-child,:host ::ng-deep .ProseMirror h2:first-child,:host ::ng-deep .ProseMirror h3:first-child,:host ::ng-deep .ProseMirror h4:first-child,:host ::ng-deep .ProseMirror h5:first-child,:host ::ng-deep .ProseMirror h6:first-child{margin-top:0}:host ::ng-deep .ProseMirror ul:first-child{margin-top:0}\n"]
+                },] }
+    ];
+    HtmlEditor.ctorParameters = function () { return [
+        { type: core.ElementRef },
+        { type: platformBrowser.EventManager },
+        { type: forms.NgControl, decorators: [{ type: core.Optional }] },
+        { type: angular.IonItem, decorators: [{ type: core.Optional }] }
+    ]; };
+    HtmlEditor.propDecorators = {
+        itemInputWrapper: [{ type: core.HostBinding, args: ["class.ionx-item-input-wrapper",] }],
+        features: [{ type: core.Input }],
+        disabled: [{ type: core.Input }],
+        readonly: [{ type: core.Input }],
+        change: [{ type: core.Output }],
+        selectionChange: [{ type: core.Output }],
+        value: [{ type: core.Input }]
+    };
 
     var HeadingMenu = /** @class */ (function () {
         function HeadingMenu(popoverController) {
@@ -1051,7 +1186,7 @@
         HeadingMenu.prototype.toggleHeading = function (heading) {
             var _this = this;
             if (heading > 0 && this.activeHeading !== heading) {
-                var command = prosemirrorCommands.setBlockType(schema.nodes.heading, { level: heading });
+                var command = baseCommand.setBlockType(schema.nodes.heading, { level: heading });
                 if (command(this.editor.state)) {
                     command(this.editor.state, function (tr) {
                         _this.editor.view.dispatch(tr);
@@ -1059,7 +1194,7 @@
                 }
             }
             else {
-                prosemirrorCommands.setBlockType(schema.nodes.paragraph)(this.editor.state, function (tr) { return _this.editor.view.dispatch(tr); });
+                baseCommand.setBlockType(schema.nodes.paragraph)(this.editor.state, function (tr) { return _this.editor.view.dispatch(tr); });
             }
             this.popoverController.dismiss();
         };
@@ -1072,21 +1207,21 @@
         HeadingMenu.prototype.ionViewWillLeave = function () {
             this.editor.focus();
         };
-        HeadingMenu.ctorParameters = function () { return [
-            { type: angular.PopoverController }
-        ]; };
-        __decorate([
-            core.Input()
-        ], HeadingMenu.prototype, "editor", void 0);
-        HeadingMenu = __decorate([
-            core.Component({
-                template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(0)\" *ngIf=\"activeHeading > 0\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#Plain text\" | intlMessage}}</ion-label>\n            </ion-item>\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(1)\">\n                <ion-label style=\"font-size: 130%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 1</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 1\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(2)\">\n                <ion-label style=\"font-size: 125%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 2</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 2\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(3)\">\n                <ion-label style=\"font-size: 120%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 3</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 3\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(4)\">\n                <ion-label style=\"font-size: 115%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 4</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 4\"></ion-icon>\n            </ion-item>\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(5)\">\n                <ion-label style=\"font-size: 110%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 5</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 5\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(6)\">\n                <ion-label style=\"font-size: 105%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 6</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 6\"></ion-icon>\n            </ion-item>\n            \n        </ion-list>\n    ",
-                styles: [":host ion-list { margin: 0px; padding: 0px }",
-                    ":host ion-item:last-child { --border-width: 0px; }"]
-            })
-        ], HeadingMenu);
         return HeadingMenu;
     }());
+    HeadingMenu.decorators = [
+        { type: core.Component, args: [{
+                    template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(0)\" *ngIf=\"activeHeading > 0\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#Plain text\" | intlMessage}}</ion-label>\n            </ion-item>\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(1)\">\n                <ion-label style=\"font-size: 130%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 1</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 1\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(2)\">\n                <ion-label style=\"font-size: 125%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 2</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 2\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(3)\">\n                <ion-label style=\"font-size: 120%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 3</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 3\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(4)\">\n                <ion-label style=\"font-size: 115%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 4</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 4\"></ion-icon>\n            </ion-item>\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(5)\">\n                <ion-label style=\"font-size: 110%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 5</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 5\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleHeading(6)\">\n                <ion-label style=\"font-size: 105%; font-weight: 500\">{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}} 6</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeHeading == 6\"></ion-icon>\n            </ion-item>\n            \n        </ion-list>\n    ",
+                    styles: [":host ion-list { margin: 0px; padding: 0px }",
+                        ":host ion-item:last-child { --border-width: 0px; }"]
+                },] }
+    ];
+    HeadingMenu.ctorParameters = function () { return [
+        { type: angular.PopoverController }
+    ]; };
+    HeadingMenu.propDecorators = {
+        editor: [{ type: core.Input }]
+    };
 
     var LinkType = /** @class */ (function () {
         function LinkType(type) {
@@ -1144,13 +1279,13 @@
             }
             return fromLink;
         };
-        DefaultLinkType.www = new DefaultLinkType("www");
-        DefaultLinkType.email = new DefaultLinkType("email");
-        DefaultLinkType.tel = new DefaultLinkType("tel");
-        DefaultLinkType.sms = new DefaultLinkType("sms");
-        DefaultLinkType.other = new DefaultLinkType("other");
         return DefaultLinkType;
     }(LinkType));
+    DefaultLinkType.www = new DefaultLinkType("www");
+    DefaultLinkType.email = new DefaultLinkType("email");
+    DefaultLinkType.tel = new DefaultLinkType("tel");
+    DefaultLinkType.sms = new DefaultLinkType("sms");
+    DefaultLinkType.other = new DefaultLinkType("other");
     var urlValidatorRegex = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
     function urlValidator(control) {
         var value = control.value;
@@ -1191,13 +1326,12 @@
         function LinkModal(modalController) {
             this.modalController = modalController;
         }
-        LinkModal_1 = LinkModal;
         LinkModal.present = function (modalController, editor) {
             return __awaiter(this, void 0, void 0, function () {
                 var modal;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, modalController.create({ component: LinkModal_1, componentProps: { editor: editor } })];
+                        case 0: return [4 /*yield*/, modalController.create({ component: LinkModal, componentProps: { editor: editor } })];
                         case 1:
                             modal = _a.sent();
                             modal.present();
@@ -1242,7 +1376,7 @@
                                 this.editor.view.dispatch(tr_1);
                             }
                             else {
-                                prosemirrorCommands.toggleMark(schema.marks.link)(this.editor.state, function (tr) { return _this.editor.view.dispatch(tr); });
+                                baseCommand.toggleMark(schema.marks.link)(this.editor.state, function (tr) { return _this.editor.view.dispatch(tr); });
                             }
                             return [2 /*return*/];
                     }
@@ -1423,24 +1557,21 @@
         LinkModal.prototype.ngOnDestroy = function () {
             rxjsUtils.unsubscribe(this.typeChangesSubscription);
         };
-        var LinkModal_1;
-        LinkModal.ctorParameters = function () { return [
-            { type: angular.ModalController }
-        ]; };
-        __decorate([
-            core.Input()
-        ], LinkModal.prototype, "editor", void 0);
-        __decorate([
-            core.ViewChild(formHelper.FormHelper, { static: false })
-        ], LinkModal.prototype, "formHelper", void 0);
-        LinkModal = LinkModal_1 = __decorate([
-            core.Component({
-                template: "<ion-header>\n\n    <ion-toolbar>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); close()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"margin: 0; padding: 0;\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n\n            <ion-button fill=\"clear\" color=\"dark\" (click)=\"unlink()\" *ngIf=\"existing\">\n                <ion-icon name=\"trash\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Unlink\" | intlMessage}}</ion-label>\n            </ion-button>\n\n            <ion-button fill=\"clear\" color=\"primary\" (click)=\"ok()\">\n                <ion-icon name=\"checkmark\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-label>\n            </ion-button>\n\n        </ionx-buttons>\n\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content [forceOverscroll]=\"false\">\n\n    <ionx-spinner slot=\"fixed\" fill *ngIf=\"!form\"></ionx-spinner>\n\n    <form ionx-form-helper [formGroup]=\"form\" *ngIf=\"form\">\n\n        <ion-grid>\n\n            <ion-row>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link type\" | intlMessage}}</ion-label>\n                            <ionx-select required [compareAsString]=\"true\" formControlName=\"type\">\n                                <ionx-select-option *ngFor=\"let type of types\" [value]=\"type\">{{type.label | intlMessage}}</ionx-select-option>\n                            </ionx-select>\n                        </ion-item>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{(form.controls['type'].value.inputLabel || \"@co.mmons/ionic-extensions/html-editor#link/Link\") | intlMessage}}</ion-label>\n                            <ion-input formControlName=\"link\" type=\"form.controls['type'].value.inputType\"></ion-input>\n                        </ion-item>\n\n                        <ionx-form-item-error control=\"link\" markedAs=\"dirty\"></ionx-form-item-error>\n\n                        <ionx-form-item-hint *ngIf=\"form.controls['type'].value.inputHint\">\n                            <span [innerHTML]=\"form.controls['type'].value.inputHint | intlMessage\"></span>\n                        </ionx-form-item-hint>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n            </ion-row>\n\n\n        </ion-grid>\n\n    </form>\n\n</ion-content>\n",
-                styles: [":host ion-item:not(.ion-dirty) { --highlight-height: 0px; }"]
-            })
-        ], LinkModal);
         return LinkModal;
     }());
+    LinkModal.decorators = [
+        { type: core.Component, args: [{
+                    template: "<ion-header>\n\n    <ion-toolbar>\n\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); close()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"margin: 0; padding: 0;\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n\n            <ion-button fill=\"clear\" color=\"dark\" (click)=\"unlink()\" *ngIf=\"existing\">\n                <ion-icon name=\"trash\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Unlink\" | intlMessage}}</ion-label>\n            </ion-button>\n\n            <ion-button fill=\"clear\" color=\"primary\" (click)=\"ok()\">\n                <ion-icon name=\"checkmark\" slot=\"start\"></ion-icon>\n                <ion-label>{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-label>\n            </ion-button>\n\n        </ionx-buttons>\n\n    </ion-toolbar>\n\n</ion-header>\n\n<ion-content [forceOverscroll]=\"false\">\n\n    <ionx-spinner slot=\"fixed\" fill *ngIf=\"!form\"></ionx-spinner>\n\n    <form ionx-form-helper [formGroup]=\"form\" *ngIf=\"form\">\n\n        <ion-grid>\n\n            <ion-row>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{\"@co.mmons/ionic-extensions/html-editor#link/Link type\" | intlMessage}}</ion-label>\n                            <ionx-select required [compareAsString]=\"true\" formControlName=\"type\">\n                                <ionx-select-option *ngFor=\"let type of types\" [value]=\"type\">{{type.label | intlMessage}}</ionx-select-option>\n                            </ionx-select>\n                        </ion-item>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n                <ion-col [sizeXs]=\"12\">\n\n                    <ionx-form-item>\n\n                        <ion-item>\n                            <ion-label position=\"stacked\">{{(form.controls['type'].value.inputLabel || \"@co.mmons/ionic-extensions/html-editor#link/Link\") | intlMessage}}</ion-label>\n                            <ion-input formControlName=\"link\" type=\"form.controls['type'].value.inputType\"></ion-input>\n                        </ion-item>\n\n                        <ionx-form-item-error control=\"link\" markedAs=\"dirty\"></ionx-form-item-error>\n\n                        <ionx-form-item-hint *ngIf=\"form.controls['type'].value.inputHint\">\n                            <span [innerHTML]=\"form.controls['type'].value.inputHint | intlMessage\"></span>\n                        </ionx-form-item-hint>\n\n                    </ionx-form-item>\n\n                </ion-col>\n\n            </ion-row>\n\n\n        </ion-grid>\n\n    </form>\n\n</ion-content>\n",
+                    styles: [":host ion-item:not(.ion-dirty) { --highlight-height: 0px; }"]
+                },] }
+    ];
+    LinkModal.ctorParameters = function () { return [
+        { type: angular.ModalController }
+    ]; };
+    LinkModal.propDecorators = {
+        editor: [{ type: core.Input }],
+        formHelper: [{ type: core.ViewChild, args: [formHelper.FormHelper, { static: false },] }]
+    };
 
     var InsertMenu = /** @class */ (function () {
         // @ts-ignore
@@ -1475,12 +1606,12 @@
         };
         // @ts-ignore
         InsertMenu.prototype.parseYoutube = function (value) {
+            var e_1, _a;
             // https://www.youtube.com/watch?v=NqMgaHUNSQc
             // https://youtu.be/NqMgaHUNSQc
             // https://www.youtube.com/embed/NqMgaHUNSQc
             // https://www.youtube-nocookie.com/embed/NqMgaHUNSQc
             // https://youtu.be/NqMgaHUNSQc?t=17
-            var e_1, _a;
             value = value.replace("-nocookie.com/", ".com/");
             value = value.replace("/embed/", "/");
             value = value.replace("youtu.be/", "youtube.com/");
@@ -1561,26 +1692,24 @@
                 });
             });
         };
-        InsertMenu.ctorParameters = function () { return [
-            { type: angular.PopoverController },
-            { type: angular.ModalController }
-        ]; };
-        __decorate([
-            core.Input()
-        ], InsertMenu.prototype, "editor", void 0);
-        __decorate([
-            core.ViewChild("youtubeInput", { static: false })
-        ], InsertMenu.prototype, "youtubeInput", void 0);
-        InsertMenu = __decorate([
-            core.Component({
-                template: "\n        <ion-list lines=\"full\">\n            \n            <ng-template [ngIf]=\"!inputView\">\n                \n                <ion-item button=\"true\" detail=\"false\" (click)=\"insertLink()\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-label>\n                    <ion-icon name=\"link\" slot=\"start\"></ion-icon>\n                </ion-item>\n    \n                <ion-item button=\"true\" detail=\"false\" (click)=\"insertYoutube()\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#youtube/YouTube video\" | intlMessage}}</ion-label>\n                    <ion-icon name=\"logo-youtube\" slot=\"start\"></ion-icon>\n                </ion-item>\n                \n            </ng-template>\n            \n            <ng-template [ngIf]=\"inputView == 'youtube'\">\n\n                <ion-item>\n                    <ion-icon name=\"logo-youtube\" slot=\"start\"></ion-icon>\n                    <ion-input #youtubeInput [placeholder]=\"'@co.mmons/ionic-extensions/html-editor#youtube/Paste YouTube video url' | intlMessage\" (keydown.enter)=\"applyYoutube()\"></ion-input>\n                </ion-item>\n                \n                <ion-item>\n                    <ionx-buttons slot=\"end\">\n                        <ion-button fill=\"clear\" color=\"dark\" (click)=\"cancel()\">\n                            <ion-label>{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</ion-label>\n                        </ion-button>\n                        \n                        <ion-button fill=\"clear\" color=\"primary\" (click)=\"applyYoutube()\">\n                            <ion-label>{{\"@co.mmons/js-intl#Ok\" | intlMessage}}</ion-label>\n                        </ion-button>\n                    </ionx-buttons>\n                </ion-item>\n    \n            </ng-template>\n            \n        </ion-list>\n    ",
-                styles: [":host ion-list { margin: 0px; padding: 0px }",
-                    ":host ion-item:last-child { --border-width: 0px; }",
-                    ":host ion-item { --highlight-height: 0px; }"]
-            })
-        ], InsertMenu);
         return InsertMenu;
     }());
+    InsertMenu.decorators = [
+        { type: core.Component, args: [{
+                    template: "\n        <ion-list lines=\"full\">\n            \n            <ng-template [ngIf]=\"!inputView\">\n                \n                <ion-item button=\"true\" detail=\"false\" (click)=\"insertLink()\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</ion-label>\n                    <ion-icon name=\"link\" slot=\"start\"></ion-icon>\n                </ion-item>\n    \n                <ion-item button=\"true\" detail=\"false\" (click)=\"insertYoutube()\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#youtube/YouTube video\" | intlMessage}}</ion-label>\n                    <ion-icon name=\"logo-youtube\" slot=\"start\"></ion-icon>\n                </ion-item>\n                \n            </ng-template>\n            \n            <ng-template [ngIf]=\"inputView == 'youtube'\">\n\n                <ion-item>\n                    <ion-icon name=\"logo-youtube\" slot=\"start\"></ion-icon>\n                    <ion-input #youtubeInput [placeholder]=\"'@co.mmons/ionic-extensions/html-editor#youtube/Paste YouTube video url' | intlMessage\" (keydown.enter)=\"applyYoutube()\"></ion-input>\n                </ion-item>\n                \n                <ion-item>\n                    <ionx-buttons slot=\"end\">\n                        <ion-button fill=\"clear\" color=\"dark\" (click)=\"cancel()\">\n                            <ion-label>{{\"@co.mmons/js-intl#Cancel\" | intlMessage}}</ion-label>\n                        </ion-button>\n                        \n                        <ion-button fill=\"clear\" color=\"primary\" (click)=\"applyYoutube()\">\n                            <ion-label>{{\"@co.mmons/js-intl#Ok\" | intlMessage}}</ion-label>\n                        </ion-button>\n                    </ionx-buttons>\n                </ion-item>\n    \n            </ng-template>\n            \n        </ion-list>\n    ",
+                    styles: [":host ion-list { margin: 0px; padding: 0px }",
+                        ":host ion-item:last-child { --border-width: 0px; }",
+                        ":host ion-item { --highlight-height: 0px; }"]
+                },] }
+    ];
+    InsertMenu.ctorParameters = function () { return [
+        { type: angular.PopoverController },
+        { type: angular.ModalController }
+    ]; };
+    InsertMenu.propDecorators = {
+        editor: [{ type: core.Input }],
+        youtubeInput: [{ type: core.ViewChild, args: ["youtubeInput", { static: false },] }]
+    };
 
     var filter = function (predicates, cmd) {
         return function (state, dispatch, view) {
@@ -1660,11 +1789,9 @@
             child.isInline ? nonBlock.push(child) : block.push(child);
         });
         return (!nonBlock.length &&
-            !block.filter(function (childNode) {
-                return (!!childNode.childCount &&
-                    !(childNode.childCount === 1 && isEmptyParagraph(childNode.firstChild))) ||
-                    childNode.isAtom;
-            }).length);
+            !block.filter(function (childNode) { return (!!childNode.childCount &&
+                !(childNode.childCount === 1 && isEmptyParagraph(childNode.firstChild))) ||
+                childNode.isAtom; }).length);
     }
     /**
      * Checks if a node looks like an empty document
@@ -1713,10 +1840,8 @@
         }
         return candidate;
     }; };
-    var isSelectionEndOfParagraph = function (state) {
-        return state.selection.$to.parent.type === state.schema.nodes.paragraph &&
-            state.selection.$to.pos === state.doc.resolve(state.selection.$to.pos).end();
-    };
+    var isSelectionEndOfParagraph = function (state) { return state.selection.$to.parent.type === state.schema.nodes.paragraph &&
+        state.selection.$to.pos === state.doc.resolve(state.selection.$to.pos).end(); };
     function nodesBetweenChanged(tr, f, startPos) {
         var stepRange = getStepRange(tr);
         if (!stepRange) {
@@ -1735,11 +1860,9 @@
     function liftListItem(state, selection, tr) {
         var $from = selection.$from, $to = selection.$to;
         var nodeType = state.schema.nodes.listItem;
-        var range = $from.blockRange($to, function (node) {
-            return !!node.childCount &&
-                !!node.firstChild &&
-                node.firstChild.type === nodeType;
-        });
+        var range = $from.blockRange($to, function (node) { return !!node.childCount &&
+            !!node.firstChild &&
+            node.firstChild.type === nodeType; });
         if (!range ||
             range.depth < 2 ||
             $from.node(range.depth - 1).type !== nodeType) {
@@ -1849,7 +1972,7 @@
         return false;
     };
     var not = function (fn) { return function (arg) { return !fn(arg); }; };
-    var ɵ0$3 = not;
+    var ɵ0$1 = not;
     var removeBlockMarks = function (state, marks) {
         var selection = state.selection, schema = state.schema;
         var tr = state.tr;
@@ -1901,7 +2024,7 @@
         return !mark.type.excludes(markType) && !markType.excludes(mark.type);
     }
     function isMarkTypeAllowedInNode(markType, state) {
-        return prosemirrorCommands.toggleMark(markType)(state);
+        return baseCommand.toggleMark(markType)(state);
     }
     function closest(node, s) {
         var el = node;
@@ -2032,9 +2155,7 @@
         if (empty && !$cursor) {
             return false;
         }
-        var isCompatibleMarkType = function (mark) {
-            return isMarkTypeCompatibleWithMark(markType, mark);
-        };
+        var isCompatibleMarkType = function (mark) { return isMarkTypeCompatibleWithMark(markType, mark); };
         // Handle any new marks in the current transaction
         if (state.tr.storedMarks &&
             !state.tr.storedMarks.every(isCompatibleMarkType)) {
@@ -2431,7 +2552,7 @@
         for (var _i = 1; _i < arguments.length; _i++) {
             funcs[_i - 1] = arguments[_i];
         }
-        var allFuncs = __spread([func], funcs);
+        var allFuncs = __spreadArray([func], __read(funcs));
         return function composed(raw) {
             return allFuncs.reduceRight(function (memo, func) { return func(memo); }, raw);
         };
@@ -2453,13 +2574,13 @@
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            return nextFn(prevFn.apply(void 0, __spread(args)));
+            return nextFn(prevFn.apply(void 0, __spreadArray([], __read(args))));
         }; });
     }
     var normaliseNestedLayout = function (state, node) {
         if (state.selection.$from.depth > 1) {
             if (node.attrs.layout && node.attrs.layout !== "default") {
-                return node.type.createChecked(__assign(__assign({}, node.attrs), { layout: "default" }), node.content, node.marks);
+                return node.type.createChecked(Object.assign(Object.assign({}, node.attrs), { layout: "default" }), node.content, node.marks);
             }
             // If its a breakout layout, we can remove the mark
             // Since default isn"t a valid breakout mode.
@@ -2510,7 +2631,7 @@
         }
         return false;
     };
-    var ɵ0$4 = deletePreviousEmptyListItem;
+    var ɵ0 = deletePreviousEmptyListItem;
     var joinToPreviousListItem = function (state, dispatch) {
         var $from = state.selection.$from;
         var _a = state.schema.nodes, paragraph = _a.paragraph, listItem = _a.listItem, codeBlock = _a.codeBlock, bulletList = _a.bulletList, orderedList = _a.orderedList;
@@ -2562,7 +2683,7 @@
         }
         return false;
     };
-    var ɵ1$1 = joinToPreviousListItem;
+    var ɵ1 = joinToPreviousListItem;
     var isInsideListItem = function (state) {
         var $from = state.selection.$from;
         var _a = state.schema.nodes, listItem = _a.listItem, paragraph = _a.paragraph;
@@ -2572,7 +2693,7 @@
         return (prosemirrorUtils.hasParentNodeOfType(listItem)(state.selection) &&
             $from.parent.type === paragraph);
     };
-    var ɵ2$1 = isInsideListItem;
+    var ɵ2 = isInsideListItem;
     var canToJoinToPreviousListItem = function (state) {
         var $from = state.selection.$from;
         var _a = state.schema.nodes, bulletList = _a.bulletList, orderedList = _a.orderedList;
@@ -2613,7 +2734,7 @@
         }
         return false;
     };
-    var backspaceKeyCommand = prosemirrorCommands.chainCommands(
+    var backspaceKeyCommand = baseCommand__namespace.chainCommands(
     // if we"re at the start of a list item, we need to either backspace
     // directly to an empty list item above, or outdent this node
     filter([
@@ -2621,7 +2742,7 @@
         // list items might have multiple paragraphs; only do this at the first one
         isFirstChildOfParent,
         canOutdent,
-    ], prosemirrorCommands.chainCommands(deletePreviousEmptyListItem, outdentList())), 
+    ], baseCommand__namespace.chainCommands(deletePreviousEmptyListItem, outdentList())), 
     // if we"re just inside a paragraph node (or gapcursor is shown) and backspace, then try to join
     // the text to the previous list item, if one exists
     filter([isEmptySelectionAtStart, canToJoinToPreviousListItem], joinToPreviousListItem));
@@ -2687,51 +2808,49 @@
      */
     function mergeLists(listItem, range) {
         return function (command) {
-            return function (state, dispatch) {
-                return command(state, function (tr) {
-                    /* we now need to handle the case that we lifted a sublist out,
-                     * and any listItems at the current level get shifted out to
-                     * their own new list; e.g.:
-                     *
-                     * unorderedList
-                     *  listItem(A)
-                     *  listItem
-                     *    unorderedList
-                     *      listItem(B)
-                     *  listItem(C)
-                     *
-                     * becomes, after unindenting the first, top level listItem, A:
-                     *
-                     * content of A
-                     * unorderedList
-                     *  listItem(B)
-                     * unorderedList
-                     *  listItem(C)
-                     *
-                     * so, we try to merge these two lists if they"re of the same type, to give:
-                     *
-                     * content of A
-                     * unorderedList
-                     *  listItem(B)
-                     *  listItem(C)
-                     */
-                    var $start = state.doc.resolve(range.start);
-                    var $end = state.doc.resolve(range.end);
-                    var $join = tr.doc.resolve(tr.mapping.map(range.end - 1));
-                    if ($join.nodeBefore &&
-                        $join.nodeAfter &&
-                        $join.nodeBefore.type === $join.nodeAfter.type) {
-                        if ($end.nodeAfter &&
-                            $end.nodeAfter.type === listItem &&
-                            $end.parent.type === $start.parent.type) {
-                            tr.join($join.pos);
-                        }
+            return function (state, dispatch) { return command(state, function (tr) {
+                /* we now need to handle the case that we lifted a sublist out,
+                 * and any listItems at the current level get shifted out to
+                 * their own new list; e.g.:
+                 *
+                 * unorderedList
+                 *  listItem(A)
+                 *  listItem
+                 *    unorderedList
+                 *      listItem(B)
+                 *  listItem(C)
+                 *
+                 * becomes, after unindenting the first, top level listItem, A:
+                 *
+                 * content of A
+                 * unorderedList
+                 *  listItem(B)
+                 * unorderedList
+                 *  listItem(C)
+                 *
+                 * so, we try to merge these two lists if they"re of the same type, to give:
+                 *
+                 * content of A
+                 * unorderedList
+                 *  listItem(B)
+                 *  listItem(C)
+                 */
+                var $start = state.doc.resolve(range.start);
+                var $end = state.doc.resolve(range.end);
+                var $join = tr.doc.resolve(tr.mapping.map(range.end - 1));
+                if ($join.nodeBefore &&
+                    $join.nodeAfter &&
+                    $join.nodeBefore.type === $join.nodeAfter.type) {
+                    if ($end.nodeAfter &&
+                        $end.nodeAfter.type === listItem &&
+                        $end.parent.type === $start.parent.type) {
+                        tr.join($join.pos);
                     }
-                    if (dispatch) {
-                        dispatch(tr.scrollIntoView());
-                    }
-                });
-            };
+                }
+                if (dispatch) {
+                    dispatch(tr.scrollIntoView());
+                }
+            }); };
         };
     }
     function outdentList() {
@@ -2749,7 +2868,7 @@
                     return false;
                 }
                 return compose(mergeLists(listItem, range), // 2. Check if I need to merge nearest list
-                prosemirrorSchemaList.liftListItem)(listItem)(state, dispatch);
+                baseListCommand__namespace.liftListItem)(listItem)(state, dispatch);
             }
             return false;
         };
@@ -2786,7 +2905,7 @@
                 // Record initial list indentation
                 var initialIndentationLevel = numberNestedLists(state.selection.$from, state.schema.nodes);
                 if (canSink(initialIndentationLevel, state)) {
-                    compose(prosemirrorSchemaList.sinkListItem)(listItem)(state, dispatch);
+                    compose(baseListCommand__namespace.sinkListItem)(listItem)(state, dispatch);
                 }
                 return true;
             }
@@ -2948,7 +3067,7 @@
         return toggleList(view.state, view.dispatch, view, "orderedList");
     }
     function wrapInList(nodeType) {
-        return prosemirrorCommands.autoJoin(prosemirrorSchemaList.wrapInList(nodeType), function (before, after) { return before.type === after.type && before.type === nodeType; });
+        return baseCommand__namespace.autoJoin(baseListCommand__namespace.wrapInList(nodeType), function (before, after) { return before.type === after.type && before.type === nodeType; });
     }
 
     var ListMenu = /** @class */ (function () {
@@ -2975,20 +3094,20 @@
         ListMenu.prototype.ionViewWillLeave = function () {
             this.editor.focus();
         };
-        ListMenu.ctorParameters = function () { return [
-            { type: angular.PopoverController }
-        ]; };
-        __decorate([
-            core.Input()
-        ], ListMenu.prototype, "editor", void 0);
-        ListMenu = __decorate([
-            core.Component({
-                template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleList('bulletList')\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Bulleted list\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeUnnumberedList\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/list-bulleted.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleList('orderedList')\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Numbered list\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeNumberedList\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/list-numbered.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n            <ng-template [ngIf]=\"activeUnnumberedList || activeNumberedList\">\n\n                <ion-item-divider>\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Indent\" | intlMessage}}</ion-label>\n                </ion-item-divider>\n\n                <ion-item button=\"true\" detail=\"false\" (click)=\"level(-1)\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Decrease indent\" | intlMessage}}</ion-label>\n                    <ion-icon src=\"assets/html-editor/indent-decrease.svg\" slot=\"start\"></ion-icon>\n                </ion-item>\n\n                <ion-item button=\"true\" detail=\"false\" (click)=\"level(1)\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Increase indent\" | intlMessage}}</ion-label>\n                    <ion-icon src=\"assets/html-editor/indent-increase.svg\" slot=\"start\"></ion-icon>\n                </ion-item>\n\n            </ng-template>\n\n        </ion-list>\n    ",
-                styles: ["\n        :host { user-select: none; }\n        :host ion-list { margin: 0px; padding: 0px; }\n        :host ion-item:last-child { --border-width: 0px; }\n        :host ion-item-divider { --background: transparent; font-size: small }\n        :host ion-item-divider ion-label { margin-top: 20px; opacity: 0.8; }\n    "]
-            })
-        ], ListMenu);
         return ListMenu;
     }());
+    ListMenu.decorators = [
+        { type: core.Component, args: [{
+                    template: "\n        <ion-list lines=\"full\">\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleList('bulletList')\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Bulleted list\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeUnnumberedList\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/list-bulleted.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleList('orderedList')\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Numbered list\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeNumberedList\"></ion-icon>\n                <ion-icon src=\"assets/html-editor/list-numbered.svg\" slot=\"start\"></ion-icon>\n            </ion-item>\n\n            <ng-template [ngIf]=\"activeUnnumberedList || activeNumberedList\">\n\n                <ion-item-divider>\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Indent\" | intlMessage}}</ion-label>\n                </ion-item-divider>\n\n                <ion-item button=\"true\" detail=\"false\" (click)=\"level(-1)\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Decrease indent\" | intlMessage}}</ion-label>\n                    <ion-icon src=\"assets/html-editor/indent-decrease.svg\" slot=\"start\"></ion-icon>\n                </ion-item>\n\n                <ion-item button=\"true\" detail=\"false\" (click)=\"level(1)\">\n                    <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/Increase indent\" | intlMessage}}</ion-label>\n                    <ion-icon src=\"assets/html-editor/indent-increase.svg\" slot=\"start\"></ion-icon>\n                </ion-item>\n\n            </ng-template>\n\n        </ion-list>\n    ",
+                    styles: ["\n        :host { user-select: none; }\n        :host ion-list { margin: 0px; padding: 0px; }\n        :host ion-item:last-child { --border-width: 0px; }\n        :host ion-item-divider { --background: transparent; font-size: small }\n        :host ion-item-divider ion-label { margin-top: 20px; opacity: 0.8; }\n    "]
+                },] }
+    ];
+    ListMenu.ctorParameters = function () { return [
+        { type: angular.PopoverController }
+    ]; };
+    ListMenu.propDecorators = {
+        editor: [{ type: core.Input }]
+    };
 
     var FontSize = /** @class */ (function () {
         function FontSize(size) {
@@ -2999,11 +3118,11 @@
         FontSize.sizes = function () {
             return FontSize._sizes.slice();
         };
-        FontSize._sizes = [];
-        FontSize.small = new FontSize("small");
-        FontSize.large = new FontSize("large");
         return FontSize;
     }());
+    FontSize._sizes = [];
+    FontSize.small = new FontSize("small");
+    FontSize.large = new FontSize("large");
 
     function markApplies(doc, from, to, type) {
         var applies = false;
@@ -3122,13 +3241,13 @@
             var _this = this;
             var command;
             if (name === "bold") {
-                command = prosemirrorCommands.toggleMark(schema.marks.strong);
+                command = baseCommand.toggleMark(schema.marks.strong);
             }
             else if (name === "italic") {
-                command = prosemirrorCommands.toggleMark(schema.marks.em);
+                command = baseCommand.toggleMark(schema.marks.em);
             }
             else if (name === "underline") {
-                command = prosemirrorCommands.toggleMark(schema.marks.underline);
+                command = baseCommand.toggleMark(schema.marks.underline);
             }
             if (command(this.editor.state)) {
                 command(this.editor.state, function (tr) { return _this.editor.view.dispatch(tr); });
@@ -3137,7 +3256,7 @@
         };
         TextFormatMenu.prototype.resetFontSize = function () {
             var _this = this;
-            prosemirrorCommands.toggleMark(schema.marks.fontSize)(this.editor.state, function (tr) { return _this.editor.view.dispatch(tr); });
+            baseCommand.toggleMark(schema.marks.fontSize)(this.editor.state, function (tr) { return _this.editor.view.dispatch(tr); });
             this.popoverController.dismiss();
         };
         TextFormatMenu.prototype.toggleFontSize = function (size) {
@@ -3190,20 +3309,20 @@
         TextFormatMenu.prototype.ionViewWillLeave = function () {
             this.editor.focus();
         };
-        TextFormatMenu.ctorParameters = function () { return [
-            { type: angular.PopoverController }
-        ]; };
-        __decorate([
-            core.Input()
-        ], TextFormatMenu.prototype, "editor", void 0);
-        TextFormatMenu = __decorate([
-            core.Component({
-                template: "\n        <ion-list lines=\"full\">\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggle('bold')\">\n                <ion-label style=\"font-weight: bold\">{{\"@co.mmons/ionic-extensions/html-editor#textMenu/Bold\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"boldActivated\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggle('italic')\">\n                <ion-label style=\"font-style: italic\">{{\"@co.mmons/ionic-extensions/html-editor#textMenu/Italic\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"italicActivated\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggle('underline')\">\n                <ion-label style=\"text-decoration: underline\">{{\"@co.mmons/ionic-extensions/html-editor#textMenu/Underline\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"underlineActivated\"></ion-icon>\n            </ion-item>\n            \n            <ion-item-divider>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#textMenu/fontSize/Text size\" | intlMessage}}</ion-label>\n            </ion-item-divider>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"resetFontSize()\" *ngIf=\"activeFontSize\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#textMenu/fontSize/Default\" | intlMessage}}</ion-label>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleFontSize(fontSize)\" *ngFor=\"let fontSize of FontSize.sizes()\">\n                <ion-label [style.fontSize]=\"fontSize.size\">{{fontSize.label | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeFontSize === fontSize\"></ion-icon>\n            </ion-item>\n\n        </ion-list>\n    ",
-                styles: ["\n        :host { user-select: none; }\n        :host ion-list { margin: 0px; padding: 0px; }\n        :host ion-item:last-child { --border-width: 0px; }\n        :host ion-item-divider { --background: transparent; font-size: small }\n        :host ion-item-divider ion-label { margin-top: 20px; opacity: 0.8; }\n    "]
-            })
-        ], TextFormatMenu);
         return TextFormatMenu;
     }());
+    TextFormatMenu.decorators = [
+        { type: core.Component, args: [{
+                    template: "\n        <ion-list lines=\"full\">\n            \n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggle('bold')\">\n                <ion-label style=\"font-weight: bold\">{{\"@co.mmons/ionic-extensions/html-editor#textMenu/Bold\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"boldActivated\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggle('italic')\">\n                <ion-label style=\"font-style: italic\">{{\"@co.mmons/ionic-extensions/html-editor#textMenu/Italic\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"italicActivated\"></ion-icon>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggle('underline')\">\n                <ion-label style=\"text-decoration: underline\">{{\"@co.mmons/ionic-extensions/html-editor#textMenu/Underline\" | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"underlineActivated\"></ion-icon>\n            </ion-item>\n            \n            <ion-item-divider>\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#textMenu/fontSize/Text size\" | intlMessage}}</ion-label>\n            </ion-item-divider>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"resetFontSize()\" *ngIf=\"activeFontSize\">\n                <ion-label>{{\"@co.mmons/ionic-extensions/html-editor#textMenu/fontSize/Default\" | intlMessage}}</ion-label>\n            </ion-item>\n\n            <ion-item button=\"true\" detail=\"false\" (click)=\"toggleFontSize(fontSize)\" *ngFor=\"let fontSize of FontSize.sizes()\">\n                <ion-label [style.fontSize]=\"fontSize.size\">{{fontSize.label | intlMessage}}</ion-label>\n                <ion-icon name=\"checkmark\" slot=\"end\" *ngIf=\"activeFontSize === fontSize\"></ion-icon>\n            </ion-item>\n\n        </ion-list>\n    ",
+                    styles: ["\n        :host { user-select: none; }\n        :host ion-list { margin: 0px; padding: 0px; }\n        :host ion-item:last-child { --border-width: 0px; }\n        :host ion-item-divider { --background: transparent; font-size: small }\n        :host ion-item-divider ion-label { margin-top: 20px; opacity: 0.8; }\n    "]
+                },] }
+    ];
+    TextFormatMenu.ctorParameters = function () { return [
+        { type: angular.PopoverController }
+    ]; };
+    TextFormatMenu.propDecorators = {
+        editor: [{ type: core.Input }]
+    };
 
     function isBlockMarkActive(state, type) {
         var e_1, _a;
@@ -3309,48 +3428,52 @@
         Toolbar.prototype.ngOnDestroy = function () {
             rxjsUtils.unsubscribe(this.selectionSubscription);
         };
-        Toolbar.ctorParameters = function () { return [
-            { type: angular.PopoverController },
-            { type: angular.Platform },
-            { type: HtmlEditor },
-            { type: platformBrowser.EventManager },
-            { type: angular.ModalController }
-        ]; };
-        Toolbar = __decorate([
-            core.Component({
-                selector: "ionx-html-editor-toolbar",
-                template: "\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.text\" (click)=\"showMenu($event, 'text')\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Text\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.alignment\" (click)=\"showMenu($event, 'alignment')\" *ngIf=\"!editor.features || editor.features.alignment\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Alignment\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.heading\" (click)=\"showMenu($event, 'heading')\" *ngIf=\"!editor.features || editor.features.heading\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.list\" (click)=\"showMenu($event, 'list')\" *ngIf=\"!editor.features || editor.features.list\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/List\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" (click)=\"showMenu($event, 'insert')\" *ngIf=\"!editor.features || editor.features.link || editor.features.multimedia\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Insert\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" class=\"active-feature\" (click)=\"editLink()\" *ngIf=\"activeFeatures.link\">\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</span>\n        </ion-button>\n        \n        <div ionx--buttons-group>\n            <ion-button size=\"small\" fill=\"clear\" tabindex=\"-1\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Undo' | intlMessage}}\" [disabled]=\"!canUndo\" (click)=\"undo()\">\n                <ion-icon name=\"assets/html-editor/undo.svg\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n    \n            <ion-button size=\"small\" fill=\"clear\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Redo' | intlMessage}}\" [disabled]=\"!canRedo\" (click)=\"redo()\">\n                <ion-icon name=\"assets/html-editor/redo.svg\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n        </div>\n    ",
-                styles: ["\n        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); z-index: 1; }\n        :host-context(.ion-focused) { background-color: var(--background-focused); }\n        :host ion-button { margin: 0px 4px; --padding-end: 2px; --padding-start: 4px; }\n        :host ion-button.active-feature span { font-weight: 800; }\n        :host ion-icon[slot=\"end\"] { margin: 0px; }\n        :host ion-button[disabled] { opacity: 0.5; }\n        :host [ionx--buttons-group] { display: flex; }\n        :host [ionx--buttons-group] ion-button:not(:last-child) { margin-right: 0px; }\n    "]
-            })
-        ], Toolbar);
         return Toolbar;
     }());
+    Toolbar.decorators = [
+        { type: core.Component, args: [{
+                    selector: "ionx-html-editor-toolbar",
+                    template: "\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.text\" (click)=\"showMenu($event, 'text')\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Text\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.alignment\" (click)=\"showMenu($event, 'alignment')\" *ngIf=\"!editor.features || editor.features.alignment\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Alignment\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.heading\" (click)=\"showMenu($event, 'heading')\" *ngIf=\"!editor.features || editor.features.heading\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Heading\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" [class.active-feature]=\"activeFeatures.list\" (click)=\"showMenu($event, 'list')\" *ngIf=\"!editor.features || editor.features.list\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#listMenu/List\" | intlMessage}}</span>\n        </ion-button>\n\n        <ion-button size=\"small\" fill=\"clear\" (click)=\"showMenu($event, 'insert')\" *ngIf=\"!editor.features || editor.features.link || editor.features.multimedia\">\n            <ion-icon name=\"dropdown\" slot=\"end\"></ion-icon>\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#Insert\" | intlMessage}}</span>\n        </ion-button>\n        \n        <ion-button size=\"small\" fill=\"clear\" class=\"active-feature\" (click)=\"editLink()\" *ngIf=\"activeFeatures.link\">\n            <span>{{\"@co.mmons/ionic-extensions/html-editor#link/Link\" | intlMessage}}</span>\n        </ion-button>\n        \n        <div ionx--buttons-group>\n            <ion-button size=\"small\" fill=\"clear\" tabindex=\"-1\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Undo' | intlMessage}}\" [disabled]=\"!canUndo\" (click)=\"undo()\">\n                <ion-icon name=\"assets/html-editor/undo.svg\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n    \n            <ion-button size=\"small\" fill=\"clear\" title=\"{{'@co.mmons/ionic-extensions/html-editor#Redo' | intlMessage}}\" [disabled]=\"!canRedo\" (click)=\"redo()\">\n                <ion-icon name=\"assets/html-editor/redo.svg\" slot=\"icon-only\"></ion-icon>\n            </ion-button>\n        </div>\n    ",
+                    styles: ["\n        :host { outline: none; display: flex; justify-content: center; flex-wrap: wrap; position: sticky; position: -webkit-sticky; top: 0px; background-color: var(--background); z-index: 1; }\n        :host-context(.ion-focused) { background-color: var(--background-focused); }\n        :host ion-button { margin: 0px 4px; --padding-end: 2px; --padding-start: 4px; }\n        :host ion-button.active-feature span { font-weight: 800; }\n        :host ion-icon[slot=\"end\"] { margin: 0px; }\n        :host ion-button[disabled] { opacity: 0.5; }\n        :host [ionx--buttons-group] { display: flex; }\n        :host [ionx--buttons-group] ion-button:not(:last-child) { margin-right: 0px; }\n    "]
+                },] }
+    ];
+    Toolbar.ctorParameters = function () { return [
+        { type: angular.PopoverController },
+        { type: angular.Platform },
+        { type: HtmlEditor },
+        { type: platformBrowser.EventManager },
+        { type: angular.ModalController }
+    ]; };
 
     var HtmlEditorModule = /** @class */ (function () {
         function HtmlEditorModule() {
         }
-        HtmlEditorModule = __decorate([
-            core.NgModule({
-                imports: [common.CommonModule, angular.IonicModule, angularIntl.IntlModule, select.SelectModule, forms.FormsModule, forms.ReactiveFormsModule, formHelper.FormHelperModule, buttons.ButtonsModule, matchMedia.MatchMediaModule, spinner.SpinnerModule],
-                declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],
-                exports: [HtmlEditor, angularIntl.IntlModule],
-                entryComponents: [AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu]
-            })
-        ], HtmlEditorModule);
         return HtmlEditorModule;
     }());
+    HtmlEditorModule.decorators = [
+        { type: core.NgModule, args: [{
+                    imports: [common.CommonModule, angular.IonicModule, angularIntl.IntlModule, select.SelectModule, forms.FormsModule, forms.ReactiveFormsModule, formHelper.FormHelperModule, buttons.ButtonsModule, matchMedia.MatchMediaModule, spinner.SpinnerModule],
+                    declarations: [HtmlEditor, AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu, Toolbar],
+                    exports: [HtmlEditor, angularIntl.IntlModule],
+                    entryComponents: [AlignmentMenu, HeadingMenu, InsertMenu, LinkModal, ListMenu, TextFormatMenu]
+                },] }
+    ];
+
+    /**
+     * Generated bundle index. Do not edit.
+     */
 
     exports.HtmlEditor = HtmlEditor;
     exports.HtmlEditorModule = HtmlEditorModule;
-    exports.ɵa = AlignmentMenu;
-    exports.ɵb = HeadingMenu;
-    exports.ɵc = InsertMenu;
-    exports.ɵd = LinkModal;
-    exports.ɵe = ListMenu;
-    exports.ɵf = TextFormatMenu;
-    exports.ɵg = Toolbar;
+    exports["ɵa"] = AlignmentMenu;
+    exports["ɵb"] = HeadingMenu;
+    exports["ɵc"] = InsertMenu;
+    exports["ɵd"] = LinkModal;
+    exports["ɵe"] = ListMenu;
+    exports["ɵf"] = TextFormatMenu;
+    exports["ɵg"] = Toolbar;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=html-editor-module.umd.js.map

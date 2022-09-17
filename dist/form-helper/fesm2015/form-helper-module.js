@@ -1,34 +1,33 @@
-import { __decorate, __param } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { HostBinding, Input, Component, ElementRef, Optional, ContentChildren, Directive, ViewChild, ViewContainerRef, NgModule } from '@angular/core';
+import { Component, HostBinding, Input, ElementRef, Directive, Optional, ContentChildren, ViewChild, ViewContainerRef, NgModule } from '@angular/core';
 import { FormControlName, NgForm, FormGroupDirective, FormsModule } from '@angular/forms';
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { IonicModule } from '@ionic/angular';
 import scrollIntoView from 'scroll-into-view';
 
-let FormHeading = class FormHeading {
+class FormHeading {
     constructor() {
     }
-};
-__decorate([
-    HostBinding("attr.sticky"),
-    Input()
-], FormHeading.prototype, "sticky", void 0);
-FormHeading = __decorate([
-    Component({
-        selector: "ionx-form-heading",
-        template: `
+}
+FormHeading.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-form-heading",
+                template: `
         <ng-content select="ion-item"></ng-content>
         <div ionx--under>
             <ng-content></ng-content>
         </div>
     `,
-        styles: [":host{display:block;margin-top:16px}:host ::ng-deep ion-item{--padding-start:0px;--padding-end:0px;--inner-padding-end:16px;--inner-padding-start:16px}:host ::ng-deep ion-item>ion-label{font-weight:500}:host ::ng-deep ion-item>ion-label[size=large]{font-size:large}:host ::ng-deep ion-item>ion-label[size=small]{font-size:small}:host [ionx--under]:not(:empty){padding:8px 16px}:host[sticky]:not([sticky=false]){position:-webkit-sticky;position:sticky;top:0;z-index:3}:host-context(ion-grid) ::ng-deep ion-item{--padding-start:8px;--padding-end:8px;--inner-padding-end:0px;--inner-padding-start:0px}:host-context(ion-grid) [ionx--under]:not(:empty){padding:8px}:host-context(.ios) ::ng-deep ion-button{height:auto}"]
-    })
-], FormHeading);
+                styles: [":host{display:block;margin-top:16px}:host ::ng-deep ion-item{--padding-start: 0px;--padding-end: 0px;--inner-padding-end: 16px;--inner-padding-start: 16px}:host ::ng-deep ion-item>ion-label{font-weight:500}:host ::ng-deep ion-item>ion-label[size=large]{font-size:large}:host ::ng-deep ion-item>ion-label[size=small]{font-size:small}:host [ionx--under]:not(:empty){padding:8px 16px}:host[sticky]:not([sticky=false]){position:sticky;top:0px;z-index:3}:host-context(ion-grid) ::ng-deep ion-item{--padding-start: 8px;--padding-end: 8px;--inner-padding-end: 0px;--inner-padding-start: 0px}:host-context(ion-grid) [ionx--under]:not(:empty){padding:8px}:host-context(.ios) ::ng-deep ion-button{height:auto}\n"]
+            },] }
+];
+FormHeading.ctorParameters = () => [];
+FormHeading.propDecorators = {
+    sticky: [{ type: HostBinding, args: ["attr.sticky",] }, { type: Input }]
+};
 
-let FormHelper = class FormHelper {
+class FormHelper {
     constructor(element, ngForm, formGroupDirective) {
         this.element = element;
         this.ngForm = ngForm;
@@ -137,40 +136,35 @@ let FormHelper = class FormHelper {
     focus(formControlName, scrollIntoView = true) {
         this.focusImpl(formControlName, scrollIntoView);
     }
-};
+}
+FormHelper.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionx-form-helper], [ionxFormHelper]",
+                exportAs: "ionxFormHelper"
+            },] }
+];
 FormHelper.ctorParameters = () => [
     { type: ElementRef },
     { type: NgForm, decorators: [{ type: Optional }] },
     { type: FormGroupDirective, decorators: [{ type: Optional }] }
 ];
-__decorate([
-    Input()
-], FormHelper.prototype, "readonly", null);
-__decorate([
-    Input()
-], FormHelper.prototype, "busy", null);
-__decorate([
-    ContentChildren(FormControlName, { descendants: true })
-], FormHelper.prototype, "contentControls", void 0);
-FormHelper = __decorate([
-    Directive({
-        selector: "[ionx-form-helper], [ionxFormHelper]",
-        exportAs: "ionxFormHelper"
-    }),
-    __param(1, Optional()), __param(2, Optional())
-], FormHelper);
-
-let FormItem = class FormItem {
+FormHelper.propDecorators = {
+    readonly: [{ type: Input }],
+    busy: [{ type: Input }],
+    contentControls: [{ type: ContentChildren, args: [FormControlName, { descendants: true },] }]
 };
-FormItem = __decorate([
-    Component({
-        selector: "ionx-form-item",
-        template: `<ng-content select="ion-item"></ng-content><ng-content select="ionx-form-item-error"></ng-content><ng-content select="ionx-form-item-hint"></ng-content><ng-content></ng-content>`,
-        styles: [":host{display:-webkit-box;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column}:host ::ng-deep ion-item{--padding-start:0px;--inner-padding-end:0px;--inner-padding-start:0px;--padding-end:0px;--inner-border-width:0px;--border-width:0px 0px 1px 0px}"]
-    })
-], FormItem);
 
-let FormItemError = class FormItemError {
+class FormItem {
+}
+FormItem.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-form-item",
+                template: `<ng-content select="ion-item"></ng-content><ng-content select="ionx-form-item-error"></ng-content><ng-content select="ionx-form-item-hint"></ng-content><ng-content></ng-content>`,
+                styles: [":host{display:flex;flex-direction:column}:host ::ng-deep ion-item{--padding-start: 0px;--inner-padding-end: 0px;--inner-padding-start: 0px;--padding-end: 0px;--inner-border-width: 0px;--border-width: 0px 0px 1px 0px}\n"]
+            },] }
+];
+
+class FormItemError {
     constructor(formGroup) {
         this.formGroup = formGroup;
         this.markedAs = "touched";
@@ -186,76 +180,69 @@ let FormItemError = class FormItemError {
     set controlOrName(control) {
         this._control = control;
     }
-};
-FormItemError.ctorParameters = () => [
-    { type: FormGroupDirective }
-];
-__decorate([
-    Input()
-], FormItemError.prototype, "icon", void 0);
-__decorate([
-    Input()
-], FormItemError.prototype, "markedAs", void 0);
-__decorate([
-    Input("control")
-], FormItemError.prototype, "controlOrName", null);
-FormItemError = __decorate([
-    Component({
-        selector: "ionx-form-item-error",
-        template: `
+}
+FormItemError.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-form-item-error",
+                template: `
         <ion-icon [name]="icon" *ngIf="!!icon"></ion-icon>
         <label>
             <ng-template [ngIf]="control">{{control | intlValidationErrorMessage}}</ng-template>
             <ng-content></ng-content>
         </label>
     `,
-        host: {
-            "[class.ionx--visible]": "!control || !!(control.invalid && control[markedAs])"
-        },
-        styles: [":host{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;margin:8px 0 0}:host>label{-webkit-box-flex:1;flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}", ":host{color:var(--ion-color-danger);display:none}:host.ionx--visible{display:-webkit-box;display:flex}"]
-    })
-], FormItemError);
+                host: {
+                    "[class.ionx--visible]": "!control || !!(control.invalid && control[markedAs])"
+                },
+                styles: [":host{display:flex;align-items:center;margin:8px 0 0}:host>label{flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}\n", ":host{color:var(--ion-color-danger);display:none}:host.ionx--visible{display:flex}\n"]
+            },] }
+];
+FormItemError.ctorParameters = () => [
+    { type: FormGroupDirective }
+];
+FormItemError.propDecorators = {
+    icon: [{ type: Input }],
+    markedAs: [{ type: Input }],
+    controlOrName: [{ type: Input, args: ["control",] }]
+};
 
-let FormItemHint = class FormItemHint {
+class FormItemHint {
     constructor() {
     }
     set label(label) {
         this.labelComponentContainer.clear();
         this.labelComponentContainer.insert(label.hostView);
     }
-};
-__decorate([
-    Input()
-], FormItemHint.prototype, "icon", void 0);
-__decorate([
-    ViewChild("labelComponentContainer", { read: ViewContainerRef, static: true })
-], FormItemHint.prototype, "labelComponentContainer", void 0);
-__decorate([
-    Input()
-], FormItemHint.prototype, "label", null);
-FormItemHint = __decorate([
-    Component({
-        selector: "ionx-form-item-hint",
-        template: `
+}
+FormItemHint.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-form-item-hint",
+                template: `
         <ion-icon [name]="icon" *ngIf="icon"></ion-icon>
         <label>
             <template #labelComponentContainer></template>
             <ng-content></ng-content>
         </label>
     `,
-        styles: [":host{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;margin:8px 0 0}:host>label{-webkit-box-flex:1;flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}", ":host{color:var(--ion-color-medium)}"]
-    })
-], FormItemHint);
-
-let FormHelperModule = class FormHelperModule {
+                styles: [":host{display:flex;align-items:center;margin:8px 0 0}:host>label{flex:1;font-size:smaller}:host>ion-icon{margin-top:0!important;margin-right:8px;min-height:initial;width:16px}\n", ":host{color:var(--ion-color-medium)}\n"]
+            },] }
+];
+FormItemHint.ctorParameters = () => [];
+FormItemHint.propDecorators = {
+    icon: [{ type: Input }],
+    labelComponentContainer: [{ type: ViewChild, args: ["labelComponentContainer", { read: ViewContainerRef, static: true },] }],
+    label: [{ type: Input }]
 };
-FormHelperModule = __decorate([
-    NgModule({
-        declarations: [FormItem, FormHeading, FormItemError, FormItemHint, FormHelper],
-        imports: [CommonModule, FormsModule, IonicModule, IntlModule, MatchMediaModule],
-        exports: [FormItem, FormItemError, FormItemHint, FormHeading, FormHelper]
-    })
-], FormHelperModule);
+
+class FormHelperModule {
+}
+FormHelperModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [FormItem, FormHeading, FormItemError, FormItemHint, FormHelper],
+                imports: [CommonModule, FormsModule, IonicModule, IntlModule, MatchMediaModule],
+                exports: [FormItem, FormItemError, FormItemHint, FormHeading, FormHelper]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

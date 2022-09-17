@@ -1,21 +1,20 @@
-import { __decorate } from 'tslib';
-import { Component, Injector, ComponentFactoryResolver, ApplicationRef, ElementRef, Input, Directive, NgModule } from '@angular/core';
+import { Component, Directive, Injector, ComponentFactoryResolver, ApplicationRef, ElementRef, Input, NgModule } from '@angular/core';
 import { IonSearchbar, IonicModule } from '@ionic/angular';
 import { unsubscribe } from '@co.mmons/rxjs-utils';
 
-let ExpandingSearchbarStyles = class ExpandingSearchbarStyles {
-};
-ExpandingSearchbarStyles = __decorate([
-    Component({
-        template: "",
-        styles: [":host{display:none}::ng-deep ion-searchbar.ionx-expanding-searchbar{position:absolute;top:0;left:0;width:0;overflow:hidden;padding:0;margin:0;display:none}::ng-deep ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{display:-webkit-box;display:flex;width:100%}::ng-deep ion-searchbar.ionx-expanding-searchbar:not(.searchbar-show-cancel) .searchbar-clear-button{display:block!important}::ng-deep ion-toolbar ion-searchbar.ionx-expanding-searchbar-expanded{padding-top:var(--padding-top);padding-bottom:var(--padding-bottom);padding-left:var(--padding-start);padding-right:var(--padding-end)}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:8px;padding-right:8px}::ng-deep .ios ion-searchbar.ionx-expanding-searchbar{height:36px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:0;padding-right:0}::ng-deep .ionx-expanding-searchbar-parent>:not(.ionx-expanding-searchbar){visibility:hidden!important;-webkit-transition:none;transition:none}"]
-    })
-], ExpandingSearchbarStyles);
+class ExpandingSearchbarStyles {
+}
+ExpandingSearchbarStyles.decorators = [
+    { type: Component, args: [{
+                template: "",
+                styles: [":host{display:none}::ng-deep ion-searchbar.ionx-expanding-searchbar{position:absolute;top:0px;left:0px;width:0px;overflow:hidden;padding:0;margin:0;display:none}::ng-deep ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{display:flex;width:100%}::ng-deep ion-searchbar.ionx-expanding-searchbar:not(.searchbar-show-cancel) .searchbar-clear-button{display:block!important}::ng-deep ion-toolbar ion-searchbar.ionx-expanding-searchbar-expanded{padding-top:var(--padding-top);padding-bottom:var(--padding-bottom);padding-left:var(--padding-start);padding-right:var(--padding-end)}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .ios ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:8px;padding-right:8px}::ng-deep .ios ion-searchbar.ionx-expanding-searchbar{height:36px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar{height:100%}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded{padding-left:16px;padding-right:16px}::ng-deep .md ion-toolbar ion-searchbar.ionx-expanding-searchbar.ionx-expanding-searchbar-expanded[ionx-flat]{padding-left:0;padding-right:0}::ng-deep .ionx-expanding-searchbar-parent>*:not(.ionx-expanding-searchbar){visibility:hidden!important;transition:none}\n"]
+            },] }
+];
 
 const expandedCssClass = "ionx-expanding-searchbar-expanded";
 const parentCssClass = "ionx-expanding-searchbar-parent";
 let stylesInjected = false;
-let ExpandingSearchbar = class ExpandingSearchbar {
+class ExpandingSearchbar {
     constructor(injector, resolver, appRef, element, searchbar) {
         this.appRef = appRef;
         this.element = element;
@@ -67,7 +66,13 @@ let ExpandingSearchbar = class ExpandingSearchbar {
     ngOnDestroy() {
         unsubscribe(this.subscriptions);
     }
-};
+}
+ExpandingSearchbar.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-searchbar[ionx-expanding-searchbar]",
+                exportAs: "ionxExpandingSearchbar"
+            },] }
+];
 ExpandingSearchbar.ctorParameters = () => [
     { type: Injector },
     { type: ComponentFactoryResolver },
@@ -75,26 +80,20 @@ ExpandingSearchbar.ctorParameters = () => [
     { type: ElementRef },
     { type: IonSearchbar }
 ];
-__decorate([
-    Input("ionx-expanded")
-], ExpandingSearchbar.prototype, "expanded", null);
-ExpandingSearchbar = __decorate([
-    Directive({
-        selector: "ion-searchbar[ionx-expanding-searchbar]",
-        exportAs: "ionxExpandingSearchbar"
-    })
-], ExpandingSearchbar);
-
-let ExpandingSearchbarModule = class ExpandingSearchbarModule {
+ExpandingSearchbar.propDecorators = {
+    expanded: [{ type: Input, args: ["ionx-expanded",] }]
 };
-ExpandingSearchbarModule = __decorate([
-    NgModule({
-        declarations: [ExpandingSearchbar, ExpandingSearchbarStyles],
-        exports: [ExpandingSearchbar],
-        entryComponents: [ExpandingSearchbarStyles],
-        imports: [IonicModule]
-    })
-], ExpandingSearchbarModule);
+
+class ExpandingSearchbarModule {
+}
+ExpandingSearchbarModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [ExpandingSearchbar, ExpandingSearchbarStyles],
+                exports: [ExpandingSearchbar],
+                entryComponents: [ExpandingSearchbarStyles],
+                imports: [IonicModule]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

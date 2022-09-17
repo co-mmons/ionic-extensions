@@ -3,7 +3,7 @@ import { EditorState, TextSelection, Transaction } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { Command } from "./command";
 export declare const enterKeyCommand: Command;
-export declare const backspaceKeyCommand: (p1: EditorState<any>, p2?: (tr: Transaction<any>) => void, p3?: EditorView<any>) => boolean;
+export declare const backspaceKeyCommand: import("prosemirror-state").Command;
 export declare function outdentList(): Command;
 export declare function indentList(): Command;
 export declare function liftListItems(): Command;
@@ -14,9 +14,9 @@ export declare function liftListItems(): Command;
  * user intended - so we need to adjust the selection a bit in scenarios like that.
  */
 export declare function adjustSelectionInList(doc: Node, selection: TextSelection): TextSelection;
-export declare const rootListDepth: (pos: ResolvedPos<any>, nodes: Record<string, NodeType<any>>) => any;
-export declare const numberNestedLists: (resolvedPos: ResolvedPos<any>, nodes: Record<string, NodeType<any>>) => number;
-export declare const toggleList: (state: EditorState<any>, dispatch: (tr: Transaction<any>) => void, view: EditorView<any>, listType: "bulletList" | "orderedList") => boolean;
+export declare const rootListDepth: (pos: ResolvedPos, nodes: Record<string, NodeType>) => any;
+export declare const numberNestedLists: (resolvedPos: ResolvedPos, nodes: Record<string, NodeType>) => number;
+export declare const toggleList: (state: EditorState, dispatch: (tr: Transaction) => void, view: EditorView, listType: "bulletList" | "orderedList") => boolean;
 /**
  * Check of is selection is inside a list of the specified type
  */

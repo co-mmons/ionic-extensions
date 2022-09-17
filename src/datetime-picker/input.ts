@@ -137,7 +137,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     set displayFormat(format: Intl.DateTimeFormatOptions) {
 
         if (typeof format === "string") {
-            this._displayFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+            this._displayFormat = this.intl.findPredefinedFormatOptions(format);
         } else {
             this._displayFormat = format;
         }
@@ -151,7 +151,7 @@ export class DateTimePickerInput implements ControlValueAccessor, OnChanges {
     set pickerFormat(format: Intl.DateTimeFormatOptions) {
 
         if (typeof format == "string") {
-            this._pickerFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+            this._pickerFormat = this.intl.findPredefinedFormatOptions(format);
         } else {
             this._pickerFormat = format;
         }

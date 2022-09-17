@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/back-button",
   "sideEffects": false,
   "main": "bundles/back-button-module.umd.js",
-  "module": "fesm5/back-button-module.js",
+  "module": "fesm2015/back-button-module.js",
   "es2015": "fesm2015/back-button-module.js",
-  "esm5": "esm5/back-button-module.js",
   "esm2015": "esm2015/back-button-module.js",
-  "fesm5": "fesm5/back-button-module.js",
   "fesm2015": "fesm2015/back-button-module.js",
   "typings": "back-button-module.d.ts",
   "metadata": "back-button-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

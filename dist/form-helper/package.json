@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/form-helper",
   "sideEffects": false,
   "main": "bundles/form-helper-module.umd.js",
-  "module": "fesm5/form-helper-module.js",
+  "module": "fesm2015/form-helper-module.js",
   "es2015": "fesm2015/form-helper-module.js",
-  "esm5": "esm5/form-helper-module.js",
   "esm2015": "esm2015/form-helper-module.js",
-  "fesm5": "fesm5/form-helper-module.js",
   "fesm2015": "fesm2015/form-helper-module.js",
   "typings": "form-helper-module.d.ts",
   "metadata": "form-helper-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

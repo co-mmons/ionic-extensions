@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/html-editor",
   "sideEffects": false,
   "main": "bundles/html-editor-module.umd.js",
-  "module": "fesm5/html-editor-module.js",
+  "module": "fesm2015/html-editor-module.js",
   "es2015": "fesm2015/html-editor-module.js",
-  "esm5": "esm5/html-editor-module.js",
   "esm2015": "esm2015/html-editor-module.js",
-  "fesm5": "fesm5/html-editor-module.js",
   "fesm2015": "fesm2015/html-editor-module.js",
   "typings": "html-editor-module.d.ts",
   "metadata": "html-editor-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

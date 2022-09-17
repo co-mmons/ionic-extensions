@@ -12,8 +12,8 @@ export function timezoneInfo(tz: string, date?: Date) {
         date = new Date();
     }
 
-    const format1 = {hour12: false, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", timeZone: tz};
-    const format2 = {hour12: false, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", timeZoneName: "short", timeZone: tz};
+    const format1: Intl.DateTimeFormatOptions = {hour12: false, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", timeZone: tz};
+    const format2: Intl.DateTimeFormatOptions = {hour12: false, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", timeZoneName: "short", timeZone: tz};
 
     if (!currentLocale) {
         currentLocale = new Intl.DateTimeFormat().resolvedOptions().locale;

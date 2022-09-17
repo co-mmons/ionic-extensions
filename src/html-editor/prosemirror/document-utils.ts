@@ -146,9 +146,9 @@ export const isSelectionEndOfParagraph = (state: EditorState): boolean =>
 export function nodesBetweenChanged(
     tr: Transaction,
     f: (
-        node: Node<any>,
+        node: Node,
         pos: number,
-        parent: Node<any>,
+        parent: Node,
         index: number,
     ) => boolean | null | undefined | void,
     startPos?: number,

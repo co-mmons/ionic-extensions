@@ -1,11 +1,11 @@
-import { __decorate, __param, __awaiter } from 'tslib';
-import { Optional, ElementRef, Input, HostListener, Directive, NgModule } from '@angular/core';
+import { Directive, Optional, ElementRef, Input, HostListener, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonBackButtonDelegate, IonRouterOutlet, NavController } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 import { waitTill, sleep } from '@co.mmons/js-utils/core';
 
 IonBackButtonDelegate.prototype.onClick = () => null;
-let IonicBackButtonFix = class IonicBackButtonFix {
+class IonicBackButtonFix {
     constructor(router, routerOutlet, navCtrl, elementRef) {
         this.router = router;
         this.routerOutlet = routerOutlet;
@@ -28,27 +28,24 @@ let IonicBackButtonFix = class IonicBackButtonFix {
             ev.preventDefault();
         }
     }
-};
+}
+IonicBackButtonFix.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-back-button"
+            },] }
+];
 IonicBackButtonFix.ctorParameters = () => [
     { type: Router },
     { type: IonRouterOutlet, decorators: [{ type: Optional }] },
     { type: NavController },
     { type: ElementRef }
 ];
-__decorate([
-    Input()
-], IonicBackButtonFix.prototype, "defaultHref", null);
-__decorate([
-    HostListener("click", ["$event"])
-], IonicBackButtonFix.prototype, "onClick", null);
-IonicBackButtonFix = __decorate([
-    Directive({
-        selector: "ion-back-button"
-    }),
-    __param(1, Optional())
-], IonicBackButtonFix);
+IonicBackButtonFix.propDecorators = {
+    defaultHref: [{ type: Input }],
+    onClick: [{ type: HostListener, args: ["click", ["$event"],] }]
+};
 
-let IonicInputFix = class IonicInputFix {
+class IonicInputFix {
     constructor(element) {
         this.element = element;
     }
@@ -62,20 +59,20 @@ let IonicInputFix = class IonicInputFix {
             }
         });
     }
-};
+}
+IonicInputFix.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-input[ionfix-input]"
+            },] }
+];
 IonicInputFix.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    Input("tabIndex")
-], IonicInputFix.prototype, "tabIndex", void 0);
-IonicInputFix = __decorate([
-    Directive({
-        selector: "ion-input[ionfix-input]"
-    })
-], IonicInputFix);
+IonicInputFix.propDecorators = {
+    tabIndex: [{ type: Input, args: ["tabIndex",] }]
+};
 
-let IonicItemTargetFix = class IonicItemTargetFix {
+class IonicItemTargetFix {
     constructor(element) {
         this.element = element;
     }
@@ -94,27 +91,27 @@ let IonicItemTargetFix = class IonicItemTargetFix {
             }
         });
     }
-};
+}
+IonicItemTargetFix.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-item[target]"
+            },] }
+];
 IonicItemTargetFix.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    Input()
-], IonicItemTargetFix.prototype, "target", void 0);
-IonicItemTargetFix = __decorate([
-    Directive({
-        selector: "ion-item[target]"
-    })
-], IonicItemTargetFix);
-
-let IonicFixModule = class IonicFixModule {
+IonicItemTargetFix.propDecorators = {
+    target: [{ type: Input }]
 };
-IonicFixModule = __decorate([
-    NgModule({
-        declarations: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix],
-        exports: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix]
-    })
-], IonicFixModule);
+
+class IonicFixModule {
+}
+IonicFixModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix],
+                exports: [IonicInputFix, IonicBackButtonFix, IonicItemTargetFix]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

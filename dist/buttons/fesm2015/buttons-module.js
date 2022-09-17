@@ -1,15 +1,14 @@
-import { __decorate } from 'tslib';
 import { Component, NgModule } from '@angular/core';
 
-let Buttons = class Buttons {
+class Buttons {
     constructor() {
     }
-};
-Buttons = __decorate([
-    Component({
-        selector: "ionx-buttons",
-        template: `<ng-content></ng-content>`,
-        styles: [`
+}
+Buttons.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-buttons",
+                template: `<ng-content></ng-content>`,
+                styles: [`
         :host {
             display: flex;
             align-items: center;
@@ -37,17 +36,18 @@ Buttons = __decorate([
             font-weight: 400;
         }
     `]
-    })
-], Buttons);
+            },] }
+];
+Buttons.ctorParameters = () => [];
 
-let ButtonsModule = class ButtonsModule {
-};
-ButtonsModule = __decorate([
-    NgModule({
-        declarations: [Buttons],
-        exports: [Buttons]
-    })
-], ButtonsModule);
+class ButtonsModule {
+}
+ButtonsModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [Buttons],
+                exports: [Buttons]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

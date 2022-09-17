@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/view-observer",
   "sideEffects": false,
   "main": "bundles/view-observer-module.umd.js",
-  "module": "fesm5/view-observer-module.js",
+  "module": "fesm2015/view-observer-module.js",
   "es2015": "fesm2015/view-observer-module.js",
-  "esm5": "esm5/view-observer-module.js",
   "esm2015": "esm2015/view-observer-module.js",
-  "fesm5": "fesm5/view-observer-module.js",
   "fesm2015": "fesm2015/view-observer-module.js",
   "typings": "view-observer-module.d.ts",
   "metadata": "view-observer-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

@@ -28,16 +28,16 @@ export class PopoverControllerComponent {
     private content: TemplateRef<any>;
 
     @Output()
-    public readonly willEnter: EventEmitter<any> = new EventEmitter();
+    public readonly willEnter: EventEmitter<void> = new EventEmitter();
 
     @Output()
-    public readonly didEnter: EventEmitter<any> = new EventEmitter();
+    public readonly didEnter: EventEmitter<void> = new EventEmitter();
 
     @Output()
-    public readonly didDismiss: EventEmitter<any> = new EventEmitter();
+    public readonly didDismiss: EventEmitter<void> = new EventEmitter();
 
     @Output()
-    public readonly willDismiss: EventEmitter<any> = new EventEmitter();
+    public readonly willDismiss: EventEmitter<void> = new EventEmitter();
 
     private popover: HTMLIonPopoverElement;
 
@@ -89,7 +89,7 @@ export class PopoverControllerComponent {
             return this.popover.dismiss(data, role);
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             resolve();
         });
     }

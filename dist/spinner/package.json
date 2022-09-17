@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/spinner",
   "sideEffects": false,
   "main": "bundles/spinner-module.umd.js",
-  "module": "fesm5/spinner-module.js",
+  "module": "fesm2015/spinner-module.js",
   "es2015": "fesm2015/spinner-module.js",
-  "esm5": "esm5/spinner-module.js",
   "esm2015": "esm2015/spinner-module.js",
-  "fesm5": "fesm5/spinner-module.js",
   "fesm2015": "fesm2015/spinner-module.js",
   "typings": "spinner-module.d.ts",
   "metadata": "spinner-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

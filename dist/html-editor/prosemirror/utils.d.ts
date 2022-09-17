@@ -1,6 +1,6 @@
-import { MarkType, Node, NodeType, ResolvedPos, Slice, Schema } from "prosemirror-model";
-import { EditorView } from "prosemirror-view";
+import { MarkType, Node, NodeType, ResolvedPos, Schema, Slice } from "prosemirror-model";
 import { EditorState, Selection, TextSelection, Transaction } from "prosemirror-state";
+import { EditorView } from "prosemirror-view";
 export { isEmptyParagraph, hasVisibleContent, isNodeEmpty, isEmptyDocument, getStepRange, findFarthestParentNode, isSelectionEndOfParagraph, nodesBetweenChanged, } from "./document-utils";
 export declare const ZeroWidthSpace = "\u200B";
 export declare const isImage: (fileType?: string) => boolean;
@@ -26,14 +26,14 @@ export declare function isMarkTypeAllowedInCurrentSelection(markType: MarkType, 
  * found that isn"t of the specified type
  */
 export declare function isRangeOfType(doc: Node, $from: ResolvedPos, $to: ResolvedPos, nodeType: NodeType): boolean;
-export declare function createSliceWithContent(content: string, state: EditorState): Slice<any>;
+export declare function createSliceWithContent(content: string, state: EditorState): Slice;
 /**
  * Determines if content inside a selection can be joined with the next block.
  * We need this check since the built-in method for "joinDown" will join a orderedList with bulletList.
  */
 export declare function canJoinDown(selection: Selection, doc: any, nodeType: NodeType): boolean;
 export declare function checkNodeDown(selection: Selection, doc: Node, filter: (node: Node) => boolean): boolean;
-export declare const setNodeSelection: (view: EditorView<any>, pos: number) => void;
+export declare const setNodeSelection: (view: EditorView, pos: number) => void;
 export declare function setTextSelection(view: EditorView, anchor: number, head?: number): void;
 /**
  * Determines if content inside a selection can be joined with the previous block.
@@ -76,9 +76,9 @@ export declare function hasCommonAncestor(doc: Node, $from: ResolvedPos, $to: Re
  * Takes a selection $from and $to and lift all text nodes from their parents to document-level
  */
 export declare function liftSelection(tr: Transaction, doc: Node, $from: ResolvedPos, $to: ResolvedPos): {
-    tr: Transaction<any>;
-    $from: ResolvedPos<any>;
-    $to: ResolvedPos<any>;
+    tr: Transaction;
+    $from: ResolvedPos;
+    $to: ResolvedPos;
 };
 /**
  * Lift nodes in block to one level above.
@@ -108,19 +108,19 @@ export declare function whichTransitionEvent<TransitionEventName extends string>
  */
 export declare function areBlockTypesDisabled(state: EditorState): boolean;
 export declare const isTemporary: (id: string) => boolean;
-export declare const isEmptyNode: (schema: Schema<any, any>) => (node: Node<any>) => boolean;
-export declare const insideTable: (state: EditorState<any>) => Boolean;
-export declare const insideTableCell: (state: EditorState<any>) => boolean;
-export declare const isElementInTableCell: (element: HTMLElement) => HTMLElement;
-export declare const isLastItemMediaGroup: (node: Node<any>) => boolean;
-export declare const isInListItem: (state: EditorState<any>) => boolean;
-export declare const hasOpenEnd: (slice: Slice<any>) => boolean;
+export declare const isEmptyNode: (schema: Schema) => (node: Node) => boolean;
+export declare const insideTable: (state: EditorState) => Boolean;
+export declare const insideTableCell: (state: EditorState) => boolean;
+export declare const isElementInTableCell: (element: HTMLElement | null) => HTMLElement | null;
+export declare const isLastItemMediaGroup: (node: Node) => boolean;
+export declare const isInListItem: (state: EditorState) => boolean;
+export declare const hasOpenEnd: (slice: Slice) => boolean;
 export declare function filterChildrenBetween(doc: Node, from: number, to: number, predicate: (node: Node, pos: number, parent: Node) => boolean | undefined): {
-    node: Node<any>;
+    node: Node;
     pos: number;
 }[];
 export declare function dedupe<T>(list?: T[], iteratee?: (p: T) => T[keyof T] | T): T[];
-export declare const isTextSelection: (selection: Selection<any>) => selection is TextSelection<any>;
+export declare const isTextSelection: (selection: Selection) => selection is TextSelection;
 /** Helper type for single arg function */
 declare type Func<A, B> = (a: A) => B;
 declare type FuncN<A extends any[], B> = (...args: A) => B;
@@ -136,4 +136,4 @@ export declare function pipe<F1 extends FuncN<any, any>>(f1: F1): (...args: Para
 export declare function pipe<F1 extends FuncN<any, any>, F2 extends Func<ReturnType<F1>, any>>(f1: F1, f2: F2): (...args: Parameters<F1>) => ReturnType<F2>;
 export declare function pipe<F1 extends FuncN<any, any>, F2 extends Func<ReturnType<F1>, any>, F3 extends Func<ReturnType<F2>, any>>(f1: F1, f2: F2, f3: F3): (...args: Parameters<F1>) => ReturnType<F3>;
 export declare function pipe<F1 extends FuncN<any, any>, F2 extends Func<ReturnType<F1>, any>, F3 extends Func<ReturnType<F2>, any>, FN extends Array<Func<any, any>>>(f1: F1, f2: F2, f3: F3, ...fn: FN): (...args: Parameters<F1>) => any;
-export declare const normaliseNestedLayout: (state: EditorState<any>, node: Node<any>) => Node<any>;
+export declare const normaliseNestedLayout: (state: EditorState, node: Node) => Node;

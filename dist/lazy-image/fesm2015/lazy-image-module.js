@@ -1,5 +1,5 @@
-import { __awaiter, __decorate, __param } from 'tslib';
-import { ElementRef, ContentChildren, forwardRef, Directive, Renderer2, Optional, Inject, Input, NgModule } from '@angular/core';
+import { Directive, ElementRef, ContentChildren, forwardRef, Renderer2, Optional, Inject, Input, NgModule } from '@angular/core';
+import { __awaiter } from 'tslib';
 import { sleep } from '@co.mmons/js-utils/core';
 
 const defaultOptions = {
@@ -363,8 +363,7 @@ function ensureLazyImagesLoaded(root, options) {
     });
 }
 
-var LazyImage_1;
-let LazyImageContainer = class LazyImageContainer {
+class LazyImageContainer {
     constructor(element) {
         this.element = element;
     }
@@ -412,19 +411,19 @@ let LazyImageContainer = class LazyImageContainer {
             this.lazyLoad = new LazyLoad(options);
         });
     }
-};
+}
+LazyImageContainer.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-content[ionx-lazy-image], [ionx-lazy-image-container]"
+            },] }
+];
 LazyImageContainer.ctorParameters = () => [
     { type: ElementRef }
 ];
-__decorate([
-    ContentChildren(forwardRef(() => LazyImage), { descendants: true })
-], LazyImageContainer.prototype, "children", void 0);
-LazyImageContainer = __decorate([
-    Directive({
-        selector: "ion-content[ionx-lazy-image], [ionx-lazy-image-container]"
-    })
-], LazyImageContainer);
-let LazyImage = LazyImage_1 = class LazyImage {
+LazyImageContainer.propDecorators = {
+    children: [{ type: ContentChildren, args: [forwardRef(() => LazyImage), { descendants: true },] }]
+};
+class LazyImage {
     constructor(element, renderer, container) {
         this.element = element;
         this.renderer = renderer;
@@ -457,36 +456,31 @@ let LazyImage = LazyImage_1 = class LazyImage {
         this.children.changes.subscribe(() => this.revalidate());
         this.revalidate();
     }
-};
+}
+LazyImage.decorators = [
+    { type: Directive, args: [{
+                selector: "[ionx-lazy-image]"
+            },] }
+];
 LazyImage.ctorParameters = () => [
     { type: ElementRef },
     { type: Renderer2 },
     { type: LazyImageContainer, decorators: [{ type: Optional }, { type: Inject, args: [forwardRef(() => LazyImageContainer),] }] }
 ];
-__decorate([
-    ContentChildren(LazyImage_1, { descendants: true })
-], LazyImage.prototype, "children", void 0);
-__decorate([
-    Input("ionx-lazy-image")
-], LazyImage.prototype, "src", null);
-__decorate([
-    Input("ionx-lazy-image-alternate")
-], LazyImage.prototype, "alternate", null);
-LazyImage = LazyImage_1 = __decorate([
-    Directive({
-        selector: "[ionx-lazy-image]"
-    }),
-    __param(2, Optional()), __param(2, Inject(forwardRef(() => LazyImageContainer)))
-], LazyImage);
-
-let LazyImageModule = class LazyImageModule {
+LazyImage.propDecorators = {
+    children: [{ type: ContentChildren, args: [LazyImage, { descendants: true },] }],
+    src: [{ type: Input, args: ["ionx-lazy-image",] }],
+    alternate: [{ type: Input, args: ["ionx-lazy-image-alternate",] }]
 };
-LazyImageModule = __decorate([
-    NgModule({
-        declarations: [LazyImage, LazyImageContainer],
-        exports: [LazyImage, LazyImageContainer]
-    })
-], LazyImageModule);
+
+class LazyImageModule {
+}
+LazyImageModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [LazyImage, LazyImageContainer],
+                exports: [LazyImage, LazyImageContainer]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

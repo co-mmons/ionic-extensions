@@ -5,6 +5,6 @@ import { AlignmentState } from "./alignment-state";
  * Iterates over the commands one after the other,
  * passes the tr through and dispatches the cumulated transaction
  */
-export declare const cascadeCommands: (cmds: Command[]) => (state: EditorState<any>, dispatch?: CommandDispatch) => boolean;
+export declare const cascadeCommands: (cmds: Array<Command>) => (state: EditorState, dispatch?: CommandDispatch) => boolean;
 export declare const isAlignable: (align?: AlignmentState) => Command;
 export declare const changeAlignment: (align?: AlignmentState) => Command;

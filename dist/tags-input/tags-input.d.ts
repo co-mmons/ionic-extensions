@@ -2,7 +2,7 @@ import { ChangeDetectorRef, EventEmitter } from "@angular/core";
 import { ControlValueAccessor } from "@angular/forms";
 import { IonInput, Platform } from "@ionic/angular";
 export declare const tagsValueAccessor: {
-    provide: import("@angular/core").InjectionToken<ControlValueAccessor>;
+    provide: import("@angular/core").InjectionToken<readonly ControlValueAccessor[]>;
     useExisting: import("@angular/core").Type<any>;
     multi: boolean;
 };

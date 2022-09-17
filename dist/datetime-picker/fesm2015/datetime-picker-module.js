@@ -1,12 +1,12 @@
-import { __awaiter, __decorate, __param } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Input, Component, EventEmitter, ElementRef, Optional, ViewChild, Output, HostBinding, HostListener, NgModule } from '@angular/core';
+import { Component, ChangeDetectorRef, Input, EventEmitter, ElementRef, Optional, ViewChild, Output, HostBinding, HostListener, NgModule } from '@angular/core';
 import { NgControl, FormsModule } from '@angular/forms';
 import { MatchMediaModule } from '@co.mmons/angular-extensions/browser/match-media';
 import { IntlService, IntlModule } from '@co.mmons/angular-intl';
 import { ButtonsModule } from '@co.mmons/ionic-extensions/buttons';
 import { SelectOptions, SelectModule } from '@co.mmons/ionic-extensions/select';
 import { ModalController, IonicModule } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 import { DateTimezone } from '@co.mmons/js-utils/core';
 
 const defaultDateTimeFormat = {
@@ -414,7 +414,7 @@ const monthYearFormat = {
 const monthFormat = {
     month: "long"
 };
-let DateTimePickerOverlay = class DateTimePickerOverlay {
+class DateTimePickerOverlay {
     constructor(viewController, intl, changeDetector) {
         this.viewController = viewController;
         this.intl = intl;
@@ -683,37 +683,28 @@ let DateTimePickerOverlay = class DateTimePickerOverlay {
             this.loadTimezones();
         }
     }
-};
+}
+DateTimePickerOverlay.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-datetime-overlay",
+                template: "<ion-header>\n    <ion-toolbar>\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); cancelClicked()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"padding: 0px\">{{title}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n            <ion-button fill=\"clear\" (click)=\"doneClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n        </ionx-buttons>\n    </ion-toolbar>\n    <ion-toolbar>\n        <ion-segment [(ngModel)]=\"dateView\" (ionChange)=\"dateViewChanged()\">\n            <ion-segment-button *ngFor=\"let view of dateViews\" [value]=\"view.id\">{{view.label}}</ion-segment-button>\n        </ion-segment>\n    </ion-toolbar>\n</ion-header>\n<ion-content>\n\n    <div>\n\n        <ion-row ionx--values-header>\n            <ion-col size=\"3\">\n                <ion-button fill=\"clear\" (click)=\"dateViewMove(-1)\">\n                    <ion-icon name=\"chevron-back\" slot=\"icon-only\"></ion-icon>\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"6\" class=\"ion-text-center\">{{dateHeader}}</ion-col>\n            <ion-col size=\"3\" class=\"ion-text-right\">\n                <ion-button fill=\"clear\" (click)=\"dateViewMove(1)\">\n                    <ion-icon name=\"chevron-forward\" slot=\"icon-only\"></ion-icon>\n                </ion-button>\n            </ion-col>\n        </ion-row>\n\n        <ion-row ionx--values-grid style=\"margin: 0px 14px\">\n            <ion-col *ngFor=\"let value of dateValues\" [size]=\"dateView == 'years' ? 3 : (dateView == 'months' ? 6 : 2)\" [style.visibility]=\"value.hidden ? 'hidden' : 'visible'\">\n                <ion-button [fill]=\"!value.checked ? 'outline' : 'solid'\" (click)=\"dateValueClicked(value.id)\">\n                    <div>\n                        <div>{{value.label}}</div>\n                        <small *ngIf=\"value.sublabel\">{{value.sublabel}}</small>\n                    </div>\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"6\" *ngIf=\"dateView == 'days'\">\n                <ion-button fill=\"outline\" (click)=\"todayClicked()\">{{\"@co.mmons/ionic-extensions/datetime#Today\" | intlMessage}}</ion-button>\n            </ion-col>\n        </ion-row>\n\n    </div>\n\n</ion-content>\n\n<ion-footer *ngIf=\"timeVisible\">\n    <ion-toolbar>\n        <ion-row>\n            <ion-col size=\"3\">\n                <ion-input type=\"number\" [(ngModel)]=\"timeHoursFormatted\" [min]=\"0\" [max]=\"23\" inputmode=\"numeric\"></ion-input>\n            </ion-col>\n            <ion-col>\n                <ion-range [(ngModel)]=\"timeHours\" min=\"0\" max=\"23\" step=\"1\"></ion-range>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col size=\"3\">\n                <ion-input type=\"number\" [(ngModel)]=\"timeMinutesFormatted\" [min]=\"0\" [max]=\"59\" inputmode=\"numeric\"></ion-input>\n            </ion-col>\n            <ion-col>\n                <ion-range [(ngModel)]=\"timeMinutes\" min=\"0\" max=\"59\" step=\"1\"></ion-range>\n            </ion-col>\n        </ion-row>\n        <ion-row *ngIf=\"!timezoneDisabled\">\n            <ion-col size=\"3\"></ion-col>\n            <ion-col size=\"9\">\n                <ionx-select [options]=\"timezones\" [(ngModel)]=\"timezone\" overlay=\"modal\" [title]=\"'@co.mmons/ionic-extensions/datetime#Time zone' | intlMessage\" [placeholder]=\"'@co.mmons/ionic-extensions/datetime#No time zone' | intlMessage\"></ionx-select>\n            </ion-col>\n        </ion-row>\n    </ion-toolbar>\n</ion-footer>\n",
+                styles: [":host{display:flex}:host [ionx--values-header]{margin:16px 16px 8px}:host [ionx--values-header] ion-col{padding:0;align-self:center}:host [ionx--values-header] ion-button{max-height:36px}:host [ionx--values-grid] ion-col{display:flex;padding:4px;align-items:center;justify-content:center}:host [ionx--values-grid] ion-button{--box-shadow: none;padding:0;margin:0;flex:1;display:flex;--width: 100%;--padding-start: 2px;--padding-end: 2px;--padding-top: 2px;--padding-bottom: 2px;--margin-start: 0px;--margin-end: 0px;--margin-top: 0px;--margin-bottom: 0px}:host [ionx--values-grid] ion-button div{min-width:40px;line-height:.8}:host ion-footer ion-toolbar{--padding-start: 16px;--padding-end: 16px;--padding-top: 0px;--padding-bottom: 0px}:host ion-footer ion-range{padding:0 8px 0 0}:host ion-footer ion-input{--padding-end: 8px;--padding-start: 0px;text-align:center}:host ion-footer ion-col{padding:0;align-self:center}:host ion-footer ionx-select{padding-left:0}:host-context(.ios) ion-segment{margin-bottom:4px}:host-context(.ios) [ionx--values-header]{margin-top:0;margin-bottom:0}:host-context(.ios) [ionx--values-grid] ion-button{--padding-start: 0px;--padding-end: 0px;--padding-top: 0px;--padding-bottom: 0px;--margin-start: 0px;--margin-end: 0px;--margin-top: 0px;--margin-bottom: 0px}:host-context(.md) [ionx--values-grid] ion-button.button-outline{--border-width: 1px}\n"]
+            },] }
+];
 DateTimePickerOverlay.ctorParameters = () => [
     { type: ModalController },
     { type: IntlService },
     { type: ChangeDetectorRef }
 ];
-__decorate([
-    Input()
-], DateTimePickerOverlay.prototype, "value", void 0);
-__decorate([
-    Input()
-], DateTimePickerOverlay.prototype, "formatOptions", void 0);
-__decorate([
-    Input()
-], DateTimePickerOverlay.prototype, "title", void 0);
-__decorate([
-    Input()
-], DateTimePickerOverlay.prototype, "timezone", void 0);
-__decorate([
-    Input()
-], DateTimePickerOverlay.prototype, "timezoneDisabled", void 0);
-DateTimePickerOverlay = __decorate([
-    Component({
-        selector: "ionx-datetime-overlay",
-        template: "<ion-header>\n    <ion-toolbar>\n        <ionx-buttons slot=\"start\">\n            <ion-back-button style=\"display: inline-block\" [icon]=\"('tablet' | matchGreaterWidth) ? 'close' : null\" (click)=\"$event.preventDefault(); cancelClicked()\"></ion-back-button>\n        </ionx-buttons>\n\n        <ion-title style=\"padding: 0px\">{{title}}</ion-title>\n\n        <ionx-buttons slot=\"end\">\n            <ion-button fill=\"clear\" (click)=\"doneClicked()\">{{\"@co.mmons/js-intl#Done\" | intlMessage}}</ion-button>\n        </ionx-buttons>\n    </ion-toolbar>\n    <ion-toolbar>\n        <ion-segment [(ngModel)]=\"dateView\" (ionChange)=\"dateViewChanged()\">\n            <ion-segment-button *ngFor=\"let view of dateViews\" [value]=\"view.id\">{{view.label}}</ion-segment-button>\n        </ion-segment>\n    </ion-toolbar>\n</ion-header>\n<ion-content>\n\n    <div>\n\n        <ion-row ionx--values-header>\n            <ion-col size=\"3\">\n                <ion-button fill=\"clear\" (click)=\"dateViewMove(-1)\">\n                    <ion-icon name=\"chevron-back\" slot=\"icon-only\"></ion-icon>\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"6\" class=\"ion-text-center\">{{dateHeader}}</ion-col>\n            <ion-col size=\"3\" class=\"ion-text-right\">\n                <ion-button fill=\"clear\" (click)=\"dateViewMove(1)\">\n                    <ion-icon name=\"chevron-forward\" slot=\"icon-only\"></ion-icon>\n                </ion-button>\n            </ion-col>\n        </ion-row>\n\n        <ion-row ionx--values-grid style=\"margin: 0px 14px\">\n            <ion-col *ngFor=\"let value of dateValues\" [size]=\"dateView == 'years' ? 3 : (dateView == 'months' ? 6 : 2)\" [style.visibility]=\"value.hidden ? 'hidden' : 'visible'\">\n                <ion-button [fill]=\"!value.checked ? 'outline' : 'solid'\" (click)=\"dateValueClicked(value.id)\">\n                    <div>\n                        <div>{{value.label}}</div>\n                        <small *ngIf=\"value.sublabel\">{{value.sublabel}}</small>\n                    </div>\n                </ion-button>\n            </ion-col>\n            <ion-col size=\"6\" *ngIf=\"dateView == 'days'\">\n                <ion-button fill=\"outline\" (click)=\"todayClicked()\">{{\"@co.mmons/ionic-extensions/datetime#Today\" | intlMessage}}</ion-button>\n            </ion-col>\n        </ion-row>\n\n    </div>\n\n</ion-content>\n\n<ion-footer *ngIf=\"timeVisible\">\n    <ion-toolbar>\n        <ion-row>\n            <ion-col size=\"3\">\n                <ion-input type=\"number\" [(ngModel)]=\"timeHoursFormatted\" [min]=\"0\" [max]=\"23\" inputmode=\"numeric\"></ion-input>\n            </ion-col>\n            <ion-col>\n                <ion-range [(ngModel)]=\"timeHours\" min=\"0\" max=\"23\" step=\"1\"></ion-range>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col size=\"3\">\n                <ion-input type=\"number\" [(ngModel)]=\"timeMinutesFormatted\" [min]=\"0\" [max]=\"59\" inputmode=\"numeric\"></ion-input>\n            </ion-col>\n            <ion-col>\n                <ion-range [(ngModel)]=\"timeMinutes\" min=\"0\" max=\"59\" step=\"1\"></ion-range>\n            </ion-col>\n        </ion-row>\n        <ion-row *ngIf=\"!timezoneDisabled\">\n            <ion-col size=\"3\"></ion-col>\n            <ion-col size=\"9\">\n                <ionx-select [options]=\"timezones\" [(ngModel)]=\"timezone\" overlay=\"modal\" [title]=\"'@co.mmons/ionic-extensions/datetime#Time zone' | intlMessage\" [placeholder]=\"'@co.mmons/ionic-extensions/datetime#No time zone' | intlMessage\"></ionx-select>\n            </ion-col>\n        </ion-row>\n    </ion-toolbar>\n</ion-footer>\n",
-        styles: [":host{display:-webkit-box;display:flex}:host [ionx--values-header]{margin:16px 16px 8px}:host [ionx--values-header] ion-col{padding:0;-ms-grid-row-align:center;align-self:center}:host [ionx--values-header] ion-button{max-height:36px}:host [ionx--values-grid] ion-col{display:-webkit-box;display:flex;padding:4px;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center}:host [ionx--values-grid] ion-button{--box-shadow:none;padding:0;margin:0;-webkit-box-flex:1;flex:1;display:-webkit-box;display:flex;--width:100%;--padding-start:2px;--padding-end:2px;--padding-top:2px;--padding-bottom:2px;--margin-start:0px;--margin-end:0px;--margin-top:0px;--margin-bottom:0px}:host [ionx--values-grid] ion-button div{min-width:40px;line-height:.8}:host ion-footer ion-toolbar{--padding-start:16px;--padding-end:16px;--padding-top:0px;--padding-bottom:0px}:host ion-footer ion-range{padding:0 8px 0 0}:host ion-footer ion-input{--padding-end:8px;--padding-start:0px;text-align:center}:host ion-footer ion-col{padding:0;-ms-grid-row-align:center;align-self:center}:host ion-footer ionx-select{padding-left:0}:host-context(.ios) ion-segment{margin-bottom:4px}:host-context(.ios) [ionx--values-header]{margin-top:0;margin-bottom:0}:host-context(.ios) [ionx--values-grid] ion-button{--padding-start:0px;--padding-end:0px;--padding-top:0px;--padding-bottom:0px;--margin-start:0px;--margin-end:0px;--margin-top:0px;--margin-bottom:0px}:host-context(.md) [ionx--values-grid] ion-button.button-outline{--border-width:1px}"]
-    })
-], DateTimePickerOverlay);
+DateTimePickerOverlay.propDecorators = {
+    value: [{ type: Input }],
+    formatOptions: [{ type: Input }],
+    title: [{ type: Input }],
+    timezone: [{ type: Input }],
+    timezoneDisabled: [{ type: Input }]
+};
 
-var DateTimePickerInput_1;
-let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
+class DateTimePickerInput {
     constructor(element, intl, modalController, control) {
         this.element = element;
         this.intl = intl;
@@ -760,7 +751,7 @@ let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
      */
     set displayFormat(format) {
         if (typeof format === "string") {
-            this._displayFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+            this._displayFormat = this.intl.findPredefinedFormatOptions(format);
         }
         else {
             this._displayFormat = format;
@@ -771,7 +762,7 @@ let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
     }
     set pickerFormat(format) {
         if (typeof format == "string") {
-            this._pickerFormat = this.intl.findFormatterPredefinedOptions(Intl.DateTimeFormat, format);
+            this._pickerFormat = this.intl.findPredefinedFormatOptions(format);
         }
         else {
             this._pickerFormat = format;
@@ -801,7 +792,7 @@ let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
             this._value = new DateTimezone(value.getTime());
         }
         else if (value instanceof DateTimezone) {
-            this._value = new DateTimezone(new Date(value.date.getTime()), value.timezone === "current" ? DateTimePickerInput_1.currentTimezone() : value.timezone);
+            this._value = new DateTimezone(new Date(value.date.getTime()), value.timezone === "current" ? DateTimePickerInput.currentTimezone() : value.timezone);
         }
         else {
             this._value = undefined;
@@ -881,7 +872,7 @@ let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
             const formatOptions = this.pickerFormat || this.displayFormat || defaultDateTimeFormat;
             let timezone = this._value ? this._value.timezone : this.defaultTimezone;
             if (timezone === "current") {
-                timezone = DateTimePickerInput_1.currentTimezone();
+                timezone = DateTimePickerInput.currentTimezone();
             }
             let value = this._value && this._value.date ? this._value.date : new Date();
             {
@@ -904,7 +895,7 @@ let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
                 componentProps: {
                     formatOptions: formatOptions,
                     value: value,
-                    timezone: this._value ? this._value.timezone : (this._value === undefined ? (this.defaultTimezone === "current" ? DateTimePickerInput_1.currentTimezone() : this.defaultTimezone) : undefined),
+                    timezone: this._value ? this._value.timezone : (this._value === undefined ? (this.defaultTimezone === "current" ? DateTimePickerInput.currentTimezone() : this.defaultTimezone) : undefined),
                     timezoneDisabled: this.timezoneDisabled,
                     title: overlayTitle
                 },
@@ -987,82 +978,51 @@ let DateTimePickerInput = DateTimePickerInput_1 = class DateTimePickerInput {
             }
         }
     }
-};
+}
+DateTimePickerInput.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-datetime",
+                template: "<div #nativeInput\n     class=\"ionx--input\"\n     contenteditable=\"true\"\n     spellcheck=\"false\"\n     (focus)=\"nativeInputFocused()\"\n     (blur)=\"nativeInputBlured()\"\n     (cut)=\"$event.preventDefault()\"\n     (paste)=\"$event.preventDefault()\"\n     (keyup)=\"inputKeyUpDown($event)\"\n     (keydown)=\"inputKeyUpDown($event)\"\n>{{hasValue() ? text : placeholder}}</div>\n\n<ion-button fill=\"clear\" size=\"small\" (click)=\"clearButtonClicked($event)\" *ngIf=\"clearButtonVisible && !readonly && !disabled && hasValue()\">\n    <ion-icon name=\"close\" [slot]=\"clearButtonText ? 'start' : 'icon-only'\"></ion-icon>\n    <span *ngIf=\"!!clearButtonText\">{{clearButtonText}}</span>\n</ion-button>\n",
+                host: {
+                    "[class.ionx--placeholder-visible]": "!hasValue()"
+                },
+                styles: [":host{position:relative;display:flex;align-items:center;flex:1;width:100%;--padding-top: 10px;--padding-bottom: 10px;--padding-start: 0px;--padding-end: 0px}:host .ionx--input{padding-top:var(--padding-top, 10px);padding-bottom:var(--padding-bottom, 9px);padding-left:var(--padding-start);padding-right:var(--padding-end);display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:0;outline:none;-webkit-user-select:none;user-select:none;pointer-events:none}:host:not(.ionx--placeholder-visible).ionx--disabled .ionx--input,:host:not(.ionx--placeholder-visible).ionx--readonly .ionx--input{-webkit-user-select:text;user-select:text;pointer-events:initial}:host.ionx--placeholder-visible .ionx--input,:host.ionx--disabled .ionx--input{opacity:var(--placeholder-opacity, var(--ionx-placeholder-opacity, .5))}:host-context(.md){--padding-bottom: 11px}:host-context(.item-label-stacked){--padding-end: 0px;--padding-start: 0px;--padding-top: 9px;--padding-bottom: 9px}:host-context(.ios) .native-input{--padding-top: 9px;--padding-bottom: 8px}\n"]
+            },] }
+];
 DateTimePickerInput.ctorParameters = () => [
     { type: ElementRef },
     { type: IntlService },
     { type: ModalController },
     { type: NgControl, decorators: [{ type: Optional }] }
 ];
-__decorate([
-    ViewChild("nativeInput", { read: ElementRef, static: true })
-], DateTimePickerInput.prototype, "nativeInput", void 0);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "overlayTitle", void 0);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "placeholder", void 0);
-__decorate([
-    Output()
-], DateTimePickerInput.prototype, "ionChange", void 0);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "timezoneDisabled", void 0);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "defaultTimezone", void 0);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "clearButtonVisible", void 0);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "clearButtonIcon", void 0);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "clearButtonText", void 0);
-__decorate([
-    Input(),
-    HostBinding("class.ionx--readonly")
-], DateTimePickerInput.prototype, "readonly", null);
-__decorate([
-    HostBinding("class.ionx--disabled"),
-    Input()
-], DateTimePickerInput.prototype, "disabled", null);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "displayFormat", null);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "pickerFormat", null);
-__decorate([
-    Input()
-], DateTimePickerInput.prototype, "value", null);
-__decorate([
-    HostListener("click", ["$event"])
-], DateTimePickerInput.prototype, "clicked", null);
-DateTimePickerInput = DateTimePickerInput_1 = __decorate([
-    Component({
-        selector: "ionx-datetime",
-        template: "<div #nativeInput\n     class=\"ionx--input\"\n     contenteditable=\"true\"\n     spellcheck=\"false\"\n     (focus)=\"nativeInputFocused()\"\n     (blur)=\"nativeInputBlured()\"\n     (cut)=\"$event.preventDefault()\"\n     (paste)=\"$event.preventDefault()\"\n     (keyup)=\"inputKeyUpDown($event)\"\n     (keydown)=\"inputKeyUpDown($event)\"\n>{{hasValue() ? text : placeholder}}</div>\n\n<ion-button fill=\"clear\" size=\"small\" (click)=\"clearButtonClicked($event)\" *ngIf=\"clearButtonVisible && !readonly && !disabled && hasValue()\">\n    <ion-icon name=\"close\" [slot]=\"clearButtonText ? 'start' : 'icon-only'\"></ion-icon>\n    <span *ngIf=\"!!clearButtonText\">{{clearButtonText}}</span>\n</ion-button>\n",
-        host: {
-            "[class.ionx--placeholder-visible]": "!hasValue()"
-        },
-        styles: [":host{position:relative;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-flex:1;flex:1;width:100%;--padding-top:10px;--padding-bottom:10px;--padding-start:0px;--padding-end:0px}:host .ionx--input{padding-top:var(--padding-top,10px);padding-bottom:var(--padding-bottom,9px);padding-left:var(--padding-start);padding-right:var(--padding-end);display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:0;outline:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;pointer-events:none}:host:not(.ionx--placeholder-visible).ionx--disabled .ionx--input,:host:not(.ionx--placeholder-visible).ionx--readonly .ionx--input{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;pointer-events:initial}:host.ionx--disabled .ionx--input,:host.ionx--placeholder-visible .ionx--input{opacity:var(--placeholder-opacity,var(--ionx-placeholder-opacity,.5))}:host-context(.md){--padding-bottom:11px}:host-context(.item-label-stacked){--padding-end:0px;--padding-start:0px;--padding-top:9px;--padding-bottom:9px}:host-context(.ios) .native-input{--padding-top:9px;--padding-bottom:8px}"]
-    }),
-    __param(3, Optional())
-], DateTimePickerInput);
-
-let DateTimePickerModule = class DateTimePickerModule {
+DateTimePickerInput.propDecorators = {
+    nativeInput: [{ type: ViewChild, args: ["nativeInput", { read: ElementRef, static: true },] }],
+    overlayTitle: [{ type: Input }],
+    placeholder: [{ type: Input }],
+    ionChange: [{ type: Output }],
+    timezoneDisabled: [{ type: Input }],
+    defaultTimezone: [{ type: Input }],
+    clearButtonVisible: [{ type: Input }],
+    clearButtonIcon: [{ type: Input }],
+    clearButtonText: [{ type: Input }],
+    readonly: [{ type: Input }, { type: HostBinding, args: ["class.ionx--readonly",] }],
+    disabled: [{ type: HostBinding, args: ["class.ionx--disabled",] }, { type: Input }],
+    displayFormat: [{ type: Input }],
+    pickerFormat: [{ type: Input }],
+    value: [{ type: Input }],
+    clicked: [{ type: HostListener, args: ["click", ["$event"],] }]
 };
-DateTimePickerModule = __decorate([
-    NgModule({
-        declarations: [DateTimePickerInput, DateTimePickerOverlay],
-        entryComponents: [DateTimePickerOverlay],
-        exports: [DateTimePickerInput],
-        imports: [CommonModule, FormsModule, IonicModule, IntlModule, SelectModule, ButtonsModule, MatchMediaModule]
-    })
-], DateTimePickerModule);
+
+class DateTimePickerModule {
+}
+DateTimePickerModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [DateTimePickerInput, DateTimePickerOverlay],
+                entryComponents: [DateTimePickerOverlay],
+                exports: [DateTimePickerInput],
+                imports: [CommonModule, FormsModule, IonicModule, IntlModule, SelectModule, ButtonsModule, MatchMediaModule]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

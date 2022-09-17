@@ -1,2 +1,2 @@
 import { ResolvedPos, Schema } from "prosemirror-model";
-export declare const getListLiftTarget: (schema: Schema<any, any>, resPos: ResolvedPos<any>) => number;
+export declare const getListLiftTarget: (schema: Schema, resPos: ResolvedPos) => number;

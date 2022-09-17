@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/popover",
   "sideEffects": false,
   "main": "bundles/popover-module.umd.js",
-  "module": "fesm5/popover-module.js",
+  "module": "fesm2015/popover-module.js",
   "es2015": "fesm2015/popover-module.js",
-  "esm5": "esm5/popover-module.js",
   "esm2015": "esm2015/popover-module.js",
-  "fesm5": "fesm5/popover-module.js",
   "fesm2015": "fesm2015/popover-module.js",
   "typings": "popover-module.d.ts",
   "metadata": "popover-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

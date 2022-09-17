@@ -1,6 +1,5 @@
-import { __decorate } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { forwardRef, EventEmitter, ChangeDetectorRef, HostBinding, Input, Output, ViewChild, HostListener, Component, NgModule } from '@angular/core';
+import { forwardRef, EventEmitter, Component, ChangeDetectorRef, HostBinding, Input, Output, ViewChild, HostListener, NgModule } from '@angular/core';
 import { NG_VALUE_ACCESSOR, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IntlModule } from '@co.mmons/angular-intl';
 import { Platform, IonInput, IonicModule } from '@ionic/angular';
@@ -10,7 +9,7 @@ const tagsValueAccessor = {
     useExisting: forwardRef(() => TagsInput),
     multi: true
 };
-let TagsInput = class TagsInput {
+class TagsInput {
     constructor(plt, ref) {
         this.plt = plt;
         this.ref = ref;
@@ -197,82 +196,49 @@ let TagsInput = class TagsInput {
         this._tags = val;
         this.sortTags();
     }
-};
+}
+TagsInput.decorators = [
+    { type: Component, args: [{
+                selector: "ionx-tags-input",
+                providers: [tagsValueAccessor],
+                template: "<div class=\"ionx-tags-input-wrapper\">\n    <ion-chip *ngFor=\"let tag of _tags; let $index = index;\" outline=\"true\" [class.ion-activatable]=\"false\">\n        <div>{{tag}}</div>\n        <ion-icon name=\"close\" *ngIf=\"!hideRemove && !readonly\" (click)=\"btnRemoveTag($index)\" [class.ion-activatable]=\"!readonly\"></ion-icon>\n    </ion-chip>\n</div>\n\n<ion-input *ngIf=\"!readonly\"\n           [disabled]=\"readonly\"\n           class=\"ionx-tags-input-input\"\n           [type]=\"type\"\n           [placeholder]=\"placeholder\"\n           [(ngModel)]=\"_editTag\"\n           (ionBlur)=\"blur()\"\n           (keyup.backspace)=\"keyRemoveTag($event); false\"\n           (keyup)=\"separatorStrAddTag()\" (keyup.enter)=\"keyAddTag()\"></ion-input>\n",
+                styles: [":host{display:block}:host ion-chip{margin-left:0}:host-context(.item-label-stacked){width:100%}\n"]
+            },] }
+];
 TagsInput.ctorParameters = () => [
     { type: Platform },
     { type: ChangeDetectorRef }
 ];
-__decorate([
-    HostBinding("class.readonly"),
-    Input()
-], TagsInput.prototype, "readonly", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "hideRemove", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "maxTags", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "placeholder", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "type", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "separatorStr", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "canEnterAdd", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "canBackspaceRemove", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "verifyFn", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "sortFn", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "sortable", void 0);
-__decorate([
-    Input()
-], TagsInput.prototype, "once", null);
-__decorate([
-    Output()
-], TagsInput.prototype, "change", void 0);
-__decorate([
-    Output()
-], TagsInput.prototype, "ionFocus", void 0);
-__decorate([
-    Output()
-], TagsInput.prototype, "ionBlur", void 0);
-__decorate([
-    ViewChild(IonInput, { static: false })
-], TagsInput.prototype, "input", void 0);
-__decorate([
-    HostListener("click", ["$event"])
-], TagsInput.prototype, "_click", null);
-TagsInput = __decorate([
-    Component({
-        selector: "ionx-tags-input",
-        providers: [tagsValueAccessor],
-        template: "<div class=\"ionx-tags-input-wrapper\">\n    <ion-chip *ngFor=\"let tag of _tags; let $index = index;\" outline=\"true\" [class.ion-activatable]=\"false\">\n        <div>{{tag}}</div>\n        <ion-icon name=\"close\" *ngIf=\"!hideRemove && !readonly\" (click)=\"btnRemoveTag($index)\" [class.ion-activatable]=\"!readonly\"></ion-icon>\n    </ion-chip>\n</div>\n\n<ion-input *ngIf=\"!readonly\"\n           [disabled]=\"readonly\"\n           class=\"ionx-tags-input-input\"\n           [type]=\"type\"\n           [placeholder]=\"placeholder\"\n           [(ngModel)]=\"_editTag\"\n           (ionBlur)=\"blur()\"\n           (keyup.backspace)=\"keyRemoveTag($event); false\"\n           (keyup)=\"separatorStrAddTag()\" (keyup.enter)=\"keyAddTag()\"></ion-input>\n",
-        styles: [":host{display:block}:host ion-chip{margin-left:0}:host-context(.item-label-stacked){width:100%}"]
-    })
-], TagsInput);
-
-let TagsInputModule = class TagsInputModule {
+TagsInput.propDecorators = {
+    readonly: [{ type: HostBinding, args: ["class.readonly",] }, { type: Input }],
+    hideRemove: [{ type: Input }],
+    maxTags: [{ type: Input }],
+    placeholder: [{ type: Input }],
+    type: [{ type: Input }],
+    separatorStr: [{ type: Input }],
+    canEnterAdd: [{ type: Input }],
+    canBackspaceRemove: [{ type: Input }],
+    verifyFn: [{ type: Input }],
+    sortFn: [{ type: Input }],
+    sortable: [{ type: Input }],
+    once: [{ type: Input }],
+    change: [{ type: Output }],
+    ionFocus: [{ type: Output }],
+    ionBlur: [{ type: Output }],
+    input: [{ type: ViewChild, args: [IonInput, { static: false },] }],
+    _click: [{ type: HostListener, args: ["click", ["$event"],] }]
 };
-TagsInputModule = __decorate([
-    NgModule({
-        declarations: [TagsInput],
-        exports: [TagsInput],
-        imports: [CommonModule, IonicModule, IntlModule, FormsModule, ReactiveFormsModule],
-        entryComponents: [TagsInput]
-    })
-], TagsInputModule);
+
+class TagsInputModule {
+}
+TagsInputModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [TagsInput],
+                exports: [TagsInput],
+                imports: [CommonModule, IonicModule, IntlModule, FormsModule, ReactiveFormsModule],
+                entryComponents: [TagsInput]
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/toggle-labels",
   "sideEffects": false,
   "main": "bundles/toggle-labels-module.umd.js",
-  "module": "fesm5/toggle-labels-module.js",
+  "module": "fesm2015/toggle-labels-module.js",
   "es2015": "fesm2015/toggle-labels-module.js",
-  "esm5": "esm5/toggle-labels-module.js",
   "esm2015": "esm2015/toggle-labels-module.js",
-  "fesm5": "fesm5/toggle-labels-module.js",
   "fesm2015": "fesm2015/toggle-labels-module.js",
   "typings": "toggle-labels-module.d.ts",
   "metadata": "toggle-labels-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }

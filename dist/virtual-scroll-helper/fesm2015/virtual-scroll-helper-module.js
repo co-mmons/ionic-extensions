@@ -1,11 +1,11 @@
-import { __awaiter, __decorate } from 'tslib';
 import { CommonModule } from '@angular/common';
-import { ElementRef, HostListener, Directive, NgModule } from '@angular/core';
+import { Directive, ElementRef, HostListener, NgModule } from '@angular/core';
 import { Platform, IonicModule } from '@ionic/angular';
+import { __awaiter } from 'tslib';
 import { ViewObserver } from '@co.mmons/ionic-extensions/view-observer';
 import { sleep } from '@co.mmons/js-utils/core';
 
-let VirtualScrollHelper = class VirtualScrollHelper {
+class VirtualScrollHelper {
     constructor(element, platform) {
         this.element = element;
         this.platform = platform;
@@ -76,29 +76,29 @@ let VirtualScrollHelper = class VirtualScrollHelper {
         this.activationSubscription.unsubscribe();
         this.viewObserver.destroy();
     }
-};
+}
+VirtualScrollHelper.decorators = [
+    { type: Directive, args: [{
+                selector: "ion-virtual-scroll",
+            },] }
+];
 VirtualScrollHelper.ctorParameters = () => [
     { type: ElementRef },
     { type: Platform }
 ];
-__decorate([
-    HostListener("window:resize")
-], VirtualScrollHelper.prototype, "markAsDirtyWhenInactive", null);
-VirtualScrollHelper = __decorate([
-    Directive({
-        selector: "ion-virtual-scroll",
-    })
-], VirtualScrollHelper);
-
-let VirtualScrollHelperModule = class VirtualScrollHelperModule {
+VirtualScrollHelper.propDecorators = {
+    markAsDirtyWhenInactive: [{ type: HostListener, args: ["window:resize",] }]
 };
-VirtualScrollHelperModule = __decorate([
-    NgModule({
-        declarations: [VirtualScrollHelper],
-        exports: [VirtualScrollHelper],
-        imports: [CommonModule, IonicModule],
-    })
-], VirtualScrollHelperModule);
+
+class VirtualScrollHelperModule {
+}
+VirtualScrollHelperModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [VirtualScrollHelper],
+                exports: [VirtualScrollHelper],
+                imports: [CommonModule, IonicModule],
+            },] }
+];
 
 /**
  * Generated bundle index. Do not edit.

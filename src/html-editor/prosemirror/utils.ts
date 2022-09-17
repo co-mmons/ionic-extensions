@@ -1,28 +1,21 @@
-import { toggleMark } from "prosemirror-commands";
+import {toggleMark} from "prosemirror-commands";
 import {GapCursor} from "prosemirror-gapcursor";
 import {
     Fragment,
     Mark as PMMark,
     MarkType,
     Node,
+    NodeRange,
     NodeType,
     ResolvedPos,
-    Slice,
     Schema,
-    NodeRange,
-    Mark,
+    Slice,
 } from "prosemirror-model";
-import { EditorView } from "prosemirror-view";
-import {
-    EditorState,
-    NodeSelection,
-    Selection,
-    TextSelection,
-    Transaction,
-} from "prosemirror-state";
-import { liftTarget, findWrapping } from "prosemirror-transform";
-import { hasParentNodeOfType } from "prosemirror-utils";
-import { isNodeEmpty } from "./document-utils";
+import {EditorState, NodeSelection, Selection, TextSelection, Transaction,} from "prosemirror-state";
+import {findWrapping, liftTarget} from "prosemirror-transform";
+import {hasParentNodeOfType} from "prosemirror-utils";
+import {EditorView} from "prosemirror-view";
+import {isNodeEmpty} from "./document-utils";
 
 export {
     isEmptyParagraph,
@@ -886,7 +879,7 @@ export const normaliseNestedLayout = (state: EditorState, node: Node) => {
 
         // If its a breakout layout, we can remove the mark
         // Since default isn"t a valid breakout mode.
-        const breakoutMark: Mark = state.schema.marks.breakout;
+        const breakoutMark: MarkType = state.schema.marks.breakout;
         if (breakoutMark && breakoutMark.isInSet(node.marks)) {
             const newMarks = breakoutMark.removeFromSet(node.marks);
             return node.type.createChecked(node.attrs, node.content, newMarks);

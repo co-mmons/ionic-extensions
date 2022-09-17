@@ -3,15 +3,13 @@
   "name": "@co.mmons/ionic-extensions/ionic-fix",
   "sideEffects": false,
   "main": "bundles/ionic-fix-module.umd.js",
-  "module": "fesm5/ionic-fix-module.js",
+  "module": "fesm2015/ionic-fix-module.js",
   "es2015": "fesm2015/ionic-fix-module.js",
-  "esm5": "esm5/ionic-fix-module.js",
   "esm2015": "esm2015/ionic-fix-module.js",
-  "fesm5": "fesm5/ionic-fix-module.js",
   "fesm2015": "fesm2015/ionic-fix-module.js",
   "typings": "ionic-fix-module.d.ts",
   "metadata": "ionic-fix-module.metadata.json",
-  "peerDependencies": {
-    "tslib": "^1.10.0"
+  "dependencies": {
+    "tslib": "^2.2.0"
   }
 }
