@@ -17,7 +17,6 @@
     "@co.mmons/angular-intl": "github:co-mmons/angular-intl",
     "@co.mmons/js-intl": "github:co-mmons/js-intl",
     "@co.mmons/js-utils": "github:co-mmons/js-utils",
-    "@co.mmons/node-utils": "github:co-mmons/node-utils",
     "@co.mmons/rxjs-utils": "github:co-mmons/rxjs-utils",
     "@co.mmons/web-utils": "github:co-mmons/web-utils",
     "@angular/cdk": "^12.0.0",
@@ -85,6 +84,7 @@
     "yargs": "^14.0.0"
   },
   "dependencies": {
+    "@co.mmons/node-utils": "github:co-mmons/node-utils",
     "@types/dragula": "^3.7.0",
     "dragula": "^3.7.2",
     "prosemirror-commands": "^1.0.8",
